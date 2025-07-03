@@ -214,14 +214,14 @@
                 var title = btn.tips;
                 var url = "../Question/Export";
                 url = $api.url.set(url, { 'couid': this.couid });
-                this.$refs.btngroup.pagebox(url, title, null, 800, 600, { 'ico': 'e73e' });
+                this.$refs.btngroup.pagebox(url, title, "ques_" + btn.id + "_" + this.couid, 800, 600, { 'ico': 'e73e' });
             },
             //导入
             input: function (btn) {
                 var title = btn.tips;
                 var url = "../Question/Import";
                 url = $api.url.set(url, { 'couid': this.couid });
-                this.$refs.btngroup.pagebox(url, title, null, 900, 650, { 'ico': 'e69f' });
+                this.$refs.btngroup.pagebox(url, title, "ques_" + btn.id + "_" + this.couid, 900, 650, { 'ico': 'e69f' });
             },
             //更改使用状态
             changeState: function (row) {

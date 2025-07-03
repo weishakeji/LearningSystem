@@ -780,7 +780,7 @@ namespace Song.ServiceImpls
             foreach (Organization org in orgs)
             {
                 //统计机构的课程数
-                int org_count = Business.Do<IQuestions>().QuesOfCount(org.Org_ID, -1, -1, -1, 0, -1, null);
+                int org_count = Business.Do<IQuestions>().Total(org.Org_ID, -1, -1, -1, 0, -1, null);
                 Gateway.Default.Update<Organization>(new Field[] { Organization._.Org_QuesCount }, new object[] { org_count }, Organization._.Org_ID == org.Org_ID);
             }
 
@@ -808,7 +808,7 @@ namespace Song.ServiceImpls
             try
             {
                 //试题数，试卷数，课程数
-                int ques_count = Business.Do<IQuestions>().QuesOfCount(-1, subject.Sbj_ID, -1, -1, 0, -1, null);
+                int ques_count = Business.Do<IQuestions>().Total(-1, subject.Sbj_ID, -1, -1, 0, -1, null);
                 int paper_count = Business.Do<ITestPaper>().PaperOfCount(-1, subject.Sbj_ID, -1, -1, null);
                 int course_count = Business.Do<ICourse>().CourseOfCount(subject.Sbj_ID);
                 Business.Do<ISubject>().SubjectUpdate(subject.Sbj_ID,

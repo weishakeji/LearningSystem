@@ -162,7 +162,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isError"></param>
         /// <param name="isWrong"></param>
         /// <returns></returns>
-        int QuesOfCount(int orgid, long sbjid, long couid, long olid, int[] types, int[] diff, bool? isUse, bool? isError, bool? isWrong);
+        int Total(int orgid, long sbjid, long couid, long olid, int[] types, int[] diff, bool? isUse, bool? isError, bool? isWrong);
         /// <summary>
         /// 统计题库数量，包含下级的数量
         /// </summary>

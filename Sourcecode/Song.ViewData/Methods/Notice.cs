@@ -109,6 +109,7 @@ namespace Song.ViewData.Methods
         /// <param name="items">数组</param>
         /// <returns></returns>
         [HttpPost]
+        [Admin]
         public bool ModifyTaxis(Song.Entities.Notice[] items)
         {
             Business.Do<INotice>().UpdateTaxis(items);

@@ -425,7 +425,7 @@ namespace Song.ServiceImpls
             return Gateway.Default.Count<Questions>(wc);
         }
         /// <summary>
-        /// 统计试题数量，不包括专业或章节的下级试题数,只取当前层级
+        /// 统计试题数量，包括下级数量
         /// </summary>
         /// <param name="orgid"></param>
         /// <param name="sbjid"></param>
@@ -437,13 +437,27 @@ namespace Song.ServiceImpls
         /// <param name="isError"></param>
         /// <param name="isWrong"></param>
         /// <returns></returns>
-        public int QuesOfCount(int orgid, long sbjid, long couid, long olid, int[] types, int[] diff, bool? isUse, bool? isError, bool? isWrong)
+        public int Total(int orgid, long sbjid, long couid, long olid, int[] types, int[] diff, bool? isUse, bool? isError, bool? isWrong)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Questions._.Org_ID == orgid);
-            if (sbjid > 0) wc.And(Questions._.Sbj_ID == sbjid);
+            //专业
+            if (sbjid > 0 && couid <= 0 && olid <= 0)
+            {
+                WhereClip wcSbjid = new WhereClip();
+                List<long> list = Business.Do<ISubject>().TreeID(sbjid, orgid);
+                foreach (long l in list) wcSbjid.Or(Questions._.Sbj_ID == l);
+                wc.And(wcSbjid);
+            }
             if (couid > 0) wc.And(Questions._.Cou_ID == couid);
-            if (olid > 0) wc.And(Questions._.Ol_ID == olid);
+            //当前章节，以及当前章节之下的所有试题
+            if (olid > 0)
+            {
+                WhereClip wcOlid = new WhereClip();
+                List<long> list = Business.Do<IOutline>().TreeID(olid);
+                foreach (long l in list) wcOlid.Or(Questions._.Ol_ID == l);
+                wc.And(wcOlid);
+            }
             //试题类型
             if (types.Length > 0)
             {
@@ -512,7 +526,7 @@ namespace Song.ServiceImpls
             //课程中的试题数量
             if (couid > 0)
             {
-                int cou_count = this.QuesOfCount(-1, -1, couid, -1, 0, -1, null);
+                int cou_count = this.Total(-1, -1, couid, -1, 0, -1, null);
                 Gateway.Default.Update<Course>(new Field[] { Course._.Cou_QuesCount }, new object[] { cou_count }, Course._.Cou_ID == couid);
             }
             //章节下的试题数量
@@ -533,6 +547,7 @@ namespace Song.ServiceImpls
             {
                 foreach(long id in olist)
                 {
+                    //只计算当前章节下的试题，不包括下级
                     int olcount = this.QuesOfCount(-1, -1, -1, id, -1, -1, null);
                     Gateway.Default.Update<Outline>(new Field[] { Outline._.Ol_QuesCount }, new object[] { olcount }, Outline._.Ol_ID == id);
                 }
@@ -540,6 +555,7 @@ namespace Song.ServiceImpls
             //专业下的试题数
             if (sbjid > 0)
             {
+                //只计算当前专业下的试题，不包括下级
                 int sbj_count = this.QuesOfCount(-1, sbjid, -1, -1, 0, -1, null);
                 Gateway.Default.Update<Subject>(new Field[] { Subject._.Sbj_QuesCount }, new object[] { sbj_count }, Subject._.Sbj_ID == sbjid);
             }

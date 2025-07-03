@@ -81,9 +81,9 @@
             </dl>
         </div>
         <div class="footer">
-            <el-tag type="info" class="questotal">
+            <el-tag type="warning" class="questotal">
                 <loading v-if="loading_total" bubble> 正在计算 ...</loading>
-                <span v-else>当前选择的试题共 ： {{questotal}} 道</span>
+                <span v-else>当前选择的试题共 ： <b class="red" >{{questotal}} </b>道</span>
             </el-tag>
             <span>
                 <el-button type="primary" plain @click="btnExportEvent" :loading="loading_export || loading"

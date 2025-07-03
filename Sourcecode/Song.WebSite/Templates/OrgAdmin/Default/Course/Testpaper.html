@@ -12,7 +12,7 @@
     <div id="vapp" v-cloak>
         <div class="toolsbar">
             <btngroup show="新增,修改,删除" @add="btnadd" ref='btngroup' @delete="deleteData" path="../TestPaper/Modify"
-                width="820" height="600" :selects='selects' idkey='Tp_Id' table="datatables" :modal="true"></btngroup>
+                width="820" height="600" :selects='selects' idkey='Tp_Id' table="datatables" :modal="false"></btngroup>
             <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item label="">
                     <el-input v-model.trim="form.search" clearable @clear="handleCurrentChange(1)" style="width:245px"

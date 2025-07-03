@@ -79,7 +79,7 @@ namespace Song.ViewData.Methods
             jres.Add("video", Business.Do<IAccessory>().OfCount(orgid, string.Empty, "CourseVideo"));   //视频数
             jres.Add("document", Business.Do<IAccessory>().OfCount(orgid, string.Empty, "Course"));   //资料数
             jres.Add("testpaper", Business.Do<ITestPaper>().PaperOfCount(orgid, -1, -1, -1, null));       //试卷数         
-            jres.Add("question", Business.Do<IQuestions>().QuesOfCount(orgid, -1, -1, -1, -1, -1, null));      //试题数
+            jres.Add("question", Business.Do<IQuestions>().Total(orgid, -1, -1, -1, -1, -1, null));      //试题数
             jres.Add("subject", Business.Do<ISubject>().SubjectOfCount(orgid, -1, null, true));         //专业数
             jres.Add("news", Business.Do<IContents>().ArticleOfCount(orgid, null, true));           //新闻数
             jres.Add("notice", Business.Do<INotice>().OfCount(orgid, true));           //通知数

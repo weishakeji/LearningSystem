@@ -1887,16 +1887,6 @@
     <Content Include="Templates\Student\Default\Point\Index.html" />
     <Content Include="Templates\Student\Default\Point\Scripts\Index.js" />
     <Content Include="Templates\Student\Default\Point\Styles\Index.css" />
-    <Content Include="Templates\Student\Default\Question\Components\AnswerCard.js" />
-    <Content Include="Templates\Student\Default\Question\Components\ExercisesState.js" />
-    <Content Include="Templates\Student\Default\Question\Components\Quesbuttons.js" />
-    <Content Include="Templates\Student\Default\Question\Components\Question.js" />
-    <Content Include="Templates\Student\Default\Question\Review.html" />
-    <Content Include="Templates\Student\Default\Question\Errors.html" />
-    <Content Include="Templates\Student\Default\Question\Scripts\Review.js" />
-    <Content Include="Templates\Student\Default\Question\Scripts\Errors.js" />
-    <Content Include="Templates\Student\Default\Question\Styles\Review.css" />
-    <Content Include="Templates\Student\Default\Question\Styles\Errors.css" />
     <Content Include="Templates\Student\Default\Scripts\Index.js" />
     <Content Include="Templates\Student\Default\Scripts\Start.js" />
     <Content Include="Templates\Student\Default\Scripts\Public.js" />

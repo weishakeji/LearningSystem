@@ -370,10 +370,8 @@ namespace Song.ViewData.Methods
         /// <param name="couid"></param>
         /// <param name="olid"></param>
         /// <param name="types"></param>
-        /// <param name="use"></param>
         /// <param name="diffs"></param>
-        /// <param name="error"></param>
-        /// <param name="wrong"></param>
+        /// <param name="part">试题状态，1为所有，2为正常，即没有错误，没有人反馈错误；3状态为错误的试题，4有人反馈错误的试题</param>
         /// <returns></returns>
         public int Total(int orgid, long sbjid, long couid, long olid, int[] types, int[] diffs, int part)
         {
@@ -382,15 +380,15 @@ namespace Song.ViewData.Methods
             int[] typearr = types;
             int[] diffarr = diffs;
             //所有
-            if (part == 1) return Business.Do<IQuestions>().QuesOfCount(orgid, sbjid, couid, olid, typearr, diffarr, null, null, null);
+            if (part == 1) return Business.Do<IQuestions>().Total(orgid, sbjid, couid, olid, typearr, diffarr, null, null, null);
             //正常的试题，没有错误，没有用户反馈说错误的
-            if (part == 2) return Business.Do<IQuestions>().QuesOfCount(orgid, sbjid, couid, olid, typearr, diffarr, null, false, false);
+            if (part == 2) return Business.Do<IQuestions>().Total(orgid, sbjid, couid, olid, typearr, diffarr, null, false, false);
             //状态为错误的试题
-            if (part == 3) return Business.Do<IQuestions>().QuesOfCount(orgid, sbjid, couid, olid, typearr, diffarr, null, true, null);
+            if (part == 3) return Business.Do<IQuestions>().Total(orgid, sbjid, couid, olid, typearr, diffarr, null, true, null);
             //用户反馈说错误的试题
-            if (part == 4) return Business.Do<IQuestions>().QuesOfCount(orgid, sbjid, couid, olid, typearr, diffarr, null, null, true);
+            if (part == 4) return Business.Do<IQuestions>().Total(orgid, sbjid, couid, olid, typearr, diffarr, null, null, true);
 
-            return Business.Do<IQuestions>().QuesOfCount(orgid, sbjid, couid, olid, typearr, diffarr, null, null, null);
+            return Business.Do<IQuestions>().Total(orgid, sbjid, couid, olid, typearr, diffarr, null, null, null);
         }
         /// <summary>
         /// 获取试题

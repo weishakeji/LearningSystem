@@ -388,7 +388,7 @@ namespace Song.ServiceImpls
             else if (sbjid > 0)
             {
                 //试题数，试卷数，课程数
-                int ques_count = Business.Do<IQuestions>().QuesOfCount(-1, sbjid, -1, -1, 0, -1, null);
+                int ques_count = Business.Do<IQuestions>().Total(-1, sbjid, -1, -1, 0, -1, null);
                 int paper_count = Business.Do<ITestPaper>().PaperOfCount(-1, sbjid, -1, -1, null);
                 int course_count = Business.Do<ICourse>().CourseOfCount(sbjid);
                 Business.Do<ISubject>().SubjectUpdate(sbjid,
