@@ -30,32 +30,11 @@ namespace Song.ViewData.Helper
         /// <param name="elapsedTime">实例测量得出的总运行时间（以毫秒为单位</param>
         public void End(IDbCommand command, ReturnValue retValue, long elapsedTime)
         {   
-            //string sql = command.CommandText;
-            //for (int i = 0; i < command.Parameters.Count; i++)
-            //{
-            //    System.Data.IDbDataParameter para = (IDbDataParameter)command.Parameters[i];
-            //    //System.Data.SqlClient.SqlParameter para = (System.Data.SqlClient.SqlParameter)command.Parameters[i];
-            //    string vl = para.Value.ToString();
-            //    string tp = para.DbType.ToString();
-            //    if (tp.IndexOf("Int") > -1)
-            //        sql = sql.Replace("@p" + i.ToString(), vl);
-            //    if (tp == "String")
-            //        sql = sql.Replace("@p" + i.ToString(), "'" + vl + "'");
-            //    if (tp == "Boolean")
-            //    {
-            //        if(Gateway.Default.DbType==DbProviderType.PostgreSQL)
-            //            sql = sql.Replace("@p" + i.ToString(), vl == "True" ? "true" : "false");
-            //        else
-            //            sql = sql.Replace("@p" + i.ToString(), vl == "True" ? "1" : "0");
-            //    }
-            //    if (tp == "DateTime")
-            //        sql = sql.Replace("@p" + i.ToString(), "'" + ((DateTime)para.Value).ToString("yyyy/MM/dd HH:mm:ss") + "'");
-            //}
             string sql = GetFullCommandText(command);
             //是否记录日志
             if ((int)WeiSha.Core.App.Get["LOG_LEVEL"].Int32 <= 2) return;
             //1秒内的不统计
-            //if (elapsedTime < 1000) return;
+            if (elapsedTime < 1000) return;
             try
             {
               

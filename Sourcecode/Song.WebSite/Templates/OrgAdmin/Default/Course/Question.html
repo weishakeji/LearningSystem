@@ -20,8 +20,8 @@
                         separator="／" :props="defaultProps" clearable filterable placeholder=" -- 章节 -- ">
                         <template slot-scope="{node,data}">
                             <span class="ques_count"> {{data.serial}} {{data.Ol_Name}}</span>                          
-                            <span class="ques_count" v-if="data.Ol_QuesCount>0">
-                                ({{data.Ol_QuesCount}})
+                            <span class="ques_count" v-if="data.total>0">
+                                ({{data.Ol_QuesCount}}<template v-if="data.children">/{{data.total}}</template>)
                             </span>
                         </template>
                     </el-cascader>

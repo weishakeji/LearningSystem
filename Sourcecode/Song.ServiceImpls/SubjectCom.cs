@@ -225,14 +225,15 @@ namespace Song.ServiceImpls
             list = _treeid(sbjid, sbjs);
             return list;
         }
-        private List<long> _treeid(long id, List<Subject> sbjs)
+        private List<long> _treeid(long id, List<Subject> sbjs, int level = 1)
         {
+            if (level > 99) return null;
             List<long> list = new List<long>();
             if (id > 0) list.Add(id);
             foreach (Subject o in sbjs)
             {
                 if (o.Sbj_PID != id) continue;
-                List<long> tm = _treeid(o.Sbj_ID, sbjs);
+                List<long> tm = _treeid(o.Sbj_ID, sbjs, level + 1);
                 if (tm != null) list.AddRange(tm);
             }
             return list;

@@ -476,13 +476,13 @@ namespace Song.ServiceImpls
         }
         private List<long> _treeid(long id, List<Outline> ols, int level = 1)
         {
-            if (level > 10) return null;
+            if (level > 99) return null;
             List<long> list = new List<long>();
             if (id > 0) list.Add(id);
             foreach (Outline o in ols)
             {
                 if (o.Ol_PID != id) continue;
-                List<long> tm = _treeid(o.Ol_ID, ols, level++);
+                List<long> tm = _treeid(o.Ol_ID, ols, level + 1);
                 if (tm != null) list.AddRange(tm);
             }
             return list;

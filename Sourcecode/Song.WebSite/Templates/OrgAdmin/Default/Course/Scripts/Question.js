@@ -89,7 +89,8 @@
                 for (let i = 0; i < list.length; i++) {
                     let node = list[i];
                     node.serial = lvl + (i + 1) + '.';
-                    node.Ol_QuesCount = this.calcQuescount(node);
+                    let total = this.calcQuescount(node);
+                    this.$set(node, 'total', total);
                     if (node.children && node.children.length > 0)
                         node.children = this.calcSerial(node.children, node.serial);
                 }
@@ -102,7 +103,7 @@
                 if (childarr == null) return total;
                 for (const node of childarr) {
                     // 累加当前节点的试题数量
-                    if (node.Ol_QuesCount !== undefined) total += parseInt(node.Ol_QuesCount);
+                    if (node.Ol_QuesCount !== undefined) total += parseInt(node.Ol_QuesCount, 10) || 0;
                     // 递归处理子节点
                     if (node.children && node.children.length > 0)
                         total += this.calcQuescount(node);

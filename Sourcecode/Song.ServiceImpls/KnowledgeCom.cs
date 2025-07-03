@@ -334,14 +334,15 @@ namespace Song.ServiceImpls
             list = _treeid(kns, sorts);
             return list;
         }
-        private List<long> _treeid(long id, KnowledgeSort[] arr)
+        private List<long> _treeid(long id, KnowledgeSort[] arr, int level = 1)
         {
+            if (level > 99) return null;
             List<long> list = new List<long>();
             if (id > 0) list.Add(id);
             foreach (KnowledgeSort o in arr)
             {
                 if (o.Kns_PID != id) continue;
-                List<long> tm = _treeid(o.Kns_ID, arr);
+                List<long> tm = _treeid(o.Kns_ID, arr, level + 1);
                 foreach (long t in tm)
                     list.Add(t);
             }

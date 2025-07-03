@@ -244,14 +244,15 @@ namespace Song.ServiceImpls
             list = _treeid(uid, entities);
             return list;
         }
-        private List<string> _treeid(string uid, GuideColumns[] items)
+        private List<string> _treeid(string uid, GuideColumns[] items, int level = 1)
         {
+            if (level > 99) return null;
             List<string> list = new List<string>();
             if (!string.IsNullOrWhiteSpace(uid)) list.Add(uid);
             foreach (GuideColumns o in items)
             {
                 if (o.Gc_PID != uid) continue;
-                List<string> tm = _treeid(o.Gc_UID, items);
+                List<string> tm = _treeid(o.Gc_UID, items, level + 1);
                 foreach (string t in tm)
                     list.Add(t);
             }
