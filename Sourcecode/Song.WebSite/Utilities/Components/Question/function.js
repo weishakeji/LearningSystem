@@ -59,7 +59,7 @@
                 var result = req.data.result;
                 for (let i = 0; i < result.length; i++) {
                     if (result[i].Ol_QuesCount > 0) {
-                        let para = { 'couid': couid, 'olid': result[i].Ol_ID, 'type': -1, 'count': 0 };
+                        let para = { 'couid': couid, 'olid': result[i].Ol_ID, 'type': -1, 'diff': '-1', 'count': 0 };
                         $api.cache('Question/Simplify:' + (60 * 24 * 30), para)
                             .then((req) => { });
                     }

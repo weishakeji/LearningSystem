@@ -41,10 +41,7 @@ $ready(function () {
             //是否登录
             islogin: t => !$api.isnull(t.account),
             //试题练习的通过率
-            'rate': t => {
-                if (t.purchase == null) return 0;
-                return t.purchase.Stc_QuesScore;
-            },
+            'rate': t => t.purchase ? t.purchase.Stc_QuesScore : 0,
             //可以计算最后一次练习，要满足多个条件
             canbelast: function () {
                 if (!this.islogin) return false;
@@ -131,7 +128,7 @@ $ready(function () {
             },
             //计算序号
             calcSerial: function (list, lvl) {
-                if  (!list) return list;
+                if (!list) return list;
                 for (let i = 0; i < list.length; i++) {
                     let node = list[i];
                     node.serial = lvl + (i + 1) + '.';

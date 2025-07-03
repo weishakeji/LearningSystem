@@ -17,8 +17,10 @@
         <div class="chart-back">
           <div class="y"> </div>
         </div>
-        <div class="chart-txt"> <span>通过率</span> <span class="cou-rate" v-if="purchase" v-html="rate">-</span>
-          <loading v-else></loading>
+        <div class="chart-txt">
+           <span>通过率</span>
+          <loading v-if="loading"></loading>
+          <span class="cou-rate" v-else v-html="rate">-</span>     
         </div>
 
       </div>

@@ -409,7 +409,7 @@
                             tmpObj[d] = config.params[d].getTime();
                             continue;
                         }
-                        if (typeName == 'Undefined') {
+                        if (typeName == 'Undefined' || typeName == 'undefined') {
                             tmpObj[d] = '';
                             continue;
                         }

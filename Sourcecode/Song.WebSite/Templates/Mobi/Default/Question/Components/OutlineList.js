@@ -100,7 +100,7 @@ Vue.component('outline_row', {
     getquestions: function (outline) {
       if (outline.Ol_QuesCount < 1) return;
       var th = this;
-      var form = { 'couid': outline.Cou_ID, 'olid': outline.Ol_ID, 'type': -1, 'diff': -1, 'count': 0 };
+      var form = { 'couid': outline.Cou_ID, 'olid': outline.Ol_ID, 'type': -2, 'diff': -2, 'count': 0 };
       $api.cache('Question/Simplify:' + (60 * 24 * 30), form).then(function (req) {
         if (req.data.success) {
           var result = req.data.result;

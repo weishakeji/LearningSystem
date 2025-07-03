@@ -51,10 +51,7 @@ $ready(function () {
             //是否登录
             'islogin': t => JSON.stringify(t.account) != '{}' && t.account != null,
             //试题练习的通过率
-            'rate': t => {
-                if (t.purchase == null) return 0;
-                return t.purchase.Stc_QuesScore;
-            }
+            'rate': t => t.purchase ? t.purchase.Stc_QuesScore : 0,
         },
         created: function () {
             var th = this;

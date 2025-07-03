@@ -26,6 +26,7 @@ namespace Song.ViewData.Methods
         public Song.Entities.Position[] All()
         {
             Song.Entities.Organization org = LoginAdmin.Status.Organ(this.Letter);
+            if (org == null) return null;
             return  Business.Do<IPosition>().GetAll(org.Org_ID);
         }
         /// <summary>

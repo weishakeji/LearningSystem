@@ -30,31 +30,32 @@ namespace Song.ViewData.Helper
         /// <param name="elapsedTime">实例测量得出的总运行时间（以毫秒为单位</param>
         public void End(IDbCommand command, ReturnValue retValue, long elapsedTime)
         {   
-            string sql = command.CommandText;
-            for (int i = 0; i < command.Parameters.Count; i++)
-            {
-                System.Data.IDbDataParameter para = (IDbDataParameter)command.Parameters[i];
-                //System.Data.SqlClient.SqlParameter para = (System.Data.SqlClient.SqlParameter)command.Parameters[i];
-                string vl = para.Value.ToString();
-                string tp = para.DbType.ToString();
-                if (tp.IndexOf("Int") > -1)
-                    sql = sql.Replace("@p" + i.ToString(), vl);
-                if (tp == "String")
-                    sql = sql.Replace("@p" + i.ToString(), "'" + vl + "'");
-                if (tp == "Boolean")
-                {
-                    if(Gateway.Default.DbType==DbProviderType.PostgreSQL)
-                        sql = sql.Replace("@p" + i.ToString(), vl == "True" ? "true" : "false");
-                    else
-                        sql = sql.Replace("@p" + i.ToString(), vl == "True" ? "1" : "0");
-                }
-                if (tp == "DateTime")
-                    sql = sql.Replace("@p" + i.ToString(), "'" + ((DateTime)para.Value).ToString("yyyy/MM/dd HH:mm:ss") + "'");
-            }
+            //string sql = command.CommandText;
+            //for (int i = 0; i < command.Parameters.Count; i++)
+            //{
+            //    System.Data.IDbDataParameter para = (IDbDataParameter)command.Parameters[i];
+            //    //System.Data.SqlClient.SqlParameter para = (System.Data.SqlClient.SqlParameter)command.Parameters[i];
+            //    string vl = para.Value.ToString();
+            //    string tp = para.DbType.ToString();
+            //    if (tp.IndexOf("Int") > -1)
+            //        sql = sql.Replace("@p" + i.ToString(), vl);
+            //    if (tp == "String")
+            //        sql = sql.Replace("@p" + i.ToString(), "'" + vl + "'");
+            //    if (tp == "Boolean")
+            //    {
+            //        if(Gateway.Default.DbType==DbProviderType.PostgreSQL)
+            //            sql = sql.Replace("@p" + i.ToString(), vl == "True" ? "true" : "false");
+            //        else
+            //            sql = sql.Replace("@p" + i.ToString(), vl == "True" ? "1" : "0");
+            //    }
+            //    if (tp == "DateTime")
+            //        sql = sql.Replace("@p" + i.ToString(), "'" + ((DateTime)para.Value).ToString("yyyy/MM/dd HH:mm:ss") + "'");
+            //}
+            string sql = GetFullCommandText(command);
             //是否记录日志
             if ((int)WeiSha.Core.App.Get["LOG_LEVEL"].Int32 <= 2) return;
             //1秒内的不统计
-            if (elapsedTime < 1000) return;
+            //if (elapsedTime < 1000) return;
             try
             {
               
@@ -66,6 +67,73 @@ namespace Song.ViewData.Helper
                 WriteLog(path, sql, retValue, elapsedTime);
             }
             catch { }
+        }
+        public static string GetFullCommandText(IDbCommand command)
+        {
+            if (command == null) throw new ArgumentNullException(nameof(command));
+
+            var sqlBuilder = new StringBuilder(command.CommandText);
+            var parameters = command.Parameters.Cast<IDbDataParameter>().ToList();
+
+            // 处理命名参数和非命名参数的情况
+            foreach (var param in parameters.OrderByDescending(p => p.ParameterName.Length))
+            {
+                if (string.IsNullOrEmpty(param.ParameterName)) continue;
+
+                string paramValue = FormatParameterValue(param);
+                sqlBuilder.Replace(param.ParameterName, paramValue);
+            }
+
+            return sqlBuilder.ToString();
+        }
+
+        private static string FormatParameterValue(IDbDataParameter parameter)
+        {
+            if (parameter.Value == null || parameter.Value == DBNull.Value)
+            {
+                return "NULL";
+            }
+
+            switch (parameter.DbType)
+            {
+                case DbType.String:
+                case DbType.StringFixedLength:
+                case DbType.AnsiString:
+                case DbType.AnsiStringFixedLength:
+                case DbType.Xml:
+                    return $"'{EscapeSqlString(parameter.Value.ToString())}'";
+
+                case DbType.Boolean:
+                    return parameter.Value is bool b ? (b ? "true" : "false") :
+                        (parameter.Value.ToString().Equals("true", StringComparison.OrdinalIgnoreCase) ? "true" : "false");
+
+                case DbType.Date:
+                case DbType.DateTime:
+                case DbType.DateTime2:
+                case DbType.DateTimeOffset:
+                    if (parameter.Value is DateTime dateTime)                  
+                        return $"'{dateTime:yyyy-MM-dd HH:mm:ss.fff}'";                
+                    return $"'{parameter.Value}'";
+
+                case DbType.Time:
+                    if (parameter.Value is TimeSpan timeSpan)                   
+                        return $"'{timeSpan:hh\\:mm\\:ss\\.fff}'";                  
+                    return $"'{parameter.Value}'";
+
+                case DbType.Guid:
+                    return $"'{parameter.Value}'";
+
+                case DbType.Binary:
+                    return "0x" + BitConverter.ToString((byte[])parameter.Value).Replace("-", "");
+
+                default: // 数值类型和其他类型
+                    return parameter.Value.ToString();
+            }
+        }
+
+        private static string EscapeSqlString(string value)
+        {
+            return value.Replace("'", "''");
         }
         #region 日志写入的方法
         //日志目录,相对于根路径
@@ -97,7 +165,7 @@ namespace Song.ViewData.Helper
 
 
             long elapsedNumber = elapsedTime / 1000 * 1000;
-            if (elapsedNumber <= 0) return;
+            //if (elapsedNumber <= 0) return;
             //如果日志目录不存在就创建
             string rootPath = AppDomain.CurrentDomain.BaseDirectory;
             //string apiName=path.i
