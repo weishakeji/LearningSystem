@@ -35,14 +35,14 @@ context.body[inframe] .history {
     width: auto !important;
 }
 
-context.nologin {
+*[inframe] context.nologin, *[inframe] context.nostudy{
     box-sizing: border-box;
+}
+context.nologin {   
     overflow: hidden;
     color: #1467bb;
 }
-
 context.nostudy {
-    box-sizing: border-box;
     overflow: hidden;
     color: #1467bb;
 }

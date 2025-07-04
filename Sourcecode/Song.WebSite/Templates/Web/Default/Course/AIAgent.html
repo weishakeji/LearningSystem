@@ -13,13 +13,14 @@
             @load="(o,c,p)=>{org=o,config=c,platinfo=p}">loading ...
         </page_header>
         <div loading="p4" class="init" v-if="loading_init"></div>
-        <nologin v-else-if="!islogin"></nologin>
-        <context class="nostudy" v-else-if="!course.Cou_EnabledAI">
+        <nologin v-else-if="!islogin"></nologin>        
+        <context class="nostudy" v-else-if="!course.Cou_IsUse || !course.Cou_EnabledAI">
             <div class="welcome_title">
                 <icon svg="ai3"></icon>
                 <div>您好！</div>
             </div>
-            <div class="welcome_subtit">该课程未启用AI助教</div>
+            <div class="welcome_subtit" v-if="!course.Cou_IsUse">该课程未启用，不能够学习</div>
+            <div class="welcome_subtit" v-else-if="!course.Cou_EnabledAI">该课程未启用AI助教</div>           
         </context>
         <context class="nostudy" v-else-if="!canstudy">
             <div class="welcome_title">
