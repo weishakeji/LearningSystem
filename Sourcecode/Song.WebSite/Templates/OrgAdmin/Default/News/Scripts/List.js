@@ -121,7 +121,7 @@ $ready(function () {
                             type: 'success',
                             message: '成功删除' + result + '条数据',
                             center: true
-                        });                        
+                        });
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -151,8 +151,8 @@ $ready(function () {
                     }).catch(err => console.error(err))
                     .finally(() => th.loadingid = 0);
             },
-             //行的拖动
-             rowdrop: function () {
+            //行的拖动
+            rowdrop: function () {
                 // 首先获取需要拖拽的dom节点            
                 const el1 = document.querySelectorAll('table > tbody')[0];
                 Sortable.create(el1, {
@@ -167,16 +167,14 @@ $ready(function () {
                     onEnd: (e) => {
                         var table = this.$refs.datatables;
                         let indexkey = table.$attrs['index-key'];
-                        let arr = this.datas; // 获取表数据
-                        arr.splice(e.newIndex, 0, arr.splice(e.oldIndex, 1)[0]); // 数据处理
+                        this.datas.splice(e.newIndex, 0, this.datas.splice(e.oldIndex, 1)[0]); // 数据处理
                         this.$nextTick(function () {
-                            this.datas = arr;
                             let tmarr = [];
-                            for (let i = 0; i < this.datas.length; i++) 
-                                tmarr.push(this.datas[i][indexkey]);                            
+                            for (let i = 0; i < this.datas.length; i++)
+                                tmarr.push(this.datas[i][indexkey]);
                             tmarr.sort((a, b) => b - a);
                             for (let i = 0; i < this.datas.length; i++)
-                                this.datas[i][indexkey] = tmarr[i];                    
+                                this.datas[i][indexkey] = tmarr[i];
                             this.changeTax();
                         });
                     }
