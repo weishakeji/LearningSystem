@@ -30,7 +30,6 @@ FROM (
     FROM "StudentSort"
 ) subq WHERE t."Sts_ID" = subq."Sts_ID";
 
-Art_Color
 
 /*新闻文章的排序字段*/
 ALTER TABLE "Article" ADD COLUMN  IF NOT EXISTS "Art_Order"  int NOT NULL DEFAULT 0;
