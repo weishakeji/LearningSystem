@@ -9,8 +9,7 @@ html, body, #vapp {
 	position: relative;
 }
 .tdcell, .tdcell * {
-	line-height: 20px !important;
-	max-height: 40px;
+	line-height: 20px !important;	
 }
 
 .tdcell a {

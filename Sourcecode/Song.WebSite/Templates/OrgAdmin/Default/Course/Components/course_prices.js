@@ -80,9 +80,9 @@ Vue.component('course_prices', {
         <template v-else>            
             <span class="el-icon-loading" v-if="loading"></span>               
             <template v-for="(item,i) in prices">
-                <div v-if="i<2"  :class="{'price':true,'first':prices.length>1 && i==0}" :title="showdetail()">
+                <el-tag type="warning" v-if="i<2"  :class="{'price':true,'first':prices.length>1 && i==0}" :title="showdetail()">
                     <icon>&#xe624</icon>{{item.CP_Span}}{{item.CP_Unit}}{{item.CP_Price}}元
-                </div>
+                </el-tag>
             </template>              
         </template>          
     </div> `

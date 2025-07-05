@@ -61,6 +61,7 @@
         <!--课程列表-->
         <el-table ref="datatables" :data="datas" border resizable :stripe="true" style="width: 100%" v-loading="loading"
             @selection-change="val=>selects=val" @row-dblclick="row=>$refs.btngroup.modify(row)" row-key="Cou_ID"
+            :row-class-name="data=>{return data.row.Cou_IsUse ? 'enable' : 'disabled';}"
             cell-class-name="tdcell">
             <el-table-column type="selection" width="35">
             </el-table-column>
@@ -98,7 +99,7 @@
                         </el-dropdown-menu>
                     </el-dropdown>
                 </template>
-                <div slot-scope="scope" :class="{'title_box':true,'disabled': !scope.row.Cou_IsUse}"
+                <div slot-scope="scope" :class="{'title_box':true}"
                     :title="scope.row.Cou_Name">
                     <icon class="recicon" v-if="scope.row.Cou_IsRec" title="推荐课程">&#xe741</icon>
                     <a :href="'/web/course/detail.'+scope.row.Cou_ID" target="_blank">
