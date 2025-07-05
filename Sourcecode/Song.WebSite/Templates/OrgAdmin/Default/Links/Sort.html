@@ -21,7 +21,7 @@
         </div>
 
         <el-table ref="datatables"   border resizable :data="datas" tooltip-effect="dark" style="width: 100%" v-loading="loading"
-            @selection-change="val=>selects=val"
+            @selection-change="val=>selects=val"  index-key="Ls_Tax"
             :row-class-name="data=>{return data.row.Ls_IsUse ? 'enable' : 'disabled';}"
             @row-dblclick="(row, column, event)=>$refs.btngroup.modify(row[$refs.btngroup.idkey])" row-key="Ls_Id"
             draggable>
@@ -31,16 +31,16 @@
                 <template slot-scope="scope">
                     <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
                 </template>
-            </el-table-column>
-            <el-table-column label="ID" width="60">
-                <template slot-scope="scope">
-                    {{scope.row.Ls_Id}}
-                </template>
-            </el-table-column>
+            </el-table-column>          
             <el-table-column label="分类名称" min-width="200">
                 <template slot-scope="scope">
                     <span v-html="showsearch(scope.row.Ls_Name,form.search)" class="draghandle large"></span>
                     <links_count :sort="scope.row" title="链接数："></links_count>
+                </template>
+            </el-table-column>
+            <el-table-column label="ID" width="60" align="center">
+                <template slot-scope="scope">
+                    {{scope.row.Ls_Id}}
                 </template>
             </el-table-column>
             <el-table-column label="提示">

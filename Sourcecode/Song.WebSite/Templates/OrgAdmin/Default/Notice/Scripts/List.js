@@ -146,10 +146,10 @@ $ready(function () {
                         this.$nextTick(function () {
                             this.datas = arr;
                             let tmarr = [];
-                            for (var i = 0; i < this.datas.length; i++) 
+                            for (let i = 0; i < this.datas.length; i++) 
                                 tmarr.push(this.datas[i][indexkey]);                            
                             tmarr.sort((a, b) => b - a);
-                            for (var i = 0; i < this.datas.length; i++)
+                            for (let i = 0; i < this.datas.length; i++)
                                 this.datas[i][indexkey] = tmarr[i];                    
                             this.changeTax();
                         });

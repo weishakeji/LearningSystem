@@ -31,7 +31,7 @@ $ready(function () {
             ).then(([organ]) => {
                 //获取结果             
                 th.organ = organ.data.result;
-                console.error(th.organ);
+                //console.error(th.organ);
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
                 th.form.orgid = th.organ.Org_ID;
@@ -120,8 +120,7 @@ $ready(function () {
                             type: 'success',
                             message: '成功删除' + result + '条数据',
                             center: true
-                        });
-                        th.fresh();
+                        });                        
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;

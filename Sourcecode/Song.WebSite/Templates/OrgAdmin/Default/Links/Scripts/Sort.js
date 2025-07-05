@@ -45,8 +45,8 @@ $ready(function () {
                 if (index != null) this.form.index = index;
                 var th = this;
                 //每页多少条，通过界面高度自动计算
-                var area = document.documentElement.clientHeight - 100;
-                th.form.size = Math.floor(area / 67);
+                var area = document.documentElement.clientHeight - 110;
+                th.form.size = Math.floor(area / 40);
                 th.loading = true;
                 $api.cache("Link/SortPager:update", th.form).then(function (d) {
                     th.loading = false;
@@ -131,12 +131,17 @@ $ready(function () {
                     },
                     onEnd: (e) => {
                         let arr = this.datas; // 获取表数据
+                        var table = this.$refs.datatables;
+                        let indexkey = table.$attrs['index-key'];
                         arr.splice(e.newIndex, 0, arr.splice(e.oldIndex, 1)[0]); // 数据处理
                         this.$nextTick(function () {
                             this.datas = arr;
-                            for (var i = 0; i < this.datas.length; i++) {
-                                this.datas[i].Ls_Tax = (this.form.size * (this.form.index - 1)) + i + 1;
-                            }
+                            let tmarr = [];
+                            for (let i = 0; i < this.datas.length; i++)
+                                tmarr.push(this.datas[i][indexkey]);
+                            tmarr.sort((a, b) => a - b);
+                            for (let i = 0; i < this.datas.length; i++)
+                                this.datas[i][indexkey] = tmarr[i];
                             this.changeTax();
                         });
                     }

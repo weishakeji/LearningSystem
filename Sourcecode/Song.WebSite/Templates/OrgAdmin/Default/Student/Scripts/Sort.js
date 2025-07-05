@@ -160,18 +160,26 @@ $ready(function () {
                     animation: 150, // 拖拽延时，效果更好看
                     group: { pull: false, put: false },
                     onEnd: (e) => {
-                        this.datas.splice(e.newIndex, 0, this.datas.splice(e.oldIndex, 1)[0]);
-                        this.$nextTick(() => this.changeTax());
+                        let arr = this.datas; // 获取表数据
+                        var table = this.$refs.datatables;
+                        let indexkey = table.$attrs['index-key'];
+                        arr.splice(e.newIndex, 0, arr.splice(e.oldIndex, 1)[0]); // 数据处理
+                        this.$nextTick(function () {
+                            this.datas = arr;
+                            let tmarr = [];
+                            for (let i = 0; i < this.datas.length; i++)tmarr.push(this.datas[i][indexkey]);
+                            tmarr.sort((a, b) => b - a);
+                            for (let i = 0; i < this.datas.length; i++)this.datas[i][indexkey] = tmarr[i];
+                            this.changeTax();
+                        });
+
+                        //this.datas.splice(e.newIndex, 0, this.datas.splice(e.oldIndex, 1)[0]);
+                        //this.$nextTick(() => this.changeTax());
                     }
                 });
             },
             //更新排序
             changeTax: function () {
-                //初始索引
-                let datas = this.datas;
-                let initindex = datas.reduce((p, c) => p.Sts_Tax > c.Sts_Tax ? p : c).Sts_Tax;
-                for (let i = 0; i < this.datas.length; i++)
-                    this.datas[i].Sts_Tax = initindex - i;
                 var arr = $api.clone(this.datas);
                 for (let i = 0; i < arr.length; i++) delete arr[i]['childs'];
                 var th = this;

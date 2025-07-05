@@ -65,6 +65,8 @@ $ready(function () {
                 $api.post("Admin/TitlePager", this.form).then(function (d) {
                     if (d.data.success) {
                         th.datas = d.data.result;
+                        th.totalpages = Number(d.data.totalpages);
+                        th.total = d.data.total;
                         th.rowdrop();
                     } else {
                         throw d.data.message;
@@ -140,15 +142,18 @@ $ready(function () {
 
                     },
                     onEnd: (e) => {
-                        var table = this.$refs.datatable;
-                        let indexkey = table.$attrs['index-key'];
                         let arr = this.datas; // 获取表数据
+                        var table = this.$refs.datatables;
+                        let indexkey = table.$attrs['index-key'];
                         arr.splice(e.newIndex, 0, arr.splice(e.oldIndex, 1)[0]); // 数据处理
                         this.$nextTick(function () {
                             this.datas = arr;
-                            for (var i = 0; i < this.datas.length; i++) {
-                                this.datas[i][indexkey] = i + 1;
-                            }
+                            let tmarr = [];
+                            for (let i = 0; i < this.datas.length; i++)
+                                tmarr.push(this.datas[i][indexkey]);
+                            tmarr.sort((a, b) => a - b);
+                            for (let i = 0; i < this.datas.length; i++)
+                                this.datas[i][indexkey] = tmarr[i];
                             this.changeTax();
                         });
                     }

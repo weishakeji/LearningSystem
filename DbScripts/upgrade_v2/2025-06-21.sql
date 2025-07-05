@@ -23,5 +23,10 @@ FROM (
 ) subq WHERE t."No_Id" = subq."No_Id";
 
 
-
+/*设置学员组的排序号，之前的偶尔有重复*/
+UPDATE "StudentSort" t SET "Sts_Tax" = subq.rn
+FROM (
+    SELECT "Sts_Tax", "Sts_ID",ROW_NUMBER() OVER (ORDER BY "Sts_Tax" asc) AS rn
+    FROM "StudentSort"
+) subq WHERE t."Sts_ID" = subq."Sts_ID";
 

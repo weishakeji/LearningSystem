@@ -22,7 +22,7 @@
         </div>
 
         <el-table ref="datatables" border resizable :data="datas" tooltip-effect="dark" style="width: 100%"
-            v-loading="loading" @selection-change="val=>selects=val"
+            v-loading="loading" @selection-change="val=>selects=val"  index-key="Sts_Tax"
             :row-class-name="data=>{return data.row.Sts_IsUse ? 'enable' : 'disabled';}"
             @row-dblclick="(row, column, event)=>$refs.btngroup.modify(row[$refs.btngroup.idkey])" row-key="Sts_ID"
             draggable>
