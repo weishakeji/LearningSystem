@@ -14,7 +14,7 @@ CREATE INDEX IF NOT EXISTS "LlmRecords_IX_Cou_ID" ON "LlmRecords" ("Cou_ID" ASC)
 
 /*通知公告的排序字段*/
 ALTER TABLE "Notice" ADD COLUMN  IF NOT EXISTS "No_Order"  int NOT NULL DEFAULT 0;
-CREATE INDEX IF NOT EXISTS "Notice_IX_No_Orde" ON "Notice" ("No_Order" DESC);
+CREATE INDEX IF NOT EXISTS "Notice_IX_No_Order" ON "Notice" ("No_Order" DESC);
 /*设置公告的排序号*/
 UPDATE "Notice" t SET "No_Order" = subq.rn
 FROM (
@@ -29,4 +29,17 @@ FROM (
     SELECT "Sts_Tax", "Sts_ID",ROW_NUMBER() OVER (ORDER BY "Sts_Tax" asc) AS rn
     FROM "StudentSort"
 ) subq WHERE t."Sts_ID" = subq."Sts_ID";
+
+Art_Color
+
+/*新闻文章的排序字段*/
+ALTER TABLE "Article" ADD COLUMN  IF NOT EXISTS "Art_Order"  int NOT NULL DEFAULT 0;
+CREATE INDEX IF NOT EXISTS "Article_IX_Art_Order" ON "Article" ("Art_Order" DESC);
+/*设置文章的排序号*/
+UPDATE "Article" t SET "Art_Order" = subq.rn
+FROM (
+    SELECT "Art_ID", ROW_NUMBER() OVER (ORDER BY "Art_ID") AS rn
+    FROM "Article"
+) subq WHERE t."Art_ID" = subq."Art_ID";
+
 

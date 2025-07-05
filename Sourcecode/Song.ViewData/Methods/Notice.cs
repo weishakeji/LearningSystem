@@ -110,9 +110,9 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [HttpPost]
         [Admin]
-        public bool ModifyTaxis(Song.Entities.Notice[] items)
+        public bool ModifyOrder(Song.Entities.Notice[] items)
         {
-            Business.Do<INotice>().UpdateTaxis(items);
+            Business.Do<INotice>().UpdateOrder(items);
             return true;
         }
         /// <summary>

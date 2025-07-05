@@ -66,6 +66,8 @@ namespace Song.Entities {
     		
     		protected Int32 _Art_Number;
     		
+    		protected Int32 _Art_Order;
+    		
     		protected String _Art_OutUrl;
     		
     		protected DateTime _Art_PushTime;
@@ -386,6 +388,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Int32 Art_Order {
+    			get {
+    				return this._Art_Order;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Art_Order, _Art_Order, value);
+    				this._Art_Order = value;
+    			}
+    		}
+    		
     		public String Art_OutUrl {
     			get {
     				return this._Art_OutUrl;
@@ -585,6 +597,7 @@ namespace Song.Entities {
     					_.Art_LastTime,
     					_.Art_Logo,
     					_.Art_Number,
+    					_.Art_Order,
     					_.Art_OutUrl,
     					_.Art_PushTime,
     					_.Art_Source,
@@ -636,6 +649,7 @@ namespace Song.Entities {
     					this._Art_LastTime,
     					this._Art_Logo,
     					this._Art_Number,
+    					this._Art_Order,
     					this._Art_OutUrl,
     					this._Art_PushTime,
     					this._Art_Source,
@@ -743,6 +757,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Art_Number))) {
     				this._Art_Number = reader.GetInt32(_.Art_Number);
+    			}
+    			if ((false == reader.IsDBNull(_.Art_Order))) {
+    				this._Art_Order = reader.GetInt32(_.Art_Order);
     			}
     			if ((false == reader.IsDBNull(_.Art_OutUrl))) {
     				this._Art_OutUrl = reader.GetString(_.Art_OutUrl);
@@ -959,6 +976,11 @@ namespace Song.Entities {
     			/// 字段名：Art_Number - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Art_Number = new WeiSha.Data.Field<Article>("Art_Number");
+    			
+    			/// <summary>
+    			/// 字段名：Art_Order - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Art_Order = new WeiSha.Data.Field<Article>("Art_Order");
     			
     			/// <summary>
     			/// 字段名：Art_OutUrl - 数据类型：String

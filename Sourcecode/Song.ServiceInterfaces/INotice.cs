@@ -128,6 +128,6 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="items"></param>
         /// <returns></returns>
-        bool UpdateTaxis(Notice[] items);
+        bool UpdateOrder(Notice[] items);
     }
 }

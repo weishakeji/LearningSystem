@@ -160,7 +160,7 @@ $ready(function () {
             changeTax: function () {
                 var arr = $api.clone(this.datas);
                 var th = this;
-                $api.post('Notice/ModifyTaxis', { 'items': arr }).then(function (req) {
+                $api.post('Notice/ModifyOrder', { 'items': arr }).then(function (req) {
                     if (req.data.success) {
                         th.$notify({
                             type: 'success',

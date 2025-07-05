@@ -19,8 +19,7 @@ namespace Song.ServiceImpls
         private string _artUppath = "News";
         public int ArticleAdd(Article entity)
         {
-            if (entity.Art_ID <= 0)
-                entity.Art_ID = WeiSha.Core.Request.SnowID();
+            if (entity.Art_ID <= 0) entity.Art_ID = WeiSha.Core.Request.SnowID();
             //创建时间
             entity.Art_CrtTime = DateTime.Now;
             if (entity.Art_PushTime < DateTime.Now.AddYears(-100))
@@ -75,11 +74,14 @@ namespace Song.ServiceImpls
             }
             //如果不需要审核
             bool isveri = Business.Do<ISystemPara>()["NewsIsVerify"].Boolean ?? true;
-            if (!isveri)
-            {
-                entity.Art_IsVerify = true;
-            }
+            if (!isveri) entity.Art_IsVerify = true;           
             entity.Art_IsUse = true;
+            //如果没有排序号，则自动计算
+            if (entity.Art_Order < 1)
+            {
+                object obj = Gateway.Default.Max<Article>(Article._.Art_Order, Article._.Art_ID > 0);
+                entity.Art_Order = obj != null ? Convert.ToInt32(obj) + 1 : 0;
+            }
             return Gateway.Default.Save<Article>(entity);
         }
 
@@ -128,18 +130,10 @@ namespace Song.ServiceImpls
                     }
                 }
             }
-            //如果不需要审核
-            bool isveri = Business.Do<ISystemPara>()["NewsIsReVeri"].Boolean ?? true;
-            if (!isveri)
-            {
-                entity.Art_IsVerify = true;
-            }
             //如果修改后需要重新审核
-            bool isrevi = Business.Do<ISystemPara>()["NewsIsReVeri"].Boolean ?? true;
-            if (isveri)
-            {
-                entity.Art_IsVerify = false;
-            }
+            bool isveri = Business.Do<ISystemPara>()["NewsIsReVeri"].Boolean ?? true;
+            if (!isveri) entity.Art_IsVerify = true;           
+     
             Gateway.Default.Save<Article>(entity);
         }
 
@@ -152,15 +146,8 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public bool ArticleUpdate(long artid, Field[] fiels, object[] objs)
         {
-            try
-            {
-                Gateway.Default.Update<Article>(fiels, objs, Article._.Art_ID == artid);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            Gateway.Default.Update<Article>(fiels, objs, Article._.Art_ID == artid);
+            return true;
         }
 
         public int ArticleAddNumber(long id, int addNum)
@@ -278,36 +265,12 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<Special>().InnerJoin<Special_Article>(Special_Article._.Sp_Id == Special._.Sp_Id)
                 .Where(Special_Article._.Art_Id == identify).ToArray<Special>();
         }
-
-        public Article[] ArticleCount(int orgid, string coluid, int topNum, string order)
-        {
-            return this.ArticleCount(orgid, coluid, topNum, null, order);
-        }
-        public Article[] ArticleCount(int orgid, string coluid, int topNum, bool? isuse, string order)
-        {
-            WhereClip wc = Article._.Art_IsDel == false;
-            if (orgid > 0) wc.And(Article._.Org_ID == orgid);
-            if (isuse != null) wc.And(Article._.Art_IsUse == (bool)isuse);
-            if (!string.IsNullOrWhiteSpace(coluid))
-            {
-                WhereClip wcColid = new WhereClip();
-                List<string> list = Business.Do<IColumns>().TreeID(coluid);
-                foreach (string l in list)
-                    wcColid.Or(Article._.Col_UID == l);
-                wc.And(wcColid);
-            }
-            OrderByClip wcOrder = new OrderByClip();
-            if (order == "top") wcOrder = Article._.Art_IsTop.Desc;
-            if (order == "hot") wcOrder = Article._.Art_IsHot.Desc;
-            if (order == "img") wcOrder = Article._.Art_IsImg.Desc;
-            if (order == "rec") wcOrder = Article._.Art_IsRec.Desc;
-            if (order == "flux") wcOrder = Article._.Art_Number.Desc;
-            Song.Entities.Article[] arts = Gateway.Default.From<Article>().Where(wc).OrderBy(wcOrder && Article._.Art_PushTime.Desc && Article._.Art_CrtTime.Desc).ToArray<Article>(topNum);
-            return arts;
-        }
+        
+       
         /// <summary>
         /// 统计文章数量
         /// </summary>
+        /// <param name="orgid"></param>
         /// <param name="coluid">栏目uid</param>
         /// <param name="isuse">是否启用的</param>
         /// <returns></returns>
@@ -328,45 +291,42 @@ namespace Song.ServiceImpls
             //if (!string.IsNullOrWhiteSpace(coluid)) wc.And(Article._.Col_UID == coluid);
             return Gateway.Default.Count<Article>(wc);
         }
-
-        public Article[] ArticlePager(int orgid, string coluid, bool? isShow, string searTxt, int size, int index, out int countSum)
+        #region 文章列表
+        /// <summary>
+        /// 文章的排序方式
+        /// </summary>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        private OrderByClip _orderByClip(string order)
+        {
+            OrderByClip wcOrder = new OrderByClip();
+            if (order == "top") wcOrder = Article._.Art_IsTop.Desc;
+            if (order == "hot") wcOrder = Article._.Art_IsHot.Desc;
+            if (order == "img") wcOrder = Article._.Art_IsImg.Desc;
+            if (order == "rec") wcOrder = Article._.Art_IsRec.Desc;
+            if (order == "flux") wcOrder = Article._.Art_Number.Desc;
+            //默认排序,按排序号降序
+            wcOrder &= Article._.Art_Order.Desc;
+            return wcOrder;
+        }
+        public Article[] ArticleCount(int orgid, string coluid, int topNum, string order) => this.ArticleCount(orgid, coluid, topNum, null, order);
+        public Article[] ArticleCount(int orgid, string coluid, int topNum, bool? isuse, string order)
         {
             WhereClip wc = Article._.Art_IsDel == false;
             if (orgid > 0) wc.And(Article._.Org_ID == orgid);
-            if (!string.IsNullOrWhiteSpace(coluid))
-            {
-                WhereClip wcColid = new WhereClip();
-                List<string> list = Business.Do<IColumns>().TreeID(coluid);
-                foreach (string l in list)
-                    wcColid.Or(Article._.Col_UID == l);
-                wc.And(wcColid);
-            }
-            if (isShow != null) wc.And(Article._.Art_IsShow == (bool)isShow);
-            if (searTxt != null && searTxt.Trim() != "")
-                  wc.And(Article._.Art_Title.Contains(searTxt));
-              countSum = Gateway.Default.Count<Article>(wc);
-              return Gateway.Default.From<Article>().Where(wc).OrderBy(Article._.Art_PushTime.Desc).ToArray<Article>(size, (index - 1) * size);
-        }
-
-        public Article[] ArticlePager(int orgid, string coluid, bool? isVerify, bool? isuse, string searTxt, int size, int index, out int countSum)
-        {
-            WhereClip wc = new WhereClip();
-            if (orgid > 0) wc.And(Article._.Org_ID == orgid);
-            if (!string.IsNullOrWhiteSpace(coluid))
-            {
-                WhereClip wcColid = new WhereClip();
-                List<string> list = Business.Do<IColumns>().TreeID(coluid);
-                foreach (string l in list)
-                    wcColid.Or(Article._.Col_UID == l);
-                wc.And(wcColid);
-            }
-            if (searTxt != null && searTxt.Trim() != "") wc.And(Article._.Art_Title.Contains(searTxt));
-            if (isVerify != null) wc.And(Article._.Art_IsVerify == (bool)isVerify);
             if (isuse != null) wc.And(Article._.Art_IsUse == (bool)isuse);
-            countSum = Gateway.Default.Count<Article>(wc);
-            return Gateway.Default.From<Article>().Where(wc).OrderBy(Article._.Art_PushTime.Desc).ToArray<Article>(size, (index - 1) * size);
+            if (!string.IsNullOrWhiteSpace(coluid))
+            {
+                WhereClip wcColid = new WhereClip();
+                List<string> list = Business.Do<IColumns>().TreeID(coluid);
+                foreach (string l in list)
+                    wcColid.Or(Article._.Col_UID == l);
+                wc.And(wcColid);
+            }
+            OrderByClip wcOrder = _orderByClip(order);
+            Song.Entities.Article[] arts = Gateway.Default.From<Article>().Where(wc).OrderBy(wcOrder).ToArray<Article>(topNum);
+            return arts;
         }
-
         public Article[] ArticlePager(int orgid, string coluid, string searTxt, bool? isVerify, bool? isuse, string order,int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
@@ -382,15 +342,40 @@ namespace Song.ServiceImpls
             if (searTxt != null && searTxt.Trim() != "") wc.And(Article._.Art_Title.Contains(searTxt));
             if (isVerify != null) wc.And(Article._.Art_IsVerify == (bool)isVerify);
             if (isuse != null) wc.And(Article._.Art_IsUse == (bool)isuse);
-            OrderByClip wcOrder = new OrderByClip();
-            if (order == "top") wcOrder = Article._.Art_IsTop.Desc;
-            if (order == "hot") wcOrder = Article._.Art_IsHot.Desc;
-            if (order == "img") wcOrder = Article._.Art_IsImg.Desc;
-            if (order == "rec") wcOrder = Article._.Art_IsRec.Desc;
-            if (order == "flux") wcOrder = Article._.Art_Number.Desc;
+            OrderByClip wcOrder = _orderByClip(order);
             countSum = Gateway.Default.Count<Article>(wc);
-            return Gateway.Default.From<Article>().Where(wc).OrderBy(wcOrder && Article._.Art_ID.Desc).ToArray<Article>(size, (index - 1) * size);
+            return Gateway.Default.From<Article>().Where(wc).OrderBy(wcOrder).ToArray<Article>(size, (index - 1) * size);
         }
+        /// <summary>
+        /// <summary>
+        /// 更改新闻文章的顺序
+        /// </summary>
+        /// <param name="items"></param>
+        /// <returns></returns>
+        public bool UpdateArticleOrder(Article[] items)
+        {
+            using (DbTrans tran = Gateway.Default.BeginTrans())
+            {
+                try
+                {
+                    foreach (Article item in items)
+                    {
+                        tran.Update<Article>(
+                            new Field[] { Article._.Art_Order },
+                            new object[] { item.Art_Order },
+                            Article._.Art_ID == item.Art_ID);
+                    }
+                    tran.Commit();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    throw ex;
+                }
+            }
+        }
+        #endregion
         #region 新闻统计
         /// <summary>
         /// 新闻资源存储大小

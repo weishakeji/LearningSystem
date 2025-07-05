@@ -306,6 +306,18 @@ namespace Song.ViewData.Methods
             }
             return acs.ToArray();
         }
+        /// <summary>
+        /// 更改排序
+        /// </summary>
+        /// <param name="items">数组</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Admin]
+        public bool ModifyArticleOrder(Song.Entities.Article[] items)
+        {
+            Business.Do<IContents>().UpdateArticleOrder(items);
+            return true;
+        }
         #endregion
 
         #region 文章管理

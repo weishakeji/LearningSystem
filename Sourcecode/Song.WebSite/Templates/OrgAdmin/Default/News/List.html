@@ -32,7 +32,7 @@
         </div>
         <div class="right_box" remark="新闻列表">
             <div class="toolsbar" v-if="!loading_init">
-                <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" path="Modify" width="820" height="600"
+                <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" path="Modify" width="1000" height="80%"
                     :selects='selects' idkey='Art_ID' table="datatables"></btngroup>
                 <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
                     <el-form-item label="">
@@ -40,13 +40,13 @@
                     </el-form-item>
                 </query_panel>
             </div>
-            <el-table ref="datatables" border resizable :data="datas" tooltip-effect="dark" style="width: 100%" v-loading="loading"
-                @selection-change="val=>selects=val"
+            <el-table ref="datatables" border resizable :data="datas" tooltip-effect="dark" style="width: 100%"
+                v-loading="loading" @selection-change="val=>selects=val"  index-key="Art_Order"
                 @row-dblclick="row=>$refs.btngroup.modify(row[$refs.btngroup.idkey])" row-key="Art_ID"
                 :row-class-name="data=>{return data.row.Art_IsUse ? 'enable' : 'disabled';}">
                 <el-table-column type="selection" width="35">
                 </el-table-column>
-                <el-table-column type="index" width="50" align="center">
+                <el-table-column label="#" type="index" width="50" align="center">
                     <template slot-scope="scope">
                         <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
                     </template>
@@ -56,12 +56,16 @@
                     <template slot-scope="scope">
                         <icon v-if="scope.row.Art_IsTop" class="top" title="置顶">&#xe618</icon>
                         <icon v-if="scope.row.Art_IsImg" title="图片" style="font-size: 18px;">&#xe672</icon>
-
-                        <a :href="'/web/news/article.'+scope.row.Art_ID" target="_blank"
-                            v-html="showsearch(scope.row.Art_Title,form.search)" class="large link"></a>
+                        <span v-html="showsearch(scope.row.Art_Title,form.search)" class="large draghandle"></span>
                     </template>
                 </el-table-column>
-
+                <el-table-column label="预览" width="80" align="center">
+                    <template slot-scope="scope">
+                        <a :href="'/web/news/article.'+scope.row.No_Id+'?preview=true'" target="_blank" title="预览内容">
+                            <icon large>&#xe6fd</icon>
+                        </a>
+                    </template>
+                </el-table-column>
                 <el-table-column label="启用" width="60">
                     <template slot-scope="scope">
                         <span class="el-icon-loading" v-if="loadingid==scope.row.Art_ID"></span>

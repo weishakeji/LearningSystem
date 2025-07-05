@@ -81,6 +81,7 @@ $ready(function () {
                         th.datas = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
                         th.total = d.data.total;
+                        th.rowdrop();
                     } else {
                         throw d.data.message;
                     }
@@ -150,6 +151,56 @@ $ready(function () {
                     }).catch(err => console.error(err))
                     .finally(() => th.loadingid = 0);
             },
+             //行的拖动
+             rowdrop: function () {
+                // 首先获取需要拖拽的dom节点            
+                const el1 = document.querySelectorAll('table > tbody')[0];
+                Sortable.create(el1, {
+                    disabled: false, // 是否开启拖拽
+                    ghostClass: 'sortable-ghost', //拖拽样式
+                    handle: '.draghandle',     //拖拽的操作元素
+                    animation: 150, // 拖拽延时，效果更好看
+                    group: { // 是否开启跨表拖拽
+                        pull: false,
+                        put: false
+                    },
+                    onEnd: (e) => {
+                        var table = this.$refs.datatables;
+                        let indexkey = table.$attrs['index-key'];
+                        let arr = this.datas; // 获取表数据
+                        arr.splice(e.newIndex, 0, arr.splice(e.oldIndex, 1)[0]); // 数据处理
+                        this.$nextTick(function () {
+                            this.datas = arr;
+                            let tmarr = [];
+                            for (let i = 0; i < this.datas.length; i++) 
+                                tmarr.push(this.datas[i][indexkey]);                            
+                            tmarr.sort((a, b) => b - a);
+                            for (let i = 0; i < this.datas.length; i++)
+                                this.datas[i][indexkey] = tmarr[i];                    
+                            this.changeTax();
+                        });
+                    }
+                });
+            },
+            //更新排序
+            changeTax: function () {
+                var arr = $api.clone(this.datas);
+                var th = this;
+                $api.post('News/ModifyArticleOrder', { 'items': arr }).then(function (req) {
+                    if (req.data.success) {
+                        th.$notify({
+                            type: 'success',
+                            message: '修改顺序成功!',
+                            center: true
+                        });
+                    } else {
+                        throw req.data.message;
+                    }
+                }).catch(function (err) {
+                    alert(err);
+                    console.error(err);
+                }).finally(() => { });
+            }
         }
     });
 

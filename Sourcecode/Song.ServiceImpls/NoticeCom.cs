@@ -250,7 +250,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="items"></param>
         /// <returns></returns>
-        public bool UpdateTaxis(Notice[] items)
+        public bool UpdateOrder(Notice[] items)
         {
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {

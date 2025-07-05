@@ -129,32 +129,7 @@ namespace Song.ServiceInterfaces
         /// <param name="coluid">栏目uid</param>
         /// <param name="isuse">是否启用的</param>
         /// <returns></returns>
-        int ArticleOfCount(int orgid, string coluid, bool? isuse);
-        /// <summary>
-        /// 分页获取新闻
-        /// </summary>
-        /// <param name="orgid">机构id</param>
-        /// <param name="coluid">栏目id,如果id小于0，则取全部<</param>
-        /// <param name="isShow">是否显示</param>
-        /// <param name="searTxt">按标题检索</param>
-        /// <param name="size"></param>
-        /// <param name="index"></param>
-        /// <param name="countSum"></param>
-        /// <returns></returns>
-        Article[] ArticlePager(int orgid, string coluid, bool? isShow, string searTxt, int size, int index, out int countSum);
-        /// <summary>
-        /// 按栏目，标题，是否审核来分页
-        /// </summary>
-        /// <param name="orgid">机构id</param>
-        /// <param name="coluid"></param>
-        /// <param name="isVerify">是否审核</param>
-        /// <param name="isuse">是否启用</param>
-        /// <param name="searTxt"></param>
-        /// <param name="size"></param>
-        /// <param name="index"></param>
-        /// <param name="countSum"></param>
-        /// <returns></returns>
-        Article[] ArticlePager(int orgid, string coluid, bool? isVerify, bool? isuse, string searTxt, int size, int index, out int countSum);
+        int ArticleOfCount(int orgid, string coluid, bool? isuse);    
         /// <summary>
         /// 分页获取新闻
         /// </summary>
@@ -169,6 +144,13 @@ namespace Song.ServiceInterfaces
         /// <param name="countSum"></param>
         /// <returns></returns>
         Article[] ArticlePager(int orgid, string coluid, string searTxt, bool? isVerify, bool? isuse, string order, int size, int index, out int countSum);
+        /// <summary>
+        /// <summary>
+        /// 更改新闻文章的顺序
+        /// </summary>
+        /// <param name="items"></param>
+        /// <returns></returns>
+        bool UpdateArticleOrder(Article[] items);
         #endregion
 
         #region 新闻专题管理
