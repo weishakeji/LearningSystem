@@ -36,7 +36,7 @@
                     :selects='selects' idkey='Art_ID' table="datatables"></btngroup>
                 <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
                     <el-form-item label="">
-                        <el-input v-model="form.search" clearable style="width:100px"></el-input>
+                        <el-input v-model="form.search" placeholder="标题"  clearable style="width:180px"></el-input>
                     </el-form-item>
                 </query_panel>
             </div>

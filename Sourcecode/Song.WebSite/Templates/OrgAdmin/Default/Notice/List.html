@@ -14,7 +14,7 @@
                 :selects='selects' idkey='No_Id' table="datatables"></btngroup>
             <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item label="">
-                    <el-input v-model.trim="form.search" clearable style="width:150px" @clear="handleCurrentChange(1)">
+                    <el-input v-model.trim="form.search" placeholder="标题" clearable style="width:180px" @clear="handleCurrentChange(1)">
                         <i class="el-icon-search" slot="suffix" v-on:click="handleCurrentChange(1)"> </i>
                     </el-input>
                 </el-form-item>
@@ -32,7 +32,7 @@
                 </template>
             </el-table-column>
 
-            <el-table-column label="主题" min-width="200px">
+            <el-table-column label="标题" min-width="200px">
                 <template slot-scope="scope">
                     <span v-html="showsearch(scope.row.No_Ttl,form.search)" class="draghandle large"></span>
 

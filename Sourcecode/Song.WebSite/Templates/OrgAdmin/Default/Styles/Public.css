@@ -156,6 +156,7 @@ table.el-table__body tr.disabled img, tr.disabled .el-tag, tr.disabled live {
 	-o-filter: grayscale(100%);
 	filter: grayscale(100%);
 	filter: gray;
+	opacity: 0.5;
 }
 
 /* 表格第一列，往往是选择框，居中并对齐*/
