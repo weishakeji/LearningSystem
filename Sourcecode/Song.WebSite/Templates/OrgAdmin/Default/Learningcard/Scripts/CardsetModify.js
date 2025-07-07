@@ -114,6 +114,8 @@ $ready(function () {
         computed: {
             //是否新增对象
             isadd: t => { return t.id == null || t.id == ''; },
+            //关联的课程数
+            course_count: t => $api.isnull(t.courses) ? 0 : t.courses.length
         },
         watch: {
 
@@ -188,7 +190,11 @@ $ready(function () {
             btnEnter: function (formName, isclose) {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
-                    if (valid) {
+                    if (valid) {                       
+                        if (th.course_count == 0) { 
+                            alert("未关联任何课程","提示");
+                            return;
+                        } 
                         //如果是修改
                         if (th.id != '') {
                             var studyspanIsChange = th.studyspan.Lcs_Span != th.entity.Lcs_Span
@@ -241,6 +247,7 @@ $ready(function () {
             sumbitEnter: function (apiurl, param, isclose) {
                 if (!isclose && this.isadd) return;
                 var th = this;
+                if (th.loading) return;
                 th.loading = true;
                 $api.post(apiurl, param).then(function (req) {
                     if (req.data.success) {

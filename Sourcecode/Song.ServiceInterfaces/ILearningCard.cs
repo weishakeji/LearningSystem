@@ -186,7 +186,7 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="card">学习卡</param>
         /// <param name="acc">学员账号</param>
-        void CardUse(LearningCard card, Accounts acc);
+        List<Song.Entities.Course> CardUse(LearningCard card, Accounts acc);
         /// <summary>
         /// 获取该学习卡，只是暂存在学员账户名下，并不使用
         /// </summary>

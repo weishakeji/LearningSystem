@@ -628,8 +628,9 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="card">学习卡</param>
         /// <param name="acc">学员账号</param>
-        public void CardUse(LearningCard card, Accounts acc)
-        {           
+        public List<Song.Entities.Course> CardUse(LearningCard card, Accounts acc)
+        {
+            List<Course> courses = null;    //学习卡对应的课程
             LearningCardSet set = this.SetSingle(card.Lcs_ID);
             if (set == null || set.Lcs_IsEnable == false) throw new Exception("该学习卡不可使用");
             //是否过期
@@ -650,61 +651,61 @@ namespace Song.ServiceImpls
                 if (set.Lcs_Unit == "年") end = start.AddYears(set.Lcs_Span);
                 //过期时间，为当天11：59：59结束
                 end = end.AddDays(1);
-                end= end.Date.AddSeconds(-1);
+                end = end.Date.AddSeconds(-1);
                 int span = (end - start).Days;
                 try
                 {
-                    List<Course> courses = this.CoursesGet(set.Lcs_RelatedCourses);
-                    if (courses != null || courses.Count > 0)
+                    courses = this.CoursesGet(set.Lcs_RelatedCourses);
+                    if (courses == null || courses.Count == 0) throw new Exception("当前学习卡未关联课程");
+
+                    foreach (Course cou in courses)
                     {
-                        foreach (Course cou in courses)
+                        Song.Entities.Student_Course sc = null;
+                        sc = tran.From<Student_Course>().Where(Student_Course._.Ac_ID == card.Ac_ID
+                            && Student_Course._.Cou_ID == cou.Cou_ID).ToFirst<Student_Course>();
+                        if (sc != null)
                         {
-                            Song.Entities.Student_Course sc = null;
-                            sc = tran.From<Student_Course>().Where(Student_Course._.Ac_ID == card.Ac_ID
-                                && Student_Course._.Cou_ID == cou.Cou_ID).ToFirst<Student_Course>();
-                            if (sc != null)
+                            //如果是免费或试用
+                            if (sc.Stc_IsFree || sc.Stc_IsTry)
                             {
-                                //如果是免费或试用
-                                if (sc.Stc_IsFree || sc.Stc_IsTry)
-                                {
-                                    sc.Stc_StartTime = start;
-                                    sc.Stc_EndTime = end;
-                                }
-                                else
-                                {
-                                    //已经过期，则重新设置时间,或是学员组关联课程也重新设置时间
-                                    if (sc.Stc_EndTime < DateTime.Now || sc.Stc_Type == 5)
-                                    {
-                                        sc.Stc_StartTime = start;
-                                        sc.Stc_EndTime = end;
-                                        sc.Stc_Type = 4;
-                                    }
-                                    else
-                                    {
-                                        //如果未过期，则续期                                
-                                        sc.Stc_EndTime = sc.Stc_EndTime.AddDays(span);
-                                    }
-                                }
+                                sc.Stc_StartTime = start;
+                                sc.Stc_EndTime = end;
                             }
                             else
                             {
-                                sc = new Student_Course();
-                                sc.Stc_CrtTime = DateTime.Now;
-                                sc.Stc_StartTime = start;
-                                sc.Stc_EndTime = end;
-                                sc.Stc_Type = 4;
+                                //已经过期，则重新设置时间,或是学员组关联课程也重新设置时间
+                                if (sc.Stc_EndTime < DateTime.Now || sc.Stc_Type == 5)
+                                {
+                                    sc.Stc_StartTime = start;
+                                    sc.Stc_EndTime = end;
+                                    sc.Stc_Type = 4;
+                                }
+                                else
+                                {
+                                    //如果未过期，则续期                                
+                                    sc.Stc_EndTime = sc.Stc_EndTime.AddDays(span);
+                                }
                             }
-                            sc.Ac_ID = card.Ac_ID;
-                            sc.Cou_ID = cou.Cou_ID;
-                            sc.Stc_IsEnable = true;                           
-                            sc.Stc_Money = (decimal)card.Lc_Price;
-                            sc.Org_ID = card.Org_ID;
-                            sc.Lc_Code = card.Lc_Code;
-                            sc.Lc_Pw = card.Lc_Pw;
-                            sc.Stc_IsFree = sc.Stc_IsTry = false;
-                            tran.Save<Student_Course>(sc);
                         }
+                        else
+                        {
+                            sc = new Student_Course();
+                            sc.Stc_CrtTime = DateTime.Now;
+                            sc.Stc_StartTime = start;
+                            sc.Stc_EndTime = end;
+                            sc.Stc_Type = 4;
+                        }
+                        sc.Ac_ID = card.Ac_ID;
+                        sc.Cou_ID = cou.Cou_ID;
+                        sc.Stc_IsEnable = true;
+                        sc.Stc_Money = (decimal)card.Lc_Price;
+                        sc.Org_ID = card.Org_ID;
+                        sc.Lc_Code = card.Lc_Code;
+                        sc.Lc_Pw = card.Lc_Pw;
+                        sc.Stc_IsFree = sc.Stc_IsTry = false;
+                        tran.Save<Student_Course>(sc);
                     }
+
                     //使用数量加1
                     set.Lsc_UsedCount = tran.Count<LearningCard>(LearningCard._.Lcs_ID == set.Lcs_ID && LearningCard._.Lc_IsUsed == true);
                     set.Lsc_UsedCount = card.Lc_IsUsed ? set.Lsc_UsedCount : set.Lsc_UsedCount + 1;
@@ -723,6 +724,7 @@ namespace Song.ServiceImpls
                     throw ex;
                 }
             }
+            return courses;
         }
 
         public void CardUse(LearningCard card, Accounts acc, LearningCardSet set, Course cou)
@@ -1086,6 +1088,7 @@ namespace Song.ServiceImpls
             xmlDoc.XmlResolver = null; 
             xmlDoc.LoadXml(xml, false);
             XmlNodeList items = xmlDoc.SelectNodes("Items/item");
+            if (items == null || items.Count < 1) return null;
             List<Course> list = new List<Course>();
             for (int i = 0; i < items.Count; i++)
             {
