@@ -1,0 +1,42 @@
+:root {
+    /*页面背景色*/
+    --bg-color: rgb(17, 54, 92);
+    /*管理界面的背景色*/
+    --admin-bg-color: rgb(0, 135, 189);
+    /*时间的颜色*/
+    --time-color: rgb(105 106 106 / 80%);
+    /*预载条，前景色、背景色*/
+    --loading-color: rgb(255, 255, 255);
+    --loading-shadow: rgb(2, 2, 2);
+    --loading-background: radial-gradient(circle,
+            rgba(255, 255, 255, 0.3) 0%,
+            rgba(255, 255, 255, 0) 100%);
+}
+
+#treemenu-area {
+    box-shadow: none !important;
+}
+panel#admin {
+    background-image: linear-gradient(to right, rgb(112 125 131) 30%, rgb(140 197 148));
+}
+/*主区域*/
+#mainbody {
+    height: calc(100% - 48px);
+    margin: auto 2px;   
+}
+/*选项卡*/
+#tabs-area {
+    height: calc(100% - 5px);
+    flex: 1;
+}
+
+#treemenu-area {
+    margin-right: 2px; 
+}
+#user-area drop_roots  drop-node * {
+    color: #eee !important;
+}
+
+timer {
+    color: rgb(105 106 106 / 80%);   
+}

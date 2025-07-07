@@ -1,0 +1,268 @@
+﻿:root {
+    /*页面背景色*/
+    --bg-color: rgb(139 197 255);
+    /*管理界面的背景色*/
+    --admin-bg-color: rgb(0, 135, 189);
+    /*时间的颜色*/
+    --time-color: rgb(105 106 106 / 80%);
+    /*预载条，前景色、背景色*/
+    --loading-color: rgb(255, 255, 255);
+    --loading-shadow: rgb(2, 2, 2);
+    --loading-background: radial-gradient(circle,
+            rgba(255, 255, 255, 0.3) 0%,
+            rgba(255, 255, 255, 0) 100%);
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    background-color: var(--bg-color);
+    overflow: hidden;
+}
+
+body>*:not(panel#loading):not(*[ctrid]) {
+    transition: all .3s;
+}
+
+panel {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+panel#admin {
+    background-color: var(--admin-bg-color);
+    z-index: 3;
+    background-size: 100% 100%;
+    transition: all .3s;
+    display: block;
+    opacity: 0;
+}
+
+/*预载效*/
+
+panel#loading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: var(--loading-background);
+    text-shadow: 1px 1px 2px var(--loading-shadow);
+}
+
+panel#loading>div {
+    width: 100px;
+    height: 100px;
+    position: relative;
+}
+
+panel#loading b {
+    display: block;
+    text-align: center;
+    color: var(--loading-color);
+    font-size: 30px;
+    letter-spacing: 0.5em;
+}
+
+panel#loading span {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 999px;
+    background: var(--loading-color);
+    animation: bounce .4s infinite linear;
+}
+
+panel#loading span:nth-child(1) {
+    left: 0;
+    animation-delay: 0s;
+}
+
+panel#loading span:nth-child(2) {
+    left: 20px;
+    animation-delay: 0.1s;
+}
+
+panel#loading span:nth-child(3) {
+    left: 40px;
+    animation-delay: 0.2s;
+}
+
+panel#loading span:nth-child(4) {
+    left: 60px;
+    animation-delay: 0.3s;
+}
+
+panel#loading span:nth-child(5) {
+    left: 80px;
+    animation-delay: .4s;
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateY(0px);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: translateY(30px);
+        opacity: 1.0;
+    }
+
+    100% {
+        transform: translateY(0px);
+        opacity: 0.5;
+    }
+}
+
+/*登录区域*/
+panel#login {
+    z-index: 2;
+    --opacity: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+panel#login iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+}
+
+
+
+#login-area {
+    max-width: 500px;
+    min-width: 400px;
+    min-height: 200px;
+    height: 300px;
+    z-index: 2;
+    display: block;
+}
+
+/*
+.loginbox .login_body button {
+    letter-spacing: 5px !important;
+}
+
+.loginbox .login_body button {
+    background: rgba(33, 161, 255, .9) !important;
+    border-radius: 5px;
+    color: #fff;
+    background-image: none;
+}
+
+.loginbox .login_body>*:before {
+    color: #777 !important;
+}
+
+.loginbox .login_body login_row:last-child {
+    border: none;
+    background-color: transparent !important;
+}
+
+*/
+/*顶部条*/
+
+#header-box {
+    height: 45px !important;
+    display: flex;
+}
+
+#headbar {
+    height: 45px;
+    line-height: 35px;
+    color: #fff;
+    text-align: left;
+    text-shadow: 1px 1px 2px #666;
+    font-size: 22px;
+    cursor: default;
+    user-select: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: all 0.3s;
+    flex: 1;
+}
+
+#headbar span {
+    font-size: 16px;
+}
+
+/*用户登录后的下拉菜单*/
+#user-area {
+    background-color: transparent;
+}
+
+/*主区域*/
+#mainbody {
+    display: flex;
+    height: calc(100% - 48px);
+    margin: auto 2px;
+}
+
+/*选项卡*/
+#tabs-area {
+    height: calc(100% - 5px);
+    flex: 1;
+}
+
+#treemenu-area {
+    margin-right: 2px;
+    z-index: 20;
+}
+
+.slot {
+    text-align: center;
+}
+
+.slot span {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    text-align: center;
+}
+
+timer {
+    display: block;
+    position: absolute;
+    top: 60px;
+    right: 65px;
+    font-size: 10px;
+    color: var(--time-color);
+    cursor: default;
+    z-index: 1;
+}
+
+/*左侧树形工具条*/
+#vbar-area {
+    margin: 35px 0px 0px 2px;
+}
+
+/*弹窗的管理器*/
+#pageboxcollect {
+    position: absolute;
+    right: 3px;
+    bottom: 0px;
+    z-index: 99999;
+    width: 30px;
+    height: 25px;
+    line-height: 30px;
+    font-size: 16px !important;
+}
+
+#pageboxcollect>div:after {
+    font-size: 18px !important;
+}
+
+.pagebox-collect>div[total]::before {
+    left: -5px;
+}

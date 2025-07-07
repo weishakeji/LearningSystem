@@ -1,6 +1,31 @@
 ﻿@charset "utf-8";
 
 .tabsbox {
+    /*标题文字,背景*/
+    --tab-tag-color: rgb(0, 0, 0);
+    --tab-tag-bgcolor: rgb(255, 255, 255);
+    --tab-focus-bgcolor: rgb(255, 254, 254);
+    --tab-path-color: rgb(97, 97, 97);
+    /*按钮*/
+    --tab-close-bgcolor: rgb(255, 255, 255);
+    --tab-close-hovercolor: #ccc;
+    --tab-btn-color: #666;
+    /*更多的面板*/
+    --tab-more-bgcolor: rgba(255, 253, 253, 0.8);
+    /*内容区背景*/
+    --tab-body-bgcolor: rgb(255, 255, 255);
+    /*右键菜单,依次为：前景色，背景色，分隔线，边线颜色*/
+    --tab-menu-color: #666;
+    --tab-menu-bgcolor: #eee;
+    --tab-menu-hr: #ddd;
+    --tab-menu-border: #999;
+    /*右键菜单，鼠标滑过，依次为：背景色，边线色，阴影*/
+    --tab-menu-hover-bgcolor: rgba(161, 197, 247, 0.2);
+    --tab-menu-hover-border: rgba(161, 197, 247, 0.8);
+    --tab-menu-hover-shadow: rgb(255, 255, 255) 0px 0px 3px inset;
+}
+
+.tabsbox {
     position: relative;
     overflow: hidden;
     transition: width 0.3s, height 0.3s;
@@ -36,7 +61,7 @@ tabs_tagbox tab_tag {
     width: 100px;
     height: 35px;
     position: relative;
-    color: #333;
+    color: var(--tab-tag-color);
     line-height: 36px;
     padding-left: 15px;
     padding-right: 22px;
@@ -61,7 +86,7 @@ tabs_tagbox tab_tag::before {
     /*当禁用父元素事件时，启用伪类事件*/
     --pointer-events: auto;
     border-radius: 4px 4px 0 0;
-    background: #efefef;
+    background: var(--tab-tag-bgcolor);
 }
 
 tabs_tagbox tab_tag:first-child:before {
@@ -97,7 +122,7 @@ tabs_tagbox tab_tag:first-child.tagcurr:before {
 }
 
 tabs_tagbox tab_tag.tagcurr:before {
-    background: #fff !important;
+    background: var(--tab-focus-bgcolor) !important;
     border-bottom-style: none !important;
     transform: perspective(.5em) rotateX(2deg) scale(1.05) !important;
     margin-bottom: -1px;
@@ -111,7 +136,7 @@ tabs_tagbox tab_tag ico {
     font-size: 16px;
     width: 30px;
     height: 32px;
-    font-family: "webdesk_icon" !important;
+    font-family: "webdesk_icon";
     box-sizing: border-box;
 }
 
@@ -149,7 +174,7 @@ tabs_tagbox tab_tag close {
 
 tabs_tagbox tab_tag.tagcurr close {
     right: 6px;
-    background-color: #fff;
+    background-color: var(--tab-close-bgcolor);
     display: block;
 }
 
@@ -158,7 +183,7 @@ tabs_tagbox tab_tag close:before {
 }
 
 tabs_tagbox tab_tag:hover close {
-    background-color: #ccc;
+    background-color: var(--tab-close-hovercolor);
 }
 
 tabs_tagbox tab_tag:hover close, tabs_tagboxtab_tag.tagcurr close {
@@ -167,7 +192,7 @@ tabs_tagbox tab_tag:hover close, tabs_tagboxtab_tag.tagcurr close {
 
 tabs_tagbox tab_tag close:hover {
     color: red;
-    background-color: #ccc;
+    background-color: var(--tab-close-hovercolor);
     cursor: pointer;
 }
 
@@ -184,7 +209,10 @@ tabs_tagbox tab_tag close:hover {
 }
 
 .tabsbox tabs_more:hover:before {
-    text-shadow: 1px 0px 1px rgba(100, 100, 100, 0.6), -1px 0px 1px rgba(100, 100, 100, 0.6), 0px 1px 1px rgba(100, 100, 100, 0.6), 0px -1px 1px rgba(100, 100, 100, 0.6);
+    text-shadow: 1px 0px 1px rgba(100, 100, 100, 0.6),
+        -1px 0px 1px rgba(100, 100, 100, 0.6),
+        0px 1px 1px rgba(100, 100, 100, 0.6),
+        0px -1px 1px rgba(100, 100, 100, 0.6);
     color: #fff;
 }
 
@@ -193,10 +221,10 @@ tabs_tagbox tab_tag close:hover {
     line-height: 20px;
     height: 20px;
     width: 30px;
-    color: #999;
+    color: var(--tab-btn-color);
     display: block;
     transform: rotate(90deg);
-    font-family: "webdesk_icon" !important;
+    font-family: "webdesk_icon";
 }
 
 /*内容区*/
@@ -204,10 +232,8 @@ tabs_tagbox tab_tag close:hover {
 .tabsbox tabs_body {
     width: 100%;
     box-sizing: border-box;
-    height: calc(100% - 36px);
-    --background-color: #fff;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 28px, rgba(255, 255, 255, 0.9) 35px, rgba(255, 255, 255, 0.9) 100%);
-
+    height: calc(100% - 35px);
+    background-color: var(--tab-body-bgcolor);
 }
 
 .tabsbox tabs_body tabpace {
@@ -221,11 +247,11 @@ tabs_tagbox tab_tag close:hover {
 }
 
 .tabsbox tabs_body tabpace tabpath {
-    background-color: #fff;
+    background-color: var(--tab-focus-bgcolor);
     font-size: 14px;
     line-height: 35px;
     text-indent: 20px;
-    color: #999;
+    color: var(--tab-path-color);
     box-shadow: 1px 1px 2px rgba(122, 122, 122, 0.2);
     cursor: default;
     overflow: hidden;
@@ -259,7 +285,7 @@ tabs_tagbox tab_tag close:hover {
     top: 3px;
     left: 6px;
     transform: rotate(180deg);
-    font-family: "webdesk_icon" !important;
+    font-family: "webdesk_icon";
 }
 
 /*右侧按钮组*/
@@ -277,7 +303,7 @@ tabs_tagbox tab_tag close:hover {
 .tabsbox tabs_body tabpace tabpath tabbar-btnbox>* {
     font-family: "webdesk_icon";
     text-align: center;
-    color: #999;
+    color: var(--tab-btn-color);
     font-size: 18px;
     cursor: pointer;
     text-indent: 0px;
@@ -292,9 +318,11 @@ tabs_tagbox tab_tag close:hover {
 .tabsbox tabs_body tabpace tabpath tabbar-btnbox>div[title="help"] {
     font-size: 20px;
 }
+
 .tabsbox tabs_body tabpace tabpath tabbar-btnbox>div[title="print"] {
     font-size: 18px;
 }
+
 .tabsbox tabs_body tabpace iframe {
     bottom: 0px;
     left: 0px;
@@ -306,7 +334,7 @@ tabs_tagbox tab_tag close:hover {
 tabs_morebox {
     width: 0px;
     height: calc(100% - 36px);
-    background-color: rgba(255, 255, 255, .8);
+    background-color: var(--tab-more-bgcolor);
     position: absolute;
     bottom: 1px;
     right: 1px;
@@ -329,7 +357,7 @@ tabs_morebox tab_tag ico {
     line-height: 30px;
     font-size: 15px;
     float: left;
-    font-family: "webdesk_icon" !important;
+    font-family: "webdesk_icon";
     text-shadow: 0.2rem 0rem 1.2rem rgba(255, 255, 255, 1), -0.2rem 0rem 1.2rem rgba(255, 255, 255, 1), 0rem 0.2rem 1.2rem rgba(255, 255, 255, 1), 0rem -0.2rem 1.2rem rgba(255, 255, 255, 1);
 }
 
@@ -388,7 +416,7 @@ tabs_morebox tab_tag close:before {
     font-weight: 800;
     color: rgb(245, 45, 45);
     line-height: 15px;
-    font-family: "webdesk_icon" !important;
+    font-family: "webdesk_icon";
 }
 
 /*右键菜单*/
@@ -398,11 +426,10 @@ tabs_morebox tab_tag close:before {
     width: 150px;
     position: absolute;
     z-index: 999999;
-    background-color: #eee;
+    background-color: var(--tab-menu-bgcolor);
     top: 30px;
     left: 7px;
-    display: none;
-    border: 1px solid #999;
+    border: 1px solid var(--tab-menu-border);
     user-select: none;
 }
 
@@ -411,20 +438,20 @@ tabs_morebox tab_tag close:before {
     font-size: 13px;
     height: 25px;
     line-height: 25px;
-    color: #666;
+    color: var(--tab-menu-color);
     position: relative;
     text-decoration: none;
 }
 
 .tabsbox tabs_contextmenu>*:not(hr):before {
     content: '\20';
-    font-family: "webdesk_icon" !important;
+    font-family: "webdesk_icon";
     display: block;
     height: 25px;
     width: 30px;
-    border-right: 1px solid #ddd;
+    border-right: 1px solid var(--tab-menu-hr);
     float: left;
-    color: #666;
+    color: var(--tab-menu-color);
     font-size: 14px;
     text-align: center;
     margin-right: 6px;
@@ -436,21 +463,20 @@ tabs_morebox tab_tag close:before {
 }
 
 .tabsbox tabs_contextmenu>*:hover {
-    box-shadow: rgb(255, 255, 255) 0px 0px 3px inset;
+    box-shadow: var(--tab-menu-hover-shadow);
 }
 
 .tabsbox tabs_contextmenu>*:not(hr):hover:after {
     content: '';
     width: calc(100% - 5px);
     height: calc(100% - 5px);
-    border: solid 1px rgba(161, 197, 247, 0.8);
+    border: solid 1px var(--tab-menu-hover-border);
     position: absolute;
     left: 2px;
     top: 2px;
     z-index: -1;
     border-radius: 3px;
-    background: rgba(161, 197, 247, 0.2);
-    background: linear-gradient(to bottom, rgba(161, 197, 247, 0.3) 1%, rgba(255, 255, 255, 0.3) 5%, rgba(161, 197, 247, 0.1) 50%, rgba(161, 197, 247, 0.3) 55%);
+    background: var(--tab-menu-hover-bgcolor);
 }
 
 .tabsbox tabs_contextmenu>hr {
@@ -458,7 +484,7 @@ tabs_morebox tab_tag close:before {
     border: 0px;
     margin: 0px;
     margin-left: 30px;
-    background: #ddd;
+    background: var(--tab-menu-hr);
 }
 
 /*刷新的菜单项*/
@@ -504,8 +530,7 @@ tabs_morebox tab_tag close:before {
     cursor: pointer;
     transform: perspective(.5em) rotateX(-5deg);
     transform-origin: bottom;
-    transition: all .5s;
-    display: none;
+    transition: all .5s;   
 }
 
 .tabsbox tabs_fullbox_back:after {
@@ -517,7 +542,7 @@ tabs_morebox tab_tag close:before {
     font-size: 12px;
     border-radius: 2px;
     transition: all 0.5s;
-    font-family: "webdesk_icon" !important;
+    font-family: "webdesk_icon";
 }
 
 .tabsbox tabs_fullbox_back:hover {

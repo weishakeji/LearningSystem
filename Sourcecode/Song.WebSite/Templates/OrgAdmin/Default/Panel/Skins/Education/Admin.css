@@ -2,135 +2,13 @@
 
 html,
 body {
-    width: 100%;
-    height: 100%;
-    margin: 0px;
-    padding: 0px;
-    overflow: hidden;
     background-color: rgb(27, 87, 148);
 }
 
 panel#admin {
     background-image: linear-gradient(to bottom right,  #6dbcff,#58c198,#ffb83c);
 }
-
-#header-box {
-    height: 35px;
-    width: 100%;
-    position: relative;
-}
-
-#mainbody {
-    width: calc(100% - 10px);
-    height: calc(100% - 10px - 35px);
-    margin: 5px;
-    position: relative;
-}
-
-#mainbody>div:first-child {
-    box-shadow: 1px 1px 1px 1px rgba(232, 232, 232, .3);
-}
-
-
-
-#headbar {
-    position: absolute;
-    opacity: 0;
-    top: 5px;
-    height: 30px;
-    line-height: 30px;
-    color: #fff;
-    text-align: left;
-    text-shadow: 1px 1px 2px #666;
-    font-size: 20px;
-    cursor: default;
-    user-select: none;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    transition: all 0.3s;
-}
-
-#headbar span {
-    font-size: 14px;
-}
-
-#user-area {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    height: 30px;
-    width: 100px;
-    background-color: transparent;
-}
-
-#user-area drop_roots drop-node {
-    background-color: transparent !important;
-    color: #eee !important;
-    text-align: center !important;
-}
-
-#user-area span {
+#user-area drop_roots  drop-node * {
     color: #eee !important;
 }
 
-#treemenu-area {
-    float: left;
-}
-
-#tabs-area {
-    float: right;
-    margin-right: 5px;
-}
-
-#vbar-area {
-    float: right;
-    margin-top: 35px;
-}
-
-timer {
-    display: block;
-    position: absolute;
-    top: 15px;
-    right: 70px;
-    font-size: 10px;
-    color: rgba(255, 255, 255, .8);
-}
-
-#pageboxcollect {
-    position: absolute;
-    right: 0px;
-    bottom: 0px;
-    z-index: 99999;
-    width: 30px;
-    height: 25px;
-    line-height: 30px;
-    font-size: 16px !important;
-}
-
-#pageboxcollect:after {
-    font-size: 18px !important;
-}
-
-/*下拉菜单样式*/
-#dropmenu-area {
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    width: 110px;
-}
-#dropmenu-area.dropmenu {
-    background-color: rgba(150, 150, 150, .3) !important;
-
-}
-
-#dropmenu-area drop_roots * {
-    color: #ccc;
-}
-
-#dropmenu-area drop_roots drop-node:hover,
-#dropmenu-area drop_roots drop-node.hover {
-    color: #eee !important;
-    background-color: rgba(150, 150, 150, .5) !important;
-    text-shadow: 1px 1px 2px #666 !important;
-}

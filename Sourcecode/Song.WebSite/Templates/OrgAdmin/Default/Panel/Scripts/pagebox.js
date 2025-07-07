@@ -232,6 +232,7 @@
         let area = $dom('pagebox-minarea');
         if (area.length < 1) {
             area = $dom('body').add('pagebox-minarea');
+            area.addClass('pagebox').attr('ctrid', 'pagebox-minarea');
             area.css('opacity', 0).hide();
         }
 
@@ -266,7 +267,7 @@
         shell: function (obj) {
             let div = $dom(document.body).add('div');
             div.attr({
-                'boxid': obj.id,
+                'boxid': obj.id, 'ctrid': obj.id,
                 'class': 'pagebox',
                 'pid': obj.pid
             });
@@ -351,7 +352,7 @@
         //左上角图标的下拉菜单
         dropmenu: function (obj) {
             let menu = obj.dom.add('dropmenu');
-            menu.addClass('ui_menu');
+            menu.addClass('pagebox_menu');
             menu.add('menu_fresh').html('刷新');
             menu.add('menu_print').html('打印');
             menu.append('hr');
@@ -361,6 +362,7 @@
             menu.add('hr');
             menu.add('menu_close').html('关闭');
             obj.domdrop = menu;
+            obj.domdrop.hide();
         },
         //内部遮罩
         mask: function (obj) {
@@ -806,11 +808,6 @@
             box.pageboxcollect_boxsize();
         }, 300);
     };
-    //延迟关闭窗体
-    //参数：boxid窗口id,milli延迟的毫秒数
-    box.delayshut = function (boxid, milli) {
-
-    };
     //最大化
     box.toFull = function (boxid, smooth) {
         let ctrl = $ctrls.get(boxid);
@@ -1031,6 +1028,7 @@
         window.addEventListener('load', function (e) {
             let collect = $dom(window.$pageboxcollect);
             if (collect.length < 1) return;
+            //collect.addClass('pagebox');
             collect.add('div').attr('title', '窗体管理');
             let area = $dom('pagebox-minarea');
             if (area.length < 1) area = $dom('body').add('pagebox-minarea');
@@ -1053,7 +1051,7 @@
         let menu = $dom('pageboxcollect_contextmenu');
         if (menu.length < 1) {
             menu = $dom('body').add('pageboxcollect_contextmenu');
-            menu.addClass('ui_menu');
+            menu.addClass('pagebox_menu');
             menu.css('position', 'absolute');
             menu.add('menu_all_towindow').html('全部还原');
             menu.add('menu_all_min').html('全部最小化');
@@ -1150,9 +1148,15 @@
         }
     };
     //屏幕有效宽度
-    box.availWidth = () => document.documentElement.clientWidth;
+    box.availWidth = function () {
+        return document.documentElement.clientWidth;
+        return window.screen.availWidth;
+    };
     //屏幕有效高度
-    box.availHeight = () => document.documentElement.clientHeight;
+    box.availHeight = function () {
+        return document.documentElement.clientHeight;
+        return window.screen.availHeight;
+    };
     //执行来源对象中的方法
     box.source = {
         //父级为选项卡时

@@ -1,11 +1,71 @@
 ﻿@charset "utf-8";
 
 .loginbox {
-    background: rgba(243, 240, 240, 0.6);
-    border: 1px solid #fff;
-    box-shadow: 0px 0px 25px #333;
+    /*边线、阴影、背景色、渐变背景、圆角*/
+    --login-border: 1px solid transparent;
+    --login-shadow: 0px 0px 25px transparent;
+    --login-bgcolor: transparent;
+    --login-background: transparent;
+    --login-radius: 5px;
+
+    /*输入框的字段*/
+    --login-input-color: #333;
+
+    /*标题,依次为：背景色，阴影色，图标大小，字体大小*/
+    --login-tit-color: rgb(58, 58, 58);
+    --login-tit-shadow: 1px 1px 3px #999;
+    --login-tit-iconfont: 36px;
+    --login-tit-txtfont: 20px;
+
+    /*底部信息栏*/
+    --login-footbar-color: #999;
+
+    /*主题内容区,依次为：输入框的颜色、背景、边线*/
+    --login-body-color: #999;
+    --login-body-bgcolor: rgba(255, 255, 255, .3);
+    --login-body-boder: solid 1px #999;
+
+    /*滑块,依次：前景色、背景色，滑块前景色、滑块背景色，滑道背景色*/
+    --login-drag-color: #999;
+    --login-drag-bgcolor: #eee;
+    --login-dragbox-color: #fff;
+    --login-dragbox-bgcolor: #bbb;
+    --login-dragslide-bgcolor: #aaa;
+    /*滑块成功*/
+    --login-drag-complete-color: rgba(83, 204, 83, 1);
+    --login-drag-complete-bgcolor: linear-gradient(to bottom,
+            rgba(83, 204, 83, 1) 0%,
+            rgba(51, 162, 51, 1) 100%);
+
+    /*登录按钮*/
+    --login-btn-color: #fff;
+    --login-btn-border: solid 1px #fff;
+    --login-btn-background: linear-gradient(to bottom,
+            rgba(33, 161, 255, .5) 0%,
+            rgba(33, 161, 255, 0.9) 100%);
+    /*登录按钮，鼠标滑过*/
+    --login-btnhover-color: #fff;
+    --login-btnhover-border: solid 1px #fff;
+    --login-btnhover-background: linear-gradient(to bottom,
+            rgba(33, 161, 255, .2) 0%,
+            rgba(33, 161, 255, .6) 30%,
+            rgba(33, 161, 255, 0.9) 100%);
+    --login-btnhover-shadow: 0px 0px 10px rgba(9, 114, 191, .81);
+    /*登录按钮，鼠标点击*/
+    --login-btnactive-border: solid 1px #aaa;
+    --login-btnactive-background: linear-gradient(to bottom,
+            rgba(255, 255, 255, 0.952) 0%,
+            rgba(33, 161, 255, .6) 30%,
+            rgba(33, 161, 255, 0.9) 100%);
+}
+
+.loginbox {
+    background-color: var(--login-bgcolor);
+    border: var(--login-border);
+    box-shadow: var(--login-shadow);
     position: relative;
-    background: linear-gradient(to bottom, rgba(255, 255, 255, .2) 0%, rgba(255, 255, 255, .6) 6%, rgba(255, 255, 255, 0.9) 70%, rgba(255, 255, 255, .2) 100%);
+    background: var(--login-background);
+    border-radius: var(--login-radius);
 }
 
 /*标题栏*/
@@ -21,9 +81,10 @@
     padding: 0px 0px 0px 20px;
     font-size: 18px;
     cursor: default;
+    color: var(--login-tit-color);
     display: flex;
     user-select: none;
-    text-shadow: 1px 1px 3px #999;
+    text-shadow: var(--login-tit-shadow);
 }
 
 .loginbox login_ico {
@@ -41,19 +102,20 @@
 }
 
 .loginbox login_ico i {
-    font-family: "webdesk_icon" !important;
+    font-family: "webdesk_icon";
     font-style: normal;
-    font-size: 36px;
-    line-height: 60px;
+    font-size: var(--login-tit-iconfont);
+    line-height: calc(var(--login-tit-iconfont) * 1.7);
 }
 
 .loginbox login_tit {
-    line-height: 60px;
     width: calc(100% - 50px);
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    font-size: 20px;
+    font-size: var(--login-tit-txtfont);
+    line-height: calc(var(--login-tit-txtfont) * 3);
+    ;
     word-break: break-all;
     white-space: nowrap;
 }
@@ -61,38 +123,27 @@
 /*底部信息栏*/
 
 .loginbox login_footbar {
-    display: block;
-    width: 100%;
-    height: 20px;
-    line-height: 20px;
+    display: flex;
+    line-height: 60px;
     bottom: 0px;
-    position: absolute;
+    justify-content: space-between;
     cursor: default;
     user-select: none;
+    box-sizing: content-box;
+    padding: 0px 20px;
 }
 
 .loginbox login_footbar * {
-    display: block;
     height: 100%;
-    font-size: 12px;
+    font-size: 14px;
     width: auto;
-    color: #999;
+    color: var(--login-footbar-color);
     text-decoration: none;
-}
-
-.loginbox login_footbar login_company {
-    float: left;
-    margin-left: 10px;
-}
-
-.loginbox login_footbar login_tel {
-    float: right;
-    margin-right: 10px;
 }
 
 .loginbox login_footbar *:before {
     margin-right: 5px;
-    font-family: "webdesk_icon" !important;
+    font-family: "webdesk_icon";
     width: 10px;
 }
 
@@ -107,33 +158,29 @@
 /*主题内容区*/
 
 .loginbox .login_body {
-    height: calc(100% - 90px);
+    height: 230px;
     width: 100%;
     overflow: hidden;
     display: block;
     position: relative;
-    --display: flex;
-    --flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .loginbox .login_body>* {
     display: block;
-    margin: 10px 20px 10px 20px;
+    margin: 5px 20px 5px 20px;
     height: 45px;
-    width: calc(100% - 40px);
-    --flex: 1;
-    border-radius: 2px;
-    background-color: rgba(255, 255, 255, .3);
-}
-
-.loginbox .login_body>* {
-    border: solid 1px #999;
     width: calc(100% - 42px);
+    flex: 1;
+    border-radius: 2px;
+    background-color: var(--login-body-bgcolor);
+    border: var(--login-body-boder);
     position: relative;
 }
 
 .loginbox .login_body>*:before {
-    font-family: "webdesk_icon" !important;
+    font-family: "webdesk_icon";
     width: 42px;
     height: 45px;
     line-height: 45px;
@@ -144,7 +191,7 @@
     font-size: 22px;
     left: 0px;
     top: 0px;
-    color: #999;
+    color: var(--login-body-color);
 }
 
 .loginbox .login_body .login_user {
@@ -161,7 +208,7 @@
 
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none !important;
+    -webkit-appearance: none;
     margin: 0;
 }
 
@@ -183,30 +230,29 @@ input[type="number"] {
 
 .loginbox .login_body>* input {
     border: none;
-    height: 45px;
     height: calc(100% - 2px);
-    width: 180px;
     width: -webkit-calc(100% - 48px);
     width: -moz-calc(100% - 48px);
     width: calc(100% - 60px);
     position: absolute;
     text-indent: 10px;
+    color: var(--login-input-color);
     left: 45px;
     top: 0px;
     font-size: 18px;
-    background-color: transparent !important;
+    background-color: transparent;
 }
 
 .loginbox .login_body>* input:focus {
     font-size: 23px;
-    border: none !important;
+    border: none;
     outline: none;
 }
 
 .loginbox .login_body>* input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
-    -webkit-text-fill-color: #333 !important;
+    -webkit-text-fill-color: #333;
     transition: background-color 5000s ease-in-out 0s;
-    background-color: transparent !important;
+    background-color: transparent;
     -webkit-box-shadow: 0 0 0 1000px transparent inset;
 }
 
@@ -235,56 +281,57 @@ input[type="number"] {
     height: 100%;
     letter-spacing: 20px;
     font-size: 18px;
-    border: solid 1px #fff;
-    color: #fff;
+    border: var(--login-btn-border);
+    color: var(--login-btn-color);
     cursor: pointer;
-    background: rgba(33, 161, 255, .5);
-    background: linear-gradient(to bottom, rgba(33, 161, 255, .5) 0%, rgba(33, 161, 255, 0.9) 100%);
+    background: var(--login-btn-background);
 }
 
 .loginbox .login_body button:hover {
-    background: linear-gradient(to bottom, rgba(33, 161, 255, .2) 0%, rgba(33, 161, 255, .6) 30%, rgba(33, 161, 255, 0.9) 100%);
-    border: solid 1px #aaa;
+    background: var(--login-btnhover-background);
+    border: var(--login-btnhover-border);
+    color: var(--login-btnhover-color);
 }
 
 .loginbox .login_body button:active {
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.952) 0%, rgba(33, 161, 255, .6) 30%, rgba(33, 161, 255, 0.9) 100%);
-    border: solid 1px #aaa;
+    background: var(--login-btnactive-background);
+    border: var(--login-btnactive-border);
 }
 
 .loginbox .login_body>*:last-child {
     height: 40px;
     transition: all 0.2s;
+    margin-top: 10px;
 }
 
 .loginbox .login_body>*:last-child:hover {
-    box-shadow: 0px 0px 10px rgba(9, 114, 191, .81);
+    box-shadow: var(--login-btnhover-shadow);
 }
 
 .loginbox .login_body button:before {
-    font-family: "webdesk_icon" !important;
+    font-family: "webdesk_icon";
     content: '\a035';
 }
 
-.loginbox .login_body button:hover {
-    border: solid 1px #fff;
-}
 
 /*滑块*/
 
 .loginbox .login_body login_drag {
     display: block;
     font-size: 14px;
-    height: 45px;
-    line-height: 45px;
+    height: 100%;
     text-align: center;
-    color: #999;
+    color: var(--login-drag-color);
     position: absolute;
     width: 100%;
-    background-color: #eee;
+    background-color: var(--login-drag-bgcolor);
     transition: all 0.6s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
+/*滑道*/
 .loginbox .login_body login_drag>div {
     height: 100%;
     width: 100%;
@@ -292,6 +339,15 @@ input[type="number"] {
     user-select: none;
     transition: all 0.6s;
     user-select: none;
+}
+
+.loginbox .login_body login_drag>div span:first-child {
+    display: block;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .loginbox login_dragbox {
@@ -302,12 +358,12 @@ input[type="number"] {
     width: 40px;
     font-size: 25px;
     text-align: center;
-    background-color: #bbb;
+    background-color: var(--login-dragbox-bgcolor);
     position: absolute;
     padding: 0px 0px 0px 5px;
     top: 5px;
     left: 5px;
-    color: #fff;
+    color: var(--login-dragbox-color);
     cursor: pointer;
     z-index: 2;
 }
@@ -320,7 +376,7 @@ input[type="number"] {
     width: 0px;
     font-size: 25px;
     text-align: center;
-    background-color: #aaa;
+    background-color: var(--login-dragslide-bgcolor);
     position: absolute;
     padding: 0px 0px 0px 5px;
     top: 5px;
@@ -331,7 +387,7 @@ input[type="number"] {
 
 .loginbox login_dragbox:before {
     content: '\a049';
-    font-family: "webdesk_icon" !important;
+    font-family: "webdesk_icon";
 }
 
 .loginbox login_dragbox.drag {
@@ -342,7 +398,7 @@ input[type="number"] {
 
 .loginbox .login_body login_drag.complete>div {
     background-color: rgba(83, 204, 83);
-    background: linear-gradient(to bottom, rgba(83, 204, 83, 1) 0%, rgba(51, 162, 51, 1) 100%);
+    background: var(--login-drag-complete-bgcolor);
 }
 
 .loginbox .login_body login_drag.complete login_dragbox {
@@ -351,7 +407,7 @@ input[type="number"] {
 
 .loginbox .login_body login_drag.complete login_dragbox:before {
     content: '\a048';
-    color: rgba(83, 204, 83, 1);
+    color: var(--login-drag-complete-color);
 }
 
 .loginbox .login_body login_drag.complete span {
@@ -380,8 +436,8 @@ input[type="number"] {
 /*错误提示*/
 
 .loginbox login_row.login_error {
-    border: solid 1px #ff7d7d !important;
-    box-shadow: 0px 0px 10px #ff0000, 0px 0px 10px rgba(255, 0, 0, .8) inset !important;
+    border: solid 1px #ff7d7d;
+    box-shadow: 0px 0px 10px #ff0000, 0px 0px 10px rgba(255, 0, 0, .8) inset;
 }
 
 .loginbox login_row.login_error login_tips {
@@ -395,7 +451,7 @@ input[type="number"] {
 div.login_loding {
     width: 100px;
     height: 150px;
-    margin: 30px auto 0px auto;
+    margin: calc(200px - 75px) auto 0px auto;
     position: relative;
 }
 

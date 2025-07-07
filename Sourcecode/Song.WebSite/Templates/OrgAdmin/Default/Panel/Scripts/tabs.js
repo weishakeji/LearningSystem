@@ -144,6 +144,7 @@
             menu.add('hr');
             menu.add('menu_close').html('关闭');
             obj.domenu = menu;
+            obj.domenu.hide();
         }
     };
     //tabs的基础事件
@@ -685,7 +686,7 @@
                 data: obj.getData(tabid)
             });
             close.show();
-        }, 300);
+        }, 300);        
         //返回按钮的点击事件
         close.click(function (e) {
             let tabpace = obj.dombody.find('tabpace[tabid=\'' + tabid + '\']');

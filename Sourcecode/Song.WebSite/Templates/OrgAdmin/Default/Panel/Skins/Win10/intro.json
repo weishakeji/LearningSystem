@@ -1,7 +1,8 @@
-﻿{
-	name:'windows10风格',
-	intro:'',
-	author:'宋',
-	qq:'10522779',
-	phone:''
-}
+﻿{  
+	"name": "windows10风格",  
+	"intro": "",  
+	"author": "宋",  
+	"qq": "10522779",  
+	"phone": ""  ,
+	"bgpage": "/Utilities/Panel/Effects/Circular/index.html"	
+}  

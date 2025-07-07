@@ -1,0 +1,61 @@
+{
+  "title": "管理员",
+  "url": "",
+  "intro": "当前登录的管理员",
+  "ico": "a043",
+  "img": "/Utilities/images/head1.jpg",
+  "font": {
+    "bold": false
+  },
+  "childs": [
+    {
+      "title": "个人信息",
+      "url": "oneself/selfinfo",
+      "width": "400",
+      "height": "400",
+      "type": "open",
+      "ico": "a043"
+    },
+    {
+      "title": "资料修改",
+      "url": "oneself/Modify",
+      "type": "open",
+      "width": "600",
+      "height": "600",
+      "ico": "e669"
+    },
+    {
+      "title": "密码",
+      "url": "oneself/mypassword",
+      "width": "400",
+      "height": "320",
+      "type": "open",
+      "ico": "e67b"
+    },
+    {
+      "title": "安全问题",
+      "url": "oneself/safeanswer",
+      "width": "400",
+      "height": "300",
+      "min": false,
+      "max": false,
+      "type": "open",
+      "ico": "e6ed"
+    },
+    {
+      "type": "hr"
+    },
+    {
+      "title": "退出登录",
+      "type": "open",
+      "url": "oneself/logout",
+      "width": "300",
+      "height": "150",
+      "min": false,
+      "max": false,
+      "close": true,
+      "resize": false,
+      "ico": "a040"
+    }
+  ]
+}

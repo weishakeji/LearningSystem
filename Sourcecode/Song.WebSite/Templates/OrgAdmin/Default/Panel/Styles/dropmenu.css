@@ -1,0 +1,278 @@
+﻿@charset "utf-8";
+
+.dropmenu {
+    /*根菜单颜色,依次为：前景色、背景色、鼠标滑过颜色、阴影*/
+    --drop-root-color: #ccc;
+    --drop-root-bgcolor: rgba(168, 168, 168, 0.3);
+    --drop-root-hover: rgba(255, 255, 255);
+    --drop-root-hoverbg: rgba(238, 240, 241, 0.6);
+    --drop-root-shadow: #666;
+    /*下拉菜单颜色,依次为：背景色、边线色、前景色、分隔线、阴影色*/
+    --drop-panel-bgcolor: #eee;
+    --drop-panel-border: #bbb;
+    --drop-panel-color: #666;
+    --drop-panel-hr: #ddd;
+    --drop-panel-shadow: #eee;
+    /*图标,依次为：图片的边线*/
+    --drop-img: #aaa;
+    /*下拉菜单中的事件效果*/
+    --drop-panel-hover: #999;
+    --drop-panel-hover-shadow: #fff;
+    --drop-panel-hover-boxshadow: #fff;
+    --drop-panel-hover-border: rgba(200, 200, 200, 0.8);
+    --drop-panel-hover-bg: rgba(255, 255, 255, 0.3);
+}
+
+.dropmenu {
+    background-color: var(--drop-root-bgcolor);
+    border-radius: 2px;
+}
+
+.dropmenu>* {
+    display: block;
+}
+
+.dropmenu ico {
+    font-family: "webdesk_icon" !important;
+}
+
+.dropmenu .loading ico {
+    display: inline-block;
+    -webkit-animation: rotate 1s linear infinite;
+    -moz-animation: rotate 1s linear infinite;
+    -o-animation: rotate 1s linear infinite;
+    animation: rotate 1s linear infinite;
+}
+
+@-webkit-keyframes rotate {
+    from {
+        -webkit-transform: rotate(0deg)
+    }
+
+    to {
+        -webkit-transform: rotate(360deg)
+    }
+}
+
+@-moz-keyframes rotate {
+    from {
+        -moz-transform: rotate(0deg)
+    }
+
+    to {
+        -moz-transform: rotate(359deg)
+    }
+}
+
+@-o-keyframes rotate {
+    from {
+        -o-transform: rotate(0deg)
+    }
+
+    to {
+        -o-transform: rotate(359deg)
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg)
+    }
+
+    to {
+        transform: rotate(359deg)
+    }
+}
+
+.dropmenu drop-node a {
+    text-decoration: none;
+}
+
+.dropmenu drop-node a, .dropmenu drop-node span, .dropmenu drop-node ico {
+    color: var(--drop-panel-color)
+}
+
+/*根菜单*/
+.dropmenu drop_roots {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+
+}
+
+.dropmenu drop_roots a, .dropmenu drop_roots span, .dropmenu drop_roots ico {
+    color: var(--drop-root-color)
+}
+
+.dropmenu drop_roots drop-node {
+    display: flex;
+    float: left;
+    height: 100%;
+    width: 120px;
+    cursor: pointer;
+    transform: background-color .1s;
+    user-select: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-right: 10px;
+    flex: 1;
+}
+.dropmenu drop_roots drop-node a{
+    display: flex;
+}
+.dropmenu drop_roots drop-node.hover {
+    background-color: var(--drop-root-hoverbg);
+}
+
+.dropmenu drop_roots drop-node.hover,
+.dropmenu drop_roots drop-node.hover * {
+
+    text-shadow: 1px 1px 2px var(--drop-root-shadow);
+    color: var(--drop-root-hover);
+}
+
+.dropmenu drop_roots drop-node span {
+    font-size: 14px;
+}
+
+.dropmenu drop_roots drop-node ico {
+    height: 100%;
+    font-size: 16px;
+    display: block;
+    margin: 0px 8px 0px 10px;
+}
+
+.dropmenu drop_roots drop-node img {
+    width: 20px;
+    height: 20px;
+    display: block;
+    border: 1px solid var(--drop-img);
+    margin-top: 5px;
+    --float: left;
+    border-radius: 10px;
+}
+
+.dropmenu drop_roots drop-node span {
+    height: 100%;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/*子菜单面板*/
+.dropmenu drop-panel {
+    position: absolute;
+    background-color: var(--drop-panel-bgcolor);
+    min-width: 130px;
+    border-radius: 0px 0px 3px 3px;
+    border: 1px solid var(--drop-panel-border);
+    box-sizing: border-box;
+    box-shadow: 1px 1px 2px var(--drop-panel-shadow);
+}
+
+.dropmenu drop-panel:not(.level1) {
+    border-radius: 3px;
+}
+
+.dropmenu drop-panel>*:not(hr) {
+    cursor: pointer;
+    user-select: none;
+    display: block;
+    font-size: 13px;
+    height: 25px;
+    line-height: 25px;
+    position: relative;
+}
+
+.dropmenu drop-panel>hr {
+    height: 1px;
+    border: 0px;
+    margin: 0px;
+    margin-left: 30px;
+    background: var(--drop-panel-hr);
+}
+
+.dropmenu drop-panel ico {
+    display: block;
+    height: 100%;
+    font-size: 18px;
+    width: 30px;
+    border-right: 1px solid var(--drop-panel-hr);
+    float: left;
+    text-align: center;
+    margin-right: 6px;
+
+}
+
+.dropmenu drop-panel img {
+    width: 20px;
+    height: 20px;
+    display: block;
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-top: 5px;
+    border: 1px solid var(--drop-img);
+    border-radius: 10px;
+}
+
+.dropmenu drop-panel span {
+    padding-right: 20px;
+    width: calc(100% - 31px - 30px);
+    display: block;
+    position: absolute;
+    z-index: 2;
+    top: 0px;
+    left: 40px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.dropmenu drop-panel child {
+    display: block;
+    height: 100%;
+    line-height: 100%;
+    width: 15px;
+    position: absolute;
+    top: 7px;
+    right: 0px;
+}
+
+.dropmenu drop-panel child:after {
+    content: '>';
+    text-align: center;
+    color: var(--drop-panel-color);
+    font: 800 9px/14px consolas;
+}
+
+.dropmenu drop-panel>*:not(hr):hover child:after,
+.dropmenu drop-panel>*:not(hr).hover child:after {
+    color: var(--drop-panel-hover);
+}
+
+.dropmenu drop-panel>*:not(hr):hover,
+.dropmenu drop-panel>*:not(hr).hover {
+    box-shadow: var(--drop-panel-hover-boxshadow) 0px 0px 3px inset;
+}
+
+.dropmenu drop-panel>*:not(hr).hover *,
+.dropmenu drop-panel>*:not(hr).hover ico {
+    color: var(--drop-panel-hover);
+    text-shadow: 1px 1px 2px var(--drop-panel-hover-shadow);
+}
+
+.dropmenu drop-panel>*:not(hr):hover:after,
+.dropmenu drop-panel>*:not(hr).hover:after {
+    content: '';
+    width: calc(100% - 5px);
+    height: calc(100% - 5px);
+    border: solid 1px var(--drop-panel-hover-border);
+    position: absolute;
+    z-index: -1;
+    left: 2px;
+    top: 2px;
+    border-radius: 3px;
+    background-color: var(--drop-panel-hover-bg);
+}

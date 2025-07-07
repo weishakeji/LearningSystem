@@ -1,0 +1,60 @@
+﻿@charset "utf-8";
+
+.treemenu {
+    /*左侧选项卡的背景、背景色、选中背景色（右侧面板同色）*/
+    --tag-color: #cdcdcd;
+    --tag-bg: rgb(66 89 113 / 0%);
+    --tag-selected-bg: rgb(200 237 255);
+
+    /*选项卡被选中是的字体色*/
+    --tag-selected-color: #6c6c6c;
+    --tag-selected-shadowcolor: #fff;
+    --tag-selected-shadow: 1px 1px 2px var(--tag-selected-shadowcolor),
+        -1px -1px 2px var(--tag-selected-shadowcolor),
+        1px -1px 2px var(--tag-selected-shadowcolor),
+        -1px 1px 2px var(--tag-selected-shadowcolor);
+
+    /*菜单项右侧标题颜色与背景*/
+    --title-color: #fff;
+    --title-bg: rgb(6 148 191);
+    /*菜单项，滑标滑过的效色*/
+    --node-hover-color: rgb(0, 0, 0);
+    --node-hover-bg: rgba(182, 182, 182, 0.2);
+    --node-hover-border: solid 1px rgba(221, 186, 29, 0.4);
+    /*菜单项，当前选中的颜色与背景色*/
+    --node-curr-color: rgb(6 148 191);
+    --node-curr-bg: rgb(248 255 135 / 20%);
+    --node-curr-border: solid 1px rgb(84 206 243 / 60%);
+    /*查询面板，依次：背景色、内阴影、边框颜色、内容区背景*/
+    --querypanel-title-color: #333;
+    --querypanel-bg-color: rgb(229 247 255);
+    --querypanel-bg-shadow: rgba(64, 158, 255, 0.2);
+    --querypanel-border-color: #5d9ead;
+    --querypanel-area-bgcolor: rgb(199 232 239 / 30%);
+    /*查询面板中的文字颜色*/
+    --querypanel-treetit-color: #fff;
+    --querypanel-treenode-color: var(--tag-selected-color);
+    --querypanel-treenode-shadow: 1px 1px 2px #fff,
+        -1px -1px 2px #fff,
+        1px -1px 2px #fff,
+        -1px 1px 2px #fff;
+}
+
+.treemenu tree_box.current {
+    font-weight: normal;
+}
+
+.treemenu tree_body {
+    background-image: linear-gradient(135deg, transparent 25%, transparent 65%, rgb(255 255 255 / 30%) 65%, rgb(255 255 255 / 30%) 80%, rgb(255 255 255 / 60%) 80%)
+}
+
+.treemenu tree-node:hover:before {
+    border: solid 1px rgba(255, 255, 255, 0.3) !important;
+    box-shadow: none !important;
+}
+
+/*当前选中的左侧选项卡*/
+.treemenu tree_tags tree_tag.selected {
+    color: var(--title-bg);
+    border-left: 3px solid rgb(253, 72, 0);
+}

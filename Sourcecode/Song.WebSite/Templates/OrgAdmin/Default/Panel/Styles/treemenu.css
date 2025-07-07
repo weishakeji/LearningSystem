@@ -1,25 +1,46 @@
 ﻿@charset "utf-8";
 
 .treemenu {
-    /*选项卡的字体颜色*/
+    /*左侧选项卡的背景、背景色、选中背景色（右侧面板同色）*/
     --tag-color: #c5fdf6;
-    /*选项卡背景色*/
     --tag-bg: rgba(66, 89, 113, 0.6);
-    /*选项卡被选中时的背景色*/
     --tag-selected-bg: rgb(18 74 67);
-    /*选项卡被选中是的字体色*/
+
+    /*选项卡被选中时的前景色、阴影色*/
     --tag-selected-color: #7fb19e;
+    --tag-selected-shadowcolor: rgb(255, 255, 255);
+    --tag-selected-shadow: 1px 1px 2px var(--tag-selected-shadowcolor),
+        -1px -1px 2px var(--tag-selected-shadowcolor),
+        1px -1px 2px var(--tag-selected-shadowcolor),
+        -1px 1px 2px var(--tag-selected-shadowcolor);
+
     /*菜单项右侧标题颜色与背景*/
     --title-color: #fff;
     --title-bg: rgb(249, 184, 63);
-    /*菜单项，滑标滑过的效色*/
+
+    /*菜单项，滑标滑过的效果，依次为：前景色、背景色、边线、阴影*/
     --node-hover-color: #eef5e8;
     --node-hover-bg: rgba(161, 200, 250, 0.2);
     --node-hover-border: solid 1px rgba(160, 160, 160, 0.6);
+    --node-hover-shadow: rgba(255, 255, 255, .9) 0px 0px 5px inset;
     /*菜单项，当前选中的颜色与背景色*/
     --node-curr-color: rgb(23, 71, 228);
     --node-curr-bg: rgba(248, 255, 189, 0.2);
     --node-curr-border: solid 1px rgba(206, 185, 0, 0.6);
+
+    /*查询面板，依次：背景色、内阴影、边框颜色、内容区背景*/
+    --querypanel-title-color: #222;
+    --querypanel-bg-color: rgb(229 247 255);
+    --querypanel-bg-shadow: rgba(64, 158, 255, 0.2);
+    --querypanel-border-color: #5d9ead;
+    --querypanel-area-bgcolor: rgb(199 232 239 / 30%);
+    /*查询面板中的文字颜色*/
+    --querypanel-treetit-color: #fff;
+    --querypanel-treenode-color: var(--tag-selected-color);
+    --querypanel-treenode-shadow: 1px 1px 2px #fff,
+        -1px -1px 2px #fff,
+        1px -1px 2px #fff,
+        -1px 1px 2px #fff;
 }
 
 .treemenu {
@@ -38,6 +59,7 @@
 .treemenu a,
 .treemenu tree-node {
     color: var(--tag-selected-color);
+    text-shadow: var(--tag-selected-shadow);
 }
 
 .treemenu tree_tags {
@@ -76,7 +98,7 @@
     width: 100%;
     line-height: 40px;
     font-size: 20px;
-    font-family: "webdesk_icon" !important;
+    font-family: "webdesk_icon";
 }
 
 @-webkit-keyframes rotate {
@@ -131,6 +153,7 @@
 .treemenu tree_tags tree_tag.selected {
     background-color: var(--tag-selected-bg);
     color: var(--tag-selected-color);
+    text-shadow: var(--tag-selected-shadow);
     border-left: 3px solid rgb(253, 72, 0);
     border-radius: 6px 0px 0px 6px;
 }
@@ -189,7 +212,7 @@
     line-height: 40px;
     font-size: 16px;
     display: block;
-    font-family: "webdesk_icon" !important;
+    font-family: "webdesk_icon";
 }
 
 .treemenu tree_tags tree-foldbtn:hover:before {
@@ -228,7 +251,7 @@
     display: block;
     color: #999;
     font-size: 35px;
-    font-family: "webdesk_icon" !important;
+    font-family: "webdesk_icon";
     -webkit-animation: rotate 1s linear infinite;
     -moz-animation: rotate 1s linear infinite;
     -o-animation: rotate 1s linear infinite;
@@ -241,7 +264,7 @@
     width: calc(100% - 20px);
     box-sizing: border-box;
     margin: 10px 10px 10px 10px;
-    font-size: 15px;
+    font-size: 18px;
     border-radius: 3px;
     text-align: center;
     background-color: var(--title-bg);
@@ -263,7 +286,7 @@
 .treemenu tree_area tree_tit i {
     font-style: normal;
     margin-right: 5px;
-    font-family: "webdesk_icon" !important;
+    font-family: "webdesk_icon";
 }
 
 .treemenu tree_area>div {
@@ -276,15 +299,16 @@
 
 .treemenu tree-node {
     position: relative;
-    font-size: 14px;
-    line-height: 30px;
-    height: 30px;
+    font-size: 16x;
+    line-height: 35px;
+    height: 35px;
     cursor: pointer;
     user-select: none;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     border-image-slice: 10;
+    letter-spacing: 3px;
 }
 
 .treemenu tree-node complete {
@@ -306,7 +330,8 @@
     overflow: hidden;
     transition: all 0.3s;
 }
-.treemenu tree_box tree-node::before{
+
+.treemenu tree_box tree-node::before {
     content: '';
     width: calc(100% - 8px);
     height: calc(100% - 6px);
@@ -316,8 +341,9 @@
     top: 3px;
     z-index: 1;
     border-radius: 3px;
-    background-color: transparent;    
+    background-color: transparent;
 }
+
 .treemenu tree_box.current {
     font-weight: bold;
 
@@ -329,9 +355,9 @@
 }
 
 .treemenu tree_box.current>tree-node::before {
-    border: var( --node-curr-border) !important;
-    background-color: var(--node-curr-bg) !important;
-    box-shadow: rgba(255, 255, 255, .85) 0px 0px 10px inset  !important;
+    border: var(--node-curr-border);
+    background-color: var(--node-curr-bg);
+    box-shadow: rgba(255, 255, 255, .85) 0px 0px 10px inset;
 }
 
 .treemenu tree-node span {
@@ -346,14 +372,14 @@
 }
 
 .treemenu tree-node ico {
-    line-height: 30px;
-    font-size: 18px;
+    line-height: 40px;
+    font-size: 20px;
     height: 30px;
     font-weight: normal;
     width: 20px;
     margin-right: 5px;
     display: inline-block;
-    font-family: "webdesk_icon" !important;
+    font-family: "webdesk_icon";
     z-index: 3;
 }
 
@@ -369,7 +395,7 @@
     top: 5px;
     right: 5px;
     transition: transform 0.3s;
-    font-family: "webdesk_icon" !important;
+    font-family: "webdesk_icon";
 }
 
 .treemenu tree-node:hover, .treemenu tree-node:hover * {
@@ -380,10 +406,10 @@
     color: var(--node-hover-color);
 }
 
-.treemenu tree-node:hover::before {  
-    border: var(--node-hover-border);  
-    background-color: var(--node-hover-bg);   
-    box-shadow: rgba(255, 255, 255, .9) 0px 0px 10px inset;
+.treemenu tree-node:hover::before {
+    border: var(--node-hover-border);
+    background-color: var(--node-hover-bg);
+    box-shadow: var(--node-hover-shadow);
 }
 
 
@@ -415,13 +441,15 @@ div.querypanel {
 div.querypanel>section {
     max-width: 80%;
     height: 80%;
-    background-color: rgb(229 247 255);
+    background-color: var(--querypanel-bg-color);
     background-image: linear-gradient(135deg, rgb(175 235 232 / 20%) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent);
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    border: solid 2px #5d9ead;
+    border: solid 2px;
+    border-color: var(--querypanel-border-color);
+    box-shadow: inset 0 0 30px 15px var(--querypanel-bg-shadow);
     border-radius: 5px;
 }
 
@@ -436,7 +464,7 @@ div.querypanel>section header>div:first-child {
     line-height: 50px;
     height: 100%;
     padding-left: 20px;
-    color: #222;
+    color: var(--querypanel-title-color);
     cursor: default;
 }
 
@@ -444,7 +472,7 @@ div.querypanel>section header>div[title]::before {
     content: '\a00c';
     font-size: 20px;
     margin-right: 8px;
-    font-family: "webdesk_icon" !important;
+    font-family: "webdesk_icon";
 }
 
 div.querypanel>section header>div[total]::after {
@@ -458,6 +486,18 @@ div.querypanel>section header>div[total]::after {
     background-color: rgb(250, 228, 228);
 }
 
+div.querypanel>section tree_area tree_tit * {
+    color: var(--querypanel-treetit-color);
+}
+
+div.querypanel>section tree_area tree-node {
+    font-size: 16px;
+    color: var(--querypanel-treenode-color);
+    text-shadow: var(--querypanel-treenode-shadow);
+}
+div.querypanel>section tree_area  tree-node.folder:after{
+    color: var(--querypanel-treenode-color);
+}
 /*检索面板中的输入框*/
 div.querypanel>section header>div[query] {
     position: relative;
@@ -468,7 +508,7 @@ div.querypanel>section header>div[query]::before {
     content: '\a00b';
     font-size: 20px;
     margin-right: 8px;
-    font-family: "webdesk_icon" !important;
+    font-family: "webdesk_icon";
     position: absolute;
     left: 5px;
     top: 5px;
@@ -494,7 +534,7 @@ div.querypanel>section header>div[query] clear {
 div.querypanel>section header>div[query] clear::before {
     content: '\e61c';
     font-size: 15px;
-    font-family: "webdesk_icon" !important;
+    font-family: "webdesk_icon";
 }
 
 div.querypanel .query_close {
@@ -511,7 +551,8 @@ div.querypanel .query_close:hover {
 div.querypanel .query_close::before {
     content: '\e606';
     font-size: 28px;
-    font-family: "webdesk_icon" !important;
+    color: var(--querypanel-title-color);
+    font-family: "webdesk_icon";
 }
 
 div.querypanel>section>section {
@@ -527,20 +568,18 @@ div.querypanel>section>section>* {
     border: 1px solid #ccc;
     box-sizing: border-box;
     padding: 10px;
-
     position: relative;
 }
 
 div.querypanel>section>section>*:first-child {
     margin-left: 15px;
-
 }
 
 div.querypanel>section>section>tree_area {
     padding: 0px;
     box-sizing: border-box;
     height: calc(100% - 30px);
-    background-color: #c7e8ef;
+    background-color: var(--querypanel-area-bgcolor);
     background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.5) 25%,
             transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%,
             rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent);
@@ -576,8 +615,8 @@ div.querypanel tree_area>div {
     overflow-y: auto;
 }
 
-div.querypanel tree_box tree-node * {
-    font-size: 16px;
+div.querypanel tree_box tree-node ico {
+    font-size: 20px;
 }
 
 div.querypanel tree-node.folder:after {
@@ -590,7 +629,6 @@ div.querypanel tree-node.folder:after {
 
 /*查询选中的节点样式*/
 div.querypanel tree_box tree-node[queried]:not(.folder) {
-
     text-shadow: 0px 0px 6px, 0px 0px 10px #ff2828;
 }
 
@@ -600,7 +638,7 @@ div.querypanel tree_box tree-node[queried]::after {
     position: absolute;
     right: 0px;
     font-size: 15px;
-    font-family: "webdesk_icon" !important;
+    font-family: "webdesk_icon";
 }
 
 div.querypanel tree-node[queried],

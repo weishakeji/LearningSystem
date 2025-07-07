@@ -1,0 +1,12 @@
+﻿@charset "utf-8";
+
+:root {
+    /*最小化窗体,依次为：背景色、阴影色、鼠标移入背景色、边线、鼠标移入阴影*/
+    --pbox-min-bgcolor: rgba(187, 209, 226, 0.4);
+    --pbox-min-shadow: rgba(255, 255, 255, 1);
+    --pbox-min-hoverbg: rgba(161, 197, 247, 0.8);
+    --pbox-min-border: rgba(62, 63, 63, 0.3);
+    --pbox-min-hovershadow: rgba(155, 155, 155, 0.3);
+    --pbox-min-btncolor: #fff;
+    --pbox-min-btnbgcolor: rgb(245, 45, 45);
+}

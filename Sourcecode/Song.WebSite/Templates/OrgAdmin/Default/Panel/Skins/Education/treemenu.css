@@ -1,24 +1,42 @@
 ﻿@charset "utf-8";
 
 .treemenu {
-    /*选项卡的字体颜色*/
-    --tag-color: #c5fdf6;
-    /*选项卡背景色*/
+   /*左侧选项卡的背景、背景色、选中背景色（右侧面板同色）*/
+    --tag-color: #ababab;
     --tag-bg: rgba(66, 89, 113, 0.6);
-    /*选项卡被选中时的背景色*/
     --tag-selected-bg: rgb(18 74 67);
-    /*选项卡被选中是的字体色*/
+
+    /*选项卡被选时中的字体色*/
     --tag-selected-color: #7fb19e;
+    --tag-selected-shadowcolor: rgb(7 53 47);
+    --tag-selected-shadow: 1px 1px 2px var(--tag-selected-shadowcolor),
+        -1px -1px 2px var(--tag-selected-shadowcolor),
+        1px -1px 2px var(--tag-selected-shadowcolor),
+        -1px 1px 2px var(--tag-selected-shadowcolor);
+
     /*菜单项右侧标题颜色与背景*/
     --title-color: #fff;
-    --title-bg: rgb(249, 184, 63);
-    /*菜单项，滑标滑过的效色*/
+    --title-bg: rgb(81 147 117);
+    /*菜单项，滑标滑过的效果，依次为：前景色、背景色、边线、阴影*/
     --node-hover-color: #eef5e8;
     --node-hover-bg: transparent;
     --node-hover-border: solid 1px rgba(160, 160, 160, 0.6);
+    --node-hover-shadow: none;
     /*菜单项，当前选中的颜色与背景色*/
     --node-curr-color: #fff;
     --node-curr-bg: transparent;
+    --node-curr-border: solid 1px rgb(163 159 159 / 80%);
+
+     /*查询面板，依次：背景色、内阴影、边框颜色、内容区背景*/
+     --querypanel-title-color: rgb(255 255 255);
+     --querypanel-bg-color: rgb(5 145 106);
+     --querypanel-bg-shadow: rgb(8 8 8 / 20%);
+     --querypanel-border-color: #829a9f;
+     --querypanel-area-bgcolor: rgb(6 18 12 / 51%);
+      /*查询面板中的文字颜色*/
+      --querypanel-treetit-color: rgb(251 251 251);
+      --querypanel-treenode-color: #c3c3c3;
+     --querypanel-treenode-shadow: none;
 }
 
 .treemenu tree_area tree_tit {
@@ -29,4 +47,8 @@
     border: var(--node-hover-border);
     background: var(--node-hover-bg);
     box-shadow: rgba(255, 255, 255, .3) 0px 0px 10px inset;
+}
+.treemenu tree_box.current>tree-node::before {
+    box-shadow: none !important;
+    background-color: rgba(255, 255, 255, 0.2) !important;
 }

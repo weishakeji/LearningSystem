@@ -1,6 +1,7 @@
 (function() {
     //所有风格
     var list = top.window.$skins.list;
+    //按名称排序
     list.sort(function(a, b) {
         return a.tag > b.tag;
     });
@@ -13,7 +14,7 @@
         box.attr('tag', skin.tag);
         box.add('name').html(skin.name);
         box.add('img').attr('src', skin.path + '/logo.jpg');
-        if (skin.tag == curr) {
+        if (skin.tag.toLowerCase() == curr.toLowerCase()) {
             box.addClass('curr');
         }
         //点击切换风格
@@ -22,7 +23,7 @@
             while (n.tagName.toLowerCase() != 'skin') n = n.parentNode;
             var box = $dom(n);
             //当前点击的风格名称
-            var tag = box.attr('tag');
+            var tag = box.attr('tag').toLowerCase();
             //当前使用的风格
             var curr = top.window.$skins.current();
             if (curr == tag && !top.window.$skins.isnight()) return;

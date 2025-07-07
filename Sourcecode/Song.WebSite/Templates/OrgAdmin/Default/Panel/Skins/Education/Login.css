@@ -1,0 +1,82 @@
+﻿@charset "utf-8";
+
+.loginbox {
+    /*边线、阴影、背景色、渐变背景、圆角*/
+    --login-border: 1px solid #fff;
+    --login-shadow: 0px 0px 25px #333;
+    --login-bgcolor: rgba(243, 240, 240, 0.6);
+    --login-background: linear-gradient(to bottom,
+            rgba(255, 255, 255, .2) 0%,
+            rgba(255, 255, 255, .6) 6%,
+            rgba(255, 255, 255, 0.9) 70%,
+            rgba(255, 255, 255, .2) 100%);
+    --login-radius: 5px;
+
+    /*标题,依次为：背景色，阴影色，图标大小，字体大小*/
+    --login-tit-color: rgb(254 244 244);
+    --login-tit-shadow: 1px 1px 3px #999;
+    --login-tit-iconfont: 42px;
+    --login-tit-txtfont: 28px;
+
+    /*底部信息栏*/
+    --login-footbar-color: #999;
+
+    /*主题内容区,依次为：输入框的颜色、背景、边线*/
+    --login-body-color: #eee;
+    --login-body-bgcolor: rgba(255, 255, 255, .3);
+    --login-body-boder: solid 1px #999;
+
+    /*滑块,依次：前景色、背景色，滑块前景色、滑块背景色，滑道背景色*/
+    --login-drag-color: #999;
+    --login-drag-bgcolor: #eee;
+    --login-dragbox-color: #fff;
+    --login-dragbox-bgcolor: #bbb;
+    --login-dragslide-bgcolor: #aaa;
+    /*滑块成功*/
+    --login-drag-complete-color: rgba(83, 204, 83, 1);
+    --login-drag-complete-bgcolor: linear-gradient(to bottom,
+            rgba(83, 204, 83, 1) 0%,
+            rgba(51, 162, 51, 1) 100%);    
+
+    /*登录按钮*/
+    --login-btn-color: #fff;
+    --login-btn-border: solid 1px #fff;
+    --login-btn-background: linear-gradient(to bottom,
+            rgba(33, 161, 255, .5) 0%,
+            rgba(33, 161, 255, 0.9) 100%);
+    /*登录按钮，鼠标滑过*/
+    --login-btnhover-color: #fff;
+    --login-btnhover-border: solid 1px #fff;
+    --login-btnhover-background: linear-gradient(to bottom,
+            rgba(33, 161, 255, .2) 0%,
+            rgba(33, 161, 255, .6) 30%,
+            rgba(33, 161, 255, 0.9) 100%);
+    --login-btnhover-shadow: 0px 0px 10px rgba(9, 114, 191, .81);
+    /*登录按钮，鼠标点击*/
+    --login-btnactive-border: solid 1px #aaa;
+    --login-btnactive-background: linear-gradient(to bottom,
+            rgba(255, 255, 255, 0.952) 0%,
+            rgba(33, 161, 255, .6) 30%,
+            rgba(33, 161, 255, 0.9) 100%);
+}
+.loginbox {
+        background-color: transparent;
+        border: none;
+        box-shadow: none;
+        position: relative;
+        background: transparent;
+        
+}
+#login-area{
+        height: 400px;
+}
+.loginbox login_titlebar{
+        display: flex; 
+        justify-content: center; 
+        align-items: center; 
+        height: auto;
+}
+.loginbox login_tit{
+        width: auto;
+
+}

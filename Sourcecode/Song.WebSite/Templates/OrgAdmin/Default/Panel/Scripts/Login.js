@@ -89,7 +89,7 @@
         'title': function (obj, val, old) {
             if (obj.domtit) {
                 if (val != '')
-                    obj.domtit.find('login_tit').css('display','inline').html(val);
+                    obj.domtit.find('login_tit').css('display', 'inline').html(val);
                 else
                     obj.domtit.find('login_tit').hide();
             }
@@ -213,12 +213,15 @@
                     obj.dom.find('form.login_body').hide();
                     obj.dom.find('login_titlebar').hide();
                     obj.dom.find('div.slot').hide();
+                    obj.dom.find('login_footbar').hide();
                     obj.dom.find('div.login_loding').show();
                 } else {
                     obj.dom.find('form.login_body').show();
                     obj.dom.find('div.slot').show();
                     obj.dom.find('login_titlebar').show();
+                    obj.dom.find('login_footbar').show();
                     obj.dom.find('div.login_loding').hide();
+
                 }
             }
         }
