@@ -806,6 +806,11 @@
             box.pageboxcollect_boxsize();
         }, 300);
     };
+    //延迟关闭窗体
+    //参数：boxid窗口id,milli延迟的毫秒数
+    box.delayshut = function (boxid, milli) {
+
+    };
     //最大化
     box.toFull = function (boxid, smooth) {
         let ctrl = $ctrls.get(boxid);
@@ -1134,7 +1139,7 @@
         },
         hide: function () {
             let mask = $dom('pagebox_bg_mask');
-            if (mask.length < 1) return;            
+            if (mask.length < 1) return;
             mask.hide();
             $dom('body').removeClass('pagebox_overflow');
         },
@@ -1145,15 +1150,9 @@
         }
     };
     //屏幕有效宽度
-    box.availWidth = function () {
-        return document.documentElement.clientWidth;
-        return window.screen.availWidth;
-    };
+    box.availWidth = () => document.documentElement.clientWidth;
     //屏幕有效高度
-    box.availHeight = function () {
-        return document.documentElement.clientHeight;
-        return window.screen.availHeight;
-    };
+    box.availHeight = () => document.documentElement.clientHeight;
     //执行来源对象中的方法
     box.source = {
         //父级为选项卡时
