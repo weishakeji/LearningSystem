@@ -250,9 +250,7 @@ $ready(function () {
                             message: '操作成功!',
                             center: true
                         });
-                        window.setTimeout(function () {
-                            th.operateSuccess(isclose);
-                        }, 300);
+                        th.operateSuccess(isclose);
                     } else {
                         throw req.data.message;
                     }

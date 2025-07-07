@@ -176,10 +176,7 @@ $ready(function () {
                                     message: message,
                                     center: true
                                 });
-                                window.setTimeout(function () {
-                                    th.operateSuccess(isclose);
-                                }, 600);
-
+                                th.operateSuccess(isclose);
                             } else {
                                 throw req.data.message;
                             }

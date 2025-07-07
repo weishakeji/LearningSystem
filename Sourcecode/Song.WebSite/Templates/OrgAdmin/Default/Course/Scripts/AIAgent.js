@@ -60,7 +60,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                }).finally(() => setTimeout(() => th.loading_course = false, 1000));
+                }).finally(() => setTimeout(() => th.loading_course = false, 200));
             },
             //清理冗余的属性，仅保持当前form表单的属性，未在表单中的不提交到服务器
             remove_redundance: function (obj) {

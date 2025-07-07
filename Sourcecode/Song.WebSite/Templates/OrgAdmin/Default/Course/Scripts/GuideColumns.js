@@ -50,7 +50,7 @@
                         throw req.data.message;
                     }
                 }).catch(err => console.error(err))
-                    .finally(() => setTimeout(() => th.loading = false, 1000));
+                    .finally(() => th.loading = false);
             },
             //过滤树形
             filterNode: function (value, data) {
@@ -221,7 +221,7 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                }).finally(() => setTimeout(() => th.loading_sumbit = false, 1000));
+                }).finally(() => th.loading_sumbit = false);
             },
             //刷新上级列表
             fresh_parent: function (isclose) {

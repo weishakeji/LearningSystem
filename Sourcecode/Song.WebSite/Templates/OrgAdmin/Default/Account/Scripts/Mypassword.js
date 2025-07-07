@@ -57,17 +57,13 @@ $ready(function () {
                                     type: 'success',
                                     message: '修改成功!'
                                 });
-                                window.setTimeout(function () {
-                                    var name = $dom.trim(window.name);
-                                    if (window.top.$pagebox)
-                                        window.top.$pagebox.shut(name);
-                                }, 3000);
+                                if (window.top.$pagebox) window.top.$pagebox.delayshut(window.name, 1500);
                             } else {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
                             alert(err, '错误');
-                        }).finally(() => setTimeout(() => th.loading = false, 1000));
+                        }).finally(() => th.loading = false);
                     } else {
                         console.log('error submit!!');
                         return false;

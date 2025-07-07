@@ -126,9 +126,7 @@ $ready(function () {
                                     message: isclose ? '保存成功，并关闭！' : '保存当前编辑成功！',
                                     center: true
                                 });
-                                window.setTimeout(function () {
-                                    th.operateSuccess(isclose);
-                                }, 300);
+                               th.operateSuccess(isclose);
                             } else {
                                 throw req.data.message;
                             }

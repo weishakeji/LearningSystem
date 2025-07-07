@@ -169,13 +169,13 @@
                                     throw req.config.way + ' ' + req.data.message;
                                 }
                             }).catch(err => console.error(err))
-                                .finally(() => setTimeout(() => th.loading_query = 0, 1000));
+                                .finally(() => th.loading_query = 0);
                         }
                     } else {
                         throw req.data.message;
                     }
                 }).catch(err => console.error(err))
-                    .finally(() => setTimeout(() => th.loading_query = 0, 1000));
+                    .finally(() => th.loading_query = 0);
             }
         }
     });

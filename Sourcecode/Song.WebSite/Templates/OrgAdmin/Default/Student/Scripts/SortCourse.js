@@ -122,9 +122,7 @@ $ready([],
                                 message: '移除成功!',
                                 center: true
                             });
-                            th.$nextTick(function () {
-                                th.operateSuccess();
-                            });
+                            th.operateSuccess();
                         } else {
                             console.error(req.data.exception);
                             throw req.config.way + ' ' + req.data.message;

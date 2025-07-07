@@ -238,7 +238,7 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                }).finally(() => setTimeout(() => th.loading = false, 1000));
+                }).finally(() => th.loading = false);
             },
             //回调课程编辑（创建课程成功后，打开更详细的课程编辑界面）
             callback_modify: function (id) {

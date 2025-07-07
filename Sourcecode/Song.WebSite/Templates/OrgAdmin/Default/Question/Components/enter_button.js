@@ -75,9 +75,7 @@ Vue.component('enter_button', {
                         message: '操作成功!'
                     });
                     th.ischanged = false;
-                    window.setTimeout(function () {
-                        th.operateSuccess(isclose);
-                    }, 300);
+                    th.operateSuccess(isclose);
                 } else {
                     throw req.data.message;
                 }

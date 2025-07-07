@@ -157,7 +157,7 @@ $ready(function () {
                     }).catch(function (err) {
                         alert(err);
                         console.error(err);
-                    }).finally(() => setTimeout(() => th.loading.update = false, 1000));
+                    }).finally(() => th.loading.update = false);
             },
             //操作成功
             operateSuccess: function (isclose) {

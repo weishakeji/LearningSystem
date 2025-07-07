@@ -53,9 +53,7 @@ $ready(function () {
                                     type: 'success', center: true,
                                     message: isclose ? '保存成功，并关闭！' : '保存当前编辑成功！'
                                 });
-                                window.setTimeout(function () {
-                                    th.operateSuccess(isclose);
-                                }, 600);
+                                th.operateSuccess(isclose);
                             } else {
                                 throw req.data.message;
                             }

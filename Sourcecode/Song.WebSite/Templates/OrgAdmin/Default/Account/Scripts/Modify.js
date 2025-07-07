@@ -82,7 +82,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                }).finally(() => setTimeout(() => th.loading = false, 1000));
+                }).finally(() => th.loading = false);
             }
         },
     });

@@ -76,9 +76,7 @@ $ready(function () {
                                         message: '操作成功!',
                                         center: true
                                     });
-                                    window.setTimeout(function () {
-                                        th.operateSuccess();
-                                    }, 600);
+                                    th.operateSuccess(); 
                                 } else {
                                     throw req.data.message;
                                 }
