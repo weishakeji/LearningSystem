@@ -41,13 +41,13 @@ $ready(function () {
                                     message: '修改成功!',
                                     center: true
                                 });
-                                /*
+                               
                                  window.setTimeout(function () {
                                     var name = $dom.trim(window.name);
                                     if (window.top.$pagebox)
                                         window.top.$pagebox.shut(name);
-                                }, 3000);
-                                */
+                                }, 1000);
+                                
                             } else {
                                 throw req.data.message;
                             }

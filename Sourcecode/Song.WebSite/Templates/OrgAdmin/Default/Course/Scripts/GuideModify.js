@@ -77,6 +77,7 @@
             },
             guideEnter: function (formName, isclose) {
                 var th = this;
+                if (th.loading) return;
                 this.$refs[formName].validate((valid, fields) => {
                     if (valid) {
                         var obj = th.entity;
@@ -85,6 +86,7 @@
                             if (obj.Gc_UID.length > 0)
                                 obj.Gc_UID = obj.Gc_UID[obj.Gc_UID.length - 1];
                         }
+                        th.loading = true;
                         $api.post('Guide/' + (th.isadd ? 'Add' : 'Modify'), { 'entity': obj }).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
@@ -99,7 +101,7 @@
                             }
                         }).catch(function (err) {
                             alert(err);
-                        }).finally(() => { });
+                        }).finally(() => setTimeout(() => th.loading = false, 1000));
                     } else {
                         //未通过验证的字段
                         let field = Object.keys(fields)[0];

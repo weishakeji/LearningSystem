@@ -17,22 +17,15 @@
             loading_init: true
         },
         mounted: function () {
-            var th = this;
+            var th = this; th.form.couid = th.id;
             th.loading_init = true;
-            th.form.couid = th.id;
-            $api.put('Course/ForID', { 'id': this.id }).then(function (req) {
-                if (req.data.success) {
-                    var result = req.data.result;
-                    th.course = result;
-                    if (th.course) {
-                        //document.title += th.course.Cou_Name;
-                        th.getColumnsTree();
-                        th.handleCurrentChange(1);
-                    }
-                } else {
-                    console.error(req.data.exception);
-                    throw req.data.message;
-                }
+            $api.bat(
+                $api.put('Course/ForID', { 'id': th.id }),
+                $api.put('Guide/ColumnsTree', { 'couid': th.id, 'search': '', 'isuse': '' })
+            ).then(([cou, cols]) => {
+                th.course = cou.data.result;
+                th.cols = cols.data.result;
+                th.handleCurrentChange(1);
             }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
         },
@@ -68,6 +61,7 @@
             handleCurrentChange: function (index) {
                 if (index != null) this.form.index = index;
                 var th = this;
+                if (th.loading) return;
                 th.loading = true;
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 100;
@@ -162,6 +156,7 @@
                             message: '成功删除' + result + '条数据',
                             center: true
                         });
+                        th.loading = false;
                         th.handleCurrentChange();
                     } else {
                         throw req.data.message;
@@ -225,6 +220,7 @@
                                     message: '成功修改' + result + '个信息的状态!',
                                     center: true
                                 });
+                                th.loading = false;
                                 th.handleCurrentChange();
                                 th.$nextTick(() => loading.close());
                             } else {

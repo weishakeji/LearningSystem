@@ -39,6 +39,7 @@
             //获取分类的数据，为树形数据
             getColumnsTree: function () {
                 var th = this;
+                if (th.loading) return;
                 th.loading = true;
                 $api.put('Guide/ColumnsTree', { 'couid': th.couid, 'search': '', 'isuse': '' }).then(function (req) {
                     th.loading = false;
@@ -49,7 +50,7 @@
                         throw req.data.message;
                     }
                 }).catch(err => console.error(err))
-                    .finally(() => th.loading = false);
+                    .finally(() => setTimeout(() => th.loading = false, 1000));
             },
             //过滤树形
             filterNode: function (value, data) {
@@ -62,6 +63,7 @@
             //分类的拖动改变顺序
             handleDragEnd(draggingNode, dropNode, dropType, ev) {
                 var th = this;
+                if (th.loading_sumbit) return;
                 th.loading_sumbit = true;
                 var arr = th.tree2array(this.columns);
                 $api.post('Guide/ColumnsUpdateTaxis', { 'items': arr }).then(function (req) {
@@ -118,6 +120,8 @@
                 var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
+                        if (th.loading_sumbit) return;
+                        th.loading_sumbit = true;
                         var apipath = 'Guide/Columns' + (th.columnsObject == null ? 'Add' : 'Modify');
                         var obj = th.column_form;
                         obj['Cou_ID'] = th.couid;
@@ -142,7 +146,7 @@
                             }
                         }).catch(function (err) {
                             alert(err);
-                        }).finally(() => { });
+                        }).finally(() => th.loading_sumbit = false);
                     } else {
                         console.log('error submit!!');
                         return false;
@@ -153,7 +157,8 @@
             columnState: function (data, field) {
                 data[field] = !data[field];
                 var th = this;
-                this.loadingid = data.Gc_ID;
+                if (th.loadingid > 0) return;
+                th.loadingid = data.Gc_ID;
                 $api.post('Guide/ColumnsModify', { 'entity': data }).then(function (req) {
                     if (req.data.success) {
                         th.$message({
@@ -197,6 +202,7 @@
             //删除课程公告的分类
             columnDelete: function (data) {
                 var th = this;
+                if (th.loading_sumbit) return;
                 th.loading_sumbit = true;
                 $api.delete('Guide/ColumnsDelete', { 'id': data.Gc_ID }).then(function (req) {
                     if (req.data.success) {
@@ -215,7 +221,7 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                }).finally(() => th.loading_sumbit = false);
+                }).finally(() => setTimeout(() => th.loading_sumbit = false, 1000));
             },
             //刷新上级列表
             fresh_parent: function (isclose) {

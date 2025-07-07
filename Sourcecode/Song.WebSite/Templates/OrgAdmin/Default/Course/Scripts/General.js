@@ -61,26 +61,25 @@
 
         },
         watch: {
-           
+
         },
-        methods: {           
+        methods: {
             //获取课程实体
             getCourse: function () {
                 var th = this;
                 if (th.id == '' || th.id == null) return;
                 $api.put('Course/ForID', { 'id': th.id }).then(function (req) {
-                    th.loading_init = false;
                     th.loading_obj.close();
                     if (req.data.success) {
                         th.entity = req.data.result;
-                        if (th.$refs['subject']) th.$refs['subject'].setsbj(th.entity.Sbj_ID);                       
+                        if (th.$refs['subject']) th.$refs['subject'].setsbj(th.entity.Sbj_ID);
                     } else {
                         throw '未查询到数据';
                     }
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                }).finally(() => th.loading = false);
+                }).finally(() => th.loading_init = false);
             },
             btnEnter: function (formName) {
                 var th = this;
@@ -91,11 +90,11 @@
                             cancelButtonText: '取消',
                             type: 'warning'
                         }).then(() => {
-                            var obj = th.clone(th.entity);                          
+                            var obj = th.clone(th.entity);
                             //接口参数，如果有上传文件，则增加file
                             var para = { 'course': obj };
                             if (th.upfile != null) para['file'] = th.upfile;
-                            // console.log(obj);                           
+                            if (th.loading) return;
                             th.loading = true;
                             $api.post('Course/Modify', para).then(function (req) {
                                 if (req.data.success) {
@@ -111,7 +110,7 @@
                                 }
                             }).catch(function (err) {
                                 alert(err);
-                            }).finally(() => th.loading = false);
+                            }).finally(() => setTimeout(() => th.loading = false, 1000));
                         });
                     } else {
                         console.log('error submit!!');
@@ -135,7 +134,7 @@
                     const index = props.findIndex(item => item == k);
                     if (index >= 0) obj[k] = entity[k];
                 }
-                obj['Cou_ID'] = this.id;               
+                obj['Cou_ID'] = this.id;
                 return obj;
             },
             //调用父级方法
