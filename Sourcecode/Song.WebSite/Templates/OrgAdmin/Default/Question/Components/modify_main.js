@@ -95,7 +95,7 @@ Vue.component('modify_main', {
     methods: {
         //获取试题信息
         getEntity: function () {
-            var th = this;
+            var th = this;           
             th.loading = true;
             var promise = new Promise((resolve, reject) => {
                 if (th.isadd) {

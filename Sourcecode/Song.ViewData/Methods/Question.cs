@@ -66,6 +66,9 @@ namespace Song.ViewData.Methods
         [HtmlClear(Not = "entity")]
         public long Add(Song.Entities.Questions entity)
         {
+            //如果存在，不保存
+            Song.Entities.Questions old = Business.Do<IQuestions>().QuesSingle(entity.Qus_ID);
+            if (old != null) return old.Qus_ID;
             //处理单选、多选的选项
             if (entity.Qus_Type == 1 || entity.Qus_Type == 2 || entity.Qus_Type == 5)
             {

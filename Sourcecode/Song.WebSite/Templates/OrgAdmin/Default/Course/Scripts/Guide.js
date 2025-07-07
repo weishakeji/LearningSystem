@@ -17,14 +17,15 @@
             loading_init: true
         },
         mounted: function () {
-            var th = this; th.form.couid = th.id;
+            var th = this; 
+            th.form.couid = th.id;
             th.loading_init = true;
             $api.bat(
                 $api.put('Course/ForID', { 'id': th.id }),
                 $api.put('Guide/ColumnsTree', { 'couid': th.id, 'search': '', 'isuse': '' })
             ).then(([cou, cols]) => {
                 th.course = cou.data.result;
-                th.cols = cols.data.result;
+                th.columns = cols.data.result;
                 th.handleCurrentChange(1);
             }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
