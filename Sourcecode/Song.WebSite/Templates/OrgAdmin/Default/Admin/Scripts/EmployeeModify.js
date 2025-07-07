@@ -114,8 +114,9 @@ $ready(function () {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
+                            console.error(err);
                             alert(err);
-                        }).finally(() => th.loading = false);
+                        }).finally(() => setTimeout(() => th.loading = false, 1000));
                     } else {
                         //未通过验证的字段
                         let field = Object.keys(fields)[0];

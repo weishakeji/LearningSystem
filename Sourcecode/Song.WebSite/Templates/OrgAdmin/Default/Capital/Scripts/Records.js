@@ -131,6 +131,7 @@
             //查询订单
             queryOrder: function (detail) {
                 var th = this;
+                if (th.loading_query > 0) return;
                 th.loading_query = detail.Ma_ID;
                 var query = { 'serial': detail.Ma_Serial };
                 $api.get('Pay/Interface', { 'id': detail.Pai_ID }).then(function (req) {
@@ -168,13 +169,13 @@
                                     throw req.config.way + ' ' + req.data.message;
                                 }
                             }).catch(err => console.error(err))
-                                .finally(() => th.loading_query = 0);
+                                .finally(() => setTimeout(() => th.loading_query = 0, 1000));
                         }
                     } else {
                         throw req.data.message;
                     }
                 }).catch(err => console.error(err))
-                    .finally(() => th.loading_query = 0);
+                    .finally(() => setTimeout(() => th.loading_query = 0, 1000));
             }
         }
     });

@@ -32,10 +32,11 @@ $ready(function () {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
+                        if (th.loading) return;
                         th.loading = true;
                         $api.post('Admin/ChangeSafeQustion',
                             { 'ques': th.account.Acc_Qus, 'ans': th.account.Acc_Ans })
-                            .then(function (req) {                             
+                            .then(function (req) {
                                 if (req.data.success) {
                                     var result = req.data.result;
                                     th.$message({
@@ -52,7 +53,7 @@ $ready(function () {
                                 }
                             }).catch(function (err) {
                                 alert(err, '错误');
-                            }).finally(() => th.loading = false);
+                            }).finally(() => setTimeout(() => th.loading = false, 1000));
                     } else {
                         console.log('error submit!!');
                         return false;

@@ -10,7 +10,7 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <el-form ref="course" :model="course" :rules="rules" v-loading="loading" @submit.native.prevent
+        <el-form ref="course" :model="course" :rules="rules" v-loading="loading_course || loading" :disabled="loading_course || loading" @submit.native.prevent
             label-width="80px">
             <el-form-item label="" prop="Cou_EnabledAI">
                 <el-switch v-model="course.Cou_EnabledAI" @change="updateCourse()"

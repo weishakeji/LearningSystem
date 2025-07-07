@@ -16,10 +16,10 @@ $ready(function () {
                 end: ''         //结束时间               
             },
         },
-        watch: { 
+        watch: {
         },
         mounted: function () {
-          
+
             var th = this;
             $api.get('Organization/Current').then(function (req) {
                 if (req.data.success) {
@@ -64,6 +64,7 @@ $ready(function () {
             btnOutput: function () {
                 if (this.loading) return;
                 var th = this;
+                if (th.loading) return;
                 th.loading = true;
                 $api.get('Money/ExcelOutput', this.form).then(function (req) {
                     if (req.data.success) {
@@ -82,7 +83,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                }).finally(() => th.loading = false);
+                }).finally(() => setTimeout(() => th.loading = false, 1000));
             },
             //获取文件列表
             getFiles: function () {

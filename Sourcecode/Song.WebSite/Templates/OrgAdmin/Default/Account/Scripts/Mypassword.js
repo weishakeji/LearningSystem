@@ -48,6 +48,7 @@ $ready(function () {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
+                        if (th.loading) return;
                         th.loading = true;
                         $api.post('Admin/ChangePw', { 'oldpw': th.form.oldpw, 'newpw': th.form.newpw }).then(function (req) {
                             if (req.data.success) {
@@ -66,7 +67,7 @@ $ready(function () {
                             }
                         }).catch(function (err) {
                             alert(err, '错误');
-                        }).finally(() => th.loading = false);
+                        }).finally(() => setTimeout(() => th.loading = false, 1000));
                     } else {
                         console.log('error submit!!');
                         return false;

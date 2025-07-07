@@ -31,6 +31,7 @@ $ready(function () {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
+                        if (th.loading) return;
                         th.loading = true;
                         $api.post('Admin/Modify', { 'acc': th.account }).then(function (req) {
                             if (req.data.success) {
@@ -52,7 +53,7 @@ $ready(function () {
                             }
                         }).catch(function (err) {
                             alert(err, '错误');
-                        }).finally(() => th.loading = false);
+                        }).finally(() => setTimeout(() => th.loading = false, 1000));
                     } else {
                         console.log('error submit!!');
                         return false;
@@ -69,6 +70,7 @@ $ready(function () {
             //图片上传
             filechange: function (file) {
                 var th = this;
+                if (th.loading) return;
                 th.loading = true;
                 $api.post('Admin/UpPhoto', { 'file': file, 'accid': th.account.Acc_Id }).then(function (req) {
                     if (req.data.success) {
@@ -86,7 +88,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                }).finally(() => th.loading = false);
+                }).finally(() => setTimeout(() => th.loading = false, 1000));
             }
         },
     });

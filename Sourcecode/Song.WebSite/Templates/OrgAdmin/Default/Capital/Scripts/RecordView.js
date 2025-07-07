@@ -91,6 +91,7 @@ $ready(function () {
             //确认金额的具体方法
             funcConfirm: function () {
                 var th = this;
+                if (th.loading) return;
                 th.loading = true;
                 $api.post('Money/ConfirmSerial', { 'serial': th.entity.Ma_Serial }).then(function (req) {
                     if (req.data.success) {
@@ -107,7 +108,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                }).finally(() => th.loading = false);
+                }).finally(() => setTimeout(() => th.loading = false, 1000));
             },
             //复制到粘贴板
             copytext: function (val, title) {

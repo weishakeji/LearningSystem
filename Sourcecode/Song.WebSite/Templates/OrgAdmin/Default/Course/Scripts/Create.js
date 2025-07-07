@@ -83,7 +83,7 @@
                 }).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
-                        var datas = req.data.result;                      
+                        var datas = req.data.result;
                         th.calcSerial(datas);
                         datas = th.clacCount(datas);
                         th.subjects = datas;
@@ -132,7 +132,7 @@
                     childarr[i].serial = (lvl ? lvl : '') + (i + 1) + '.';
                     childarr[i]['CourseCount'] = 0;
                     childarr[i]['QuesCount'] = 0;
-                    childarr[i]['TestCount'] = 0;                  
+                    childarr[i]['TestCount'] = 0;
                     this.calcSerial(childarr[i], childarr[i].serial);
                 }
             },
@@ -217,6 +217,7 @@
             //创建课程
             create_course: function () {
                 var th = this;
+                if (th.loading) return;
                 th.loading = true;
                 var para = $api.clone(th.form);
                 if (th.upfile != null) para.file = th.upfile;
@@ -237,7 +238,7 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                }).finally(() => th.loading = false);
+                }).finally(() => setTimeout(() => th.loading = false, 1000));
             },
             //回调课程编辑（创建课程成功后，打开更详细的课程编辑界面）
             callback_modify: function (id) {

@@ -7,6 +7,7 @@ $ready(function () {
             rules: {
 
             },
+            loading_course: false,
             loading: false,
         },
         mounted: function () {
@@ -38,6 +39,7 @@ $ready(function () {
             updateCourse: function () {
                 if (JSON.stringify(this.course) == '{}') return;
                 var th = this;
+                if (th.loading_course) return;
                 th.loading_course = true;
                 //去除不相关属性
                 var obj = th.remove_redundance(th.course);
@@ -58,7 +60,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                }).finally(() => th.loading_course = false);
+                }).finally(() => setTimeout(() => th.loading_course = false, 1000));
             },
             //清理冗余的属性，仅保持当前form表单的属性，未在表单中的不提交到服务器
             remove_redundance: function (obj) {

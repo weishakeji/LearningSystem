@@ -55,9 +55,10 @@ $ready(function () {
             btnEnter: function (formName, isclose) {
                 if (!isclose && this.isadd) return;
                 var th = this;
-                if (this.loading) return;
+                if (this.loading) return;               
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
+                        th.loading = true;
                         var apiurl = this.id == '' ? "Position/Add" : 'Position/Modify';
                         $api.post(apiurl, { 'posi': th.entity }).then(function (req) {
                             if (req.data.success) {
@@ -71,7 +72,7 @@ $ready(function () {
                             }
                         }).catch(function (err) {
                             alert(err);
-                        }).finally(() => { });
+                        }).finally(() => setTimeout(() => th.loading = false, 1000));
                     } else {
                         console.log('error submit!!');
                         return false;

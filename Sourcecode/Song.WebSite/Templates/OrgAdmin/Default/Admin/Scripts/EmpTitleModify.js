@@ -62,6 +62,7 @@ $ready(function () {
                     if (valid) {
                         var th = this;
                         if (th.loading) return;
+                        //console.error(th.loading);
                         th.loading = true;
                         var apiurl = this.id == '' ? "Admin/TitleAdd" : 'Admin/TitleModify';
                         $api.post(apiurl, { 'entity': th.entity }).then(function (req) {
@@ -75,8 +76,9 @@ $ready(function () {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
+                            console.error(err);
                             alert(err, '错误');
-                        }).finally(() => th.loading = false);
+                        }).finally(() => setTimeout(() => th.loading = false, 1000));
                     } else {
                         console.log('error submit!!');
                         return false;

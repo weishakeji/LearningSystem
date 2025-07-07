@@ -39,7 +39,7 @@ $ready(function () {
                 th.organ = organ.data.result;
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
-                th.position= posi.data.result;
+                th.position = posi.data.result;
                 th.employelist(1);
                 th.getPosiAccount();
             }).catch(function (err) {
@@ -139,6 +139,7 @@ $ready(function () {
                     arr.push(acc[j].Acc_Id);
                 }
                 var th = this;
+                if (th.loading.update) return;
                 th.loading.update = true;
                 $api.post('Position/UpdateEmp4Posi', { 'datas': arr, 'posid': th.id })
                     .then(function (req) {
@@ -156,7 +157,7 @@ $ready(function () {
                     }).catch(function (err) {
                         alert(err);
                         console.error(err);
-                    }).finally(() => th.loading.update = false);
+                    }).finally(() => setTimeout(() => th.loading.update = false, 1000));
             },
             //操作成功
             operateSuccess: function (isclose) {
