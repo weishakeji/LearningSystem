@@ -41,19 +41,13 @@ $ready(function () {
                                     message: '修改成功!',
                                     center: true
                                 });
-                               
-                                 window.setTimeout(function () {
-                                    var name = $dom.trim(window.name);
-                                    if (window.top.$pagebox)
-                                        window.top.$pagebox.shut(name);
-                                }, 1000);
-                                
+                                if (window.top.$pagebox) window.top.$pagebox.delayshut(window.name, 1500);
                             } else {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
                             alert(err, '错误');
-                        }).finally(() => setTimeout(() => th.loading = false, 1000));
+                        }).finally(() => th.loading = false);
                     } else {
                         console.log('error submit!!');
                         return false;

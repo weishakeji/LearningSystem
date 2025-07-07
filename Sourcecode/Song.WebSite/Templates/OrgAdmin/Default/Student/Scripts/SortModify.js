@@ -96,6 +96,7 @@ $ready(function () {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
+                        if (th.loading) return;
                         th.loading = true;
                         var apipath = 'Account/Sort' + (th.id == '' ? 'add' : 'Modify');
                         $api.post(apipath, { 'entity': th.entity }).then(function (req) {
@@ -103,11 +104,9 @@ $ready(function () {
                                 var result = req.data.result;
                                 th.$notify({
                                     type: 'success', position: 'bottom-left',
-                                    message: isclose ? '保存成功，并关闭！' : '保存当前编辑成功！'                                   
+                                    message: isclose ? '保存成功，并关闭！' : '保存当前编辑成功！'
                                 });
-                                window.setTimeout(function () {
-                                    th.operateSuccess(isclose);
-                                }, 600);
+                                th.operateSuccess(isclose);
                             } else {
                                 throw req.data.message;
                             }

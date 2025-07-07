@@ -497,6 +497,23 @@
     <Content Include="Templates\OrgAdmin\Default\Images\学员中心-mobi.png" />
     <Content Include="Templates\OrgAdmin\Default\Images\学员中心-web.png" />
     <Content Include="Templates\OrgAdmin\Default\Images\试题练习%28mobi%29.png" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Skins\Admin2025\Admin.css" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Skins\Admin2025\bg.jpg" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Skins\Admin2025\dropmenu.css" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Skins\Admin2025\Login.css" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Skins\Admin2025\logo.jpg" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Skins\Admin2025\pagebox.css" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Skins\Admin2025\tabs.css" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Skins\Admin2025\treemenu.css" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Skins\Admin2025\verticalbar.css" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Skins\Education\Login.css" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Skins\Win10\Login.css" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Skins\Win7\Login.css" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Skins\_Night\Login.css" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Styles\Admin.css" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Styles\dropmenu.css" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Styles\pagebox.css" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Styles\verticalbar.css" />
     <Content Include="Templates\OrgAdmin\Default\Scripts\StartBox.js" />
     <Content Include="Templates\OrgAdmin\Default\StartBox.html" />
     <Content Include="Templates\OrgAdmin\Default\Capital\AccountMoney.html" />
@@ -3500,6 +3517,9 @@
     <Content Include="Utilities\jsontreejs\package.json" />
     <Content Include="Utilities\jsontreejs\README.md" />
     <Content Include="Utilities\jsontreejs\themes\.DS_Store" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Skins\Admin2025\intro.json" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Datas\usermenu.json" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Datas\vbar.json" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -34,7 +34,7 @@
 
     /*内容区，依次为：背景色、遮罩色*/
     --pbox-content-bgcolor: transparent;
-    --pbox-content-mask: rgba(255, 255, 255, 0.3);
+    --pbox-content-mask: rgba(255, 255, 255, 0.2);
 
     /*窗体管理按钮,依次为：图标前景色，阴影色、窗体数的颜色*/
     --pbox-collect-color: #333;
@@ -53,8 +53,8 @@
     --pbox-min-hoverbg: rgba(161, 197, 247, 0.8);
     --pbox-min-border: rgba(62, 63, 63, 0.3);
     --pbox-min-hovershadow: rgba(155, 155, 155, 0.3);
-    --pbox-min-btncolor:#fff;
-    --pbox-min-btnbgcolor:rgb(245, 45, 45);
+    --pbox-min-btncolor: #fff;
+    --pbox-min-btnbgcolor: rgb(245, 45, 45);
 }
 
 
@@ -467,6 +467,7 @@
     width: calc(100% - 8px - 2px);
     height: calc(100% - 28px - 3px - 2px);
     background-color: var(--pbox-content-mask);
+   
     bottom: 4px;
     left: 5px;
     z-index: 4;
@@ -476,7 +477,7 @@
 
 /*正在拖动窗体时，显示遮罩*/
 
-.pagebox_drag pagebox_mask {
+.pagebox_drag pagebox_mask, .pagebox_shutting pagebox_mask {
     display: block !important;
 }
 

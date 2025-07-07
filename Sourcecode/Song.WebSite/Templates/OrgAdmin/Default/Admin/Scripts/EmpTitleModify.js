@@ -78,7 +78,7 @@ $ready(function () {
                         }).catch(function (err) {
                             console.error(err);
                             alert(err, '错误');
-                        }).finally(() => setTimeout(() => th.loading = false, 1000));
+                        }).finally(() => th.loading = false);                      
                     } else {
                         console.log('error submit!!');
                         return false;

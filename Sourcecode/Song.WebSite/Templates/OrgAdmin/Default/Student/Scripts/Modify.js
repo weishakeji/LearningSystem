@@ -182,6 +182,7 @@ $ready(function () {
                 var th = this;
                 this.$refs[formName].validate((valid, fields) => {
                     if (valid) {
+                        if (th.loading) return;
                         th.loading = true;
                         var apipath = th.id == '' ? api = 'Account/add' : 'Account/Modify';
                         if (th.id == '') th.account.Org_ID = th.organ.Org_ID;
@@ -197,9 +198,7 @@ $ready(function () {
                                     type: 'success', position: 'bottom-left',
                                     message: isclose ? '保存成功，并关闭！' : '保存当前编辑成功！'
                                 });
-                                window.setTimeout(function () {
-                                    th.operateSuccess(isclose);
-                                }, 600);
+                                th.operateSuccess(isclose);
                             } else {
                                 throw req.data.message;
                             }

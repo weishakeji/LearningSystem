@@ -448,6 +448,7 @@
                     width: ctrl.dom.width(), //窗体宽高
                     height: ctrl.dom.height()
                 }
+                //当处于拖动时，pagebox_drag里的pagebox_mask不显示（在css中实现）
                 ctrl.dom.addClass('pagebox_drag');
                 //设置当前窗体为焦点窗
                 box.focus(ctrl.id);
@@ -771,6 +772,7 @@
         return ctrl.obj;
     };
     //关闭窗体
+    //boxid:窗体的id
     box.shut = function (boxid) {
         let ctrl = $ctrls.get(boxid);
         if (!ctrl) return;
@@ -778,10 +780,13 @@
         let t = ctrl.obj.trigger('shut');
         if (!t) return;
         //执行关闭窗体的一系列代码
-        ctrl.dom.css('transition', 'opacity 0.3s');
+        ctrl.dom.addClass('pagebox_shutting');  //关闭中，内部遮罩显示（css中实现）后，窗体禁止点击
+        let takemilli = 300;
+        ctrl.dom.css('transition', 'all ' + String(takemilli / 1000) + 's');
+        ctrl.dom.css('transform', 'scale(0.4)');
         ctrl.dom.css('opacity', 0);
         ctrl.obj.domin.css('opacity', 0);
-        box.mask.hide();    //关闭遮罩
+        box.mask.hide();    //关闭遮罩 
         setTimeout(function () {
             ctrl.remove();
             ctrl.obj.domin.remove();
@@ -801,12 +806,21 @@
             }
             //子级
             let childs = ctrl.obj.getChilds();
-            for (let i = 0; i < childs.length; i++) {
-                box.shut(childs[i].id);
-            }
+            for (let i = 0; i < childs.length; i++)box.shut(childs[i].id);
             box.total(-1);
             box.pageboxcollect_boxsize();
-        }, 300);
+        }, takemilli);
+    };
+    //延迟关闭窗体
+    //boxid:窗体的id
+    //milli:延迟关闭的时间，默认300
+    box.delayshut = function (boxid, milli) {
+        let ctrl = $ctrls.get(boxid);
+        if (!ctrl) return;
+        //执行关闭窗体的一系列代码
+        ctrl.dom.addClass('pagebox_shutting');  //关闭中，内部遮罩显示（css中实现）后，窗体禁止点击
+        milli = milli == null || milli <= 0 ? 100 : milli;
+        setTimeout(() => box.shut(boxid), milli);
     };
     //最大化
     box.toFull = function (boxid, smooth) {
@@ -1181,7 +1195,7 @@
                     }
                 }
             }
-            if (close) window.setTimeout(() => $pagebox.shut(name), 500);
+            if (close) $pagebox.delayshut(name, 1500);
         },
         //父级为pagebox
         box: function (name, func, close) {
@@ -1189,7 +1203,7 @@
             let pbox = box.parent(name);
             if (pbox == null) return;
             this._emit_func(pbox, func, close);
-            if (close) window.setTimeout(() => $pagebox.shut(name), 500);
+            if (close) $pagebox.delayshut(name, 1500);
         },
         //查找自身
         self: function (name, func, close) {
@@ -1205,7 +1219,7 @@
             let pbox = box.parent(name);
             while (pbox.parent != null) pbox = box.parent(pbox.attr.pid);
             this._emit_func(pbox, func);
-            if (close) window.setTimeout(() => $pagebox.shut(name), 500);
+            if (close) $pagebox.delayshut(name, 1500);
         },
         //执行窗体内页面的js方法
         _emit_func: function (box, func) {

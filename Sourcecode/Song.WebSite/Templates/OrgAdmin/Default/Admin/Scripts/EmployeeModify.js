@@ -116,7 +116,7 @@ $ready(function () {
                         }).catch(function (err) {
                             console.error(err);
                             alert(err);
-                        }).finally(() => setTimeout(() => th.loading = false, 1000));
+                        }).finally(() => th.loading = false);
                     } else {
                         //未通过验证的字段
                         let field = Object.keys(fields)[0];
