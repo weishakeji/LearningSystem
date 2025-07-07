@@ -71,9 +71,10 @@ namespace Song.ViewData.Methods
             JArray jarr = new JArray();
             //开始验证
             Song.Entities.LearningCard card = Business.Do<ILearningCard>().CardCheck(code);
-            Business.Do<ILearningCard>().CardUse(card, this.User);
-            //输出关联的课程
-            List<Song.Entities.Course> courses = Business.Do<ILearningCard>().CoursesForCard(card.Lc_Code, card.Lc_Pw);
+            if (card == null) throw new Exception("无效的卡号");
+            //使用学习卡，并输出关联的课程
+            List<Song.Entities.Course> courses=Business.Do<ILearningCard>().CardUse(card, this.User);
+            if (courses == null) throw new Exception("当前学习卡未关联课程");
             for (int i = 0; i < courses.Count; i++)
             {
                 Song.Entities.Course c = courses[i];
