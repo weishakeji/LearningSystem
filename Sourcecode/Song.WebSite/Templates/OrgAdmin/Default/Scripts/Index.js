@@ -28,7 +28,7 @@ $ctrljs(function () {
         //皮肤设置
         window.$skins.setup('', function (skin) {
             if (skin == null) return;
-            //console.error(skin.bgpage);
+            console.log(skin);
             //设置登录页的背景动画
             $dom("#backgroup_iframe").attr("src", skin.bgpage);
         });
@@ -52,9 +52,9 @@ window.$loyout = function (platinfo, org) {
         //width: '320px',
         title: platinfo.title,
         buttontxt: '登  录',
-        company: '微厦科技',
-        website: 'http://www.weishakeji.net',
-        tel: '400 6015615'
+        //company: '微厦科技',
+        //website: 'http://www.weishakeji.net',
+        //tel: '400 6015615'
     });
     //自定义验证
     window.login.verify([{
@@ -215,7 +215,7 @@ window.$succeeded = function (result) {
         default: {
             title: '启始页',
             path: '机构管理,启始页',
-            //url: '/admin/start',
+            url: 'start',
             ico: 'a020'
         }
     });

@@ -129,16 +129,16 @@
             }
         },
         'user': function (obj, val, old) {
-            if (obj.dom) obj.dom.find('input[name=\'login_user\']').val(val);
+            if (obj.dom) obj.dom.find('input[name^=login_user]').val(val);
             obj.dragfinish = false;
         },
         'pw': function (obj, val, old) {
-            if (obj.dom) obj.dom.find('input[name=\'login_pw\']').val(val);
+            if (obj.dom) obj.dom.find('input[name^=login_pw]').val(val);
             obj.dragfinish = false;
         },
         'vcode': function (obj, val, old) {
             if (val == old) return;
-            if (obj.dom) obj.dom.find('input[name=\'login_vcode\']').val(val);
+            if (obj.dom) obj.dom.find('input[name^=login_vcode]').val(val);
         },
         //验证码的base64编码
         'vcodebase64': function (obj, val, old) {
@@ -192,7 +192,7 @@
                 }, 1000);
                 obj.trigger('dragfinish');
                 obj.vcode = '';
-                obj.dom.find('input[name=\'login_vcode\']').focus().parent().removeClass('login_error');
+                obj.dom.find('input[name^=\'login_vcode\']').focus().parent().removeClass('login_error');
                 elements.show();
                 //隐藏滑道，渐隐
                 obj.dom.find('slideway').css({ 'transition': 'width 0.3s', 'width': '0px' });
@@ -238,9 +238,9 @@
         this.pw = this._pw;
         this.loading = this._loading;
         this.inputs = {
-            user: this.dom.find('input[type=text][name=login_user]'),
-            pw: this.dom.find('input[type=password][name=login_pw]'),
-            vcode: this.dom.find('input[type=number][name=login_vcode]')
+            user: this.dom.find('input[type=text][name^=login_user]'),
+            pw: this.dom.find('input[type=password][name^=login_pw]'),
+            vcode: this.dom.find('input[type=number][name^=login_vcode]')
         }
         var th = this;
         window.setTimeout(function () {
@@ -272,12 +272,12 @@
             obj.domtit.add('login_tit').html(obj.title);
         },
         body: function (obj) {
-            obj.dombody = obj.dom.add('form').addClass('login_body').attr('autocomplete','off');
+            obj.dombody = obj.dom.add('form').addClass('login_body').attr('autocomplete', 'off');
             //账号
             var user = obj.dombody.add('login_row');
             user.addClass('login_user').add('input').attr({
                 'type': 'text',
-                'name': 'login_user',
+                'name': 'login_user_' + new Date().getTime(),
                 'autocomplete': 'off',
                 'placeholder': '账号'
             });
@@ -285,7 +285,7 @@
             var pw = obj.dombody.add('login_row');
             pw.addClass('login_pw').add('input').attr({
                 'type': 'password',
-                'name': 'login_pw',
+                'name': 'login_pw_' + new Date().getTime(),
                 'autocomplete': 'off',
                 'placeholder': '密码'
             });
@@ -294,7 +294,7 @@
             code.add('img').addClass('vcode_img');
             code.addClass('login_code').add('input').attr({
                 'type': 'number',
-                'name': 'login_vcode',
+                'name': 'login_vcode_' + new Date().getTime(),
                 'autocomplete': 'off',
                 'maxlength': obj.vcodelen,
                 'placeholder': '验证码'
@@ -415,7 +415,7 @@
                 //触发事件
                 var obj = login._getObj(e);
                 obj.trigger('change', {
-                    'action': input.name.substring(input.name.indexOf('_') + 1),
+                    'action': input.name.substring(input.name.indexOf('_') + 1, input.name.lastIndexOf('_')),
                     'word': word,
                     'value': val,
                     'target': input
@@ -436,7 +436,7 @@
             var val = $dom.trim(ctrl.val());
             var placeholder = ctrl.attr('placeholder');
             var name = ctrl.attr('name');
-            if (name == 'login_vcode' && !obj.dragfinish) return true;
+            if (name.indexOf('login_vcode') > -1 && !obj.dragfinish) return true;
             if (val == '') {
                 return obj.tips(ctrl, false, '“' + placeholder + '”不得为空 ！');
             } else {
@@ -446,7 +446,7 @@
         //滑块验证
         drag: function (obj, ctrl) {
             var name = ctrl.attr('name');
-            if (name != 'login_vcode') return true;
+            if (name.indexOf('login_vcode') < 0) return true;
             if (!obj.dragfinish) {
                 return obj.tips(ctrl, false, '请将滑块滑向右侧！');
             }
@@ -470,9 +470,9 @@
             }
         }
         var input = null;
-        if (ctrl == 'user') input = this.dom.find('input[type=text][name=login_user]');
-        if (ctrl == 'pw') input = this.dom.find('input[type=password][name=login_pw]');
-        if (ctrl == 'vcode') input = this.dom.find('input[type=number][name=login_vcode]');
+        if (ctrl == 'user') input = this.dom.find('input[type=text][name^=login_user]');
+        if (ctrl == 'pw') input = this.dom.find('input[type=password][name^=login_pw]');
+        if (ctrl == 'vcode') input = this.dom.find('input[type=number][name^=login_vcode]');
         this.customVerify.push({
             ctrl: input,
             regex: regex,
