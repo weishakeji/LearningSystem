@@ -183,7 +183,7 @@ window.$succeeded = function (result) {
             }
         } else throw req.data.message;
     }).catch(err => console.error(err));
-/*
+
     //左上角下拉菜单
     window.drop = window.$dropmenu.create({
         target: '#dropmenu-area',
@@ -200,7 +200,7 @@ window.$succeeded = function (result) {
             console.error(req.data.exception);
             throw req.config.way + ' ' + req.data.message;
         }
-    }).catch(err => console.error(err));*/
+    }).catch(err => console.error(err));
     //竖形工具条
     var vbar = $vbar.create({
         target: '#vbar-area', id: 'rbar-156',

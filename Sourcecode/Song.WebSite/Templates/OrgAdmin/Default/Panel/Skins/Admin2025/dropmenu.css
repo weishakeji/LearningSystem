@@ -2,8 +2,8 @@
 
 .dropmenu {
     /*根菜单颜色,依次为：前景色、背景色、鼠标滑过颜色、阴影*/
-    --drop-root-color: #ccc;
-    --drop-root-bgcolor: rgba(168, 168, 168, 0.3);
+    --drop-root-color: #eee;
+    --drop-root-bgcolor: rgba(200, 200, 200, 0.3);
     --drop-root-hover: rgba(255, 255, 255);
     --drop-root-hoverbg: rgba(238, 240, 241, 0.6);
     --drop-root-shadow: #666;
