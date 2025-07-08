@@ -10,7 +10,7 @@
  * 最后修订：2025年1月30日
  * github开源地址:https://github.com/weishakeji/WebdeskUI
  */
-$ctrljs(function () {   
+$ctrljs(function () {
     //禁用iframe中的右键菜单
     document.addEventListener('DOMContentLoaded', function () {
         $dom('iframe').each(function () {
@@ -40,7 +40,7 @@ $ctrljs(function () {
 //初始布局
 window.$loyout = function (platinfo, org) {
     //管理界面的头部标题部分
-    $dom("*[platinfo='title']").html(platinfo.title);
+    $dom("*[platinfo='title']").html(org.Org_PlatformName);
     $dom("*[platinfo='intro']").html(platinfo.intro);
 
     //创建登录框
@@ -118,7 +118,7 @@ window.$loyout = function (platinfo, org) {
     //右上角菜单,用户信息
     window.usermenu = window.$dropmenu.create({
         target: '#user-area',
-        width: 100,
+        width: 110,
         plwidth: 120,
         level: 30000
     }).onclick($event.nodeClick);
@@ -134,9 +134,9 @@ window.$succeeded = function (result) {
         window.$skins.onchange();
         $dom('panel#login').remove();
         //右侧菜单信息
-        window.usermenu.datas[0].title = result.Ac_Name;
+        window.usermenu.datas[0].title = result.Acc_Name;
         if (result.Acc_Photo != '')
-            window.usermenu.datas[0].img = result.Ac_Photo;
+            window.usermenu.datas[0].img = result.Acc_Photo;
         //打开起始引导的窗体
         //window.openStartBox();
     }, 1000);
@@ -183,6 +183,7 @@ window.$succeeded = function (result) {
             }
         } else throw req.data.message;
     }).catch(err => console.error(err));
+/*
     //左上角下拉菜单
     window.drop = window.$dropmenu.create({
         target: '#dropmenu-area',
@@ -199,9 +200,7 @@ window.$succeeded = function (result) {
             console.error(req.data.exception);
             throw req.config.way + ' ' + req.data.message;
         }
-    }).catch(function (err) {
-        console.error(err);
-    });
+    }).catch(err => console.error(err));*/
     //竖形工具条
     var vbar = $vbar.create({
         target: '#vbar-area', id: 'rbar-156',
@@ -215,7 +214,7 @@ window.$succeeded = function (result) {
         default: {
             title: '启始页',
             path: '机构管理,启始页',
-            url: 'start',
+            url: '/orgadmin/start',
             ico: 'a020'
         }
     });
@@ -235,12 +234,12 @@ window.$succeeded = function (result) {
     //风格切换事件
     window.$skins.onchange(function (s, e) {
         $dom('#loading').show();
-        $dom('body>*:not(panel#loading)').css('opacity', 0);    
+        $dom('body>*:not(panel#loading)').css('opacity', 0);
         //$dom('body>*:not(panel#loading)').hide();   
     });
     window.$skins.onloadcss(function (s, e) {
         window.setTimeout(function () {
-            $dom('body>*:not(panel#loading)').css('opacity', 1);           
+            $dom('body>*:not(panel#loading)').css('opacity', 1);
         }, 1000);
     });
     /*

@@ -1,0 +1,40 @@
+﻿@charset "utf-8";
+.el-form {
+    box-sizing: border-box;
+    margin: 0px;
+    height: calc(100% - 50px);
+    padding: 0px 5px 0px 0px;
+    overflow: auto;
+}
+
+img.photo {
+    width: 100px;
+    height: 100px;
+    display: block;
+    float: left;
+    border: 1px solid #aaa;
+    margin-top: 5px;
+    border-radius: 50px;
+    margin-right: 10px;
+    float: left;
+}
+
+.photo-txt {
+    display: inline-block;
+    margin-top: 50px;
+    color: #409EFF;
+    cursor: pointer;
+}
+
+.accname {
+    line-height: 40px;
+}
+
+.pingyin {
+    font-size: 13px;
+}
+
+.pingyin .py {
+    cursor: pointer;
+    color: #409EFF;
+}

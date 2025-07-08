@@ -1,0 +1,20 @@
+﻿@charset "utf-8";
+.el-form{
+    box-sizing: border-box;
+    margin: 0px;
+    overflow: auto;
+}
+img.photo{
+    width: 60px;
+    height: 60px;
+    display: block;
+    float: left;
+    border: 1px solid #aaa;
+    margin-top: 5px;   
+    border-radius: 30px;
+    margin-right: 10px;
+}
+.accname{
+    line-height: 80px;
+
+}

@@ -322,9 +322,19 @@
             'frameborder': 0,
             'border': 0,
             'marginwidth': 0,
-            'marginheight': 0,
-            'src': tab.url ? tab.url : ''
+            'marginheight': 0
         });
+        //设置iframe的src，即页面地址
+        let src = tab.url ? tab.url : '';
+        if (src != '') {
+            if (!(/^(https?:\/\/|\/)/.test(src) || /^(http?:\/\/|\/)/.test(src) || /^\//.test(src))) {
+                const baseUrl = window.location.href.split('/').slice(0, 3).join('/') + 
+                window.location.pathname.split('/').slice(0, -1).join('/');
+                src = baseUrl + '/' + src;
+            }
+            iframe.attr('src', src);
+        }
+        //加载完成
         iframe.bind('load', function (event) {
             let node = event.target ? event.target : event.srcElement;
             let obj = tabs._getObj(node);
@@ -686,7 +696,7 @@
                 data: obj.getData(tabid)
             });
             close.show();
-        }, 300);        
+        }, 300);
         //返回按钮的点击事件
         close.click(function (e) {
             let tabpace = obj.dombody.find('tabpace[tabid=\'' + tabid + '\']');

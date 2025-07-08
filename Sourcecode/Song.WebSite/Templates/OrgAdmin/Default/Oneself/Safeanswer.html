@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>密码修改</title>
+  <include file="../inc/meta.inc" />
+</head>
+
+<body>
+  <div id="vapp" v-cloak>
+    <el-form ref="form" :model="account" :rules="rules" label-width="80px">
+      <div class="photo">
+        <img v-if="account.Acc_Photo!=''" :src="account.Acc_Photo">
+        <img v-else class="el-icon-plus avatar-uploader-icon" src="/Utilities/images/head1.jpg" />
+        <dl>
+          <dd class="name" v-html="account.Acc_Name">(未登录)</dd>
+          <dd class="accname" v-html="account.Acc_AccName"></dd>
+        </dl>
+      </div>
+      <el-form-item label="安全问题" prop="Acc_Qus">
+        <el-input v-model="account.Acc_Qus"></el-input>
+      </el-form-item>
+      <el-form-item label="答案" prop="Acc_Ans">
+        <el-input v-model="account.Acc_Ans"></el-input>
+      </el-form-item>
+    </el-form>
+    <div class="footer">
+      <el-button type="primary" define="enter" plain :loading="loading" @click="btnEnter('form')">
+        修改
+      </el-button>
+      <el-button type='close'>
+        取消
+      </el-button>
+    </div>
+  </div>
+
+
+</body>
+
+</html>
