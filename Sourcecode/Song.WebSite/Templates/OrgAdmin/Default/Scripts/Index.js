@@ -86,7 +86,7 @@ window.$loyout = function (platinfo, org) {
             if (req.data.success) {
                 //登录成功
                 var result = req.data.result;
-                $api.login.in('admin', result.Ac_Pw);
+                $api.login.in('admin', result.Acc_Pw);
                 $succeeded(req.data.result);
             } else {
                 let data = req.data;
