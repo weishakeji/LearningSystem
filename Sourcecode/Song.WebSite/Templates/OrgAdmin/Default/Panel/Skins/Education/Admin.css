@@ -6,7 +6,7 @@ body {
 }
 
 panel#admin {
-    background-image: linear-gradient(to bottom right,  #6dbcff,#58c198,#ffb83c 80%,#ffb83c 100%);
+    background-image: linear-gradient(to bottom right,  rgb(36 89 82),#58c198,#ffb83c 80%,#ffb83c 100%);
 }
 #user-area drop_roots  drop-node * {
     color: #eee !important;

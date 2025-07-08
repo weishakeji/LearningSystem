@@ -3,16 +3,13 @@
 .treemenu {
    /*左侧选项卡的背景、背景色、选中背景色（右侧面板同色）*/
     --tag-color: #ababab;
-    --tag-bg: rgba(66, 89, 113, 0.6);
-    --tag-selected-bg: rgb(36 89 82);
+    --tag-bg: rgb(36 89 82);
+    --tag-selected-bg: rgb(247 255 250);
 
     /*选项卡被选时中的字体色*/
-    --tag-selected-color: #7fb19e;
+    --tag-selected-color: #297155;
     --tag-selected-shadowcolor: rgb(7 53 47);
-    --tag-selected-shadow: 1px 1px 2px var(--tag-selected-shadowcolor),
-        -1px -1px 2px var(--tag-selected-shadowcolor),
-        1px -1px 2px var(--tag-selected-shadowcolor),
-        -1px 1px 2px var(--tag-selected-shadowcolor);
+    --tag-selected-shadow: 0px 0px 2px rgb(255, 255, 255);
 
     /*菜单项右侧标题颜色与背景*/
     --title-color: #fff;
