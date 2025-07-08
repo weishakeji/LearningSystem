@@ -155,11 +155,9 @@
     fn.show = function (display) {
         if (display == null) display = 'block';
         return this.each(function () {
-            this.style.display = display;
-            /*
-            if (this.style.display == 'none')
-                this.style.removeProperty('display');
-                */
+            if (this.style.display === 'none') {
+                this.style.removeProperty('display');               
+            }
         });
     };
     fn.toggle = function () {

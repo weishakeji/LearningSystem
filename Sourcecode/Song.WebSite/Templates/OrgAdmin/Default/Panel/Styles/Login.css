@@ -242,7 +242,9 @@ input[type="number"] {
     font-size: 18px;
     background-color: transparent;
 }
-
+.loginbox .login_body>* input:-internal-autofill-selected{
+    background-color: transparent;
+}
 .loginbox .login_body>* input:focus {
     font-size: 23px;
     border: none;

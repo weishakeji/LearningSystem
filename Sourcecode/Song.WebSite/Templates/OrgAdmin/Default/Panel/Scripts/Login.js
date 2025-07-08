@@ -272,7 +272,7 @@
             obj.domtit.add('login_tit').html(obj.title);
         },
         body: function (obj) {
-            obj.dombody = obj.dom.add('form').addClass('login_body');
+            obj.dombody = obj.dom.add('form').addClass('login_body').attr('autocomplete','off');
             //账号
             var user = obj.dombody.add('login_row');
             user.addClass('login_user').add('input').attr({

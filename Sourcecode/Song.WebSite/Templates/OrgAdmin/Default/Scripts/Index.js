@@ -7,29 +7,54 @@
  *
  * 作 者：微厦科技_宋雷鸣_10522779@qq.com
  * 开发时间: 2020年2月1日
- * 最后修订：2020年2月28日
+ * 最后修订：2025年1月30日
  * github开源地址:https://github.com/weishakeji/WebdeskUI
  */
-window.onload = function () {
+$ctrljs(function () {   
     //禁用iframe中的右键菜单
-    $dom('iframe').each(function () {
-        var doc = this.contentDocument.body;
-        doc.setAttribute('oncontextmenu', "javascript:return false;");
+    document.addEventListener('DOMContentLoaded', function () {
+        $dom('iframe').each(function () {
+            var doc = this.contentDocument ? this.contentDocument.body : null;
+            if (doc == null) return;
+            doc.setAttribute('oncontextmenu', "javascript:return false;");
+        });
     });
-};
-//控件加载完成（corejs核心js也加载完成）
-$ctrljs(function () {
+    document.title = '管理中心';
+    //
+    $api.bat(
+        $api.cache('Platform/PlatInfo:60'),
+        $api.get('Organization/current')
+    ).then(([platinfo, organ]) => {
+        //皮肤设置
+        window.$skins.setup('', function (skin) {
+            if (skin == null) return;
+            //console.error(skin.bgpage);
+            //设置登录页的背景动画
+            $dom("#backgroup_iframe").attr("src", skin.bgpage);
+        });
+        //获取结果    
+        window.$loyout(platinfo.data.result, organ.data.result);
+    }).catch(err => console.error(err))
+        .finally(() => { });
+});
+//初始布局
+window.$loyout = function (platinfo, org) {
+    //管理界面的头部标题部分
+    $dom("*[platinfo='title']").html(platinfo.title);
+    $dom("*[platinfo='intro']").html(platinfo.intro);
+
+    //创建登录框
     window.login = $login.create({
         target: '#login-area',
-        ico: 'a003',
-        //icoimg:'/favicon.ico',
+        ico: 'a001',
+        icoimg: org.Org_Logo,
         loading: true,
         //width: '320px',
-        title: '...',
-        buttontxt: '登录机构管理',
-        //company: '微厦科技',
-        //website: 'http://www.weishakeji.net',
-        //tel: '400 6015615'
+        title: platinfo.title,
+        buttontxt: '登  录',
+        company: '微厦科技',
+        website: 'http://www.weishakeji.net',
+        tel: '400 6015615'
     });
     //自定义验证
     window.login.verify([{
@@ -61,8 +86,8 @@ $ctrljs(function () {
             if (req.data.success) {
                 //登录成功
                 var result = req.data.result;
-                $api.login.in('admin', result.Acc_Pw);
-                ready(req.data.result);
+                $api.login.in('admin', result.Ac_Pw);
+                $succeeded(req.data.result);
             } else {
                 let data = req.data;
                 switch (String(data.state)) {
@@ -85,9 +110,7 @@ $ctrljs(function () {
             .finally(() => s.loading = false);
     });
     //判断是否登录
-    $api.login.current('admin',
-        d => ready(d),
-        () => window.login.loading = false);
+    $api.login.current('admin', d => $succeeded(d), () => window.login.loading = false);
     //10分钟刷新一次登录状态
     window.setInterval(function () {
         $api.login.fresh('admin');
@@ -98,28 +121,24 @@ $ctrljs(function () {
         width: 100,
         plwidth: 120,
         level: 30000
-    }).onclick(nodeClick);
+    }).onclick($event.nodeClick);
     //用户信息的下拉菜单
-    $dom.get($dom.path() + '../_public/datas/usermenu.json', req => usermenu.add(req));
-    window.createVapp();
-});
-//登录成功后续执行
-function ready(result) {
+    $dom.get($dom.path() + 'Panel/Datas/usermenu.json', req => usermenu.add(req));
+
+};
+//登录成功
+window.$succeeded = function (result) {
     window.setTimeout(function () {
         window.login.loading = false;
-        //$dom('panel#login').remove();
         $dom('panel#admin').show().css('opacity', 0);
-        //window.$skins.onchange();
-        window.setTimeout(function () {
-            $dom('panel#login').remove();
-        }, 2000);
-        window.$skins.setup('Office');
+        window.$skins.onchange();
+        $dom('panel#login').remove();
         //右侧菜单信息
-        window.usermenu.datas[0].title = result.Acc_Name;
+        window.usermenu.datas[0].title = result.Ac_Name;
         if (result.Acc_Photo != '')
-            window.usermenu.datas[0].img = result.Acc_Photo;
+            window.usermenu.datas[0].img = result.Ac_Photo;
         //打开起始引导的窗体
-        window.openStartBox();
+        //window.openStartBox();
     }, 1000);
     //打开起始引导的窗体
     window.openStartBox = function () {
@@ -129,7 +148,7 @@ function ready(result) {
         if (show === true) return;
         $pagebox.create({
             width: '800', height: '80%', ico: 'e820', showmask: true, min: false, max: false,
-            url: '/orgadmin/StartBox', title: '欢迎使用'
+            url: '/admin/StartBox', title: '欢迎使用'
         }).open();
     }
     //树形菜单
@@ -138,11 +157,11 @@ function ready(result) {
         width: 200,
         taghide: false, query: true, fold: false
     }).onresize(function (s, e) { //当宽高变更时
-        $dom('#tabs-area').width('calc(100% - ' + (e.width + 5) + 'px )');
+        $dom('#tabs-area').width('calc(100% - ' + (e.width + 35) + 'px )');
     }).onfold(function (s, e) { //当右侧树形折叠时
-        let width = e.action == 'fold' ? 45 : s.width + 5;
+        let width = e.action == 'fold' ? 80 : s.width + 35;
         $dom('#tabs-area').width('calc(100% - ' + width + 'px )');
-    }).onclick(nodeClick);
+    }).onclick($event.nodeClick);
     //监听树形菜单的菜单查询面板状态，给背景加模糊效果
     window.tree.watch({
         'querypanel': function (obj, val, old) {
@@ -153,26 +172,57 @@ function ready(result) {
     //加载左侧菜单树
     $api.get('ManageMenu/OrganMarkerMenus', { 'marker': 'organAdmin' }).then(function (req) {
         if (req.data.success) {
-            var result = nodeconvert(req.data.result);//return;
-            //console.log(result);
-            if (result[0].childs.length > 0)
-                tree.add(result[0].childs);
+            var result = nodeconvert(req.data.result);
+            for (var i = 0; i < result.length; i++) {
+                if (i == 0)
+                    tree.add(result[i].childs);
+                else {
+                    tree.add(result[i]);
+
+                }
+            }
         } else throw req.data.message;
     }).catch(err => console.error(err));
+    //左上角下拉菜单
+    window.drop = window.$dropmenu.create({
+        target: '#dropmenu-area',
+        width: 280,
+        plwidth: 180,
+        level: 30000,
+        id: 'main_menu'
+    }).onclick($event.nodeClick);
+    $api.get('ManageMenu/SystemMenuShow:60').then(function (req) {
+        if (req.data.success) {
+            var result = nodeconvert(req.data.result);
+            drop.add(result);
+        } else {
+            console.error(req.data.exception);
+            throw req.config.way + ' ' + req.data.message;
+        }
+    }).catch(function (err) {
+        console.error(err);
+    });
+    //竖形工具条
+    var vbar = $vbar.create({
+        target: '#vbar-area', id: 'rbar-156',
+        width: 30, height: 'calc(100% - 35px)'
+    }).onclick($event.nodeClick);
+    $dom.get($dom.path() + 'Panel/Datas/vbar.json', req => vbar.add(req));
     //选项卡
-    var tabs = $tabs.create({
+    window.tabs = $tabs.create({
         target: '#tabs-area',
         help: true,    //不显示帮助按钮
         default: {
             title: '启始页',
             path: '机构管理,启始页',
-            url: '/orgadmin/start',
+            //url: '/admin/start',
             ico: 'a020'
         }
     });
-    tabs.onshut(tabsShut).onchange(tabsChange).onfull(function (s, e) {
+    tabs.onshut($event.tabsShut).onchange($event.tabChange).onfull((s, e) => {
         //alert(s);
     });
+    //选项卡的帮助
     tabs.onhelp(function (s, e) {
         let url = e.data.help && e.data.help != '' ? e.data.help : '/help/Documents/index.html?page=' + encodeURIComponent(e.data.url);
         //父id,此处必须设置，用于判断该弹窗属于哪个选项卡
@@ -182,252 +232,136 @@ function ready(result) {
             url: url, title: e.data.title + ' - 帮助说明'
         }).open();
     });
-    window.tabsContent = tabs;
-
     //风格切换事件
     window.$skins.onchange(function (s, e) {
-        $dom('body>*:not(#loading)').css('opacity', 0);
-        $dom('body>*:not(*[crtid])').css('opacity', 0);
         $dom('#loading').show();
+        $dom('body>*:not(panel#loading)').css('opacity', 0);    
+        //$dom('body>*:not(panel#loading)').hide();   
     });
     window.$skins.onloadcss(function (s, e) {
         window.setTimeout(function () {
-            $dom('body>*:not(#loading)').css('opacity', 1);
-            $dom('body>*:not(*[crtid])').css('opacity', 1);
-            $dom('#loading').hide();
-        }, 500);
-
+            $dom('body>*:not(panel#loading)').css('opacity', 1);           
+        }, 1000);
     });
-};
-/*
-    节点处理方法，后端数据库中存储的菜单数据，转为前端的树形菜单数据
-*/
-function nodeconvert(obj) {
-    var result = JSON.stringify(obj);
-    var matchs = {
-        'menuid': 'MM_Id',
-        'title': 'MM_Name',
-        'tit': 'MM_AbbrName',
-        'childs': 'children',
-        'intro': 'MM_Intro',
-        'type': 'MM_Type',
-        'url': 'MM_Link',
-        'help': 'MM_Help',
-        'use': 'MM_IsUse',
-        'width': 'MM_WinWidth',   // 弹窗相关  
-        'height': 'MM_WinHeight',
-        'winid': 'MM_WinID',
-        'min': 'MM_WinMin',
-        'max': 'MM_WinMax',
-        'move': 'MM_WinMove',
-        'resize': 'MM_WinResize',
-        'complete': 'MM_Complete'
-    };
-    Object.entries(matchs).forEach(([newKey, oldKey]) => {
-        result = result.replace(new RegExp(oldKey, 'g'), newKey);
-    });
-    return JSON.parse(result);
-}
-/*
-    事件
-*/
-//节点点击事件，tree,drop,统一用这一个
-function nodeClick(sender, eventArgs) {
-    //console.log(eventArgs);
-    var data = eventArgs.data;
-    //如果有下级节点，则不响应事件
-    if ((!!data.childs && data.childs.length > 0) && data.type != 'node') {
-        return;
+    /*
+        节点处理方法，后端数据库中存储的菜单数据，转为前端的树形菜单数据
+    */
+    function nodeconvert(obj) {
+        var result = JSON.stringify(obj);
+        var matchs = {
+            'menuid': 'MM_Id', 'title': 'MM_Name', 'tit': 'MM_AbbrName', 'childs': 'children',
+            'intro': 'MM_Intro', 'type': 'MM_Type', 'url': 'MM_Link', 'help': 'MM_Help',
+            'use': 'MM_IsUse', 'width': 'MM_WinWidth',   // 弹窗相关  
+            'height': 'MM_WinHeight', 'winid': 'MM_WinID', 'min': 'MM_WinMin', 'max': 'MM_WinMax',
+            'move': 'MM_WinMove', 'resize': 'MM_WinResize', 'complete': 'MM_Complete'
+        };
+        Object.entries(matchs).forEach(([newKey, oldKey]) => {
+            result = result.replace(new RegExp(oldKey, 'g'), newKey);
+        });
+        return JSON.parse(result);
     }
-    //节点类型
-    //open：弹窗，item菜单项（在tabs中打开)，event脚本事件,
-    //link外链接（直接响应）,node节点下的子项将一次性打开（此处不触发）
-    //console.log(eventArgs.data.title);
-    switch (data.type) {
-        case 'open':
-            $pagebox.create(data).open();
-            break;
-        case 'event':
-            if (!data.url) return;
-            try {
-                eval(data.url);
-            } catch (err) {
-                alert('脚本执行错误，请仔细检查：\n' + data.url);
-                console.error(err);
-            }
-            break;
-        case 'node':
-            console.log(sender);
-            window.tabsContent.clear();
-            if (data.childs.length > 0) {
-                for (var i = 0; i < data.childs.length; i++) {
-                    window.tabsContent.add(data.childs[i]);
+};
+/* webdeskUI的自定义事件 */
+window.$event = {
+    //节点点击事件，tree,drop,统一用这一个
+    'nodeClick': function (sender, eventArgs) {
+        var data = $api.clone(eventArgs.data);
+        //如果有下级节点，则不响应事件
+        if ((!!data.childs && data.childs.length > 0) && data.type != 'node') return;
+        //处理相对路径
+        if (data.type != 'event' && data.url != ''
+            && !(data.url.startsWith('/') || data.url.startsWith('http'))) {
+            let href = window.location.pathname;
+            if (!href.endsWith('/')) href += '/';
+            data.url = href + data.url;
+        }
+        //节点类型
+        //open：弹窗，item菜单项（在tabs中打开)，event脚本事件,
+        //link外链接（直接响应）,node节点下的子项将一次性打开（此处不触发）
+        //console.log(eventArgs.data.title);
+        switch (data.type) {
+            case 'open':
+                $pagebox.create(data).open();
+                break;
+            case 'event':
+                if (!data.url) return;
+                try {
+                    eval(data.url);
+                } catch (err) {
+                    alert('脚本执行错误，请仔细检查：\n' + data.url);
+                    console.error(err);
                 }
-                window.tabsContent.focus(data.childs[0].id);
-            }
-            break;
-        default:
-            if (!!data.url) {
-                //window.tabsContent.clear();
-                //if (data.help == null || data.help == '') data.help = data.url;
-                window.tabsContent.add(data);
-            }
-            break;
-    }
-}
-//选项卡关闭事件
-function tabsShut(sender, eventArgs) {
-    let data = eventArgs.data;
-    //获取当前标签生成的窗体
-    let boxs = $ctrls.all('pagebox');
-    let arr = new Array();
-    for (let i = 0; i < boxs.length; i++) {
-        if (boxs[i].obj.pid == data.id) {
-            arr.push(boxs[i].obj);
-            let childs = boxs[i].obj.getChilds();
-            for (let j = 0; j < childs.length; j++)
-                arr.push(childs[j]);
-        }
-    }
-    //关闭当前标签生成的窗体
-    if (arr.length > 0) {
-        if (confirm('当前选项卡“' + data.title + '”有 ' + arr.length + '个 窗体未关闭，\n是否全部关闭？')) {
-            for (let i = 0; i < arr.length; i++) arr[i].shut();
-            return true;
-        }
-        return false;
-    }
-    return true;
-}
-//选项卡切换事件
-function tabsChange(sender, eventArgs) {
-    //所有窗体
-    let boxs = $ctrls.all('pagebox');
-    //当前选项卡所产生的窗体
-    let gettabsbox = (boxs, tabid) => {
-        let arr = [];
-        boxs.filter(el => el.obj.pid == tabid).forEach(item => {
-            arr.push(item.obj);
-            arr = arr.concat(item.obj.getChilds());
-        });
-        return arr.sort((a, b) => a.level - b.level);
-    }
-    //非当前选项卡的窗体(不包括其它控件生成的窗体)
-    let getotherbox = (boxs, tabid, sender) => {
-        let arr = [];
-        sender.childs.filter(el => el.id != tabid).forEach(item => {
-            arr = arr.concat(gettabsbox(boxs, item.id));
-        });
-        return arr;
-    }
-    //获取当前标签生成的窗体，全部还原
-    gettabsbox(boxs, eventArgs.data.id).forEach(item => item.toWindow().focus(false));
-    //非当前标签的窗体，全部最小化
-    getotherbox(boxs, eventArgs.data.id, sender).forEach(item => item.toMinimize(false));
-
-    //设置左侧树形菜单的当前菜单项
-    window.tree.currentnode(eventArgs.tabid);
-}
-
-//执行vue对象
-window.createVapp = function () {
-    window.vapp = new Vue({
-        el: '#header-box',
-        data: {
-            organ: {},
-            platinfo: {},
-            menus: [],
-            loading_init: true
-        },
-        mounted: function () {
-            var th = this;
-            $api.bat(
-                $api.cache('Platform/PlatInfo:60'),
-                $api.get('Organization/Current')
-            ).then(([platinfo, organ]) => {
-                //获取结果              
-                th.platinfo = platinfo.data.result;
-                th.organ = organ.data.result;
-                //机构配置信息
-                th.config = $api.organ(th.organ).config;
-                /* 此处用来显示机构的logo，暂时没有用*/
-                window.setTimeout(function () {
-                    if (th.organ.Org_Logo != '') {
-                        window.login.icoimg = th.organ.Org_Logo;
-                        window.login.title = '';
-                    } else {
-                        window.login.title = th.organ.Org_PlatformName;
+                break;
+            case 'node':
+                console.log(sender);
+                window.tabs.clear();
+                if (data.childs.length > 0) {
+                    for (var i = 0; i < data.childs.length; i++) {
+                        window.tabs.add(data.childs[i]);
                     }
-                }, 300);
-                //window.login.title = th.organ.Org_PlatformName;
-                document.title = '机构管理 - ' + th.organ.Org_PlatformName;
-                //
-                th.getnavi();
-            }).catch(err => console.error(err))
-                .finally(() => th.loading_init = false);
-        },
-        created: function () {
-
-        },
-        computed: {
-
-        },
-        watch: {
-            'menus': {
-                handler: function (nv, ov) {
-                    this.$nextTick(function () {
-                        //$dom(".menubar").text('ddd');
-                        if (!window.$dropmenu) return;
-                        window.menubar = window.$dropmenu.create({
-                            target: '#menubar',
-                            deftype: 'link',
-                            plwidth: 180,
-                            height: 45,
-                            level: 20000
-                        }).onclick(this.menuClick);
-                        window.menubar.add(this.nodeconvert(nv));
-                    });
-                }, immediate: true
-            }
-        },
-        methods: {
-            //获取导航菜单
-            getnavi: function () {
-                if (!this.organ.Org_ID) return;
-                var th = this;
-                $api.get('Navig/web', { 'orgid': this.organ.Org_ID, 'type': 'main' }).then(function (req) {
-                    if (req.data.success) {
-                        th.menus = req.data.result;
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
-                    }
-                }).catch(err => console.error(err));
-            },
-            //导航菜单的点击事件
-            menuClick: function (sender, eventArgs) {
-                var data = eventArgs.data;
-                if (!data || data.url == '') return;
-                window.location.href = data.url;
-                console.log(data);
-            },
-            //节点转换
-            nodeconvert: function (obj) {
-                var result = '';
-                if (typeof (obj) != 'string') result = JSON.stringify(obj);
-                var matchs = {
-                    'title': 'Nav_Name',
-                    'tit': 'Nav_Title',
-                    'ico': 'Nav_Icon',
-                    'childs': 'children',
-                    'url': 'Nav_Url'
-                };
-                Object.entries(matchs).forEach(([newKey, oldKey]) => {
-                    result = result.replace(new RegExp(oldKey, 'g'), newKey);
-                });
-                return JSON.parse(result);
-            },
+                    window.tabs.focus(data.childs[0].id);
+                }
+                break;
+            default:
+                if (!!data.url) {
+                    //window.tabs.clear();
+                    //if (data.help == null || data.help == '') data.help = data.url;
+                    window.tabs.add(data);
+                }
+                break;
         }
-    });
+    },
+    //选项卡关闭事件
+    'tabsShut': function (sender, eventArgs) {
+        let data = eventArgs.data;
+        //获取当前标签生成的窗体
+        let boxs = $ctrls.all('pagebox');
+        let arr = new Array();
+        for (let i = 0; i < boxs.length; i++) {
+            if (boxs[i].obj.pid == data.id) {
+                arr.push(boxs[i].obj);
+                let childs = boxs[i].obj.getChilds();
+                for (let j = 0; j < childs.length; j++)
+                    arr.push(childs[j]);
+            }
+        }
+        //关闭当前标签生成的窗体
+        if (arr.length > 0) {
+            if (confirm('当前选项卡“' + data.title + '”有 ' + arr.length + '个 窗体未关闭，\n是否全部关闭？')) {
+                for (let i = 0; i < arr.length; i++) arr[i].shut();
+                return true;
+            }
+            return false;
+        }
+        return true;
+    },
+    //选项卡切换事件
+    'tabChange': function (sender, eventArgs) {
+        //所有窗体
+        let boxs = $ctrls.all('pagebox');
+        //当前选项卡所产生的窗体
+        let gettabsbox = (boxs, tabid) => {
+            let arr = [];
+            boxs.filter(el => el.obj.pid == tabid).forEach(item => {
+                arr.push(item.obj);
+                arr = arr.concat(item.obj.getChilds());
+            });
+            return arr.sort((a, b) => a.level - b.level);
+        }
+        //非当前选项卡的窗体(不包括其它控件生成的窗体)
+        let getotherbox = (boxs, tabid, sender) => {
+            let arr = [];
+            sender.childs.filter(el => el.id != tabid).forEach(item => {
+                arr = arr.concat(gettabsbox(boxs, item.id));
+            });
+            return arr;
+        }
+        //获取当前标签生成的窗体，全部还原
+        gettabsbox(boxs, eventArgs.data.id).forEach(item => item.toWindow().focus(false));
+        //非当前标签的窗体，全部最小化
+        getotherbox(boxs, eventArgs.data.id, sender).forEach(item => item.toMinimize(false));
 
-};
+        //设置左侧树形菜单的当前菜单项
+        window.tree.currentnode(eventArgs.tabid);
+    }
+}
