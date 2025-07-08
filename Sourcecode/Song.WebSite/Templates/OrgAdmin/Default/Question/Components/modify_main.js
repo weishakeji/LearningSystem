@@ -204,7 +204,7 @@ Vue.component('modify_main', {
                     throw req.config.way + ' ' + req.data.message;
                 }
             }).catch(err => {
-                alert('AI生成异常，请重新生成。详情：' + err);
+                alert('AI生成异常，请重新生成。' );
                 console.error(err);
             }).finally(() => th.loading_ai = false);
         },

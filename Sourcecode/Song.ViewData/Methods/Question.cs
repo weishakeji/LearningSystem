@@ -1180,24 +1180,14 @@ namespace Song.ViewData.Methods
         [HttpPost]
         public JObject AIGenerate(int type, string sbj, string cou, string outline)
         {
-            string qtype = types[type - 1];
-            //设定AI的角色
-            string role = Song.APIHub.LLM.Gatway.TemplateRole("Questions/Generate");
-            role = APIHub.LLM.Gatway.TemplateHandle(role, "Sbj_Name", sbj);
-            role = APIHub.LLM.Gatway.TemplateHandle(role, "Cou_Name", cou);
-
-            //生成问题的描述
-            string message = Song.APIHub.LLM.Gatway.TemplateText("Questions/Generate", $"type{type}.txt");
-            message = APIHub.LLM.Gatway.TemplateHandle(message, "Sbj_Name", sbj);
-            message = APIHub.LLM.Gatway.TemplateHandle(message, "Cou_Name", cou);
-            message = APIHub.LLM.Gatway.TemplateHandle(message, "Ol_Name", outline);
-            message = APIHub.LLM.Gatway.TemplateHandle(message, "type", qtype);
-
-            //向AI发送请求
-            string result = APIHub.LLM.Gatway.Consult(role, message);
-            Regex regex = new Regex(@"\{(.*)\}", RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace);
-            if (regex.IsMatch(result)) result = regex.Match(result).Groups[0].Value;
-            JObject joqus = JObject.Parse(result);
+            JObject joqus = null;
+            int parsecount = 3;
+            while (joqus == null && parsecount > 0)
+            {
+                joqus = _AIGenerate(type, sbj, cou, outline);
+                parsecount--;
+            }
+            if (joqus == null) return joqus;
             //单选题、多选题
             if (type == 1 || type == 2)
             {
@@ -1231,10 +1221,6 @@ namespace Song.ViewData.Methods
                 }
                 joqus.Add("Qus_Items", Business.Do<IQuestions>().AnswerToItems(ansitems.ToArray()));
             }
-            //判断题
-            if (type == 3) joqus = JObject.Parse(result);
-            //简答题
-            if (type == 4) joqus = JObject.Parse(result);
             //填空题
             if (type == 5)
             {
@@ -1251,6 +1237,36 @@ namespace Song.ViewData.Methods
                 joqus.Add("Qus_Items", Business.Do<IQuestions>().AnswerToItems(items.ToArray()));
             }
             joqus.Add("Qus_Type", type);
+            return joqus;
+        }
+        private JObject _AIGenerate(int type, string sbj, string cou, string outline)
+        {
+            string qtype = types[type - 1];
+            //设定AI的角色
+            string role = Song.APIHub.LLM.Gatway.TemplateRole("Questions/Generate");
+            role = APIHub.LLM.Gatway.TemplateHandle(role, "Sbj_Name", sbj);
+            role = APIHub.LLM.Gatway.TemplateHandle(role, "Cou_Name", cou);
+
+            //生成问题的描述
+            string message = Song.APIHub.LLM.Gatway.TemplateText("Questions/Generate", $"type{type}.txt");
+            message = APIHub.LLM.Gatway.TemplateHandle(message, "Sbj_Name", sbj);
+            message = APIHub.LLM.Gatway.TemplateHandle(message, "Cou_Name", cou);
+            message = APIHub.LLM.Gatway.TemplateHandle(message, "Ol_Name", outline);
+            message = APIHub.LLM.Gatway.TemplateHandle(message, "type", qtype);
+
+            //向AI发送请求
+            string result = APIHub.LLM.Gatway.Consult(role, message);
+            Regex regex = new Regex(@"\{(.*)\}", RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace);
+            if (regex.IsMatch(result)) result = regex.Match(result).Groups[0].Value;
+            JObject joqus = null;
+            try
+            {
+                joqus = JObject.Parse(result);
+            }
+            catch
+            {
+                return null;
+            }            
             return joqus;
         }
         /// <summary>

@@ -41,7 +41,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="file">帮助文件</param>
         /// <returns></returns>
-        public string FileContext(string file)
+        public string FileContent(string file)
         {
             string fileHy = WeiSha.Core.Server.MapPath(file);
             if (!System.IO.File.Exists(fileHy))return  string.Empty;
