@@ -115,7 +115,7 @@ window.$loyout = function (platinfo, org) {
     window.setInterval(function () {
         $api.login.fresh('admin');
     }, 1000 * 60 * 10);
-    //右上角菜单,用户信息
+    //右上角菜单（即当前登录用户的信息）
     window.usermenu = window.$dropmenu.create({
         target: '#user-area',
         width: 110,
@@ -183,8 +183,8 @@ window.$succeeded = function (result) {
             }
         } else throw req.data.message;
     }).catch(err => console.error(err));
-
-    //左上角下拉菜单
+/*
+    //左上角下拉菜单（即系统菜单）
     window.drop = window.$dropmenu.create({
         target: '#dropmenu-area',
         width: 280,
@@ -200,7 +200,7 @@ window.$succeeded = function (result) {
             console.error(req.data.exception);
             throw req.config.way + ' ' + req.data.message;
         }
-    }).catch(err => console.error(err));
+    }).catch(err => console.error(err));*/
     //竖形工具条
     var vbar = $vbar.create({
         target: '#vbar-area', id: 'rbar-156',
