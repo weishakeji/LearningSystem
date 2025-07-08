@@ -4,7 +4,7 @@
    /*左侧选项卡的背景、背景色、选中背景色（右侧面板同色）*/
     --tag-color: #ababab;
     --tag-bg: rgba(66, 89, 113, 0.6);
-    --tag-selected-bg: rgb(18 74 67);
+    --tag-selected-bg: rgb(36 89 82);
 
     /*选项卡被选时中的字体色*/
     --tag-selected-color: #7fb19e;
@@ -51,4 +51,7 @@
 .treemenu tree_box.current>tree-node::before {
     box-shadow: none !important;
     background-color: rgba(255, 255, 255, 0.2) !important;
+}
+.treemenu a, .treemenu tree-node{
+    text-shadow: none;
 }
