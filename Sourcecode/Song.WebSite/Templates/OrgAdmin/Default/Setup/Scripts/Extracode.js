@@ -34,6 +34,7 @@ $ready(function () {
                 var th = this;
                 this.$refs[formName].validate((valid, fields) => {
                     if (valid) {
+                        if (th.loading) return;
                         th.loading = true;
                         var para = { 'orgid': th.org.Org_ID, 'web': th.org.Org_ExtraWeb, 'mobi': th.org.Org_ExtraMobi };
                         $api.post('Organization/ModifyExtra', para)

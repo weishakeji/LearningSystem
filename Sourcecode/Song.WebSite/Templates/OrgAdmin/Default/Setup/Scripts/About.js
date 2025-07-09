@@ -33,6 +33,7 @@ $ready(function () {
                 var th = this;
                 this.$refs[formName].validate((valid, fields) => {
                     if (valid) {
+                        if (th.loading) return;
                         th.loading = true;
                         var apipath = 'Organization/ModifyIntro';
                         $api.post(apipath, { 'orgid': th.organ.Org_ID, 'text': th.organ.Org_Intro })

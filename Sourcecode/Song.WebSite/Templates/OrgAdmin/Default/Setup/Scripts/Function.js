@@ -52,6 +52,7 @@ $ready(function () {
                 this.$refs[formName].validate((valid, fields) => {
                     if (valid) {
                         th.error = '';
+                        if (th.loading) return;
                         th.loading = true;
                         var apipath = 'Organization/ConfigUpdate';
                         //接口参数，如果有上传文件，则增加file

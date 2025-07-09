@@ -110,6 +110,7 @@ $ready(function () {
                 var th = this;
                 this.$refs[formName].validate((valid, fields) => {
                     if (valid) {
+                        if (th.loading) return;
                         th.loading = true;
                         var apipath = th.id == '' ? api = 'Teacher/add' : 'Teacher/Modify';
                         if (th.id == '') th.entity.Org_ID = th.organ.Org_ID;
@@ -126,7 +127,7 @@ $ready(function () {
                                     message: isclose ? '保存成功，并关闭！' : '保存当前编辑成功！',
                                     center: true
                                 });
-                               th.operateSuccess(isclose);
+                                th.operateSuccess(isclose);
                             } else {
                                 throw req.data.message;
                             }

@@ -66,12 +66,12 @@ $ready(function () {
                             cancelButtonText: '取消',
                             type: 'warning'
                         }).then(() => {
+                            if (th.loading) return;
                             th.loading = true;
                             var apipath = 'Coupon/';
                             if (Number(th.operated) == 2) apipath += 'Raise';
                             if (Number(th.operated) == 1) apipath += 'Subtract';
                             $api.post(apipath, th.form).then(function (req) {
-                                th.loading = false;
                                 if (req.data.success) {
                                     var result = req.data.result;
                                     th.$message({
@@ -85,7 +85,7 @@ $ready(function () {
                                 }
                             }).catch(function (err) {
                                 alert(err, '错误');
-                            });
+                            }).finally(() => th.loading = false);
                         }).catch(() => { });
                     } else {
                         console.log('error submit!!');

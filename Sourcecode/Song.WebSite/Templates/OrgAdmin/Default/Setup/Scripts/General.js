@@ -79,6 +79,7 @@ $ready(function () {
                 var th = this;
                 this.$refs[formName].validate((valid, fields) => {
                     if (valid) {
+                        if (th.loading) return;
                         th.loading = true;
                         //仅保留当前页要修改的字段
                         let fields = th.$refs[formName].fields;

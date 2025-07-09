@@ -135,8 +135,8 @@ $ready(function () {
                 var th = this;
                 this.$refs[formName].validate((valid, fields) => {
                     if (valid) {
+                        if (th.loading) return;
                         let sbj = th.clone(th.entity);
-                        //return;
                         th.loading = true;
                         //接口路径
                         let apipath = th.id == '' ? 'Subject/add' : 'Subject/Modify';

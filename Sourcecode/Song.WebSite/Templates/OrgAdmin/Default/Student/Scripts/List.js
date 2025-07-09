@@ -184,7 +184,8 @@ $ready(function () {
             //更改使用状态，包括使用、审核
             changeState: function (row) {
                 var th = this;
-                this.loadingid = row.Ac_ID;
+                if (th.loadingid > 0) return;
+                th.loadingid = row.Ac_ID;
                 var form = { 'acid': row.Ac_ID, 'use': row.Ac_IsUse, 'pass': row.Ac_IsPass };
                 $api.post('Account/ModifyState', form).then(function (req) {
                     if (req.data.success) {

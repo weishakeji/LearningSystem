@@ -63,6 +63,7 @@ $ready(function () {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
+                        if (th.loading) return;
                         th.loading = true;
                         var apipath = 'Teacher/Title' + (th.id == '' ? 'add' : 'Modify');
                         $api.post(apipath, { 'entity': th.entity }).then(function (req) {

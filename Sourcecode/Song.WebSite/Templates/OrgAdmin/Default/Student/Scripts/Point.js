@@ -64,6 +64,7 @@ $ready(function () {
                             cancelButtonText: '取消',
                             type: 'warning'
                         }).then(() => {
+                            if (th.loading) return;
                             th.loading = true;
                             var apipath = 'point/';
                             if (Number(th.operated) == 2) apipath += 'Raise';
@@ -76,7 +77,7 @@ $ready(function () {
                                         message: '操作成功!',
                                         center: true
                                     });
-                                    th.operateSuccess(); 
+                                    th.operateSuccess();
                                 } else {
                                     throw req.data.message;
                                 }

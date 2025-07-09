@@ -64,6 +64,7 @@ $ready(function () {
                 var th = this;
                 this.$refs[formName].validate((valid, obj) => {
                     if (valid) {
+                        if (th.loading) return;
                         th.loading = true;
                         var apipath = 'Organization/StampUpdate';
                         //接口参数，如果有上传文件，则增加file

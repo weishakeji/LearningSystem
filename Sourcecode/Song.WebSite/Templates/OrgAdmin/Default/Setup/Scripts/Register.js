@@ -33,6 +33,7 @@ $ready(function () {
                     data[fields[i].prop] = this.config[fields[i].prop];
                 //保存
                 var th = this;
+                if (th.loading) return;
                 th.loading = true;
                 $api.post('Organization/ConfigUpdate', {
                     "orgid": th.organ.Org_ID, 'config': data

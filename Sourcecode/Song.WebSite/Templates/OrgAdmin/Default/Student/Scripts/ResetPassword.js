@@ -69,6 +69,7 @@ $ready(function () {
                             cancelButtonText: '取消',
                             type: 'warning'
                         }).then(() => {
+                            if (th.loading) return;
                             th.loading = true;
                             th.fulloading = this.$fulloading();
                             var apipath = 'Account/ResetPassword';
