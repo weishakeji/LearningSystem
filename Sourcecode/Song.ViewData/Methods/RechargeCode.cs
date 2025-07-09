@@ -237,8 +237,9 @@ namespace Song.ViewData.Methods
             Song.Entities.RechargeSet set = Business.Do<IRecharge>().RechargeSetSingle(id);
             DateTime date = DateTime.Now;         
             //创建文件
-            string filename = string.Format("充值码[{0}]（{1}）.xls", set.Rs_ID, DateTime.Now.ToString("yyyy-MM-dd hh-mm"));
+            string filename = string.Format("充值码[{0}]（{1}）.xls", set.Rs_ID, DateTime.Now.ToString("yyyy-MM-dd hh-mm-ss"));
             string filePath = rootpath + filename;
+            if (System.IO.File.Exists(filePath)) throw new Exception("文件已存在，请勿频繁操作");
             filePath = Business.Do<IRecharge>().RechargeCode4Excel(filePath, -1, id);
             JObject jo = new JObject();
             jo.Add("name", set.Rs_Theme);

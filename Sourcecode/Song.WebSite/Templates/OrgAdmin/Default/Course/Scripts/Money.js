@@ -120,6 +120,7 @@
             //添加价格
             btnadd: function (formName) {
                 var th = this;
+                if (th.loading) return;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         var obj = $api.clone(this.addobj);
@@ -167,6 +168,7 @@
             //保存价格项
             updateItem: function (formName, row) {
                 var th = this;
+                if (th.loading) return;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         var obj = $api.clone(row);
@@ -233,6 +235,7 @@
             //更改价格选项
             changeUse: function (item) {
                 var th = this;
+                if (th.loadingid > 0) return;
                 th.loadingid = item.CP_ID;
                 $api.post('Course/PriceModify', { 'entity': item }).then(function (req) {
                     if (req.data.success) {
@@ -296,6 +299,7 @@
             //更新排序
             changeTax: function () {
                 var th = this;
+                if (th.loading) return;
                 th.loading = true;
                 $api.post('Course/PriceUpdateTaxis', { 'items': this.prices }).then(function (req) {
                     if (req.data.success) {
@@ -316,6 +320,7 @@
             //删除
             deleteData: function (datas) {
                 var th = this;
+                if (th.loading) return;
                 th.loading = true;
                 $api.delete('Course/PriceDelete', { 'id': datas }).then(function (req) {
                     if (req.data.success) {
@@ -360,6 +365,7 @@
             updateCourse: function () {
                 if (JSON.stringify(this.course) == '{}') return;
                 var th = this;
+                if (th.loading_course) return;
                 th.loading_course = true;
                 //去除不相关属性
                 var obj = th.remove_redundance(th.course);

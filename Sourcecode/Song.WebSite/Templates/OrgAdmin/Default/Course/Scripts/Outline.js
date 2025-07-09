@@ -121,6 +121,7 @@
             changeState: function (data, field) {
                 data[field] = !data[field];
                 var th = this;
+                if (th.loadingid > 0) return;
                 //let entity = $api.clone(data);
                 this.loadingid = data.Ol_ID;
                 $api.post('Outline/ModifyState',

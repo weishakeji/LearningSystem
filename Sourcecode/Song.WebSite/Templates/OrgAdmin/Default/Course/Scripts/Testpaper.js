@@ -76,6 +76,7 @@
             //删除
             deleteData: function (datas) {
                 var th = this;
+                if (th.loading) return;
                 th.loading = true;
                 var loading = this.$fulloading();
                 $api.delete('TestPaper/Delete', { 'id': datas }).then(function (req) {
@@ -109,6 +110,7 @@
             //更改使用状态
             changeState: function (row) {
                 var th = this;
+                if (th.loadingid > 0) return;
                 th.loadingid = row.Tp_Id;
                 $api.post('TestPaper/ModifyState', { 'id': row.Tp_Id, 'use': row.Tp_IsUse, 'rec': row.Tp_IsRec }).then(function (req) {
                     if (req.data.success) {
@@ -178,7 +180,7 @@
         props: ["tpid", "index"],
         data: function () {
             return {
-                count:0,
+                count: 0,
                 loading: false
             }
         },
@@ -192,7 +194,7 @@
             }
         },
         computed: {},
-        mounted: function () {            
+        mounted: function () {
         },
         methods: {
             //初始加载
@@ -207,11 +209,11 @@
             //加载
             getData: function () {
                 var th = this;
-                return new Promise(function (res, rej) {                   
+                return new Promise(function (res, rej) {
                     th.loading = true;
                     $api.get('TestPaper/ResultsOfCount', { 'tpid': th.tpid }).then(function (req) {
                         if (req.data.success) {
-                            th.count = req.data.result;                           
+                            th.count = req.data.result;
                         } else {
                             console.error(req.data.exception);
                             throw req.data.message;
@@ -223,7 +225,7 @@
                         });
                 });
 
-            },          
+            },
         },
         template: `<span class="result_count" v-if="count>0">
                 ({{count}})

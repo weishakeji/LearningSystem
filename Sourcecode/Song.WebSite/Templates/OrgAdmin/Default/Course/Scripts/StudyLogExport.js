@@ -8,7 +8,6 @@ $ready(function () {
                 orgid: $api.querystring('orgid'),
                 start: '', end: ''
             },
-         
 
             //批量生成的进度
             exportProgress: {
@@ -24,7 +23,7 @@ $ready(function () {
             this.getFiles();
             this.getprogress();
         },
-        watch: {          
+        watch: {
         },
         computed: {
 
@@ -49,7 +48,8 @@ $ready(function () {
             //删除文件
             deleteFile: function (file) {
                 var th = this;
-                this.loading = true;
+                if (th.loading) return;
+                th.loading = true;
                 $api.delete('Course/StudentsLogBatOutputDelete', { 'filename': file }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
@@ -73,6 +73,7 @@ $ready(function () {
             //silent:是否静默，为true，不显示提示
             clearredundance: function (silent) {
                 var th = this;
+                if (th.loading) return;
                 th.loading = true;
                 $api.delete('Course/StudentsLogBatOutputClear', { 'orgid': th.form.orgid }).then(function (req) {
                     if (req.data.success) {
@@ -96,6 +97,7 @@ $ready(function () {
             //批量导出excel
             batch2excel: function () {
                 var th = this;
+                if (th.exportloading) return;
                 th.exportloading = true;
                 $api.post('Course/StudentsLogBatExcel', th.form).then(function (req) {
                     if (req.data.success) {
@@ -119,7 +121,6 @@ $ready(function () {
                         result["progress"] = isNaN(progress) ? 0 : progress;
                         th.exportProgress = result;
                         if (th.exportProgress["successed"] === true) {
-                            th.exportloading = false;
                             if (th.exportProgress["complete"] <= 0) {
                                 alert('没有可供导出的课程学习信息');
                             }
@@ -132,13 +133,10 @@ $ready(function () {
                                 th.getprogress();
                             }, 3000);
                         }
-                    } else {
-                        th.exportloading = false;
                     }
                 }).catch(err => {
                     console.error(err);
-                    th.exportloading = false;
-                });               
+                }).finally(() => th.exportloading = false);
             }
         },
     });

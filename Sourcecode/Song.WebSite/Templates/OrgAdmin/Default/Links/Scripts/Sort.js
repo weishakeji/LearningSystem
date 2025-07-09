@@ -64,6 +64,7 @@ $ready(function () {
             //删除
             deleteData: function (datas) {
                 var th = this;
+                if (th.loading) return;
                 th.loading = true;
                 $api.delete('Link/SortDelete', { 'id': datas }).then(function (req) {
                     if (req.data.success) {
@@ -86,7 +87,8 @@ $ready(function () {
             //更改使用状态
             changeState: function (row) {
                 var th = this;
-                this.loadingid = row.Ls_Id;
+                if (th.loadingid > 0) return;
+                th.loadingid = row.Ls_Id;
                 $api.post('Link/SortModify', { 'entity': row }).then(function (req) {
                     if (req.data.success) {
                         th.$notify({

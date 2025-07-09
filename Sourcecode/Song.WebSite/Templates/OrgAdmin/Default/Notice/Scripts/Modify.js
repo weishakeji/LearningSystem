@@ -166,7 +166,8 @@ $ready(function () {
                 var th = this;
                 this.$refs[formName].validate(function (valid) {
                     if (valid) {
-                        th.loading=true;
+                        if (th.loading) return;
+                        th.loading = true;
                         var apipath = 'Notice/' + (th.id == '' ? 'add' : 'Modify');
                         $api.post(apipath, { 'entity': th.formData }).then(function (req) {
                             if (req.data.success) {

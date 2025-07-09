@@ -223,6 +223,7 @@ $ready(function () {
             btnExportEvent: function () {
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
+                        if (this.loading_export) return;
                         if (this.questotal <= 1) {
                             alert("当前选择的试题数量为 0，无法导出");
                         } else if (this.questotal <= 1000) {
@@ -279,6 +280,7 @@ $ready(function () {
             //删除文件
             deleteFile: function (file) {
                 var th = this;
+                if (th.loading) return;
                 th.loading = true;
                 $api.delete('Question/ExcelDelete', { 'couid': th.couid, 'filename': file, 'subpath': th.form.subpath }).then(function (req) {
                     if (req.data.success) {
@@ -296,6 +298,7 @@ $ready(function () {
             //删除所有文件
             deleteFileAll: function () {
                 var th = this;
+                if (th.loading) return;
                 th.loading = true;
                 $api.delete('Question/ExcelDeleteAll', { 'couid': th.couid, 'subpath': th.form.subpath }).then(function (req) {
                     if (req.data.success) {

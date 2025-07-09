@@ -36,7 +36,7 @@
 
             <el-form-item>
                 <el-button :type="loading ? 'info' : 'primary'" v-on:click="btnOutput" class="el-icon-position"
-                    :loading="loading" native-type="submit">
+                    :loading="loading || loading_output" native-type="submit">
                     导出充值码信息
                 </el-button>
             </el-form-item>

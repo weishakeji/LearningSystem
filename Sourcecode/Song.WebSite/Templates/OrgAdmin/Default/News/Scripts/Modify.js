@@ -116,6 +116,7 @@ $ready(function () {
                 var th = this;
                 this.$refs[formName].validate((valid, fields) => {
                     if (valid) {
+                        if (th.loading) return;
                         th.loading = true;
                         //为上传数据作处理
                         var obj = $api.clone(th.entity);

@@ -5,7 +5,8 @@
             id: $api.querystring('id'),
             codeset: {},
             files: [],
-            loading: false
+            loading: false,
+            loading_output: false   //导出的预载
         },
         watch: {
 
@@ -27,7 +28,8 @@
         methods: {
             btnOutput: function () {
                 var th = this;
-                th.loading = true;
+                if (th.loading_output) return;
+                th.loading_output = true;
                 $api.get('RechargeCode/ExcelOutput', { 'id': th.id }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
@@ -35,7 +37,7 @@
                         th.$notify({
                             message: '文件生成成功！',
                             type: 'success',
-                            position: 'bottom-right',
+                            position: 'bottom-left',
                             duration: 2000
                         });
                     } else {
@@ -45,7 +47,7 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                }).finally(() => th.loading = false);
+                }).finally(() => setTimeout(() => th.loading_output = false, 1000));
             },
             //获取文件列表
             getFiles: function () {
@@ -66,6 +68,7 @@
             //删除文件
             deleteFile: function (file) {
                 var th = this;
+                if (th.loading) return;
                 th.loading = true;
                 $api.delete('RechargeCode/ExcelDelete', { 'filename': file }).then(function (req) {
                     if (req.data.success) {
@@ -74,7 +77,7 @@
                         th.$notify({
                             message: '文件删除成功！',
                             type: 'success',
-                            position: 'bottom-right',
+                            position: 'bottom-left',
                             duration: 2000
                         });
                     } else {

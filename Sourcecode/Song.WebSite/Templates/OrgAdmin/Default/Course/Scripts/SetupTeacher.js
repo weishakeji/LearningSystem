@@ -108,6 +108,7 @@ $ready(function () {
             //选择教师
             selected: function (teach) {
                 var th = this;
+                if (th.loading_sel) return;
                 th.loading_sel = true;
                 $api.post('Teacher/SetCourse', { 'couid': th.couid, 'teachid': teach != null ? teach.Th_ID : 0 })
                     .then(function (req) {

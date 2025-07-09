@@ -49,7 +49,7 @@
                 .finally(() => th.loading_init = false);
         },
         created: function () {
-            
+
         },
         computed: {
         },
@@ -83,6 +83,7 @@
             //重新计算综合成绩
             calcResultScore: function (stcid) {
                 var th = this;
+                if (th.loadingid > 0) return;
                 th.loadingid = stcid;
                 $api.get('Course/ResultScoreCalc', { 'stcid': stcid }).then(req => {
                     if (req.data.success) {
@@ -142,18 +143,18 @@
             },
             //计算所有成绩的具体方法
             allcalcResultScore_func: function () {
-                var th=this;
+                var th = this;
                 var loading = th.$fulloading();
                 $api.get('Course/ResultScoreBatchCalc', { 'couid': th.form.couid }).then(req => {
                     if (req.data.success) {
-                        var result = req.data.result;    
-                        th.getdata();                    
+                        var result = req.data.result;
+                        th.getdata();
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(err => console.error(err))
-                    .finally(() =>  th.$nextTick(() => loading.close()));
+                    .finally(() => th.$nextTick(() => loading.close()));
             },
             //显示电话
             showTel: function (row) {
@@ -190,6 +191,7 @@
             //生成导出文件
             toexcel: function () {
                 var th = this;
+                if (th.fileloading) return;
                 th.fileloading = true;
                 $api.post('Course/StudentsLogOutputExcel', th.exportform).then(function (req) {
                     if (req.data.success) {
@@ -204,6 +206,7 @@
             //删除文件
             deleteFile: function (file) {
                 var th = this;
+                if (th.fileloading) return;
                 th.fileloading = true;
                 $api.get('Course/StudentsLogOutputDelete', { 'couid': th.form.couid, 'filename': file }).then(function (req) {
                     if (req.data.success) {

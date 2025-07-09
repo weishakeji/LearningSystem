@@ -114,19 +114,20 @@
                     alert(err, '错误');
                 }).finally(() => th.loadingid = 0);
             },
-            outputExcel: function (row) {
+            //导出Excel
+            outputExcel: function (row, width, height) {
                 var file = 'OutputExcel';
                 var title = ' - “' + row.Rs_Theme + "”导出Excel";
                 var boxid = "RechargeCode_" + row.Rs_ID + "_" + file;
-                this.$refs.btngroup.pagebox(file + '?id=' + row.Rs_ID, title, boxid, 600, 400,
+                this.$refs.btngroup.pagebox(file + '?id=' + row.Rs_ID, title, boxid, width, height,
                     { pid: window.name, resize: true });
             },
             //导出二维码
-            outputQrCode: function (row) {
+            outputQrCode: function (row, width, height) {
                 var file = 'OutputQrcode';
-                var boxid = "RechargeCode_" + row.Rs_ID + "_" + file;
                 var title = ' - “' + row.Rs_Theme + "”导出二维码";
-                this.$refs.btngroup.pagebox(file + '?id=' + row.Rs_ID, title, boxid, 600, 400,
+                var boxid = "RechargeCode_" + row.Rs_ID + "_" + file;               
+                this.$refs.btngroup.pagebox(file + '?id=' + row.Rs_ID, title, boxid,  width, height,
                     { pid: window.name, resize: true, full: true });
             },
             //学习卡查询
@@ -134,7 +135,7 @@
                 var file = 'Codequery';
                 var boxid = "RechargeCode_" + obj.id + "_" + file;
                 var title = ' - ' + obj.tips;
-                this.$refs.btngroup.pagebox(file, title, boxid, 800, 600,
+                this.$refs.btngroup.pagebox(file, title, boxid,  800, 600,
                     { pid: window.name, resize: true });
             }
         }

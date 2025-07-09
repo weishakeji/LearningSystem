@@ -86,7 +86,6 @@
             savename: function (name, course) {
                 this.course = course;
                 this.close_fresh('vapp.freshrow("' + course.Cou_ID + '")');
-
             },
             //当前工作环境，是处于机构管理，还是教师或学员管理
             workplace: function () {
@@ -182,6 +181,7 @@
                 var th = this;
                 this.$refs['cou_name'].validate((valid) => {
                     if (valid) {
+                        if (th.loading) return;
                         th.loading = true;
                         $api.post('Course/ModifyName', { 'name': this.data.name, 'couid': this.course.Cou_ID }).then(function (req) {
                             if (req.data.success) {

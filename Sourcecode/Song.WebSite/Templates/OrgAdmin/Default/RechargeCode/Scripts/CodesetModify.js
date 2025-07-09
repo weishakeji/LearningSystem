@@ -146,10 +146,10 @@ $ready(function () {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
+                        if (th.loading) return;
                         th.loading = true;
                         var apipath = 'RechargeCode/Set' + (th.id == '' ? api = 'add' : 'Modify');
                         $api.post(apipath, { 'entity': th.entity }).then(function (req) {
-                            th.loading = false;
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$message({

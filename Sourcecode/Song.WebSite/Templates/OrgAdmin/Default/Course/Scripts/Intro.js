@@ -45,6 +45,7 @@
                     type: 'warning'
                 }).then(() => {
                     var th = this;
+                    if (th.loading) return;
                     th.loading = true;
                     var obj = { 'Cou_ID': th.course.Cou_ID };
                     obj['Cou_Intro'] = th.course.Cou_Intro;

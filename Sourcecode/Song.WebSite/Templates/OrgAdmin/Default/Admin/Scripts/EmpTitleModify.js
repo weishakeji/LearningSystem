@@ -62,7 +62,6 @@ $ready(function () {
                     if (valid) {
                         var th = this;
                         if (th.loading) return;
-                        //console.error(th.loading);
                         th.loading = true;
                         var apiurl = this.id == '' ? "Admin/TitleAdd" : 'Admin/TitleModify';
                         $api.post(apiurl, { 'entity': th.entity }).then(function (req) {

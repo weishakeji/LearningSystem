@@ -176,7 +176,7 @@
                                     throw req.config.way + ' ' + req.data.message;
                                 }
                             }).catch(function (err) {
-                                Vue.prototype.$alert(err);
+                                alert(err);
                                 console.error(err);
                             });
                             console.log(duration);

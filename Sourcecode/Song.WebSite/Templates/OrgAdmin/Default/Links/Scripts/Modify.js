@@ -88,6 +88,7 @@ $ready(function () {
                 var th = this;
                 this.$refs[formName].validate((valid, fields) => {
                     if (valid) {
+                        if (th.loading) return;
                         th.loading = true;
                         //接口路径
                         var apipath = th.id == '' ? 'Link/add' : 'Link/Modify';

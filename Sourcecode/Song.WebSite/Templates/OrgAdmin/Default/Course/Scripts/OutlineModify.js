@@ -147,11 +147,12 @@
             //编辑当前章节
             btnEnter: function (formName, isclose) {
                 var th = this;
+                if (th.loading) return;
                 //是新增还是编辑
                 var modify_state = th.isadd ? 'add' : 'Modify';
                 this.$refs[formName].validate((valid, fields) => {
                     if (valid) {
-
+                        th.loading = true;
                         var obj = th.outline;
                         $api.post('Outline/' + modify_state, { 'entity': obj }).then(function (req) {
                             if (req.data.success) {
@@ -171,7 +172,7 @@
                             }
                         }).catch(function (err) {
                             alert(err, '错误');
-                        }).finally(() => { });
+                        }).finally(() => th.loading = false);
                     } else {
                         //未通过验证的字段
                         let field = Object.keys(fields)[0];
