@@ -92,7 +92,7 @@ Vue.component('largebutton', {
                     'url': url,
                     'ico': 'e731', 'min': false, 'showmask': true,
                     'title': '试题练习 - ' + this.course.Cou_Name,
-                    'width': '600',
+                    'width': '1200',
                     'height': '80%'
                 }
                 let pbox = top.$pagebox.create(obj);
