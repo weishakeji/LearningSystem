@@ -3,18 +3,23 @@ Vue.component('course_prices', {
     props: ["course", "uid", "index"],
     data: function () {
         return {
-            prices: [],
+            prices: [],     //价格信息
+            initstate: false,   //是否初始化完成
 
             loading: false
         }
     },
     watch: {
-        'uid': {
+
+        'course': {
             handler: function (nv, ov) {
                 if (!$api.isnull(nv)) {
+                    //为了让课程列表中的价格信息逐一加载，这里是让从第一个开始，完成后再加载课程表中的下一个组件
                     if (this.index == 0) this.startInit();
+                    //当初始化完成后，则不再逐一加载，如果课程刷新，则立即加载价格信息
+                    if (this.initstate) this.getPrices();
                 }
-            }, immediate: true
+            }, immediate: true, deep: true
         }
     },
     computed: {},
@@ -26,7 +31,9 @@ Vue.component('course_prices', {
         startInit: function () {
             //加载完成，则加载后一个组件，实现逐个加载的效果
             this.getPrices().finally(() => {
+                this.initstate = true;      //价格信息的初始化完成
                 var vapp = window.vapp;
+                if (!vapp) return;
                 var ctr = vapp.$refs['prices' + (this.index + 1)];
                 if (ctr != null) ctr.startInit();
             });
@@ -46,7 +53,7 @@ Vue.component('course_prices', {
                 $api.put('Course/PriceItems', { 'uid': cou.Cou_UID }).then(function (req) {
                     if (req.data.success) {
                         th.prices = req.data.result;
-                        cou.prices = req.data.result;
+                        th.$set(cou, 'prices', req.data.result);
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;

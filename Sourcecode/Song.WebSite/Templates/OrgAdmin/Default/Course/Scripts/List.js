@@ -141,9 +141,8 @@
                 $api.put('Course/ForID', { 'id': id }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        var index = th.datas.findIndex(item => {
-                            return item.Cou_ID == result.Cou_ID;
-                        });
+                        let index = th.datas.findIndex(item => item.Cou_ID == result.Cou_ID);
+                        console.error(index);
                         if (index >= 0) {
                             th.$set(th.datas, index, result);
                             th.$message({
