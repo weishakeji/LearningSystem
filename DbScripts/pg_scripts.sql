@@ -149,6 +149,7 @@ CREATE TABLE IF NOT EXISTS public."Article"
 	"Art_LastTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Art_Logo" character varying(255) COLLATE pg_catalog."default",
 	"Art_Number" integer NOT NULL,
+	"Art_Order" integer NOT NULL,
 	"Art_OutUrl" character varying(255) COLLATE pg_catalog."default",
 	"Art_PushTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Art_Source" character varying(100) COLLATE pg_catalog."default",
@@ -173,6 +174,7 @@ CREATE INDEX IF NOT EXISTS "Article_IX_Art_IsTop" ON "Article" ("Art_IsTop" ASC)
 CREATE INDEX IF NOT EXISTS "Article_IX_Art_IsUse" ON "Article" ("Art_IsUse" ASC);
 CREATE INDEX IF NOT EXISTS "Article_IX_Art_IsVerify" ON "Article" ("Art_IsVerify" ASC);
 CREATE INDEX IF NOT EXISTS "Article_IX_Art_Number" ON "Article" ("Art_Number" ASC);
+CREATE INDEX IF NOT EXISTS "Article_IX_Art_Order" ON "Article" ("Art_Order" ASC);
 CREATE INDEX IF NOT EXISTS "Article_IX_Art_Title" ON "Article" ("Art_Title" ASC);
 CREATE INDEX IF NOT EXISTS "Article_IX_Col_UID" ON "Article" ("Col_UID" ASC);
 CREATE INDEX IF NOT EXISTS "Article_IX_Org_ID" ON "Article" ("Org_ID" ASC);
@@ -249,9 +251,12 @@ DROP TABLE IF EXISTS public."Course" CASCADE;
 CREATE TABLE IF NOT EXISTS public."Course"
 (
 	"Cou_ID" bigint NOT NULL,
+	"Cou_AIAgent" text COLLATE pg_catalog."default",
+	"Cou_AIType" integer NOT NULL,
 	"Cou_Allowedit" boolean NOT NULL,
 	"Cou_Content" text,
 	"Cou_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
+	"Cou_EnabledAI" boolean NOT NULL,
 	"Cou_ExistExam" boolean NOT NULL,
 	"Cou_ExistLive" boolean NOT NULL,
 	"Cou_FreeEnd" TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -296,6 +301,7 @@ CREATE TABLE IF NOT EXISTS public."Course"
 	"Th_Name" character varying(50) COLLATE pg_catalog."default",
 	 CONSTRAINT key_course PRIMARY KEY ("Cou_ID")
 );
+CREATE INDEX IF NOT EXISTS "Course_Cou_AIAgent_key" ON "Course" ("Cou_AIAgent" ASC);
 CREATE INDEX IF NOT EXISTS "Course_IX_Cou_CrtTime" ON "Course" ("Cou_CrtTime" ASC);
 CREATE INDEX IF NOT EXISTS "Course_IX_Cou_ExistLive" ON "Course" ("Cou_ExistLive" ASC);
 CREATE INDEX IF NOT EXISTS "Course_IX_Cou_IsFree" ON "Course" ("Cou_IsFree" ASC);
@@ -446,7 +452,7 @@ CREATE INDEX IF NOT EXISTS "EmpAccount_IX_Acc_Name" ON "EmpAccount" ("Acc_Name" 
 CREATE INDEX IF NOT EXISTS "EmpAccount_IX_Acc_RegTime" ON "EmpAccount" ("Acc_RegTime" ASC);
 CREATE INDEX IF NOT EXISTS "EmpAccount_IX_Org_ID" ON "EmpAccount" ("Org_ID" ASC);
 CREATE INDEX IF NOT EXISTS "EmpAccount_IX_Posi_Id" ON "EmpAccount" ("Posi_Id" ASC);
-INSERT INTO "EmpAccount"("Acc_Id","Acc_AccName","Acc_Age","Acc_Ans","Acc_Birthday","Acc_CheckUID","Acc_Email","Acc_EmpCode","Acc_IDCardNumber","Acc_IsAutoOut","Acc_IsOpenMobile","Acc_IsOpenTel","Acc_IsPartTime","Acc_IsUse","Acc_IsUseCard","Acc_LastTime","Acc_MobileTel","Acc_Name","Acc_NamePinyin","Acc_OutTime","Acc_Photo","Acc_Pw","Acc_QQ","Acc_Qus","Acc_RegTime","Acc_Sex","Acc_Signature","Acc_Tel","Acc_Weixin","Dep_CnName","Dep_Id","EGrp_Id","Org_ID","Org_Name","Posi_Id","Posi_Name","Title_Id","Title_Name") VALUES (23,'admin',1017,'没钱','2021-12-10 00:00:00','a84604171010af6ec4cc1ea56474ce5c','','','',false,false,false,false,true,false,'2025-05-28 21:58:40','123','机构管理员','JGGLY','3017-01-04 20:44:42','','c4ca4238a0b923820dcc509a6f75849b','','我口袋里有几块钱？','2017-01-04 20:44:42',1,'','','','科长',0,0,4,'郑州微厦计算机科技有限公司',10,'管理员',11,'科长');INSERT INTO "EmpAccount"("Acc_Id","Acc_AccName","Acc_Age","Acc_Ans","Acc_Birthday","Acc_CheckUID","Acc_Email","Acc_EmpCode","Acc_IDCardNumber","Acc_IsAutoOut","Acc_IsOpenMobile","Acc_IsOpenTel","Acc_IsPartTime","Acc_IsUse","Acc_IsUseCard","Acc_LastTime","Acc_MobileTel","Acc_Name","Acc_NamePinyin","Acc_OutTime","Acc_Photo","Acc_Pw","Acc_QQ","Acc_Qus","Acc_RegTime","Acc_Sex","Acc_Signature","Acc_Tel","Acc_Weixin","Dep_CnName","Dep_Id","EGrp_Id","Org_ID","Org_Name","Posi_Id","Posi_Name","Title_Id","Title_Name") VALUES (1,'super',1978,'南小','1752-12-31 23:54:17','7069f723d13a37fb6c16125c4c4a8a44','5','A01','',false,true,true,false,true,false,'2025-06-09 19:44:36','4006015615','超管','CG2','1752-12-31 23:54:17','','c4ca4238a0b923820dcc509a6f75849b','19303340','我就读的第一所学校的名称？','2005-01-12 00:00:00',1,'','888','','核心开发部',32,0,2,'郑州微厦计算机科技有限公司',3,'管理员',3,'系统架构师');
+INSERT INTO "EmpAccount"("Acc_Id","Acc_AccName","Acc_Age","Acc_Ans","Acc_Birthday","Acc_CheckUID","Acc_Email","Acc_EmpCode","Acc_IDCardNumber","Acc_IsAutoOut","Acc_IsOpenMobile","Acc_IsOpenTel","Acc_IsPartTime","Acc_IsUse","Acc_IsUseCard","Acc_LastTime","Acc_MobileTel","Acc_Name","Acc_NamePinyin","Acc_OutTime","Acc_Photo","Acc_Pw","Acc_QQ","Acc_Qus","Acc_RegTime","Acc_Sex","Acc_Signature","Acc_Tel","Acc_Weixin","Dep_CnName","Dep_Id","EGrp_Id","Org_ID","Org_Name","Posi_Id","Posi_Name","Title_Id","Title_Name") VALUES (1,'super',1978,'南小','1752-12-31 23:54:17','7069f723d13a37fb6c16125c4c4a8a44','5','A01','',false,true,true,false,true,false,'2025-06-09 19:44:36','4006015615','超管','CG2','1752-12-31 23:54:17','','c4ca4238a0b923820dcc509a6f75849b','19303340','我就读的第一所学校的名称？','2005-01-12 00:00:00',1,'','888','','核心开发部',32,0,2,'郑州微厦计算机科技有限公司',3,'管理员',3,'系统架构师');INSERT INTO "EmpAccount"("Acc_Id","Acc_AccName","Acc_Age","Acc_Ans","Acc_Birthday","Acc_CheckUID","Acc_Email","Acc_EmpCode","Acc_IDCardNumber","Acc_IsAutoOut","Acc_IsOpenMobile","Acc_IsOpenTel","Acc_IsPartTime","Acc_IsUse","Acc_IsUseCard","Acc_LastTime","Acc_MobileTel","Acc_Name","Acc_NamePinyin","Acc_OutTime","Acc_Photo","Acc_Pw","Acc_QQ","Acc_Qus","Acc_RegTime","Acc_Sex","Acc_Signature","Acc_Tel","Acc_Weixin","Dep_CnName","Dep_Id","EGrp_Id","Org_ID","Org_Name","Posi_Id","Posi_Name","Title_Id","Title_Name") VALUES (23,'admin',1017,'没钱','2021-12-10 00:00:00','f5457ff65e0c9585e49973af78f5fce0','','','',false,false,false,false,true,false,'2025-06-20 22:27:45','123','机构管理员','JGGLY','3017-01-04 20:44:42','','c4ca4238a0b923820dcc509a6f75849b','','我口袋里有几块钱？','2017-01-04 20:44:42',1,'','','','科长',0,0,4,'郑州微厦计算机科技有限公司',10,'管理员',11,'科长');
 
 -- 创建表 EmpGroup --
 DROP TABLE IF EXISTS public."EmpGroup" CASCADE;
@@ -1004,6 +1010,7 @@ CREATE TABLE IF NOT EXISTS public."LlmRecords"
 (
 	"Llr_ID" integer NOT NULL,
 	"Ac_ID" integer NOT NULL,
+	"Cou_ID" bigint NOT NULL,
 	"Llr_CrtTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Llr_LastTime" TIMESTAMP WITH TIME ZONE NOT NULL,
 	"Llr_Records" text,
@@ -1015,6 +1022,7 @@ ALTER SEQUENCE IF EXISTS public."LlmRecords_Llr_ID_seq" OWNED BY public."LlmReco
 ALTER TABLE "LlmRecords" ALTER COLUMN "Llr_ID" SET DEFAULT NEXTVAL('"LlmRecords_Llr_ID_seq"'::regclass);
 
 CREATE INDEX IF NOT EXISTS "LlmRecords_IX_Ac_ID" ON "LlmRecords" ("Ac_ID" ASC);
+CREATE INDEX IF NOT EXISTS "LlmRecords_IX_Cou_ID" ON "LlmRecords" ("Cou_ID" ASC);
 CREATE INDEX IF NOT EXISTS "LlmRecords_IX_Llr_CrtTime" ON "LlmRecords" ("Llr_CrtTime" ASC);
 CREATE INDEX IF NOT EXISTS "LlmRecords_aaaaaLlmRecords_PK" ON "LlmRecords" ("Llr_ID" ASC);
 CREATE INDEX IF NOT EXISTS "LlmRecords_IX_Llr_LastTimee" ON "LlmRecords" ("Llr_LastTime" ASC);
@@ -1476,6 +1484,7 @@ CREATE TABLE IF NOT EXISTS public."Notice"
 	"No_IsTop" boolean NOT NULL,
 	"No_Linkurl" text,
 	"No_OpenCount" integer NOT NULL,
+	"No_Order" integer NOT NULL,
 	"No_Organ" character varying(50) COLLATE pg_catalog."default",
 	"No_Page" character varying(200) COLLATE pg_catalog."default",
 	"No_Range" integer NOT NULL,
@@ -1493,12 +1502,13 @@ CREATE TABLE IF NOT EXISTS public."Notice"
 CREATE INDEX IF NOT EXISTS "Notice_IX_No_EndTime" ON "Notice" ("No_EndTime" ASC);
 CREATE INDEX IF NOT EXISTS "Notice_IX_No_IsShow" ON "Notice" ("No_IsShow" ASC);
 CREATE INDEX IF NOT EXISTS "Notice_IX_No_IsTop" ON "Notice" ("No_IsTop" ASC);
+CREATE INDEX IF NOT EXISTS "Notice_IX_No_Orde" ON "Notice" ("No_Order" ASC);
 CREATE INDEX IF NOT EXISTS "Notice_IX_No_Page" ON "Notice" ("No_Page" ASC);
 CREATE INDEX IF NOT EXISTS "Notice_IX_No_StartTime" ON "Notice" ("No_StartTime" ASC);
 CREATE INDEX IF NOT EXISTS "Notice_IX_No_Ttl" ON "Notice" ("No_Ttl" ASC);
 CREATE INDEX IF NOT EXISTS "Notice_IX_No_Type" ON "Notice" ("No_Type" ASC);
 CREATE INDEX IF NOT EXISTS "Notice_IX_Org_ID" ON "Notice" ("Org_ID" ASC);
-INSERT INTO "Notice"("No_Id","Acc_Id","Acc_Name","No_BgImage","No_Context","No_CrtTime","No_EndTime","No_Height","No_Interval","No_IsShow","No_IsTop","No_Linkurl","No_OpenCount","No_Organ","No_Page","No_Range","No_StartTime","No_StudentSort","No_Timespan","No_Ttl","No_Type","No_ViewNum","No_Width","Org_ID","Org_Name") VALUES (129504671140155392,0,'','','<p>&ldquo;视频学习、试题练习、在线考试&rdquo;紧密相联，打造成为集&nbsp;<strong>&ldquo;学、练、考&rdquo;</strong>&nbsp;于一体的在线学习系统。&ldquo;点播/直播&rdquo;、&ldquo;刷题/测试&rdquo;、&ldquo;组卷/考试&rdquo;，根据学习内容的不同权重汇总综合成绩，生成学习证明。</p>
+INSERT INTO "Notice"("No_Id","Acc_Id","Acc_Name","No_BgImage","No_Context","No_CrtTime","No_EndTime","No_Height","No_Interval","No_IsShow","No_IsTop","No_Linkurl","No_OpenCount","No_Order","No_Organ","No_Page","No_Range","No_StartTime","No_StudentSort","No_Timespan","No_Ttl","No_Type","No_ViewNum","No_Width","Org_ID","Org_Name") VALUES (129504671140155392,0,'','','<p>&ldquo;视频学习、试题练习、在线考试&rdquo;紧密相联，打造成为集&nbsp;<strong>&ldquo;学、练、考&rdquo;</strong>&nbsp;于一体的在线学习系统。&ldquo;点播/直播&rdquo;、&ldquo;刷题/测试&rdquo;、&ldquo;组卷/考试&rdquo;，根据学习内容的不同权重汇总综合成绩，生成学习证明。</p>
 <p>支持在线支付（微信支付、支付宝支付）；利用充值卡、学习卡配合线下营销；Web端、APP、小程序，多终端方便学习。<strong><span style="color: #e03e2d;">安装用户突破四万家。</span></strong></p>
 <p><a href="/help/" target="_blank" rel="noopener">?帮助中心</a> &nbsp;<a href="/web/link" target="_blank" rel="noopener">&spades;友商推荐</a></p>
 <p><strong>演示信息</strong></p>
@@ -1511,7 +1521,7 @@ INSERT INTO "Notice"("No_Id","Acc_Id","Acc_Name","No_BgImage","No_Context","No_C
 <ul>
 <li style="list-style-type: initial;">Gitee ：<a href="https://gitee.com/weishakeji/LearningSystem" target="_blank" rel="noopener">https://gitee.com/weishakeji/LearningSystem</a></li>
 <li style="list-style-type: initial;">GitHub ：<a href="https://github.com/weishakeji/LearningSystem" target="_blank" rel="noopener">https://github.com/weishakeji/LearningSystem</a></li>
-</ul>','2023-02-09 16:12:16','2223-01-01 23:59:59',600,'',true,false,'',0,'','all_home',1,'2023-01-01 00:00:00','',300,'产品简介 - 安装用户突破四万家',2,13,800,4,'郑州微厦计算机科技有限公司');
+</ul>','2023-02-09 16:12:16','2223-01-01 23:59:59',600,'',true,false,'',0,1,'','all_home',1,'2023-01-01 00:00:00','',300,'产品简介 - 安装用户突破四万家',2,13,800,4,'郑州微厦计算机科技有限公司');
 
 -- 创建表 OrganLevel --
 DROP TABLE IF EXISTS public."OrganLevel" CASCADE;
