@@ -95,7 +95,7 @@
         </context>
         <div id="pager-box">
             <loading v-if='loading'>正在加载中...</loading>
-            <el-pagination v-else v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
+            <el-pagination v-else v-on:current-change="handleCurrentChange" :current-page="form.index" 
                 :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
             </el-pagination>
         </div>

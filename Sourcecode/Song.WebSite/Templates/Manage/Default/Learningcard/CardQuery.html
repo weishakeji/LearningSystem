@@ -99,7 +99,7 @@
         </template>
         <div id="pager-box">
             <el-pagination v-on:current-change="handleCurrentChange" v-if="!loading" :current-page="form.index"
-                :page-sizes="[1]" :page-size="form.size" :pager-count="10" layout="total, prev, pager, next, jumper"
+                 :page-size="form.size" :pager-count="10" layout="total, prev, pager, next, jumper"
                 :total="total">
             </el-pagination>
         </div>

@@ -170,7 +170,7 @@ Vue.component('knowledge', {
             </span>
         </el-dialog>
         <div class="knl-pager-box">
-            <el-pagination v-on:current-change="handleCurrentChange"  :disabled="loading" :current-page="form.index" :page-sizes="[1]"
+            <el-pagination v-on:current-change="handleCurrentChange"  :disabled="loading" :current-page="form.index" 
                 :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
             </el-pagination>
         </div>

@@ -102,7 +102,7 @@
                 没有满足条件的内容
             </div>
             <template slot="footer">
-                <el-pagination v-on:current-change="sortpaper" :current-page="sortquery.index" :page-sizes="[1]"
+                <el-pagination v-on:current-change="sortpaper" :current-page="sortquery.index" 
                     :page-size="sortquery.size" :pager-count="4" layout="total, prev, pager, next" :total="sort.total">
                 </el-pagination>           
             </template>

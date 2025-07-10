@@ -32,7 +32,7 @@
                         </div>
                         <div id="pager-box" v-if="articles.length>0">
                             <el-pagination v-on:current-change="getArticles" :current-page="query.index"
-                                :page-sizes="[1]" :page-size="query.size" :pager-count="12"
+                                 :page-size="query.size" :pager-count="12"
                                 layout="total, prev, pager, next, jumper" :total="total">
                             </el-pagination>
                         </div>

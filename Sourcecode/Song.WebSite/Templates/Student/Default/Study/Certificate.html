@@ -105,7 +105,7 @@
                 </div>
                 <div id="pager-box" v-if="!loading">
                     <el-pagination v-on:current-change="handleCurrentChange" :current-page="query.index"
-                        :page-sizes="[1]" :page-size="query.size" :pager-count="4"
+                         :page-size="query.size" :pager-count="4"
                         layout="total, prev, pager, next, jumper" :total="total">
                     </el-pagination>
                 </div>

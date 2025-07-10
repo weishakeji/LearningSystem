@@ -61,8 +61,7 @@
         <!--课程列表-->
         <el-table ref="datatables" :data="datas" border resizable :stripe="true" style="width: 100%" v-loading="loading"
             @selection-change="val=>selects=val" @row-dblclick="row=>$refs.btngroup.modify(row)" row-key="Cou_ID"
-            :row-class-name="data=>{return data.row.Cou_IsUse ? 'enable' : 'disabled';}"
-            cell-class-name="tdcell">
+            :row-class-name="data=>{return data.row.Cou_IsUse ? 'enable' : 'disabled';}" cell-class-name="tdcell">
             <el-table-column type="selection" width="35">
             </el-table-column>
             <el-table-column type="index" label="#" width="50" align="center">
@@ -99,8 +98,7 @@
                         </el-dropdown-menu>
                     </el-dropdown>
                 </template>
-                <div slot-scope="scope" :class="{'title_box':true}"
-                    :title="scope.row.Cou_Name">
+                <div slot-scope="scope" :class="{'title_box':true}" :title="scope.row.Cou_Name">
                     <icon class="recicon" v-if="scope.row.Cou_IsRec" title="推荐课程">&#xe741</icon>
                     <a :href="'/web/course/detail.'+scope.row.Cou_ID" target="_blank">
                         <img :src="scope.row.Cou_LogoSmall" v-if="scope.row.Cou_LogoSmall!=''" class="cou_logo" />
@@ -270,8 +268,8 @@
         </el-table>
         <!--分页导航-->
         <div id="pager-box">
-            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
-                :page-size="form.size" :pager-count="10" layout="total, prev, pager, next, jumper" :total="total">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-size="form.size"
+                :pager-count="10" layout="total, prev, pager, next, jumper" :total="total">              
             </el-pagination>
         </div>
         <!--显示当前课程的综述-->

@@ -282,7 +282,7 @@ $ready(function () {
                 </dd>
             </dl>
 
-            <el-pagination v-on:current-change="getpaper" :current-page="form.index" :page-sizes="[1]"
+            <el-pagination v-on:current-change="getpaper" :current-page="form.index" 
                 :page-size="form.size" :pager-count="4" layout="total, prev, pager, next" :total="total">
             </el-pagination> 
             

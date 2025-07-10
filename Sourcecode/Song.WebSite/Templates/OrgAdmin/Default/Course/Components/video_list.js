@@ -151,7 +151,7 @@ Vue.component('video_list', {
             </div>
         </div>
         <div slot="footer">
-            <el-pagination v-on:current-change="handleCurrentChange" :disabled="drawer || loading" :current-page="query.index" :page-sizes="[1]"
+            <el-pagination v-on:current-change="handleCurrentChange" :disabled="drawer || loading" :current-page="query.index" 
                 :page-size="query.size" :pager-count="10" layout="total, prev, pager, next, jumper" :total="total">
             </el-pagination>
         </div>

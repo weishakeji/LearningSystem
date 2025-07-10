@@ -34,7 +34,7 @@
                             <icon>&#xe723</icon>好嗨哟，没有考试
                         </div>
                         <div class="pager-box" v-if="myexam.length>0">
-                            <el-pagination v-on:current-change="my_exam" :current-page="form.index" :page-sizes="[1]"
+                            <el-pagination v-on:current-change="my_exam" :current-page="form.index" 
                                 :page-size="form.size" :pager-count="15" layout="total, prev, pager, next, jumper"
                                 :total="total">
                             </el-pagination>
@@ -48,7 +48,7 @@
                             <icon>&#xe723</icon>好嗨哟，没有考试
                         </div>
                         <div class="pager-box" v-if="allexam.length>0">
-                            <el-pagination v-on:current-change="all_exam" :current-page="form.index" :page-sizes="[1]"
+                            <el-pagination v-on:current-change="all_exam" :current-page="form.index" 
                                 :page-size="form.size" :pager-count="15" layout="total, prev, pager, next, jumper"
                                 :total="total">
                             </el-pagination>
@@ -62,7 +62,7 @@
                             <icon>&#xe849</icon>没有考试成绩
                         </div>
                         <div class="pager-box" v-if="scoreexam.length>0">
-                            <el-pagination v-on:current-change="score_exam" :current-page="form.index" :page-sizes="[1]"
+                            <el-pagination v-on:current-change="score_exam" :current-page="form.index" 
                                 :page-size="form.size" :pager-count="15" layout="total, prev, pager, next, jumper"
                                 :total="total">
                             </el-pagination>

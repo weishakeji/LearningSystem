@@ -64,7 +64,7 @@ Vue.component('guides', {
             <index>{{(form.index - 1) * form.size + index + 1}} . </index>{{item.Gu_Title}}
         </div>    
         <div id="pager-box">
-            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" 
                 :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
             </el-pagination>
         </div>

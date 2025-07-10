@@ -40,7 +40,7 @@
             <el-empty v-else description="没有满足条件的查询"></el-empty>
         </div>
         <div id="pager-box" v-if="totalpages>1">
-            <el-pagination v-on:current-change="getStudentSorts" :current-page="form.index" :page-sizes="[1]"
+            <el-pagination v-on:current-change="getStudentSorts" :current-page="form.index" 
                 :page-size="form.size" :pager-count="5" layout="total, prev, pager, next" :total="total">
             </el-pagination>
         </div>

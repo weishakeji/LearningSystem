@@ -92,7 +92,7 @@
         <student_batadd :stsid="id" :orgid="organ.Org_ID" ref="studentbatadd" @addfinish="studentadd_event">
         </student_batadd>
         <div class="footer">
-            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" 
                 :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
             </el-pagination>
         </div>

@@ -331,7 +331,7 @@ $ready([],
                 </div>               
            </div>
            <div v-else class="nocourse"><icon>&#xe839</icon>没有满足条件的课程</div>
-            <el-pagination v-on:current-change="getcourses" :current-page="form.index" :page-sizes="[1]"
+            <el-pagination v-on:current-change="getcourses" :current-page="form.index" 
                 :page-size="form.size" :pager-count="4" layout="total, prev, pager, next" :total="total">
             </el-pagination> 
             
