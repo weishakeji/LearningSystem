@@ -156,7 +156,7 @@
         if (display == null) display = 'block';
         return this.each(function () {
             if (this.style.display === 'none') {
-                this.style.removeProperty('display');               
+                this.style.removeProperty('display');
             }
         });
     };
@@ -914,6 +914,7 @@
     };
     //加载自身相关的js或css  
     webdom.selfresource = function () {
+        //head 标签有resource属性,则加载自身相关的css和js
         if (webdom('head[resource]').length > 0) {
             var view = webdom('meta[view]');
             if (view != null && view.length > 0) {
@@ -928,6 +929,12 @@
                 webdom.load.css(['styles/' + file + '.css']);
                 webdom.load.js(['Scripts/' + file + '.js']);
             }
+        }
+        //禁用鼠标右键菜单
+        if (webdom('head[disabledmenu]').length > 0) {
+            document.addEventListener('contextmenu', function (e) {
+                e.preventDefault();
+            });
         }
     };
     //创建全局对象，方便调用

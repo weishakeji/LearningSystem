@@ -73,7 +73,7 @@
     height: calc(100% - 80px);
     box-sizing: border-box;
     overflow-y: auto;
-    overflow-x: auto;
+    overflow-x: hidden;
 }
 
 .manual_area .btns {

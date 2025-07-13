@@ -267,7 +267,7 @@
                         var file = 'ResultsManual?id=' + row.Exam_ID, title;
                         var boxid = "ResultsManual_" + row.Exam_ID + "_" + file;
                         var title = ' 人工判卷/批阅 - “' + row.Exam_Title + "”";
-                        window.vue.openbox(file, boxid, title, 900, '80%', { 'ico': 'e696' });
+                        window.vue.openbox(file, boxid, title, 1000, '80%', { 'ico': 'e696' });
                     }
                 },
                 template: `<div><el-row :gutter="20" class="row_title">

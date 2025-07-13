@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="zh">
 
-<head resource>
+<head resource disabledmenu>
     <meta charset="utf-8">
     <include file="../inc/meta.inc" />
     <title>考试成绩</title>
@@ -132,7 +132,7 @@
                         <template v-else>
                             <el-tooltip class="item" effect="dark" content="重新计算成绩" placement="bottom">
                                 <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
-                                    icon-color="red" title="确定要重新计算成绩吗？" @confirm="clacScore(scope.row.Exr_ID)">
+                                    icon-color="red" title="确定要重新计算成绩吗？" @confirm="ResultClacScore(scope.row.Exr_ID)">
                                     <el-link type="primary" plain icon="el-icon-refresh" slot="reference">
                                     </el-link>
                                 </el-popconfirm>
