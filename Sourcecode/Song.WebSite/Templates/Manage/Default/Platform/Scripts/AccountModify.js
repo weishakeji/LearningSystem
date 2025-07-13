@@ -12,9 +12,9 @@ $ready(function () {
             organ: {},       //当前登录账号所在的机构
             rules: {
                 Ac_Name: [
-                     //{ required: true, message: '姓名不得为空', trigger: 'blur' },
-                     { validator: validate.name.proh, trigger: 'change' },   //禁止使用特殊字符
-                     { validator: validate.name.danger, trigger: 'change' },
+                    //{ required: true, message: '姓名不得为空', trigger: 'blur' },
+                    { validator: validate.name.proh, trigger: 'change' },   //禁止使用特殊字符
+                    { validator: validate.name.danger, trigger: 'change' },
                 ],
                 Ac_AccName: [
                     { required: true, message: '账号不得为空', trigger: 'blur' },
@@ -99,8 +99,8 @@ $ready(function () {
                     });
                 });
             },
-             //绑定手机号
-             bindmobi: function (val) {
+            //绑定手机号
+            bindmobi: function (val) {
                 if (val && (this.account.Ac_MobiTel1 != null && this.account.Ac_MobiTel1 != ''))
                     this.account.Ac_MobiTel2 = this.account.Ac_MobiTel1;
                 if (!val) this.account.Ac_MobiTel2 = '';
@@ -111,6 +111,7 @@ $ready(function () {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
+                        if (th.loading) return;
                         th.loading = true;
                         var apipath = 'Account/Modify';
                         $api.post(apipath, { 'acc': th.account }).then(function (req) {
@@ -167,4 +168,4 @@ $ready(function () {
     });
 
 }, ["../Scripts/hanzi2pinyin.js",
-"/Utilities/Components/education.js"]);
+    "/Utilities/Components/education.js"]);

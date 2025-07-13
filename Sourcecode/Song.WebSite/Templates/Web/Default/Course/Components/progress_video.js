@@ -59,7 +59,7 @@ Vue.component('progress_video', {
                     {{percentage}} %
                 </template>
                 <template v-else>
-                    {{text}}66
+                    {{text}}
                 </template> 
             </template>
             <template v-else>
