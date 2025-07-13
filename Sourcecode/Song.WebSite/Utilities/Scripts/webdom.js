@@ -932,9 +932,16 @@
         }
         //禁用鼠标右键菜单
         if (webdom('head[disabledmenu]').length > 0) {
-            document.addEventListener('contextmenu', function (e) {
-                e.preventDefault();
-            });
+            document.addEventListener('contextmenu', e => e.preventDefault());
+        }
+        //禁用文本选择
+        if (webdom('head[disabledselect]').length > 0) {
+            document.addEventListener('selectstart', e => e.preventDefault());
+        }
+        //禁用复制
+        if (webdom('head[disabledcopy]').length > 0) {
+            document.addEventListener('copy', e => e.preventDefault());
+            document.addEventListener('cut', e => e.preventDefault());
         }
     };
     //创建全局对象，方便调用
