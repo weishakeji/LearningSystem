@@ -75,6 +75,7 @@ Vue.component('studylog', {
         },
         //替换星号
         asterisk: function (str, start, end) {
+            return str;
             var len = str.length;
             end = end >= len ? len : end;
             start = start > len || start < 0 ? 0 : start;

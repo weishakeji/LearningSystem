@@ -947,6 +947,11 @@ namespace Song.ViewData.Methods
         {
             int total = 0;
             List<LogForStudentStudy> list= Business.Do<IStudent>().LogForStudyPager(orgid, couid,-1,-1,null,size,index,out total);
+            foreach(LogForStudentStudy item in list)
+            {
+                item.Ac_AccName = ViewData.Helper.Desensitize.Account(item.Ac_AccName);
+                item.Ac_Name = ViewData.Helper.Desensitize.Name(item.Ac_Name);
+            }
             Song.ViewData.ListResult result = new ListResult(list);
             result.Index = index;
             result.Size = size;
