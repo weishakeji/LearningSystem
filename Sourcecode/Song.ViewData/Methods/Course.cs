@@ -946,7 +946,7 @@ namespace Song.ViewData.Methods
         public ListResult StudyLogPager(int orgid, long couid, int size,int index)
         {
             int total = 0;
-            LogForStudentStudy[] list= Business.Do<IStudent>().LogForStudyPager(orgid, couid,-1,-1,null,size,index,out total);
+            List<LogForStudentStudy> list= Business.Do<IStudent>().LogForStudyPager(orgid, couid,-1,-1,null,size,index,out total);
             Song.ViewData.ListResult result = new ListResult(list);
             result.Index = index;
             result.Size = size;

@@ -1295,7 +1295,7 @@ namespace Song.ServiceImpls
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public LogForStudentStudy[] LogForStudyPager(int orgid, long couid, long olid, int acid, string platform, int size, int index, out int countSum)
+        public List<LogForStudentStudy> LogForStudyPager(int orgid, long couid, long olid, int acid, string platform, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (acid > 0) wc.And(LogForStudentStudy._.Ac_ID == acid);
@@ -1312,7 +1312,7 @@ namespace Song.ServiceImpls
                 }
             }
             countSum = Gateway.Default.Count<LogForStudentStudy>(wc);
-            return Gateway.Default.From<LogForStudentStudy>().Where(wc).OrderBy(LogForStudentStudy._.Lss_LastTime.Desc).ToArray<LogForStudentStudy>(size, (index - 1) * size);
+            return Gateway.Default.From<LogForStudentStudy>().Where(wc).OrderBy(LogForStudentStudy._.Lss_LastTime.Desc).ToList<LogForStudentStudy>(size, (index - 1) * size);
         }
         /// <summary>
         /// 学员的学习记录

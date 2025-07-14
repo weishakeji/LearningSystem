@@ -933,6 +933,7 @@
         //禁用鼠标右键菜单
         if (webdom('head[disabledmenu]').length > 0) {
             document.addEventListener('contextmenu', e => e.preventDefault());
+            webdom('body').attr('oncontextmenu','return false');
         }
         //禁用文本选择
         if (webdom('head[disabledselect]').length > 0) {

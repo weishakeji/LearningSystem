@@ -37,11 +37,11 @@ Vue.component('studylog', {
         getStudyLogPager: function (index) {
             var th = this;
             if (index != null) th.query.index = index;
-            else
-                th.query.index++;
+            else th.query.index++;
             $api.get('Course/StudyLogPager', th.query).then(function (req) {
                 if (req.data.success) {
                     var result = req.data.result;
+                    console.error(result);
                     for (let i = 0; i < result.length; i++) {
                         const el = result[i];
                         var d = th.datas.findIndex(v => el.Ac_ID == v.Ac_ID);
