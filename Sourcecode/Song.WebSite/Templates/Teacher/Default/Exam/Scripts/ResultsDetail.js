@@ -76,8 +76,9 @@ $ready(function () {
         },
         methods: {
             //自动生成成绩
-            automatically: function (attr) {
+            automatically: function (attr,el) {
                 console.error(attr);
+                console.error(el);
                 console.error('automatically 自动生成行的数据');
             },
             //获取学员分组

@@ -11,7 +11,7 @@
 <body>
     <div id="app" v-cloak>
         <div class="toolsbar">
-            <btngroup show="删除,导出,清空,重新计算" ref='btngroup' @delete="deleteData" @clear="clear"
+            <btngroup show="删除,导出,清空,重新计算" ref='btngroup' @delete="deleteData" @clear="clear"  @contextmenu="automatically"
                 @output="exportVisible = true" @batcalc="allcalcResultScore" width="600" height="600" :selects='selects'
                 idkey='Exr_ID' table="datatables"></btngroup>
             <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
