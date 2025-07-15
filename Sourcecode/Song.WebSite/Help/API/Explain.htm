@@ -22,7 +22,7 @@
             <pre class="line-numbers"><code class="language-javascript">
     $api.get('Account/Current').then(req=>{
         if(req.data.success){
-            var result=req.data.result;
+            let result=req.data.result;
             //...业务代码
         }else{
             throw req.data.message;
@@ -67,11 +67,11 @@
     //缓存20分钟，数值可以为空，默认是10分钟
     $api.cache('News/Article:20',{ 'id': 225 }).then(req=>{
         if(req.data.success){
-        var result=req.data.result;
-        //...
-    }else{
-        throw req.data.message;
-    }
+            let result=req.data.result;
+            //...
+        }else{
+            throw req.data.message;
+        }
     }).catch(err=>console.error(err))
         .finally(()=>{});
             

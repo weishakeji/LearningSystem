@@ -71,8 +71,15 @@ $ready(function () {
 
             //获取正在考试中的人数 
             th.getExamingcount();
+
+          
         },
         methods: {
+            //自动生成成绩
+            automatically: function (attr) {
+                console.error(attr);
+                console.error('automatically 自动生成行的数据');
+            },
             //获取学员分组
             getsorts: function () {
                 var th = this;
@@ -219,9 +226,10 @@ $ready(function () {
                 th.loadingid = exrid;
                 $api.get('Exam/ResultClacScore', { 'exrid': exrid }).then(function (req) {
                     if (req.data.success) {
-                        var result = req.data.result;
-                        var idx = th.datas.findIndex(item => item.Exr_ID == exrid);
-                        th.datas[idx].Exr_ScoreFinal = result;
+                        let result = req.data.result;
+                        let idx = th.datas.findIndex(item => item.Exr_ID == exrid);
+                        th.$set(th.datas[idx], 'Exr_ScoreFinal', result);
+                        //th.datas[idx].Exr_ScoreFinal = result;
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;

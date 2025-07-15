@@ -55,7 +55,7 @@
                 let jsstr = "$api." + http + "(\"" + method + "\"" + (JSON.stringify(params) == "{}" ? "" : ", " + JSON.stringify(params)) + ")";
                 jsstr += "\r\.then(req=>{\r\
      if(req.data.success){\r\
-         var result=req.data.result;\r\
+         let result=req.data.result;\r\
          //...业务代码\r\
      }else{\r\
          console.error(req.data.exception);\r\
