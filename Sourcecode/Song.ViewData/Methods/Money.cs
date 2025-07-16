@@ -234,13 +234,16 @@ namespace Song.ViewData.Methods
             if (!System.IO.Directory.Exists(rootpath))
                 System.IO.Directory.CreateDirectory(rootpath);
 
-            DateTime date = DateTime.Now;          
-            string filename = string.Format("{0} to {1}.({2}).xls", dts.ToString("yyyy-MM-dd"), dte.ToString("yyyy-MM-dd"), date.ToString("yyyy-MM-dd hh-mm-ss"));
+            DateTime date = DateTime.Now;
+            string filename = string.Empty;
+            if (start == null || end == null) filename = string.Format("({0}).xls", date.ToString("yyyy-MM-dd hh-mm-ss"));
+            else filename = string.Format("{0} to {1}.({2}).xls", dts.ToString("yyyy-MM-dd"), dte.ToString("yyyy-MM-dd"), date.ToString("yyyy-MM-dd hh-mm-ss"));
+
             string filePath = rootpath + filename;
             filePath = Business.Do<IAccounts>().MoneyRecords4Excel(filePath, orgid, null, type, from, start, end);
             JObject jo = new JObject();
             jo.Add("file", filename);
-            jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + path + "/" + filename);
+            jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + path + "/" + filename);           
             jo.Add("date", date);
             return jo;
         }
@@ -311,6 +314,7 @@ namespace Song.ViewData.Methods
                 jo.Add("file", f.Name);
                 jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + path + "/" + f.Name);
                 jo.Add("date", f.CreationTime);
+                jo.Add("type", Path.GetExtension(f.Name).TrimStart('.'));
                 jo.Add("size", f.Length);
                 jarr.Add(jo);
             }

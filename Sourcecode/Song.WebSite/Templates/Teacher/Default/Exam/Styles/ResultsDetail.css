@@ -55,32 +55,6 @@ body, html {
     margin-top: 20px;
 }
 
-/*导出文件的样式*/
-.exportquery_sorts{
-    display: flex;
-    flex-direction: column;
-    height: 160px;
-    overflow-y: auto;
-}
-dl, dd {
-    padding: 0px;
-    margin: 0px;
-}
-
-dl dd {
-    line-height: 30px;
-}
-
-dl dd a[href] {
-    display: inline-block;
-    min-width: 230px;
-    color: #409EFF;
-}
-
-dl dd a[href]:hover {
-    text-decoration: underline;
-}
-
 /*得分，小数点对齐*/
 .score {
     width: 80px;

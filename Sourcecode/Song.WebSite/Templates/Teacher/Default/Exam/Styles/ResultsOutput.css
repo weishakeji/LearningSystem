@@ -1,0 +1,6 @@
+
+.el-form{
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: calc(100% - 60px);
+}

@@ -43,7 +43,6 @@ $ready(function () {
             selectDate: function (start, end) {
                 this.form.start = start;
                 this.form.end = end;
-                this.handleCurrentChange(1);
             },
             //设置时间区间，从当前时间到之前的时间，subtract：要减去的月份
             //返回时间数组

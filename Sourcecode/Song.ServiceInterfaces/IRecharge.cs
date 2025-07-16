@@ -49,6 +49,7 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="orgid">所在机构id</param>
         /// <param name="isEnable"></param>
+        /// <param name="count"></param>
         /// <returns></returns>
         RechargeSet[] RechargeSetCount(int orgid, bool? isEnable, int count);
         /// <summary>
@@ -67,7 +68,7 @@ namespace Song.ServiceInterfaces
         /// 分页获取充值码设置项
         /// </summary>
         /// <param name="orgid"></param>
-        /// <param name="isUse"></param>
+        /// <param name="isEnable"></param>
         /// <param name="searTxt"></param>
         /// <param name="size"></param>
         /// <param name="index"></param>
@@ -135,6 +136,7 @@ namespace Song.ServiceInterfaces
         /// <param name="rsid">充码设置项的id</param>
         /// <param name="isEnable">是否启用</param>
         /// <param name="isUsed">是否已经使用</param>
+        /// <param name="count"></param>
         /// <returns></returns>
         RechargeCode[] RechargeCodeCount(int orgid, int rsid, bool? isEnable, bool? isUsed, int count);
         /// <summary>

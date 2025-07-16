@@ -16,16 +16,7 @@ $ready(function () {
             account: {},      //当前学员信息
             current: {},     //当前行对象
             accountVisible: false,   //是否显示当前学员
-            scorerange: '成绩',     //成绩范围选择的提示信息
-            //
-            exportVisible: false,    //成绩导出信息是否显示
-            files: [],               //导出的文件列表
-            fileloading: false,      //导出时的加载状态
-            //导出的查询对象
-            exportquery: {
-                'scope': 1,          //导出范围，1为所有，2为按学员组
-                'sorts': []              //学员组id,多个id用逗号分隔
-            },
+            scorerange: '成绩',     //成绩范围选择的提示信息           
 
             loading: false,
             loadingid: 0,
@@ -67,7 +58,6 @@ $ready(function () {
             }).catch((err) => console.error(err));
             th.getsorts();
             th.handleCurrentChange();
-            th.getFiles();
 
             //获取正在考试中的人数 
             th.getExamingcount();
@@ -225,11 +215,11 @@ $ready(function () {
             ResultClacScore: function (item) {
                 var th = this;
                 //当前行正在处理中
-                th.$set(item, 'inprocess', true);               
+                th.$set(item, 'inprocess', true);
                 $api.get('Exam/ResultClacScore', { 'exrid': item.Exr_ID }).then(function (req) {
                     if (req.data.success) {
-                        let result = req.data.result;                      
-                        th.$set(item, 'Exr_ScoreFinal', result);   
+                        let result = req.data.result;
+                        th.$set(item, 'Exr_ScoreFinal', result);
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
@@ -317,100 +307,37 @@ $ready(function () {
                 }).catch(err => console.error(err))
                     .finally(() => { });
             },
-            //已经导出的文件列表
-            getFiles: function () {
-                var th = this;
-                th.fileloading = true;
-                $api.get('Exam/ExcelFiles', { 'examid': this.form.examid }).then(function (req) {
-                    if (req.data.success) {
-                        th.files = req.data.result;
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
-                    }
-                }).catch(err => console.error(err))
-                    .finally(() => th.fileloading = false);
-            },
-            //生成导出文件
-            toexcel: function () {
-                var th = this;
-                //导出所有参考学员
-                if (th.exportquery.scope == 1) {
-                    th.fileloading = true;
-                    $api.post('Exam/ResultsOutputAll', { 'examid': th.form.examid }).then(function (req) {
-                        if (req.data.success) {
-                            th.getFiles();
-                        } else {
-                            console.error(req.data.exception);
-                            throw req.data.message;
-                        }
-                    }).catch(err => alert(err))
-                        .finally(() => th.fileloading = false);
-                }
-                //按学员组导出
-                if (th.exportquery.scope == 2) {
-                    if (th.exportquery.sorts.length < 1) {
-                        alert('未选择学员组');
-                        return;
-                    }
-                    th.fileloading = true;
-                    let sort = th.exportquery.sorts.join(',');
-                    $api.post('Exam/ResultsOutputSorts', { 'examid': th.form.examid, 'sorts': sort }).then(function (req) {
-                        if (req.data.success) {
-                            th.getFiles();
-                        } else {
-                            console.error(req.data.exception);
-                            throw req.config.way + ' ' + req.data.message;
-                        }
-                    }).catch(err => console.error(err))
-                        .finally(() => th.fileloading = false);
-                }
-
-            },
-            //删除文件
-            deleteFile: function (file) {
-                var th = this;
-                this.fileloading = true;
-                $api.get('Exam/ExcelDelete', { 'examid': this.form.examid, 'filename': file }).then(function (req) {
-                    th.fileloading = false;
-                    if (req.data.success) {
-                        var result = req.data.result;
-                        th.getFiles();
-                        th.$notify({
-                            message: '文件删除成功！',
-                            type: 'success',
-                            position: 'bottom-right',
-                            duration: 2000
-                        });
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
-                    }
-                }).catch(err => alert(err))
-                    .finally(() => th.fileloading = false);
-            },
             //打开考试回顾的窗口
             review: function (row) {
-                var boxid = "ResultsReview_" + row.Exr_ID + "_" + row.Exam_ID;
-                console.log(row);
-                var url = $api.url.set("/student/exam/review", {
+                let url = $api.url.set("/student/exam/review", {
                     "examid": row.Exam_ID,
                     "exrid": row.Exr_ID
                 });
+                let boxid = "ResultsReview_" + row.Exr_ID + "_" + row.Exam_ID;
+                let title = row.Ac_Name + '在“' + this.entity.Exam_Name + "”中的成绩回顾";
+                this._openbox(url, title, boxid, '80%', '80%', 'e696');
+            },
+            //导出的窗口
+            output: function () {
+                let url = $api.url.set("/teacher/exam/ResultsOutput", { "examid": this.form.examid });
+                let boxid = "ResultsOutput_" + this.form.examid;
+                let title = '成绩导出 - “' + this.entity.Exam_Name + "”";
+                this._openbox(url, title, boxid, 800, 600, 'e73e');              
+            },
+            _openbox: function (url, title, boxid, width, height, icon) {
                 //创建
                 if (!window.top.$pagebox) {
-                    alert('弹窗对象不存在');
+                    alert('弹窗对象不存在，无法打开内容');
                     return;
                 }
                 var box = window.top.$pagebox.create({
-                    width: '80%', height: '80%',
+                    width: width, height: height,
                     resize: true, id: boxid,
-                    pid: window.name,
+                    pid: window.name, id: boxid,
                     url: url,
-                    id: boxid,
-                    'showmask': true, 'min': false, 'ico': 'e696'
+                    title: title,
+                    'showmask': true, 'min': false, 'ico': icon
                 });
-                box.title = row.Ac_Name + '在“' + this.entity.Exam_Name + "”中的成绩回顾";
                 box.open();
             }
         },

@@ -2,8 +2,6 @@
 .el-form{
     box-sizing: border-box;
     height: calc(100% - 20px);
-}
-.files_area{
-    height: calc(100% - 210px);
     overflow-y: auto;
 }
+
