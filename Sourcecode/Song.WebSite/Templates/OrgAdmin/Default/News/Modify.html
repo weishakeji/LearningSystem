@@ -105,8 +105,8 @@
                         </div>
                         <dl class="files">
                             <dd v-for="(f,i) in accessories">
-                                <a :href="f.As_FileName" :filetype="f.type" target="_blank" :download="f.As_Name">
-                                    <span v-html="f.As_Name"></span>
+                                <a :href="f.As_FileName" :filetype="f.As_Extension" target="_blank" :download="f.As_Name">
+                                     <span v-html="f.As_Name"></span>
                                 </a>
                                 <span>{{f.As_Size|size}}</span>
                                 <el-popconfirm title="确定删除吗？" @confirm="delAccessory(f)">
