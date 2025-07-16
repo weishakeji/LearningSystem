@@ -585,15 +585,16 @@ namespace Song.ViewData.Methods
             JArray jarr = new JArray();
             IEnumerable<System.IO.FileInfo> query = from items in list orderby items.CreationTime descending select items;
             string url = WeiSha.Core.Upload.Get[_output_item].Virtual;
-            foreach (var f in query)
+            foreach (var file in query)
             {
-                System.IO.FileInfo file = (System.IO.FileInfo)f;
+                System.IO.FileInfo f = (System.IO.FileInfo)file;
                 JObject jo = new JObject();
                 jo.Add("name", set.Lcs_Theme);
-                jo.Add("file", file.Name);
-                jo.Add("url", url + file.Name);
-                jo.Add("date", file.CreationTime);
-                jo.Add("size", file.Length);
+                jo.Add("file", f.Name);
+                jo.Add("url", url + f.Name);
+                jo.Add("date", f.CreationTime);
+                jo.Add("type", Path.GetExtension(f.Name).TrimStart('.'));
+                jo.Add("size", f.Length);
                 jarr.Add(jo);
             }
             return jarr;

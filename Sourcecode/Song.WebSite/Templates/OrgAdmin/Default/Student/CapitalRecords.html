@@ -190,7 +190,7 @@
                     <el-form-item label="文件下载">
                         <dl class="files">
                             <dd v-for="(f,i) in files">
-                                <a :href="f.url" target="_blank" title="点击下载" :download="f.file">
+                                <a :href="f.url" :filetype="f.type" target="_blank" title="点击下载" :download="f.file">
                                     {{f.file}}</a>
                                 <span> {{f.size|size}}</span>
                                 <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">

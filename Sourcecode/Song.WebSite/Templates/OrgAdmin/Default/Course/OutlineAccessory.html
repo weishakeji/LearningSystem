@@ -13,13 +13,13 @@
     <div id="vapp" v-cloak>
 
         <dl v-if="datas.length>0" remark="附件列表" class="files">
-            <dd v-for="(data,i) in datas">
-                <a :href="data.As_FileName" v-if="data.As_FileName!=''" target="_blank" type="link"
-                    v-on:click="accessClick(data.As_FileName,data.As_Name,$event)" :download="data.As_Name">
-                    {{data.As_Name}}</a>
-                <span v-else title="文件不存在">{{(i+1)}} . {{data.As_Name}}</span>
-                <span>{{data.As_Size|size}}</span>
-                <el-popconfirm title="确定删除吗？" class="btndel" @confirm="deleteitem(data)">
+            <dd v-for="(f,i) in datas">
+                <a :href="f.As_FileName"  :filetype="f.As_Extension" v-if="f.As_FileName!=''" target="_blank" type="link"
+                    v-on:click="accessClick(f.As_FileName,f.As_Name,$event)" :download="f.As_Name">
+                    {{f.As_Name}}</a>
+                <span v-else title="文件不存在">{{(i+1)}} . {{f.As_Name}}</span>
+                <span>{{f.As_Size|size}}</span>
+                <el-popconfirm title="确定删除吗？" class="btndel" @confirm="deleteitem(f)">
                     <el-link icon="el-icon-delete" type="danger" slot="reference">删除</el-link>
                 </el-popconfirm>
             </dd>

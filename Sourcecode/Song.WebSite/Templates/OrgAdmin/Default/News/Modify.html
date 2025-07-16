@@ -105,7 +105,7 @@
                         </div>
                         <dl class="files">
                             <dd v-for="(f,i) in accessories">
-                                <a :href="f.As_FileName" target="_blank" :download="f.As_Name">
+                                <a :href="f.As_FileName" :filetype="f.type" target="_blank" :download="f.As_Name">
                                     <span v-html="f.As_Name"></span>
                                 </a>
                                 <span>{{f.As_Size|size}}</span>

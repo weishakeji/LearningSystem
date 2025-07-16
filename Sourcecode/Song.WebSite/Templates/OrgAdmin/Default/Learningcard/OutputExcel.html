@@ -43,7 +43,7 @@
             <help v-if="files.length<1">点击右下按钮生成导出文件</help>
             <dl v-else class="files">
                 <dd v-for="(f,i) in files">
-                    <a :href="f.url" target="_blank" title="点击下载" :download="f.name+','+f.file">
+                    <a :href="f.url" :filetype="f.type" target="_blank" title="点击下载" :download="f.name+','+f.file">
                         {{f.file}}                     
                     </a>
                     <span>{{f.size|size}}</span>
