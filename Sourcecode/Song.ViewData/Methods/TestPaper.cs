@@ -791,6 +791,7 @@ namespace Song.ViewData.Methods
                 jo.Add("file", f.Name);
                 jo.Add("url", string.Format("{0}/{1}/{2}", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath, tpid, f.Name));
                 jo.Add("date", f.CreationTime);
+                jo.Add("type", Path.GetExtension(f.Name).TrimStart('.'));
                 jo.Add("size", f.Length);
                 jarr.Add(jo);
             }

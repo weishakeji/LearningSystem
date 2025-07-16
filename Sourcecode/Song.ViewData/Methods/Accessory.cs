@@ -344,6 +344,7 @@ namespace Song.ViewData.Methods
                 jo.Add("name", f.Name);
                 jo.Add("size", f.Length);
                 jo.Add("ext", f.Extension);
+                jo.Add("type", Path.GetExtension(f.Name).TrimStart('.'));
                 jo.Add("fullname", Path.Combine(virPath, f.Name));
                 jo.Add("crttime", f.CreationTime);
                 jo.Add("lasttime", f.LastWriteTime);
