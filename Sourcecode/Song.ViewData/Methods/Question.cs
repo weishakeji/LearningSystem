@@ -454,7 +454,7 @@ namespace Song.ViewData.Methods
             }
             //总记录数
             int count = 0;
-            Song.Entities.Questions[] ques = Business.Do<IQuestions>().QuesPager
+            List<Questions> ques = Business.Do<IQuestions>().QuesPager
                 (orgid, type, sbjid, couid, olid, use, error, wrong, -1, search, size, index, out count);
             ListResult result = new ListResult(ques);
             result.Index = index;
@@ -472,12 +472,12 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [Study]
         [Cache]
-        public Song.Entities.Questions[] ForCourse(long couid, long olid, int type, int count)
+        public List<Questions> ForCourse(long couid, long olid, int type, int count)
         {
             if (couid <= 0 && olid <= 0) return null;
             int total = Business.Do<IQuestions>().QuesOfCount(-1, -1, couid, olid, type, -1, true);
-            Song.Entities.Questions[] ques = Business.Do<IQuestions>().QuesCount(-1, -1, couid, olid, type, -1, true, 0 - 1, count);
-            for (int i = 0; i < ques.Length; i++)
+            List<Questions> ques = Business.Do<IQuestions>().QuesCount(-1, -1, couid, olid, type, -1, true, 0 - 1, count);
+            for (int i = 0; i < ques.Count; i++)
             {
                 ques[i] = _tran(ques[i]);
             }

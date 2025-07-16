@@ -314,14 +314,14 @@ namespace Song.ServiceImpls
             return ans;
         }
 
-        public Questions[] QuesCount(int type, bool? isUse, int count)
+        public List<Questions> QuesCount(int type, bool? isUse, int count)
         {
             WhereClip wc = Questions._.Qus_IsError == false && Questions._.Qus_IsWrong == false;
             if (type > 0) wc.And(Questions._.Qus_Type == type);
             if (isUse != null) wc.And(Questions._.Qus_IsUse == (bool)isUse);
             return Gateway.Default.From<Questions>().Where(wc)
                 .OrderBy(Questions._.Qus_Type.Asc && Questions._.Qus_ID.Asc)
-                .ToArray<Questions>(count);
+                .ToList<Questions>(count);
         }
         /// <summary>
         /// 获取某个课程或章节试题
@@ -336,7 +336,7 @@ namespace Song.ServiceImpls
         /// <param name="index">起始索引</param>
         /// <param name="count">取多少条</param>
         /// <returns></returns>
-        public Questions[] QuesCount(int orgid, long sbjid, long couid, long olid, int type, int diff, bool? isUse, int index, int count)
+        public List<Questions> QuesCount(int orgid, long sbjid, long couid, long olid, int type, int diff, bool? isUse, int index, int count)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Questions._.Org_ID == orgid);
@@ -356,7 +356,7 @@ namespace Song.ServiceImpls
             if (isUse != null) wc.And(Questions._.Qus_IsUse == (bool)isUse);
             return Gateway.Default.From<Questions>().Where(wc)
                 .OrderBy(Questions._.Qus_Type.Asc && Questions._.Qus_ID.Asc)
-                .ToArray<Questions>(count, index);
+                .ToList<Questions>(count, index);
         }
         /// <summary>
         /// 获取简化的某个课程或章节试题
@@ -627,7 +627,7 @@ namespace Song.ServiceImpls
         /// <param name="index">当前页索引</param>
         /// <param name="countSum">共计多少条</param>
         /// <returns></returns>
-        public Questions[] QuesPager(int orgid, int type, bool? isUse, int diff,
+        public List<Questions> QuesPager(int orgid, int type, bool? isUse, int diff,
             string searTxt, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
@@ -640,10 +640,10 @@ namespace Song.ServiceImpls
             countSum = Gateway.Default.Count<Questions>(wc);
             return Gateway.Default.From<Questions>()
                 .Where(wc).OrderBy(Questions._.Qus_ID.Desc)
-                .ToArray<Questions>(size, (index - 1) * size);
+                .ToList<Questions>(size, (index - 1) * size);
         }
 
-        public Questions[] QuesPager(int orgid, int type, long sbjid, long couid, long olid, bool? isUse,
+        public List<Questions> QuesPager(int orgid, int type, long sbjid, long couid, long olid, bool? isUse,
             bool? isError, bool? isWrong, int diff, string searTxt,
             int size, int index, out int countSum)
         {
@@ -676,7 +676,7 @@ namespace Song.ServiceImpls
             countSum = Gateway.Default.Count<Questions>(wc);
             return Gateway.Default.From<Questions>().Where(wc)
                 .OrderBy(Questions._.Qus_ID.Desc)
-                .ToArray<Questions>(size, (index - 1) * size);
+                .ToList<Questions>(size, (index - 1) * size);
         }
         /// <summary>
         /// 当前试题的下一个试题，在指定范围内取，例如课程内的试题

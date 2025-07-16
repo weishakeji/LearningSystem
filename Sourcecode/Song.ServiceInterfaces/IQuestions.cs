@@ -108,7 +108,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isUse">是否展示</param>
         /// <param name="count">取多少条，小于1取所有</param>
         /// <returns></returns>
-        Questions[] QuesCount(int type, bool? isUse, int count);
+        List<Questions> QuesCount(int type, bool? isUse, int count);
         /// <summary>
         /// 获取某个课程或章节试题
         /// </summary>
@@ -122,7 +122,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index">起始索引</param>
         /// <param name="count">取多少条</param>
         /// <returns></returns>
-        Questions[] QuesCount(int orgid, long  sbjid, long couid, long olid, int type, int diff, bool? isUse, int index, int count);
+        List<Questions> QuesCount(int orgid, long  sbjid, long couid, long olid, int type, int diff, bool? isUse, int index, int count);
         /// <summary>
         /// 获取简化的某个课程或章节试题
         /// </summary>
@@ -221,7 +221,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        Questions[] QuesPager(int orgid, int type, bool? isUse, int diff, string searTxt, int size, int index, out int countSum);
+        List<Questions> QuesPager(int orgid, int type, bool? isUse, int diff, string searTxt, int size, int index, out int countSum);
         /// <summary>
         /// 分页获取所有的试题；
         /// </summary>
@@ -239,7 +239,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        Questions[] QuesPager(int orgid, int type, long sbjid, long couid, long olid, bool? isUse, bool? isError, bool? isWrong, int diff, string searTxt, int size, int index, out int countSum);
+        List<Questions> QuesPager(int orgid, int type, long sbjid, long couid, long olid, bool? isUse, bool? isError, bool? isWrong, int diff, string searTxt, int size, int index, out int countSum);
         /// <summary>
         /// 当前试题的下一个试题，在指定范围内取，例如课程内的试题
         /// </summary>
