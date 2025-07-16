@@ -72,11 +72,11 @@ $ready(function () {
             //获取正在考试中的人数 
             th.getExamingcount();
 
-          
+
         },
         methods: {
             //自动生成成绩
-            automatically: function (attr,el) {
+            automatically: function (attr, el) {
                 console.error(attr);
                 console.error(el);
                 console.error('automatically 自动生成行的数据');
@@ -222,21 +222,20 @@ $ready(function () {
                     });
             },
             //计算考试成绩
-            ResultClacScore: function (exrid) {
+            ResultClacScore: function (item) {
                 var th = this;
-                th.loadingid = exrid;
-                $api.get('Exam/ResultClacScore', { 'exrid': exrid }).then(function (req) {
+                //当前行正在处理中
+                th.$set(item, 'inprocess', true);               
+                $api.get('Exam/ResultClacScore', { 'exrid': item.Exr_ID }).then(function (req) {
                     if (req.data.success) {
-                        let result = req.data.result;
-                        let idx = th.datas.findIndex(item => item.Exr_ID == exrid);
-                        th.$set(th.datas[idx], 'Exr_ScoreFinal', result);
-                        //th.datas[idx].Exr_ScoreFinal = result;
+                        let result = req.data.result;                      
+                        th.$set(item, 'Exr_ScoreFinal', result);   
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(err => console.error(err))
-                    .finally(() => th.loadingid = 0);
+                    .finally(() => th.$set(item, 'inprocess', false));
             },
             //删除
             deleteData: function (datas) {
