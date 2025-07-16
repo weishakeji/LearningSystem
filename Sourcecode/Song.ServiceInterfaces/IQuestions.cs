@@ -348,7 +348,7 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="ans"></param>
         /// <returns></returns>
-        string AnswerToItems(Song.Entities.QuesAnswer[] ans);
+        string AnswerToItems(List<QuesAnswer> ans);
         /// <summary>
         /// 将答题选项的xml字符串，转换为QuesAnswer对象数组
         /// </summary>

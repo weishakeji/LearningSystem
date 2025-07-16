@@ -125,7 +125,7 @@ namespace Song.ServiceImpls
                     for (int i = 0; i < ansItem.Count; i++)
                         ansItem[i].Qus_ID = entity.Qus_ID;
                 } 
-                entity.Qus_Items = this.AnswerToItems(ansItem.ToArray());
+                entity.Qus_Items = this.AnswerToItems(ansItem);
             }
             //判断是否存在
             Questions old = null;
@@ -1271,15 +1271,15 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="ans"></param>
         /// <returns></returns>
-        public string AnswerToItems(Song.Entities.QuesAnswer[] ans)
+        public string AnswerToItems(List<QuesAnswer> ans)
         {            
-            if (ans == null || ans.Length < 1) return null;
+            if (ans == null || ans.Count < 1) return null;
             foreach (QuesAnswer qa in ans)
                 qa.Ans_ID = qa.Ans_ID <= 0 ? WeiSha.Core.Request.SnowID() : qa.Ans_ID;
             //如果Ans_ID存在重复，则用雪花id赋值
-            for (int i = 0; i < ans.Length; i++)
+            for (int i = 0; i < ans.Count; i++)
             {
-                for (int j = 0; j < ans.Length; j++)
+                for (int j = 0; j < ans.Count; j++)
                 {
                     if (i == j) continue;
                     if(ans[i].Ans_ID == ans[j].Ans_ID)                  

@@ -112,7 +112,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        private Song.Entities.QuesAnswer[] _answerToItems(Song.Entities.Questions entity)
+        private List<Song.Entities.QuesAnswer> _answerToItems(Song.Entities.Questions entity)
         {
             if (string.IsNullOrWhiteSpace(entity.Qus_Items)) return null;
             List<Song.Entities.QuesAnswer> items = new List<QuesAnswer>();
@@ -140,7 +140,7 @@ namespace Song.ViewData.Methods
                     catch { }
                 }
             }
-            return items.ToArray();
+            return items;
         }
         /// <summary>
         /// 修改使用状态
@@ -1219,7 +1219,7 @@ namespace Song.ViewData.Methods
                     //
                     ansitems.Add(qa);
                 }
-                joqus.Add("Qus_Items", Business.Do<IQuestions>().AnswerToItems(ansitems.ToArray()));
+                joqus.Add("Qus_Items", Business.Do<IQuestions>().AnswerToItems(ansitems));
             }
             //填空题
             if (type == 5)
@@ -1234,7 +1234,7 @@ namespace Song.ViewData.Methods
                     qa.Ans_Context = ans;
                     items.Add(qa);
                 }
-                joqus.Add("Qus_Items", Business.Do<IQuestions>().AnswerToItems(items.ToArray()));
+                joqus.Add("Qus_Items", Business.Do<IQuestions>().AnswerToItems(items));
             }
             joqus.Add("Qus_Type", type);
             return joqus;
