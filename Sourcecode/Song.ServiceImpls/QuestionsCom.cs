@@ -308,10 +308,9 @@ namespace Song.ServiceImpls
             return qus;
         }
 
-        public QuesAnswer[] QuestionsAnswer(Questions qus, bool? isCorrect)
+        public List<QuesAnswer> QuestionsAnswer(Questions qus, bool? isCorrect)
         {
-            Song.Entities.QuesAnswer[] ans = this.ItemsToAnswer(qus, isCorrect);
-            return ans;
+            return this.ItemsToAnswer(qus, isCorrect);
         }
 
         public List<Questions> QuesCount(int type, bool? isUse, int count)
@@ -886,10 +885,10 @@ namespace Song.ServiceImpls
             foreach (Song.Entities.Questions q in ques)
             {
                 IRow row = sheet.CreateRow(i + 1);
-                QuesAnswer[] qas = this.QuestionsAnswer(q, null);
+                List<QuesAnswer> qas = this.QuestionsAnswer(q, null);
                 int ansIndex = 0;
 
-                for (int j = 0; j < qas.Length; j++)
+                for (int j = 0; j < qas.Count; j++)
                 {
                     QuesAnswer c = qas[j];
                     if (string.IsNullOrWhiteSpace(c.Ans_Context) || c.Ans_Context.Length <= _excel_field_max_length)
@@ -940,10 +939,10 @@ namespace Song.ServiceImpls
             int i = 0;
             foreach (Song.Entities.Questions q in ques)
             {
-                IRow row = sheet.CreateRow(i + 1);               
-                QuesAnswer[] qas = this.QuestionsAnswer(q, null);
+                IRow row = sheet.CreateRow(i + 1);
+                List<QuesAnswer> qas = this.QuestionsAnswer(q, null);
                 string ansIndex = "";
-                for (int j = 0; j < qas.Length; j++)
+                for (int j = 0; j < qas.Count; j++)
                 {
                     QuesAnswer c = qas[j];
                     if (string.IsNullOrWhiteSpace(c.Ans_Context) || c.Ans_Context.Length <= _excel_field_max_length)
@@ -1089,9 +1088,9 @@ namespace Song.ServiceImpls
             int i = 0;
             foreach (Song.Entities.Questions q in ques)
             {
-                IRow row = sheet.CreateRow(i + 1);               
-                QuesAnswer[] qas = this.QuestionsAnswer(q, null);
-                for (int j = 0; j < qas.Length; j++)
+                IRow row = sheet.CreateRow(i + 1);
+                List<QuesAnswer> qas = this.QuestionsAnswer(q, null);
+                for (int j = 0; j < qas.Count; j++)
                 {
                     QuesAnswer c = qas[j];
                     if (string.IsNullOrWhiteSpace(c.Ans_Context) || c.Ans_Context.Length <= _excel_field_max_length)
@@ -1332,10 +1331,10 @@ namespace Song.ServiceImpls
         /// <param name="ques">当前试题</param>
         /// <param name="isCorrect">是否返回正确的选项，null返回全部，true只返回正确的答案，false只返回错误</param>
         /// <returns></returns>
-        public Song.Entities.QuesAnswer[] ItemsToAnswer(Questions ques, bool? isCorrect)
+        public List<QuesAnswer> ItemsToAnswer(Questions ques, bool? isCorrect)
         {
             string xml = ques.Qus_Items;
-            if (string.IsNullOrWhiteSpace(xml)) return new QuesAnswer[0];
+            if (string.IsNullOrWhiteSpace(xml)) return new List<QuesAnswer>();
             XmlDocument xmlDoc = new XmlDocument();
             if (!string.IsNullOrWhiteSpace(xml)) xml = xml.Trim();
             XmlNodeList list;
@@ -1373,7 +1372,7 @@ namespace Song.ServiceImpls
                     if (!(bool)isCorrect && !ans.Ans_IsCorrect) anslist.Add(ans);
                 }
             }
-            return anslist.ToArray();
+            return anslist;
         }
         /// <summary>
         /// 将答题选项的xml字符串，转换为QuesAnswer对象数组
@@ -1447,8 +1446,8 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         private bool _determineQues1(Questions ques, string ans)
         {
-            QuesAnswer[] ans1 = ItemsToAnswer(ques, true);            
-            if (ans1.Length < 1) return false;
+            List<QuesAnswer> ans1 = ItemsToAnswer(ques, true);
+            if (ans1 == null || ans1.Count < 1) return false;
             foreach (string s in ans.Split(','))
             {
                 if (string.IsNullOrWhiteSpace(s) || s.Trim() == "") continue;
@@ -1464,12 +1463,12 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         private bool _determineQues2(Questions ques, string ans)
         {
-            QuesAnswer[] ans2 = ItemsToAnswer(ques, true); 
-            if (ans2.Length < 1) return false;
+            List<QuesAnswer> ans2 = ItemsToAnswer(ques, true); 
+            if (ans2==null || ans2.Count < 1) return false;
             if (ans.Length > 0 && ans.Substring(ans.Length - 1) == ",")
                 ans = ans.Substring(0, ans.Length - 1);
             string[] ansArr = ans.Split(',');
-            if (ansArr.Length != ans2.Length) return false;
+            if (ansArr.Length != ans2.Count) return false;
             int tm = ansArr.Length;
             foreach (string s in ansArr)
             {
@@ -1550,8 +1549,8 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         private bool _determineQues5(Questions ques, string ans)
         {
-            QuesAnswer[] ans5 = ItemsToAnswer(ques, null); 
-            if (ans5.Length < 1) return false;
+            List<QuesAnswer> ans5 = ItemsToAnswer(ques, null); 
+            if (ans5==null || ans5.Count < 1) return false;
             if (ans.Length > 0 && ans.Substring(ans.Length - 1) == ",")
                 ans = ans.Substring(0, ans.Length - 1);
             string[] ansText = ans.Split(',');
@@ -1559,7 +1558,7 @@ namespace Song.ServiceImpls
             for (int j = 0; j < ansText.Length; j++)
             {
                 if (ansText[j].Trim() == "") continue;
-                if (ans5.Length <= j || ans5[j] == null) continue;
+                if (ans5.Count <= j || ans5[j] == null) continue;
                 string corentTxt = WeiSha.Core.HTML.ClearTag(ans5[j].Ans_Context);
                 foreach (string tm in corentTxt.Split(','))
                 {
@@ -1571,7 +1570,7 @@ namespace Song.ServiceImpls
                     }
                 }
             }
-            return corrNum == ans5.Length;
+            return corrNum == ans5.Count;
         }
         #endregion
 

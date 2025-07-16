@@ -100,7 +100,7 @@ namespace Song.ServiceInterfaces
         /// <param name="qus">试题对象</param>
         /// <param name="isCorrect">是否取正确答案，如果为Null取所有答案，如果为true取正确答案</param>
         /// <returns></returns>
-        QuesAnswer[] QuestionsAnswer(Questions qus, bool? isCorrect);
+        List<QuesAnswer> QuestionsAnswer(Questions qus, bool? isCorrect);
         /// <summary>
         /// 获取某个课程或章节试题
         /// </summary>
@@ -355,7 +355,7 @@ namespace Song.ServiceInterfaces
         /// <param name="qus"></param>
         /// <param name="isCorrect">是否返回正确的选项，null返回全部，true只返回正确的答案，false只返回错误</param>
         /// <returns></returns>
-        Song.Entities.QuesAnswer[] ItemsToAnswer(Questions qus, bool? isCorrect);
+        List<QuesAnswer> ItemsToAnswer(Questions qus, bool? isCorrect);
         /// <summary>
         /// 将答题选项的xml字符串，转换为QuesAnswer对象数组
         /// </summary>
