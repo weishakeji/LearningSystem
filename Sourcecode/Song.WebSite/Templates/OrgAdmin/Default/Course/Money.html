@@ -166,7 +166,7 @@
             <el-divider></el-divider>
         </template>
 
-        <el-form ref="course" :model="course" :rules="rules" v-loading="loading_course" @submit.native.prevent
+        <el-form ref="course" :model="course" :rules="rules" v-loading="loadstate.course" @submit.native.prevent
             label-width="80px">
             <el-form-item label="是否免费" prop="Cou_IsFree">
                 <el-switch v-model="course.Cou_IsFree" @change="updateCourse()"
