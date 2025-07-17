@@ -90,7 +90,7 @@
                         <el-tag type="success" v-if="scope.row.Ma_IsSuccess">
                             <icon>&#xa048</icon>成功
                         </el-tag>
-                        <loading v-else-if="loading_query==scope.row.Ma_ID"></loading>
+                        <loading v-else-if="loadstate.query==scope.row.Ma_ID"></loading>
                         <template v-else>
                             <el-tag type="danger">失败</el-tag>
                             <el-link type="primary" @click="queryOrder(scope.row)">查询</el-link>

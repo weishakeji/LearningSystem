@@ -8,6 +8,9 @@
                 index: 1
             },
             loading: false,
+            loadstate: {
+                del: false          //删除数据
+            },
             loadingid: 0,        //当前操作中的对象id
             datas: [], //账号列表
             total: 1, //总记录数
@@ -21,9 +24,8 @@
             //删除
             deleteData: function (datas) {
                 var th = this;
-                $api.delete('Admin/Delete', {
-                    'id': datas
-                }).then(function (req) {
+                th.loadstate.del = true;
+                $api.delete('Admin/Delete', { 'id': datas }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$notify({
@@ -37,7 +39,7 @@
                     }
                 }).catch(function (err) {
                     alert(err);
-                }).finally(() => { });
+                }).finally(() => th.loadstate.del = false);
             },
             //加载数据页
             handleCurrentChange: function (index) {
@@ -57,16 +59,13 @@
                         //th.result = d.data;
                         //是否处于管理岗
                         for (var i = 0; i < th.datas.length; i++) {
-
-                            $api.get('Position/ForID', {
-                                'id': th.datas[i].Posi_Id
-                            }).then(function (req) {
+                            $api.get('Position/ForID', { 'id': th.datas[i].Posi_Id }).then(function (req) {
                                 if (req.data.success) {
                                     var result = req.data.result;
                                     for (var j = 0; j < th.datas.length; j++) {
-                                        if (th.datas[j].Posi_Id == result.Posi_Id)                                            
-                                            th.datas[j].isAdminPosi = result.Posi_IsAdmin;                                       
-                                    }                                  
+                                        if (th.datas[j].Posi_Id == result.Posi_Id)
+                                            th.datas[j].isAdminPosi = result.Posi_IsAdmin;
+                                    }
                                 } else {
                                     throw req.data.message;
                                 }

@@ -3,7 +3,6 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            loading: false,  //
             id: $api.querystring('id'),
             files: [],          //已经生成的excel文件列表
             //path: 'MoneyOutputToExcel',     //导出的文件的存储路径
@@ -15,12 +14,30 @@ $ready(function () {
                 start: '',       //时间区间的开始时间
                 end: ''         //结束时间               
             },
+            loadstate: {
+                init: false,        //初始化
+                def: false,         //默认
+                get: false,         //加载数据
+                update: false,      //更新数据
+                del: false          //删除数据
+            }
         },
         watch: {
         },
+        computed: {
+            loading: function () {
+                if (!this.loadstate) return false;
+                for (let key in this.loadstate) {
+                    if (this.loadstate.hasOwnProperty(key)
+                        && this.loadstate[key])
+                        return true;
+                }
+                return false;
+            }
+        },
         mounted: function () {
-
             var th = this;
+            th.loadstate.init = true;
             $api.get('Organization/Current').then(function (req) {
                 if (req.data.success) {
                     let result = req.data.result;
@@ -33,7 +50,7 @@ $ready(function () {
             }).catch(err => {
                 alert('获取当前机构信息错误');
                 console.error(err);
-            }).finally(() => { });
+            }).finally(() => th.loadstate.init = false);
 
         },
         created: function () {
@@ -60,11 +77,10 @@ $ready(function () {
                 return [start, end];
             },
             //创建生成Excel
-            btnOutput: function () {
-                if (this.loading) return;
+            btnOutput: function () {             
                 var th = this;
-                if (th.loading) return;
-                th.loading = true;
+                if (th.loadstate.def) return;
+                th.loadstate.def = true;
                 $api.get('Money/ExcelOutput', this.form).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
@@ -82,12 +98,12 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                }).finally(() => setTimeout(() => th.loading = false, 1000));
+                }).finally(() => setTimeout(() => th.loadstate.def = false, 1000));
             },
             //获取文件列表
             getFiles: function () {
                 var th = this;
-                th.loading = true;
+                th.loadstate.get = true;
                 $api.get('Money/ExcelFiles', { 'path': th.form.path, 'orgid': th.form.orgid }).then(function (req) {
                     if (req.data.success) {
                         th.files = req.data.result;
@@ -98,13 +114,12 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                }).finally(() => th.loading = false);
+                }).finally(() => th.loadstate.get = false);
             },
             //删除文件
-            deleteFile: function (file) {
-                if (this.loading) return;
+            deleteFile: function (file) {               
                 var th = this;
-                th.loading = true;
+                th.loadstate.del = true;
                 $api.get('Money/ExcelDelete', { 'path': this.form.path, 'orgid': th.form.orgid, 'filename': file }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
@@ -122,7 +137,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                }).finally(() => th.loading = false);
+                }).finally(() => th.loadstate.del = false);
             }
         }
     });

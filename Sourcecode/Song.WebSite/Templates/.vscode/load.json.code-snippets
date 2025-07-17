@@ -18,7 +18,7 @@
         "body": [
             "loading: function () {",
             "\tif (!this.loadstate) return false;",
-            "\tfor (let t in this.loadstate) {",
+            "\tfor (let key in this.loadstate) {",
             "\t\tif (this.loadstate.hasOwnProperty(key)",
             "\t\t\t&& this.loadstate[key])",
             "\t\treturn true;",

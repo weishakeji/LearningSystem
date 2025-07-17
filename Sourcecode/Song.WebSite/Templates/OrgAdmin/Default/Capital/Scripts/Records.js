@@ -17,9 +17,7 @@
                 index: 1
             },
 
-            accounts: [],        //当前页的学员账号
-            loading: false,
-            loadingid: 0,        //当前操作中的对象id
+            accounts: [],        //当前页的学员账号        
 
             datas: [],          //数据集
             total: 1, //总记录数
@@ -38,12 +36,17 @@
             moneystate: [{ value: '-1', label: '全部' },
             { value: '1', label: '成功' },
             { value: '2', label: '失败' }],
-
-            loading_query: 0     //订单查询
+          
+            loadstate: {
+                init: false,        //初始化            
+                get:false,          //获取数据
+                query: 0,        //查询              
+                del: false          //删除数据
+            },            
         },
         mounted: function () {
             var th = this;
-            th.loading = true;
+            th.loadstate.init = true;
             $api.get('Organization/Current').then(function (req) {
                 if (req.data.success) {
                     let result = req.data.result;
@@ -56,7 +59,7 @@
             }).catch(err => {
                 alert('获取当前机构信息错误');
                 console.error(err);
-            }).finally(() => th.loading = false);
+            }).finally(() => th.loadstate.init = false);
 
         },
         created: function () { },
@@ -65,6 +68,15 @@
             tableHeight: function () {
                 var height = document.body.clientHeight;
                 return height - 75;
+            },
+            loading: function () {
+                if (!this.loadstate) return false;
+                for (let key in this.loadstate) {
+                    if (this.loadstate.hasOwnProperty(key)
+                        && this.loadstate[key])
+                    return true;
+                }
+                return false;
             }
         },
         watch: {
@@ -79,7 +91,7 @@
             //删除
             deleteData: function (datas) {
                 var th = this;
-                th.loading = true;
+                th.loadstate.del = true;
                 $api.delete('Money/Delete', { 'id': datas }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
@@ -93,13 +105,13 @@
                         throw req.data.message;
                     }
                 }).catch(err => alert(err))
-                    .finally(() => th.loading = false);
+                    .finally(() => th.loadstate.del = false);
             },
             //加载数据页
             handleCurrentChange: function (index) {
                 if (index != null) this.form.index = index;
                 var th = this;
-                th.loading = true;
+                th.loadstate.get = true;
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 105;
                 th.form.size = Math.round(area / 43);
@@ -113,7 +125,7 @@
                         throw d.data.message;
                     }
                 }).catch(err => alert(err))
-                    .finally(() => th.loading = false);
+                    .finally(() => th.loadstate.get = false);
             },
             //双击事件
             rowdblclick: function (row, column, event) {
@@ -131,8 +143,8 @@
             //查询订单
             queryOrder: function (detail) {
                 var th = this;
-                if (th.loading_query > 0) return;
-                th.loading_query = detail.Ma_ID;
+                if (th.loadstate.query > 0) return;
+                th.loadstate.query = detail.Ma_ID;
                 var query = { 'serial': detail.Ma_Serial };
                 $api.get('Pay/Interface', { 'id': detail.Pai_ID }).then(function (req) {
                     if (req.data.success) {
@@ -169,13 +181,13 @@
                                     throw req.config.way + ' ' + req.data.message;
                                 }
                             }).catch(err => console.error(err))
-                                .finally(() => th.loading_query = 0);
+                                .finally(() => th.loadstate.query = 0);
                         }
                     } else {
                         throw req.data.message;
                     }
                 }).catch(err => console.error(err))
-                    .finally(() => th.loading_query = 0);
+                    .finally(() => th.loadstate.query = 0);
             }
         }
     });
