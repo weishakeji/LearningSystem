@@ -1,0 +1,30 @@
+{
+    "loadstate variable": {
+        "prefix": "tmpl:loadstate",
+        "description": "页面中的加载状态",
+        "body": [
+            "loadstate: {",
+            "\tinit: false,        //初始化",
+            "\tdef: false,         //默认",
+            "\tget: false,         //加载数据",
+            "\tupdate: false,      //更新数据",
+            "\tdel: false          //删除数据",
+            "}",
+        ],
+    },
+    "loading computed": {
+        "prefix": "tmpl:loading",
+        "description": "loading的计算属性",
+        "body": [
+            "loading: function () {",
+            "\tif (!this.loadstate) return false;",
+            "\tfor (let t in this.loadstate) {",
+            "\t\tif (this.loadstate.hasOwnProperty(key)",
+            "\t\t\t&& this.loadstate[key])",
+            "\t\treturn true;",
+            "\t}",
+            "\treturn false;",
+            "}",
+        ],
+    }
+}

@@ -1,6 +1,7 @@
 {
 	"Javascript Template": {
 	  "prefix": "tmpl:javascript",
+	  "description": "Javascript  微厦在线学习系统的专用模板",
 	  "body": [
 		"\\$ready(function () {",
 		"\twindow.vapp = new Vue({",
@@ -39,7 +40,6 @@
 		"\t\t\n\t\t}",
 		"\t});",
 		"});"
-	  ],
-	  "description": "Javascript  微厦在线学习系统的专用模板"
+	  ]
 	}
 }

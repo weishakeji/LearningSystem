@@ -1,6 +1,7 @@
 {
 	"Css Template": {
 		"prefix": "tmpl:css",
+		"description": "Css 模板",
 		"body": [
 			"#vapp {",
 			"\twidth: 100%;",
@@ -9,7 +10,7 @@
 			"\tpadding: 0px;",
 			"\toverflow: hidden;",
 			"\tposition: relative;",
-			"}"],
-		"description": "Css 模板"
+			"}"
+		]
 	}
 }

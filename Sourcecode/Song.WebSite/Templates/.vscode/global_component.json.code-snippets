@@ -1,6 +1,7 @@
 {
 	"Vue Component Template": {
 		"prefix": "tmpl:vue-global-component",
+		"description": "Vue Component  微厦在线学习系统的专用模板",
 		"body": [
 			"Vue.component('$1', {",
 			"\tprops: ['value'],",
@@ -23,7 +24,6 @@
 			"\t\t",
 			"\t</div> `",
 			"});"
-		],
-		"description": "Vue Component  微厦在线学习系统的专用模板"
+		]
 	}
 }
