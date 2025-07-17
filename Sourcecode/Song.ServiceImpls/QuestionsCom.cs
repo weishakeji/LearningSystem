@@ -1407,9 +1407,18 @@ namespace Song.ServiceImpls
         public bool IsAnseerCorrect(long qid, string ans)
         {
             if (string.IsNullOrWhiteSpace(ans) || ans.Trim() == "") return false;
-            //
-            Questions qus = null;           
-            if (qus == null) qus = Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == qid).ToFirst<Questions>();
+            Questions  qus = Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == qid).ToFirst<Questions>();
+            return IsAnseerCorrect(qus, ans);
+        }
+        /// <summary>
+        /// 计算试题是否回答正确
+        /// </summary>
+        /// <param name="qus">试题对象</param>
+        /// <param name="ans">答案，选择题为id，判断题为数字，填空或简答为字符</param>
+        /// <returns>正确返回true</returns>
+        public bool IsAnseerCorrect(Questions qus, string ans)
+        {
+            if (string.IsNullOrWhiteSpace(ans) || ans.Trim() == "") return false;
             if (qus == null) return false;
             if (qus.Qus_Type == 1) return _determineQues1(qus, ans);
             if (qus.Qus_Type == 2) return _determineQues2(qus, ans);
@@ -1428,8 +1437,19 @@ namespace Song.ServiceImpls
         public float CalcScore(long qid, string ans, float num)
         {
             if (string.IsNullOrWhiteSpace(ans) || ans.Trim() == "") return 0;
-            Questions qus = null;
-            if (qus == null) qus = Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == qid).ToFirst<Questions>();
+            Questions qus =  Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == qid).ToFirst<Questions>();
+            return CalcScore(qus, ans, num);
+        }
+        /// <summary>
+        /// 计算试题得分
+        /// </summary>
+        /// <param name="qus">试题对象</param>
+        /// <param name="ans">答案，选择题为id，判断题为数字，填空或简答为字符</param>
+        /// <param name="num">该题的分数</param>
+        /// <returns></returns>
+        public float CalcScore(Questions qus, string ans, float num)
+        {
+            if (string.IsNullOrWhiteSpace(ans) || ans.Trim() == "") return 0;
             if (qus == null) return 0;
             if (qus.Qus_Type == 1) return _determineQues1(qus, ans) ? num : 0;
             if (qus.Qus_Type == 2) return _determineQues2(qus, ans) ? num : 0;
@@ -1504,14 +1524,31 @@ namespace Song.ServiceImpls
         /// <param name="ans"></param>
         /// <returns></returns>
         private bool _determineQues4(Questions ques, string ans)
-        {
-            if (string.IsNullOrWhiteSpace(ans)) return false;
-            if (string.IsNullOrWhiteSpace(ques.Qus_Answer)) return false;
-            ans = WeiSha.Core.HTML.ClearTag(ans);
-            ques.Qus_Answer = WeiSha.Core.HTML.ClearTag(ques.Qus_Answer);
-            if (ans.Trim() == "" || ques.Qus_Answer.Trim()=="") return false;
-            return ans.Equals(ques.Qus_Answer, StringComparison.OrdinalIgnoreCase);          
+        {        
+            try
+            {
+                //以下是用AI大语言的模型的算法
+                float score = _calcScoreQues4(ques, ans, 10);
+                return score >= 10;
+            }
+            catch
+            {
+                //简答题是否正确，这是原有用字符对比的算法
+                if (string.IsNullOrWhiteSpace(ans)) return false;
+                if (string.IsNullOrWhiteSpace(ques.Qus_Answer)) return false;
+                ans = WeiSha.Core.HTML.ClearTag(ans);
+                ques.Qus_Answer = WeiSha.Core.HTML.ClearTag(ques.Qus_Answer);
+                if (ans.Trim() == "" || ques.Qus_Answer.Trim() == "") return false;
+                return ans.Equals(ques.Qus_Answer, StringComparison.OrdinalIgnoreCase);
+            }
         }
+        /// <summary>
+        /// 计算简答题的称题得分，利用AI大语言模型
+        /// </summary>
+        /// <param name="ques"></param>
+        /// <param name="ans"></param>
+        /// <param name="num"></param>
+        /// <returns></returns>
         private float _calcScoreQues4(Questions ques, string ans, float num)
         {
             if (string.IsNullOrWhiteSpace(ans)) return 0;

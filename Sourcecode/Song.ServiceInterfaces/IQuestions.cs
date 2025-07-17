@@ -362,6 +362,9 @@ namespace Song.ServiceInterfaces
         /// <param name="xml"></param>
         /// <returns></returns>
         Song.Entities.QuesAnswer ItemToAnswer(string xml);
+        #endregion
+
+        #region 试题答题计算
         /// <summary>
         /// 计算试题是否回答正确
         /// </summary>
@@ -370,6 +373,13 @@ namespace Song.ServiceInterfaces
         /// <returns>正确返回true</returns>
         bool IsAnseerCorrect(long qid, string ans);
         /// <summary>
+        /// 计算试题是否回答正确
+        /// </summary>
+        /// <param name="qus">试题对象</param>
+        /// <param name="ans">答案，选择题为id，判断题为数字，填空或简答为字符</param>
+        /// <returns>正确返回true</returns>
+        bool IsAnseerCorrect(Questions qus, string ans);
+        /// <summary>
         /// 计算试题得分
         /// </summary>
         /// <param name="qid">试题的ID</param>
@@ -377,6 +387,14 @@ namespace Song.ServiceInterfaces
         /// <param name="num">该题的分数</param>
         /// <returns>试题分得</returns>
         float CalcScore(long qid, string ans, float num);
+        /// <summary>
+        /// 计算试题得分
+        /// </summary>
+        /// <param name="qus">试题对象</param>
+        /// <param name="ans">答案，选择题为id，判断题为数字，填空或简答为字符</param>
+        /// <param name="num">该题的分数</param>
+        /// <returns></returns>
+        float CalcScore(Questions qus, string ans, float num);
         #endregion
 
         #region 试题练习的记录

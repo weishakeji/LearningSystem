@@ -501,7 +501,7 @@ $ready(function () {
                         const qus = group.ques[j];
                         ques.q.push({
                             "id": qus.Qus_ID,
-                            "class": "level1",
+                            //"class": "level1",
                             "num": qus.Qus_Number,
                             "ans": questionAnswer(qus),
                             "file": qus.Qus_Explain
