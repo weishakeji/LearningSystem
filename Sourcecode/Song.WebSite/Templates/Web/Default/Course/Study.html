@@ -28,8 +28,8 @@
                 </div>
                 <div remark="提示" v-show="titState=='isNull' || !state.canStudy || !islogin ">
                     <div class="noSelect" v-if="!islogin"> <a :href="gourl('/web/sign/in')">未登录，点击此处登录！</a> </div>
-                    <div class="noSelect" v-if="!!account.Ac_ID"> 没有内容，或无权查看！</div>
-                    <div class="noSelect" v-if="state.canStudy && state.LiveStart && state.LiveOver">直播已经结束
+                    <div class="noContent" v-else-if="!!account.Ac_ID"> 当前章节没有内容！</div>
+                    <div class="noSelect" v-else-if="state.canStudy && state.LiveStart && state.LiveOver">直播已经结束
                     </div>
                 </div>
                 <study_video remark="视频" ref='videoplayer'
@@ -38,8 +38,7 @@
                     @completed="(o,s)=>{$refs['rightArea'].nextOutline(o,s);}">
                 </study_video>
                 <study_live remark="直播" v-if="titState=='isLive' && state.isLive" :account="account" :outline="outline"
-                    :state="state">
-                </study_live>
+                    :state="state"> </study_live>
                 <div remark="内容" v-show="titState=='isContext'" id="details" v-html="outline.Ol_Intro"> </div>
                 <accessory remark="附件" v-show="titState=='isAccess'" :uid="outline.Ol_UID" :outline="outline"
                     :studied="state.isStudy" :owned="state.owned" :account="account">
@@ -53,9 +52,7 @@
 
             </div>
             <div id="contextArea" v-if="state.DeskAllow">
-                <div>
-                    <div class="noSelect">请在DeskApp应用中打开</div>
-                </div>
+                <div class="noSelect">请在DeskApp应用中打开</div>
             </div>
         </div>
         <fold remark="此为分隔线"><span @click="fold = !fold" :class="{'open':fold}"></span> </fold>

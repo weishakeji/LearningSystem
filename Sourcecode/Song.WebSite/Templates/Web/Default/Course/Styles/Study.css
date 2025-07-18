@@ -120,10 +120,16 @@ video::-webkit-media-controls-panel {
 }
 
 
-.noSelect {
-	height: auto !important;
+.noSelect, .noContent {
+	display: grid;
+	justify-content: center;
+	height: 100%;
+	align-items: center;
+	font-size: 18px;
 }
-
+.noSelect a{
+	color: #ddd;
+}
 /*预载动画*/
 
 #preloader-2 {
@@ -206,7 +212,7 @@ video::-webkit-media-controls-panel {
 }
 
 #details * {
-	
+
 	background-color: transparent !important;
 }
 
