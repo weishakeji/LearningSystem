@@ -15,8 +15,8 @@
         </script>
         <div id="MainBox" :style="!fold ? 'width: calc(75% - 5px);' : 'width: calc(99.5% - 5px);'">
             <div class="mainTop">
-                <study_tabs ref="tabs" :course="course" :account="account" :state="state"
-                    @switch="(tag,index)=>{titState=tag}"></study_tabs>
+                <study_tabs ref="tabs" :course="course" :account="account" :state="state" @switch="tabswitch">
+                </study_tabs>
             </div>
             <!--左侧顶部结束-->
             <div id="contextArea" v-if="!state.DeskAllow">
@@ -35,7 +35,7 @@
                 <study_video remark="视频" ref='videoplayer'
                     v-if="titState=='existVideo' && state.existVideo && !state.isLive" :account="account"
                     :outline="outline" :state="state" :config="config" @playing="(t)=>{$refs['rightArea'].playtime=t;}"
-                    @completed="(o,s)=>{$refs['rightArea'].nextOutline(o,s);}">
+                    @completed="(o,s)=>{$refs['rightArea'].nextVideo(o,s);}">
                 </study_video>
                 <study_live remark="直播" v-if="titState=='isLive' && state.isLive" :account="account" :outline="outline"
                     :state="state"> </study_live>

@@ -110,40 +110,61 @@ Vue.component('outline_tree', {
             this.$emit('change', node);
             this.menushow = false;
         },
+        //当前节点的下一个节点
+        nextnode: function (selfnode, tree) {
+            if (tree == null) tree = this.outlines;
+            //获取当前节点的兄弟节点（同一层级的节点）
+            var getsiblings = function (tree, self) {
+                for (const node of tree) {
+                    if (node.Ol_ID === self.Ol_ID) return tree;
+                    if (node.children) {
+                        const siblings = getsiblings(node.children, self);
+                        if (siblings.length > 0) return siblings;
+                    }
+                }
+                return [];
+            };
+            //获取当前节点的同级节点的下一级
+            var getsiblingnext = function (list, self) {
+                for (let i = 0; i < list.length; i++) {
+                    if (list[i].Ol_ID == self.Ol_ID) {
+                        if (i < list.length - 1) {
+                            return list[i + 1];
+                        }
+                    }
+                }
+                return null;
+            };
+            //当前节点的父级节点
+            var getparent = function (tree, self) {
+                for (const node of tree) {
+                    if (node.children) {
+                        if (node.children.some(child => child.Ol_ID === self.Ol_ID)) return node;
+                        const parent = getparent(node.children, self);
+                        if (parent) return parent;
+                    }
+                }
+            };
+            //如果有下级，先取下级第一个节点
+            if (selfnode.children != null) return selfnode.children[0];
+            //再取同级的下一个节点
+            let siblings = getsiblings(tree, selfnode);
+            let next = getsiblingnext(siblings, selfnode);
+            if (next) return next;
+            //没有下一个（即最后一个）则取父级的下一个
+            let parent = getparent(tree, selfnode);
+            while (parent) {
+                let next = getsiblingnext(getsiblings(tree, parent), parent);
+                if (next) return next;
+                parent = getparent(tree, parent);
+            }
+            return null;
+        },
         //下一个章节（视频章节）
-        nextOutline: function (outline, state) {
-            var videoarr = rebuild(this.outlines, []);
-            let next = getnext(outline, videoarr);
-            if (next != null) return this.outlineClick(next);  
-            /*          
-            this.$alert('没有视频章节了！请学习其它章节。', '提示', {
-                confirmButtonText: '确定',
-                callback: action => { }
-            });*/
-            //获取所有的视频章节，生成一维队列，而不是树形数据了
-            function rebuild(list, arr) {
-                for (let i = 0; i < list.length; i++) {
-                    if (list[i].Ol_IsVideo) arr.push(list[i]);
-                    if (list[i].children != null)
-                        arr = rebuild(list[i].children, arr);
-                }
-                return arr;
-            }
-            //获取下一个视频章节
-            function getnext(curr, list) {
-                let next = null, isfind = false;
-                for (let i = 0; i < list.length; i++) {
-                    if (curr.Ol_ID == list[i].Ol_ID) {
-                        isfind = true;
-                        continue;
-                    }
-                    if (isfind && list[i].Ol_IsVideo) {
-                        next = list[i];
-                        break;
-                    }
-                }
-                return next;
-            }
+        nextVideo: function (outline, state) {
+            let nextnode = this.nextnode(outline);
+            if (nextnode != null && !nextnode.Ol_IsVideo) return this.nextVideo(nextnode);
+            return nextnode;
         },
         show: function () {
             this.menushow = true;
