@@ -44,25 +44,12 @@ $ready(function () {
                     'referrer': encodeURIComponent(location.href)
                 });
             },
-            //切换主选项卡
-            tabswitch: function (tag, index) {
-                this.titState = tag;
-                return;
-                //如果当前章节没有内容，则跳转到下一章节，直接跳转到有内容的章节
-                if (tag == 'isNull') {
-                    let refoutline = this.$refs['rightArea'];
-                    if (refoutline != null) {
-                        let next = refoutline.nextnode(this.outline);
-                        if (next != null) refoutline.outlineClick(next);
-                    }
-                }
-            },
             //切换章节
-            changeOutline:function(state,outline){
+            changeOutline: function (state, outline, evtype) {
                 this.state = state;
-                this.outline = outline; 
-                console.error(outline);
-                if(state.isNull){
+                this.outline = outline;
+                //如果当前章节没有内容，则跳转到下一章节，直接跳转到有内容的章节
+                if (state.isNull && evtype != 'click') {
                     let refoutline = this.$refs['rightArea'];
                     if (refoutline != null) {
                         let next = refoutline.nextnode(this.outline);

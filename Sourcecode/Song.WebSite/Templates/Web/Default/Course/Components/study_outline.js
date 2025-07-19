@@ -99,7 +99,7 @@ Vue.component('study_outline', {
                 }
                 //课程与章节加载完成
                 th.$emit('init', th.course, th.outline);
-                th.outlineClick(th.outline, null);
+                th.outlineClick(th.outline, 'init');
             } else {
                 th.outlines = [];
                 th.$emit('init', th.course, {});
@@ -134,7 +134,8 @@ Vue.component('study_outline', {
             return ol;
         },
         //章节树形列表中的点击事件
-        outlineClick: function (outline) {
+        //evtype:事件类型，默认为click，
+        outlineClick: function (outline, evtype) {
             var th = this;
             var olid = outline.Ol_ID;
             this.olid = olid;
@@ -174,14 +175,12 @@ Vue.component('study_outline', {
                 }
                 var url = $api.setpara("olid", olid);
                 history.pushState({}, null, url);
-                //th.$emit('change', th.state, outline);
 
                 //获取当前章节的详细信息
                 $api.get('Outline/ForID', { 'id': olid }).then(function (req) {
                     if (req.data.success) {
-                        let result = $api.merge(th.outline,req.data.result);
-
-                        th.$emit('change', th.state, result);
+                        let result = $api.merge(th.outline, req.data.result);
+                        th.$emit('change', th.state, result, evtype);
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
@@ -260,7 +259,7 @@ Vue.component('study_outline', {
         </div>     
        <el-tree :data="outlines" v-show="tabActive=='outline'" v-loading="loading" node-key="Ol_ID" ref="outlines_tree"
             default-expand-all :expand-on-click-node="false" :check-on-click-node="true" empty-text="没有章节"
-            :props="{children: 'children',label: 'Ol_Name'}" @node-click="outlineClick">
+            :props="{children: 'children',label: 'Ol_Name'}" @node-click="data=>outlineClick(data,'click')">
             <span class="custom-tree-node" slot-scope="{ node, data }" :title="data.Ol_Name" :olid="data.Ol_ID"
                 :isvideo='data.Ol_IsVideo' :islive='data.Ol_IsLive'>
                 <span>{{data.serial}}</span>
