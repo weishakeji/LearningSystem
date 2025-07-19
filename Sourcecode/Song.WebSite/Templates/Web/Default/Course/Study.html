@@ -15,7 +15,7 @@
         </script>
         <div id="MainBox" :style="!fold ? 'width: calc(75% - 5px);' : 'width: calc(99.5% - 5px);'">
             <div class="mainTop">
-                <study_tabs ref="tabs" :course="course" :account="account" :state="state" @switch="tabswitch">
+                <study_tabs ref="tabs" :course="course" :account="account" :state="state" @switch="tag=>titState = tag">
                 </study_tabs>
             </div>
             <!--左侧顶部结束-->
@@ -58,8 +58,8 @@
         <fold remark="此为分隔线"><span @click="fold = !fold" :class="{'open':fold}"></span> </fold>
         <!--开始右侧菜单区域-->
         <study_outline ref="rightArea" :account="account" :config="config" :owned="owned" @switch="(tag,index)=>{}"
-            @init="(c,o)=>{course=c;outline=o;}" @change="(s,o)=>{state=s;outline=o;}"
-            :style="!fold ? 'width: 25%;' : 'width: 0%'" v-show="!fold">
+            @init="(c,o)=>{course=c;outline=o;}" @change="changeOutline" :style="!fold ? 'width: 25%;' : 'width: 0%'"
+            v-show="!fold">
         </study_outline>
     </div>
 </body>

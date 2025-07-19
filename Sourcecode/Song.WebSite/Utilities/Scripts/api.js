@@ -130,7 +130,7 @@
             let typeName = myType.slice(8, -1); //[object Function],即取除了“[object ”的字符串。 
             return typeName;
         },
-        //是否为空
+        //判断一个对象是否为空
         isnull: function (obj) {
             if (obj == null || obj == undefined) return true;
             if (methods.getType(obj) == 'Object') {
@@ -138,6 +138,17 @@
                 if (Object.keys(obj).length == 0) return true;
             }
             return false;
+        },
+        //合并两个对象的成员
+        merge: function (objects) {
+            const result = {};
+            for (let i = 0; i < arguments.length; i++) {
+                for (const key in arguments[i]) {
+                    if (arguments[i].hasOwnProperty(key))
+                        result[key] = arguments[i][key];
+                }
+            }
+            return result;
         },
         //storage存储
         storage: function (key, value) {
@@ -726,8 +737,8 @@
             let paras = url.substring(url.lastIndexOf("?") + 1).split('&');
             for (let q in paras) {
                 if (paras[q].indexOf('=') < 0) continue;
-                let key= paras[q].substring(0, paras[q].indexOf('='));
-                let val= paras[q].substring(paras[q].indexOf('=') + 1);
+                let key = paras[q].substring(0, paras[q].indexOf('='));
+                let val = paras[q].substring(paras[q].indexOf('=') + 1);
                 values.push({ 'key': key, 'val': val });
             }
             return values;

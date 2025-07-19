@@ -143,7 +143,7 @@ Vue.component('study_outline', {
                 var tree = this.$refs['outlines_tree'];
                 tree.setCurrentKey(outline.Ol_ID);
             });
-            th.outline = outline;            
+            th.outline = outline;
             //
             th.loading = true;
             //获取章节相关信息
@@ -174,12 +174,14 @@ Vue.component('study_outline', {
                 }
                 var url = $api.setpara("olid", olid);
                 history.pushState({}, null, url);
-                th.$emit('change', th.state, outline);
-                /*
+                //th.$emit('change', th.state, outline);
+
                 //获取当前章节的详细信息
                 $api.get('Outline/ForID', { 'id': olid }).then(function (req) {
                     if (req.data.success) {
-                        th.$emit('change', th.state, req.data.result);
+                        let result = $api.merge(th.outline,req.data.result);
+
+                        th.$emit('change', th.state, result);
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
@@ -187,7 +189,7 @@ Vue.component('study_outline', {
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                });*/
+                });
             }).catch(err => console.error(err))
                 .finally(() => th.loading = false);
         },
@@ -245,7 +247,7 @@ Vue.component('study_outline', {
         nextVideo: function (outline) {
             let nextnode = this.nextnode(outline);
             if (nextnode != null && !nextnode.Ol_IsVideo) return this.nextVideo(nextnode);
-            return nextnode;            
+            return nextnode;
         },
     },
     template: `<div id="rightBox">          
@@ -259,7 +261,7 @@ Vue.component('study_outline', {
        <el-tree :data="outlines" v-show="tabActive=='outline'" v-loading="loading" node-key="Ol_ID" ref="outlines_tree"
             default-expand-all :expand-on-click-node="false" :check-on-click-node="true" empty-text="没有章节"
             :props="{children: 'children',label: 'Ol_Name'}" @node-click="outlineClick">
-            <span class="custom-tree-node" slot-scope="{ node, data }" :title="data.Ol_Name"
+            <span class="custom-tree-node" slot-scope="{ node, data }" :title="data.Ol_Name" :olid="data.Ol_ID"
                 :isvideo='data.Ol_IsVideo' :islive='data.Ol_IsLive'>
                 <span>{{data.serial}}</span>
                 <span>{{ data.Ol_Name }}</span>
