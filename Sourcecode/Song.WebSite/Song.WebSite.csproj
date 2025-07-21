@@ -245,16 +245,13 @@
     <Content Include="Help\API\Components\interfaces.js" />
     <Content Include="Help\API\Components\Styles\interfaces.css" />
     <Content Include="Help\API\Explain.htm" />
-    <Content Include="Help\API\Homepage.htm" />
     <Content Include="Help\API\Index.htm" />
     <Content Include="Help\API\Scripts\APIList.js" />
     <Content Include="Help\API\Scripts\core.js" />
     <Content Include="Help\API\Scripts\Explain.js" />
-    <Content Include="Help\API\Scripts\Homepage.js" />
     <Content Include="Help\API\Scripts\Index.js" />
     <Content Include="Help\API\Styles\APIList.css" />
     <Content Include="Help\API\Styles\Explain.css" />
-    <Content Include="Help\API\Styles\Homepage.css" />
     <Content Include="Help\API\Styles\Index.css" />
     <Content Include="Help\Contents\DataEntity.html" />
     <Content Include="Help\Contents\Images\DataEntity\1.png" />
