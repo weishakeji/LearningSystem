@@ -12,8 +12,8 @@
     <div id="app" v-cloak>
         <div class="toolsbar">
             <btngroup show="删除,导出,清空,重新计算" ref='btngroup' @delete="deleteData" @clear="clear"
-                @contextmenu="automatically" @output="output" @batcalc="allcalcResultScore" width="600"
-                height="600" :selects='selects' idkey='Exr_ID' table="datatables"></btngroup>
+                @contextmenu="automatically" @output="output" @batcalc="allcalcResultScore" width="600" height="600"
+                :selects='selects' idkey='Exr_ID' table="datatables"></btngroup>
             <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item label="">
                     <el-dropdown @command="dorphandle">
@@ -103,10 +103,7 @@
                 <template slot-scope="scope">
                     <el-tooltip :content="scope.row.Exr_ScoreFinal<entity.Exam_PassScore ? '不及格' : '点击查看成绩详情'"
                         placement="bottom" effect="light">
-                        <span :class="{'red':scope.row.Exr_ScoreFinal<entity.Exam_PassScore,'link':true}"
-                            @click="review(scope.row)">
-                            <score :number="scope.row.Exr_ScoreFinal"></score>
-                        </span>
+                        <score :item="scope.row" @click="review(scope.row)"></score>
                     </el-tooltip>
 
                 </template>
@@ -218,7 +215,7 @@
                 </el-row>
             </div>
         </el-dialog>
-        
+
     </div>
 
 

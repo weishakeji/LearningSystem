@@ -322,7 +322,7 @@ $ready(function () {
                 let url = $api.url.set("/teacher/exam/ResultsOutput", { "examid": this.form.examid });
                 let boxid = "ResultsOutput_" + this.form.examid;
                 let title = '成绩导出 - “' + this.entity.Exam_Name + "”";
-                this._openbox(url, title, boxid, 800, 600, 'e73e');              
+                this._openbox(url, title, boxid, 800, 600, 'e73e');
             },
             _openbox: function (url, title, boxid, width, height, icon) {
                 //创建
@@ -344,7 +344,7 @@ $ready(function () {
         components: {
             //得分的输出，为了小数点对齐
             'score': {
-                props: ['number'],
+                props: ['item'],
                 data: function () {
                     return {
                         prev: '',
@@ -353,26 +353,21 @@ $ready(function () {
                     }
                 },
                 watch: {
-                    'number': function (nv, ov) {
-                        this.init();
+                    'item': {
+                        handler: function (nv, ov) {
+                            let score = this.item.Exr_ScoreFinal;
+                            var num = String(Math.round(score * 100) / 100);
+                            if (num.indexOf('.') > -1) {
+                                this.prev = num.substring(0, num.indexOf('.'));
+                                this.after = num.substring(num.indexOf('.') + 1);
+                            } else {
+                                this.prev = num;
+                                this.dot = '&nbsp;';
+                            }
+                        }, immediate: true,
                     }
                 },
-                created: function () {
-                    this.init();
-                },
-                methods: {
-                    init: function () {
-                        var num = String(Math.round(this.number * 100) / 100);
-                        if (num.indexOf('.') > -1) {
-                            this.prev = num.substring(0, num.indexOf('.'));
-                            this.after = num.substring(num.indexOf('.') + 1);
-                        } else {
-                            this.prev = num;
-                            this.dot = '&nbsp;';
-                        }
-                    }
-                },
-                template: `<div class="score">
+                template: `<div class="score link" @click="$emit('click')">
                     <span class="prev">{{prev}}</span>
                     <span class="dot" v-html="dot"></span>
                     <span class="after">{{after}}</span>
