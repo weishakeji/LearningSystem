@@ -39,9 +39,11 @@ $ready(function () {
             //考试时间区间（当设置为“设定时间区间”时)
             dateRange: [],
 
-            loading: false,
-            loading_init: true,
-            loading_upload: false        //附件上传的预载
+            loadstate: {
+                init: false,        //初始化            
+                get: false,         //加载数据
+                update: false,      //更新数据              
+            },
         },
         watch: {
             //当考试时间方式更改时
@@ -60,8 +62,8 @@ $ready(function () {
             }
         },
         created: function () {
-            console.log(this.entity);
             var th = this;
+            th.loadstate.init = true;
             $api.get('Organization/Current').then(function (req) {
                 if (req.data.success) {
                     th.organ = req.data.result;
@@ -72,7 +74,7 @@ $ready(function () {
                 }
 
             }).catch(err => console.error(err))
-                .finally(() => th.loading_init = false);
+                .finally(() => th.loadstate.init = false);
         },
         mounted: function () {
 
@@ -80,15 +82,24 @@ $ready(function () {
         computed: {
             //是否新增账号
             isadd: t => t.id == null || t.id == '' || this.id == 0,
+            //是否加载中
+            loading: function () {
+                if (!this.loadstate) return false;
+                for (let key in this.loadstate) {
+                    if (this.loadstate.hasOwnProperty(key)
+                        && this.loadstate[key])
+                        return true;
+                }
+                return false;
+            }
         },
         methods: {
             //获取考试主题
             getTheme: function () {
                 var th = this;
                 if (th.id == 0) return;
-                th.loading = true;
+                th.loadstate.get = true;
                 $api.get('Exam/ForID', { 'id': th.id }).then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.entity = result;
@@ -98,10 +109,7 @@ $ready(function () {
                     } else {
                         throw '未查询到数据';
                     }
-                }).catch(function (err) {
-                    th.loading = false;
-                    alert(err);
-                });
+                }).catch(err => alert(err)).finally(() => th.loadstate.get = false);
             },
             //当前增加场次时
             addexam: function (exam, exams) {
@@ -110,6 +118,8 @@ $ready(function () {
             //保存
             btnEnter: function (formName, isclose) {
                 var th = this;
+                if (th.loadstate.update) return;
+                th.loadstate.update = true;
                 //考试场次
                 var exams = th.$refs['exam_items'].getexams();
                 //关联的学员组
@@ -118,18 +128,16 @@ $ready(function () {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         console.log(th.entity);
-                        var apipath = "Exam/" + (th.id == 0 ? 'add' : 'Modify');
+                        var apipath = th.id == 0 ? 'Exam/add' : 'Exam/Modify';
                         $api.post(apipath, { 'theme': th.entity, 'items': exams, 'groups': groups }).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$notify({
-                                    message: '操作成功！',
+                                    message: '考试管理操作成功！',
                                     type: 'success',
                                     position: 'bottom-left'
                                 });
-                                window.setTimeout(function () {
-                                    th.operateSuccess(isclose);
-                                }, 200);
+                                th.operateSuccess(isclose);
                             } else {
                                 console.error(req.data.exception);
                                 throw req.config.way + ' ' + req.data.message;
@@ -137,7 +145,7 @@ $ready(function () {
                         }).catch(function (err) {
                             alert(err);
                             console.error(err);
-                        });
+                        }).finally(() => th.loadstate.update = false);
                     } else {
                         console.log('error submit!!');
                         return false;
@@ -150,7 +158,7 @@ $ready(function () {
                 var pagebox = window.top.$pagebox;
                 var box = pagebox.get(window.name);
                 var pid = box.pid;
-                if (window.top.vapp.fresh) {
+                if (window.top.vapp && window.top.vapp.fresh) {
                     window.top.vapp.fresh(pid, 'vapp.handleCurrentChange');
                     window.setTimeout(function () {
                         pagebox.shut(window.name);
