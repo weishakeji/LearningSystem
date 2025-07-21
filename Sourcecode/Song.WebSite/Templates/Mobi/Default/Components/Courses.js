@@ -142,6 +142,6 @@ Vue.component('cour-box', {
                     <live v-if="course.Cou_ExistLive"></live>                     
                     <t v-if="course.Cou_IsTry"></t>{{course.Cou_Name}}
                 </name>
-                <price v-html="price(course)" v-if="!mremove">{{price(course)}}</price>
+                <price v-html="price(course)" v-if="!mremove && !course.Cou_EnabledAI">{{price(course)}}</price>
         </div> `
 });
