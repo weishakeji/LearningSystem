@@ -71,7 +71,6 @@ $ready(function () {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         var th = this;
-                        th.loading = true;
                         var entity = $api.clone(th.entity);
                         //回调域去除最末尾的/
                         var ret = th.entity.pubReturl;
@@ -83,7 +82,8 @@ $ready(function () {
                             pubSecret: th.entity.pubSecret
                         };
                         entity.Tl_Config = JSON.stringify(conf);
-                        console.log(entity);
+                        if (th.loading) return;
+                        th.loading = true;
                         $api.post('OtherLogin/Update', { 'entity': entity }).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
@@ -94,8 +94,7 @@ $ready(function () {
                                         for (k in conf)
                                             result[k] = conf[k];
                                     } catch { }
-                                }
-                                //console.log(result);
+                                }   
                                 th.entity = result;
                                 th.$notify({
                                     type: 'success',
@@ -111,9 +110,7 @@ $ready(function () {
                         }).catch(function (err) {
                             alert(err);
                             console.error(err);
-                        }).finally(function () {
-                            th.loading = false;
-                        });
+                        }).finally(() => th.loading = false);
                     } else {
                         console.log('error submit!!');
                         return false;

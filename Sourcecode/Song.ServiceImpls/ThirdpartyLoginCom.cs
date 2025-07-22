@@ -20,8 +20,8 @@ namespace Song.ServiceImpls
         public ThirdpartyLogin GetSingle(string tag)
         {
             if (string.IsNullOrWhiteSpace(tag)) return null;
-            tag = tag.ToLower();
-            return Gateway.Default.From<ThirdpartyLogin>().Where(ThirdpartyLogin._.Tl_Tag == tag).ToFirst<ThirdpartyLogin>();
+            //tag = tag.ToLower();
+            return Gateway.Default.From<ThirdpartyLogin>().Where(ThirdpartyLogin._.Tl_Tag == tag || ThirdpartyLogin._.Tl_Tag == tag.ToLower()).ToFirst<ThirdpartyLogin>();
         }
         /// <summary>
         /// 通过id登录配置项
