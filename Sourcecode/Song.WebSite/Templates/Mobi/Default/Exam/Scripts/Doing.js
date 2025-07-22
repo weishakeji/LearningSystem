@@ -389,6 +389,7 @@ $ready(function () {
             submit: function (patter) {
                 if (!this.isexaming()) return;    //没有处于考试中，则不提交
                 if ($api.isnull(this.paperAnswer)) return;
+                if (this.nowtime < new Date(Number(this.examstate.startTime))) return;
                 if (this.examstate.issubmit || this.submitState.loading) return;
                 if (this.paper.Tp_Count < 1) return;
 
@@ -454,13 +455,15 @@ $ready(function () {
             },
             //生成答题信息
             generateAnswerJson: function (paper) {
+                //考试开始时间
+                let startTime = new Date(Number(this.examstate.startTime));
                 let results = {
                     "examid": this.exam.Exam_ID,
                     "tpid": this.paper.Tp_Id,
                     //"now": this.nowtime.getTime(),
                     "begin": this.time.begin.getTime(),
                     "overtime": this.time.over.getTime(),
-                    "starttime": this.time.start.getTime(),
+                    "starttime": this.time.start > startTime ? this.time.start.getTime() : startTime.getTime(),
                     "stid": this.account.Ac_ID,
                     "stname": this.account.Ac_Name,
                     "stsid": this.account.Sts_ID,
