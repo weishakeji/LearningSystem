@@ -59,9 +59,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helper\Path.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTest2.cs" />
+    <Compile Include="UnitTest_ExamReasult.cs" />
     <Compile Include="UnitTest_Desensitize.cs" />
   </ItemGroup>
   <ItemGroup>
