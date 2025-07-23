@@ -31,7 +31,7 @@ html, body {
 }
 
 /* 在小屏幕下（最大宽度为600px）设置宽度 */
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1300px) {
 	#vapp {
 		overflow-y: auto;
 		display: block;
