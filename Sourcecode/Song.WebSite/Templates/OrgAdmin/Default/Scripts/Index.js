@@ -120,7 +120,7 @@ window.$loyout = function (platinfo, org) {
         target: '#user-area',
         width: 110,
         plwidth: 120,
-        level: 30000
+        level: 30
     }).onclick($event.nodeClick);
     //用户信息的下拉菜单
     $dom.get($dom.path() + 'Panel/Datas/usermenu.json', req => usermenu.add(req));
