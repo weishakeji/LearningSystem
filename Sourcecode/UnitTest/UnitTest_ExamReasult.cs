@@ -18,17 +18,25 @@ namespace UnitTest
         [TestMethod]
         public void CreateObject()
         {
-            //int n = Business.Do<IAccounts>().AccountsOfCount(1, true, 1);
-            //Assert.IsTrue(n > 0);
+            WeiSha.Data.DbProvider provider = WeiSha.Data.DbProviderFactory.CreateDbProvider("WeiSha.Data.PostgreSQL.PostgreSQLProvider", "Server=localhost;Port=5432;Database=gxmk;User Id=postgres;Password=weishakeji;");
+            WeiSha.Data.Gateway.SetDefault(provider);
 
-            //string startupPath = System.AppDomain.CurrentDomain.BaseDirectory;
 
             string path = Helper.Path.GetXML();
             string xml = System.IO.File.ReadAllText(path);
             Song.ServiceImpls.Exam.Results results = new Song.ServiceImpls.Exam.Results(xml);
 
-            string text = results.OutputXML(false);
-            
+            //string text = results.OutputXML(false);
+            //Gateway.SetDefault("Server = localhost; Port = 5432; Database = gxmk; User Id = postgres; Password = weishakeji;");
+            //计算分数
+            float score = results.Score;
+            Assert.IsTrue(score > 0);
+
+            //
+            Song.ServiceImpls.Exam.QuesAnswer qa = results.QuesTypes[1].QuesAnswers[0];
+            qa.ToWrong();
+            qa.ToWrong();
+            qa.ToWrong();
         }
 
 

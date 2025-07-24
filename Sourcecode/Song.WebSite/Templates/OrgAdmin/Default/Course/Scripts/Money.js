@@ -79,7 +79,7 @@
         computed: {
             loading: function () {
                 if (!this.loadstate) return false;
-                for (let t in this.loadstate) {
+                for (let key in this.loadstate) {
                     if (this.loadstate.hasOwnProperty(key)
                         && this.loadstate[key])
                         return true;
