@@ -1513,8 +1513,9 @@ namespace Song.ServiceImpls
         private bool _determineQues3(Questions ques, string ans)
         {
             ans = ans.Replace(",", "");
-            if (Convert.ToInt64(ans) == 0 && ques.Qus_IsCorrect == true) return true;
-            if (Convert.ToInt64(ans) == 1 && ques.Qus_IsCorrect == false) return true;
+            int ansval = int.TryParse(ans, out int val) ? val : 0;
+            if (ansval == 0 && ques.Qus_IsCorrect == true) return true;
+            if (ansval == 1 && ques.Qus_IsCorrect == false) return true;
             return false;
         }
         /// <summary>
@@ -1586,8 +1587,8 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         private bool _determineQues5(Questions ques, string ans)
         {
-            List<QuesAnswer> ans5 = ItemsToAnswer(ques, null); 
-            if (ans5==null || ans5.Count < 1) return false;
+            List<QuesAnswer> ans5 = ItemsToAnswer(ques, null);
+            if (ans5 == null || ans5.Count < 1) return false;
             if (ans.Length > 0 && ans.Substring(ans.Length - 1) == ",")
                 ans = ans.Substring(0, ans.Length - 1);
             string[] ansText = ans.Split(',');
@@ -1599,8 +1600,8 @@ namespace Song.ServiceImpls
                 string corentTxt = WeiSha.Core.HTML.ClearTag(ans5[j].Ans_Context);
                 foreach (string tm in corentTxt.Split(','))
                 {
-                    if (string.IsNullOrWhiteSpace(tm.Trim())) continue;                   
-                    if (tm.Equals(ansText[j],StringComparison.OrdinalIgnoreCase))
+                    if (string.IsNullOrWhiteSpace(tm.Trim())) continue;
+                    if (tm.Equals(ansText[j], StringComparison.OrdinalIgnoreCase))
                     {
                         corrNum++;
                         break;

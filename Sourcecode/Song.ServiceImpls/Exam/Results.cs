@@ -577,6 +577,16 @@ namespace Song.ServiceImpls.Exam
                 }
                 this.Ans = string.Join(",", ans);
             }
+            //判断题
+            if (this.Type == 3)
+            {
+                this.Ans = this.Entity.Qus_IsCorrect ? "1" : "0";               
+            }
+            //填空题
+            if (this.Type == 5)
+            {
+                this.Ans = string.Empty;
+            }
             this.Score = 0;
             this.Sucess = false;
         }
@@ -608,6 +618,23 @@ namespace Song.ServiceImpls.Exam
                     if (_answers[i].Ans_IsCorrect) correctid.Add(_answers[i].Ans_ID);                   
                 }
                 this.Ans = string.Join(",", correctid);
+            }
+            //判断题
+            if (this.Type == 3)
+            {
+                this.Ans = this.Entity.Qus_IsCorrect ? "0" : "1";               
+            }
+            //填空题
+            if (this.Type == 5)
+            {
+                List<Song.Entities.QuesAnswer> _answers = this.AnswerItems;
+                if (_answers.Count == 1) this.Ans = _answers[0].Ans_Context;
+                if (_answers.Count > 1)
+                {
+                    Random rd = new Random(_answers.Count * this.Index + (int)DateTime.Now.Ticks);
+                    int idx = rd.Next(100) % _answers.Count;
+                    this.Ans = _answers[idx].Ans_Context;
+                }
             }
             this.Score = this.Num;
             this.Sucess = true;
