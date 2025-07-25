@@ -18,8 +18,7 @@ namespace UnitTest
         [TestMethod]
         public void CreateObject()
         {
-            WeiSha.Data.DbProvider provider = WeiSha.Data.DbProviderFactory.CreateDbProvider("WeiSha.Data.PostgreSQL.PostgreSQLProvider", "Server=localhost;Port=5432;Database=gxmk;User Id=postgres;Password=weishakeji;");
-            WeiSha.Data.Gateway.SetDefault(provider);
+            Helper.DbProvider.SetDbGateway();
 
 
             string path = Helper.Path.GetXML();
@@ -38,7 +37,26 @@ namespace UnitTest
             qa.ToWrong();
             qa.ToWrong();
         }
+        [TestMethod]
+        public void DbTest()
+        {
+            string path = Helper.Path.WebSitePath();
+            string dbconfig= System.IO.Path.Combine(path, "db.config");
+            if (System.IO.File.Exists(dbconfig))
+            {
+                System.Xml.XmlDocument xml =new System.Xml.XmlDocument();
+                xml.Load(dbconfig);
+                System.Xml.XmlNode nodeconn = xml.LastChild;
+                foreach (System.Xml.XmlNode node in nodeconn.ChildNodes)
+                {
+                    if (node.NodeType != System.Xml.XmlNodeType.Element) continue;
 
+                    string name = node.Attributes["name"]?.Value;
+                    string conn = node.Attributes["connectionString"]?.Value; 
+                    string provider = node.Attributes["providerName"]?.Value;          
+                }
+            }
+        }
 
     }
 }

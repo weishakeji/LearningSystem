@@ -50,6 +50,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
     <Reference Include="WeiSha.Core, Version=2.0.8166.41242, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\WeiSha.Core.dll</HintPath>
@@ -59,6 +60,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helper\DbProvider.cs" />
     <Compile Include="Helper\Path.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
