@@ -285,10 +285,9 @@ namespace Song.ViewData.Methods
             //
             try
             {
-                Business.Do<ICourse>().CourseUpdate(couid,
-                    new WeiSha.Data.Field[] {
-                        Song.Entities.Course._.Cou_Name},
-                    new object[] { name });
+                Business.Do<ICourse>().CourseUpdate(couid, new WeiSha.Data.Field[] { Song.Entities.Course._.Cou_Name }, new object[] { name });
+                //同步课程信息到关联表
+                Business.Do<ICourse>().CourseSyncUpdate(couid);
                 return true;
             }
             catch (Exception ex)

@@ -49,6 +49,12 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         bool CourseUpdate(long couid, Field field, object obj);
         /// <summary>
+        /// 同步课程信息到关联表
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <returns></returns>
+        bool CourseSyncUpdate(long couid);
+        /// <summary>
         /// 增加课程浏览数
         /// </summary>
         /// <param name="entity">课程</param>

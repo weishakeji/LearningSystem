@@ -12,12 +12,12 @@
         <div class="toolsbar">
             <btngroup show="新增" ref='btngroup' path="Modify" width="800" height="600" idkey='Exam_ID' table="datatable"
                 :modal="false"></btngroup>
-            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+            <query_panel ref="query" :model="form" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item label="">
                     <date_range @change="selectDate"></date_range>
                 </el-form-item>
                 <el-form-item label="">
-                    <el-input v-model="form.search" placeholder="考试主题" style="width:160px"> </el-input>
+                    <el-input v-model="form.search" @clear="$refs['query'].onserch()"  clearable placeholder="考试主题" style="width:160px"> </el-input>
                 </el-form-item>
             </query_panel>
         </div>

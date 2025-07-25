@@ -207,6 +207,38 @@ namespace Song.ServiceImpls
             return true;
         }
         /// <summary>
+        /// 同步课程信息到关联表
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <returns></returns>
+        public bool CourseSyncUpdate(long couid)
+        {
+            Course entity = this.CourseSingle(couid);
+            using (DbTrans tran = Gateway.Default.BeginTrans())
+            {
+                try
+                {
+                    tran.Update<Questions>(
+                                   new Field[] { Questions._.Sbj_ID, Questions._.Sbj_Name },
+                                   new object[] { entity.Sbj_ID, entity.Sbj_Name }, Questions._.Cou_ID == entity.Cou_ID);
+                    tran.Update<Outline>(new Field[] { Outline._.Sbj_ID }, new object[] { entity.Sbj_ID }, Outline._.Cou_ID == entity.Cou_ID);
+                    tran.Update<TestPaper>(
+                                new Field[] { TestPaper._.Cou_Name, TestPaper._.Sbj_ID, TestPaper._.Sbj_Name },
+                                new object[] { entity.Cou_Name, entity.Sbj_ID, entity.Sbj_Name },
+                                TestPaper._.Cou_ID == entity.Cou_ID);
+                    tran.Update<Guide>(new Field[] { Guide._.Cou_Name }, new object[] { entity.Cou_Name }, Guide._.Cou_ID == entity.Cou_ID);
+                    tran.Update<GuideColumns>(new Field[] { GuideColumns._.Cou_Name }, new object[] { entity.Cou_Name }, GuideColumns._.Cou_ID == entity.Cou_ID);
+                    tran.Commit();
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    throw ex;
+                }
+            }
+            return true;
+        }
+        /// <summary>
         /// 增加课程浏览数
         /// </summary>
         /// <param name="entity"></param>
