@@ -1725,6 +1725,8 @@
     <Content Include="Utilities\License\Styles\Index.css" />
     <Content Include="Utilities\LLM\Course\AIAgent\message.txt" />
     <Content Include="Utilities\LLM\Course\AIAgent\role.txt" />
+    <Content Include="Utilities\LLM\Exam\QuesType4ToAnswer\message.txt" />
+    <Content Include="Utilities\LLM\Exam\QuesType4ToAnswer\role.txt" />
     <Content Include="Utilities\LLM\Questions\Explain\message.txt" />
     <Content Include="Utilities\LLM\Questions\Explain\role.txt" />
     <Content Include="Utilities\LLM\Questions\Generate\role.txt" />

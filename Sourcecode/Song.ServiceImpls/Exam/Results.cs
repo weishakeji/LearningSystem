@@ -522,7 +522,44 @@ namespace Song.ServiceImpls.Exam
         /// <summary>
         /// 生成失败的答题
         /// </summary>
-        public void ToWrong()
+        /// <param name="score">要求得分</param>
+        public float ToWrong(float score)
+        {
+            if (this.Type != 4) return ToWrong();
+            //简答题
+            if (this.Type == 4)
+            {
+                if (score <= 0)
+                {
+                    this.Ans = string.Empty;
+                    this.Score = 0;
+                    this.Sucess = false;
+                    return this.Score;
+                }
+                else
+                {
+                    try
+                    {
+                        //采用大语言模块处理
+                        string answer = QuesType4ToAnswer(this.Entity, this.Num, score);
+                        this.Ans = answer;
+                    }
+                    catch
+                    {
+                        int index = (int)Math.Round(score / this.Num * this.Entity.Qus_Answer.Length - 1);
+                        if (index <= 0) this.Ans = string.Empty;
+                        else this.Ans = this.Entity.Qus_Answer.Substring(0, index);
+                    }
+                }
+            }
+            this.Score = score;
+            this.Sucess = false;
+            return this.Score;
+        }
+        /// <summary>
+        /// 生成失败的答题
+        /// </summary>
+        public float ToWrong()
         {
             //单选题
             if (this.Type == 1)
@@ -588,16 +625,16 @@ namespace Song.ServiceImpls.Exam
             if (this.Type == 5)
             {
                 this.Ans = string.Empty;
-            }
+            }           
             this.Score = 0;
             this.Sucess = false;
+            return this.Score;
         }
         /// <summary>
         /// 生成正确的答题
         /// </summary>
-        public void ToCorrect()
+        public float ToCorrect()
         {
-            //Random random = new Random();
             //单选题
             if (this.Type == 1)
             {
@@ -645,7 +682,7 @@ namespace Song.ServiceImpls.Exam
                 try
                 {
                     //采用大语言模块处理
-                    string answer = _quesType4ToCorrect(this.Entity, this.Score);
+                    string answer = QuesType4ToAnswer(this.Entity, this.Num, this.Num);
                     this.Ans = answer;
                 }
                 catch
@@ -655,27 +692,36 @@ namespace Song.ServiceImpls.Exam
             }
             this.Score = this.Num;
             this.Sucess = true;
+            return this.Score;
         }
 
-        public static string _quesType4ToCorrect(Song.Entities.Questions entity, float score)
+        /// <summary>
+        /// 利用AI大模型，根据得分要求，回答简答题
+        /// </summary>
+        /// <param name="entity">试题对象</param>
+        /// <param name="number">试题分数</param>
+        /// <param name="score">希望得多少分</param>
+        /// <returns>按score得分，给出回答</returns>
+        public static string QuesType4ToAnswer(Song.Entities.Questions entity, float number, float score)
         {
             //取试题所在专业与课程
             Song.Entities.Subject sbj = sbjcom.SubjectSingle(entity.Sbj_ID);
             //试题所在课程
             Song.Entities.Course cou = coucom.CourseSingle(entity.Cou_ID);
             //设定AI的角色
-            string role = Song.APIHub.LLM.Gatway.TemplateRole("Exam/QuesType4ToCorrect");
+            string role = Song.APIHub.LLM.Gatway.TemplateRole("Exam/QuesType4ToAnswer");
             role = APIHub.LLM.Gatway.TemplateHandle(role, sbj);
             role = APIHub.LLM.Gatway.TemplateHandle(role, cou);
 
             //生成问题的描述
-            string message = Song.APIHub.LLM.Gatway.TemplateMsg("Exam/QuesType4ToCorrect");
+            string message = Song.APIHub.LLM.Gatway.TemplateMsg("Exam/QuesType4ToAnswer");
             message = APIHub.LLM.Gatway.TemplateHandle(message, entity);
             message = APIHub.LLM.Gatway.TemplateHandle(message, cou);
-            message = APIHub.LLM.Gatway.TemplateHandle(message, "score", score.ToString());           
+            message = APIHub.LLM.Gatway.TemplateHandle(message, "number", number.ToString());
+            message = APIHub.LLM.Gatway.TemplateHandle(message, "score", score.ToString());
 
             //向AI发送请求
-            string aianswer= APIHub.LLM.Gatway.Consult(role, message);
+            string aianswer = APIHub.LLM.Gatway.Consult(role, message);
             return aianswer;
         }
     }

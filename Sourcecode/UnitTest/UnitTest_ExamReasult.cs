@@ -66,16 +66,16 @@ namespace UnitTest
         /// </summary>
 
         [TestMethod]
-        public void QuesType4ToCorrect()
+        public void QuesType4ToAnswer()
         {
             Helper.DbProvider.SetDbGateway();
-            Song.APIHub.LLM.Gatway.SetApiKey("sk-906c305ac913400eaa23910269abfaa2");
+            Song.APIHub.LLM.Gatway.SetApiKey("sk-");
             Song.APIHub.LLM.Gatway.SetApiUrl("https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions");
             Song.APIHub.LLM.Gatway.SetApiModel("qwen-turbo-latest");
             Song.APIHub.LLM.Gatway.SetTmpRootPath(@"E:\SourceCode\02_LearningSystem_dev\Sourcecode\Song.WebSite");
 
             Song.Entities.Questions ques =Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == 129132493668093952).ToFirst<Questions>();
-            string ans = Song.ServiceImpls.Exam.QuesAnswer._quesType4ToCorrect(ques, 8);
+            string ans = Song.ServiceImpls.Exam.QuesAnswer.QuesType4ToAnswer(ques, 8,3);
         }
 
     }
