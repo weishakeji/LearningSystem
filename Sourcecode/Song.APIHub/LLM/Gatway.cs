@@ -19,9 +19,30 @@ namespace Song.APIHub.LLM
 {
     public class Gatway
     {
+
+        #region API Url
         // 设置请求 URL 和内容
         //static readonly string _api_url = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions";
-        static readonly string _api_url = WeiSha.Core.App.Get["LLM_aliyun_url"].String;
+        private static string _api_url = "";
+        /// <summary>
+        /// 设置API URL
+        /// </summary>
+        /// <param name="apiurl"></param>
+        public static void SetApiUrl(string apiurl) => _api_url = apiurl;
+        public static string APIUrl
+        {
+            get
+            {
+                lock (_lock)
+                {
+                    if (string.IsNullOrWhiteSpace(_api_url))                   
+                            _api_url = WeiSha.Core.App.Get["LLM_aliyun_url"].String;                    
+                    return _api_url;
+                }
+            }
+        }
+
+        #endregion
 
         #region API key
         private static string _api_key = "";
@@ -49,22 +70,6 @@ namespace Song.APIHub.LLM
         }
         #endregion
 
-        //模板的根路径
-        private static string _llm_path = AppDomain.CurrentDomain.BaseDirectory + "Utilities\\LLM";
-        /// <summary>
-        /// LLM模型的配置项
-        /// </summary>
-        public static JObject AliyunConfiguration
-        {
-            get
-            {
-                string filepath = Path.Combine(_llm_path, "aliyun_model.json");
-                if (!File.Exists(filepath)) return null;
-                string json = File.ReadAllText(filepath);
-                return JObject.Parse(json);
-            }
-        }
-
         #region 模型名称
         private static string _api_model = "";
         /// <summary>
@@ -91,7 +96,7 @@ namespace Song.APIHub.LLM
                             {
                                 _api_model = AliyunConfiguration["default"].ToString();
                             }
-                        }                          
+                        }
                     }
                     return _api_model;
                 }
@@ -112,19 +117,59 @@ namespace Song.APIHub.LLM
                     foreach (JObject obj in jarr)
                     {
                         string model = (string)obj["model"];
-                        if (model == modelCode) return (string)obj["name"];                       
+                        if (model == modelCode) return (string)obj["name"];
                     }
                 }
                 if (string.IsNullOrWhiteSpace(modelName)) return modelCode;
-                return  modelName;
+                return modelName;
             }
         }
         #endregion
 
+        #region 模板文件路径
+        //模板的根路径
+        private static string _llm_rootpath = "";
+        private static string _llm_pathname = "Utilities\\LLM";
+        /// <summary>
+        /// 设置模板根路径
+        /// </summary>
+        public static void SetTmpRootPath(string path) => _llm_rootpath = System.IO.Path.Combine(path, _llm_pathname);
+        //private static string _llm_path = AppDomain.CurrentDomain.BaseDirectory + "Utilities\\LLM";
+        /// <summary>
+        /// 模板的根路径
+        /// </summary>
+        public static string LLM_RootPath
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(_llm_rootpath))
+                {
+                    lock (_lock) _llm_rootpath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _llm_pathname);
+                }
+                return _llm_rootpath;
+            }                    
+        }
+        /// <summary>
+        /// LLM模型的配置项
+        /// </summary>
+        public static JObject AliyunConfiguration
+        {
+            get
+            {
+                string filepath = Path.Combine(LLM_RootPath, "aliyun_model.json");
+                if (!File.Exists(filepath)) return null;
+                string json = File.ReadAllText(filepath);
+                return JObject.Parse(json);
+            }
+        }
+
+        #endregion
+
+
         #region 异步方法
         private static async Task<string> Exchange(string jsonContent)
         {
-            return await _sendPostRequestAsync(_api_url, jsonContent, APIKey);
+            return await _sendPostRequestAsync(APIUrl, jsonContent, APIKey);
         }
 
         /// <summary>
@@ -161,7 +206,7 @@ namespace Song.APIHub.LLM
             jo.Add("model", ModelCode);
             jo.Add("stream", false);
             jo.Add("messages", messages);
-            return await _sendPostRequestAsync(_api_url, jo.ToString(), APIKey);
+            return await _sendPostRequestAsync(APIUrl, jo.ToString(), APIKey);
         }
         /// <summary>
         /// 发送Post请求
@@ -232,7 +277,7 @@ namespace Song.APIHub.LLM
             jo.Add("model", ModelCode);
             jo.Add("stream", false);
             jo.Add("messages", messages);
-            string result = _sendPostRequest(_api_url, jo.ToString(), APIKey);
+            string result = _sendPostRequest(APIUrl, jo.ToString(), APIKey);
             //解析为JSON对象
             dynamic json = JsonConvert.DeserializeObject(result);
             string content = (string)json["choices"][0]["message"]["content"];
@@ -254,7 +299,7 @@ namespace Song.APIHub.LLM
             jo.Add("model", ModelCode);
             jo.Add("stream", false);
             jo.Add("messages", messages);
-            string result = _sendPostRequest(_api_url, jo.ToString(), APIKey);
+            string result = _sendPostRequest(APIUrl, jo.ToString(), APIKey);
             //解析为JSON对象
             dynamic json = JsonConvert.DeserializeObject(result);
             string content = (string)json["choices"][0]["message"]["content"];
@@ -320,7 +365,7 @@ namespace Song.APIHub.LLM
         {
             if (string.IsNullOrWhiteSpace(path)) return string.Empty;
             path = path.Replace("/", "\\");
-            string filepath = Path.Combine(_llm_path, path, file);
+            string filepath = Path.Combine(LLM_RootPath, path, file);
             if (File.Exists(filepath)) return File.ReadAllText(filepath);
             return string.Empty;
         }

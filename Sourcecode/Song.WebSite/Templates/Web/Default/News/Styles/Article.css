@@ -38,7 +38,7 @@ context .right {
 	font-weight: 600;
 	line-height: 56px;
 	color: #000;
-
+	text-align: center;
 }
 
 
@@ -47,6 +47,7 @@ context .right {
 	font-size: 14px;
 	line-height: 20px;
 	color: #707070;
+	text-align: center;
 }
 
 .artAttrBar>span {
@@ -56,6 +57,7 @@ context .right {
 #artImg {
 	text-align: center;
 }
+
 #artImg img {
 	max-width: 100% !important;
 	margin: 0 auto;

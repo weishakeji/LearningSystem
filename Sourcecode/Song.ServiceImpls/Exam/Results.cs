@@ -427,7 +427,9 @@ namespace Song.ServiceImpls.Exam
         //<q id="129132493668093952" class="level1" num="5" file="" sucess="false" score="4"> 多子产生的原因是本征半导体中掺入三价或五价杂质元素 </q>
 
         //试题操作的实现类
-        private static readonly QuestionsCom com = new Song.ServiceImpls.QuestionsCom();
+        private static readonly QuestionsCom quescom = new Song.ServiceImpls.QuestionsCom();
+        private static readonly SubjectCom sbjcom = new Song.ServiceImpls.SubjectCom();
+        private static readonly CourseCom coucom = new Song.ServiceImpls.CourseCom();
         /// <summary>
         /// 试题ID
         /// </summary>
@@ -442,7 +444,7 @@ namespace Song.ServiceImpls.Exam
         {
             get
             {
-                if (this._entity == null) this._entity = com.QuesSingle(this.ID);
+                if (this._entity == null) this._entity = quescom.QuesSingle(this.ID);
                 return _entity;
             }
         }
@@ -454,7 +456,7 @@ namespace Song.ServiceImpls.Exam
         {
             get
             {
-                if (this._answerItems == null) this._answerItems = com.ItemsToAnswer(this.Entity, null);
+                if (this._answerItems == null) this._answerItems = quescom.ItemsToAnswer(this.Entity, null);
                 return _answerItems;
             }
         }
@@ -512,7 +514,7 @@ namespace Song.ServiceImpls.Exam
         /// <returns></returns>
         public float CalcScore()
         {
-            float score = com.CalcScore(this.Entity, this.Ans, this.Num);
+            float score = quescom.CalcScore(this.Entity, this.Ans, this.Num);
             this.Score = score;
             this.Sucess = score == this.Num;
             return score;
@@ -636,8 +638,45 @@ namespace Song.ServiceImpls.Exam
                     this.Ans = _answers[idx].Ans_Context;
                 }
             }
+            //简答题
+            if (this.Type == 4)
+            {
+               
+                try
+                {
+                    //采用大语言模块处理
+                    string answer = _quesType4ToCorrect(this.Entity, this.Score);
+                    this.Ans = answer;
+                }
+                catch
+                {
+                    this.Ans = this.Entity.Qus_Answer;
+                }                
+            }
             this.Score = this.Num;
             this.Sucess = true;
+        }
+
+        public static string _quesType4ToCorrect(Song.Entities.Questions entity, float score)
+        {
+            //取试题所在专业与课程
+            Song.Entities.Subject sbj = sbjcom.SubjectSingle(entity.Sbj_ID);
+            //试题所在课程
+            Song.Entities.Course cou = coucom.CourseSingle(entity.Cou_ID);
+            //设定AI的角色
+            string role = Song.APIHub.LLM.Gatway.TemplateRole("Exam/QuesType4ToCorrect");
+            role = APIHub.LLM.Gatway.TemplateHandle(role, sbj);
+            role = APIHub.LLM.Gatway.TemplateHandle(role, cou);
+
+            //生成问题的描述
+            string message = Song.APIHub.LLM.Gatway.TemplateMsg("Exam/QuesType4ToCorrect");
+            message = APIHub.LLM.Gatway.TemplateHandle(message, entity);
+            message = APIHub.LLM.Gatway.TemplateHandle(message, cou);
+            message = APIHub.LLM.Gatway.TemplateHandle(message, "score", score.ToString());           
+
+            //向AI发送请求
+            string aianswer= APIHub.LLM.Gatway.Consult(role, message);
+            return aianswer;
         }
     }
     #endregion

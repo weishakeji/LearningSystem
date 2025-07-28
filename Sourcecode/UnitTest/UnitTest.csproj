@@ -69,6 +69,10 @@
     <Compile Include="UnitTest_Desensitize.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Song.APIHub\Song.APIHub.csproj">
+      <Project>{3bd1c3f0-ccb4-416b-9bd2-6ca28a2604c7}</Project>
+      <Name>Song.APIHub</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Song.Entities\Song.Entities.csproj">
       <Project>{985a8268-3a87-46b9-9744-650664719e67}</Project>
       <Name>Song.Entities</Name>

@@ -111,8 +111,11 @@
 	word-wrap: break-word !important;
 	white-space: normal !important;
 	text-align: left;
+	color: #999;
 }
-
+.is-current>.el-tree-node__content:first-child .custom-tree-node{
+	color: #000;
+}
 /*视频章节的图标*/
 
 .custom-tree-node[isvideo]>span:last-child::before {
