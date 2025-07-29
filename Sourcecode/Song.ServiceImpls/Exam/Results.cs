@@ -329,7 +329,7 @@ namespace Song.ServiceImpls.Exam
         }
         #endregion
 
-        #region 重新生成成绩（即作弊）
+        #region 生成考试成绩
         /// <summary>
         /// 设置成绩，即希望以该得分重新生成成绩
         /// </summary>
@@ -392,6 +392,10 @@ namespace Song.ServiceImpls.Exam
         /// 试题
         /// </summary>
         public List<QuesAnswer> QuesAnswers { get; set; }
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="node"></param>
         public QuesType(XmlNode node)
         {
             //试题分类的属性，得分，题型等
