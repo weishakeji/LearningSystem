@@ -249,9 +249,14 @@ namespace Song.ServiceImpls.Exam
         /// <param name="isbase64">是否进行base64编码</param>
         /// <returns></returns>
         public string OutputXML(bool isbase64)
-        {
-            XmlDocument doc = (XmlDocument)Details.Clone();
-            doc = _handleAttr(doc, isbase64);
+        {           
+            foreach (QuesType qt in QuesTypes) qt.RebuildNode();
+            if (isbase64)
+            {
+                XmlDocument doc = (XmlDocument)Details.Clone();
+                doc = _handleAttr(doc, isbase64);
+                return doc.OuterXml;
+            }
             return this.Details.OuterXml;
         }
         /// <summary>
@@ -427,6 +432,14 @@ namespace Song.ServiceImpls.Exam
             }
         }
         /// <summary>
+        /// 重新生成XML节点
+        /// </summary>
+        public void RebuildNode()
+        {
+            foreach (QuesAnswer q in QuesAnswers)            
+                q.RebuildNode();            
+        }
+        /// <summary>
         /// 设置题型下的得分总计
         /// </summary>
         /// <param name="score"></param>
@@ -453,6 +466,10 @@ namespace Song.ServiceImpls.Exam
         private static readonly QuestionsCom quescom = new Song.ServiceImpls.QuestionsCom();
         private static readonly SubjectCom sbjcom = new Song.ServiceImpls.SubjectCom();
         private static readonly CourseCom coucom = new Song.ServiceImpls.CourseCom();
+        /// <summary>
+        /// 试题答题信息中的XML节点
+        /// </summary>
+        public XmlNode Node { get; set; }
         /// <summary>
         /// 试题ID
         /// </summary>
@@ -516,15 +533,17 @@ namespace Song.ServiceImpls.Exam
         /// </summary>
         /// <param name="node"></param>
         /// <param name="index">试题索引</param>
-        public QuesAnswer(XmlNode node,int index)
+        public QuesAnswer(XmlNode node, int index)
         {
+            this.Node = node;            
             this.Type = Convert.ToInt32(node.ParentNode.Attributes["type"].Value);
             this.ID = Convert.ToInt64(node.Attributes["id"].Value);
             this.Num = Convert.ToSingle(node.Attributes["num"].Value);
-            if (this.Type != 4)
-                this.Ans = node.Attributes["ans"] != null ? node.Attributes["ans"].Value : "";
+            if (this.Type == 4 || this.Type == 5)
+                this.Ans = node.InnerText; 
             else
-                this.Ans = node.InnerText;
+                this.Ans = node.Attributes["ans"] != null ? node.Attributes["ans"].Value : "";
+
             this.File = node.Attributes["file"] != null ? node.Attributes["file"].Value : "";
             this.Sucess = node.Attributes["sucess"] != null ? Convert.ToBoolean(node.Attributes["sucess"].Value) : false;
             this.Score = node.Attributes["score"] != null ? Convert.ToSingle(node.Attributes["score"].Value) : 0;
@@ -544,6 +563,18 @@ namespace Song.ServiceImpls.Exam
         }
         #region 生成答题内容
         /// <summary>
+        /// 生成空的答题内容
+        /// </summary>
+        /// <returns></returns>
+        public float ToEmpty()
+        {
+            this.Ans = string.Empty;
+            this.Sucess = false;
+            this.Score = 0;
+            this.RebuildNode();
+            return 0;
+        }
+        /// <summary>
         /// 生成失败的答题
         /// </summary>
         /// <param name="score">要求得分</param>
@@ -562,6 +593,7 @@ namespace Song.ServiceImpls.Exam
                 }
                 else
                 {
+                    if (score > this.Num) score = this.Num;
                     try
                     {
                         //采用大语言模块处理
@@ -578,6 +610,7 @@ namespace Song.ServiceImpls.Exam
             }
             this.Score = score;
             this.Sucess = false;
+            this.RebuildNode();
             return this.Score;
         }
         /// <summary>
@@ -652,6 +685,7 @@ namespace Song.ServiceImpls.Exam
             }           
             this.Score = 0;
             this.Sucess = false;
+            this.RebuildNode();
             return this.Score;
         }
         /// <summary>
@@ -716,6 +750,7 @@ namespace Song.ServiceImpls.Exam
             }
             this.Score = this.Num;
             this.Sucess = true;
+            this.RebuildNode();
             return this.Score;
         }
 
@@ -748,7 +783,22 @@ namespace Song.ServiceImpls.Exam
             string aianswer = APIHub.LLM.Gatway.Consult(role, message);
             return aianswer;
         }
+
         #endregion
+
+        /// <summary>
+        /// 重新生成XML节点
+        /// </summary>
+        public void RebuildNode()
+        {
+            if (this.Node == null) return;
+            this.Node.Attributes["id"].Value = this.ID.ToString();
+            this.Node.Attributes["sucess"].Value = this.Sucess.ToString().ToLower();
+            this.Node.Attributes["score"].Value = this.Score.ToString();
+            if (this.Type == 4 || this.Type == 5)
+                this.Node.InnerText = this.Ans;
+            else this.Node.Attributes["ans"].Value = this.Ans;
+        }
     }
     #endregion
 }

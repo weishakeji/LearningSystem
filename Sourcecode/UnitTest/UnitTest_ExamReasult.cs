@@ -25,41 +25,18 @@ namespace UnitTest
             string xml = System.IO.File.ReadAllText(path);
             Song.ServiceImpls.Exam.Results results = new Song.ServiceImpls.Exam.Results(xml);
 
-            //string text = results.OutputXML(false);
-            //Gateway.SetDefault("Server = localhost; Port = 5432; Database = gxmk; User Id = postgres; Password = weishakeji;");
+            string text = results.OutputXML(false);
             //计算分数
             float score = results.Score;
             Assert.IsTrue(score > 0);
 
-            //
-            Song.ServiceImpls.Exam.QuesAnswer qa = results.QuesTypes[1].QuesAnswers[0];
-            qa.ToWrong();
-            qa.ToWrong();
-            qa.ToWrong();
+            ////
+            //Song.ServiceImpls.Exam.QuesAnswer qa = results.QuesTypes[1].QuesAnswers[0];
+            //qa.ToWrong();
+            //qa.ToWrong();
+            //qa.ToWrong();
         }
-        /// <summary>
-        /// 测试数据库连接
-        /// </summary>
-        [TestMethod]
-        public void DbTest()
-        {
-            string path = Helper.Path.WebSitePath();
-            string dbconfig= System.IO.Path.Combine(path, "db.config");
-            if (System.IO.File.Exists(dbconfig))
-            {
-                System.Xml.XmlDocument xml =new System.Xml.XmlDocument();
-                xml.Load(dbconfig);
-                System.Xml.XmlNode nodeconn = xml.LastChild;
-                foreach (System.Xml.XmlNode node in nodeconn.ChildNodes)
-                {
-                    if (node.NodeType != System.Xml.XmlNodeType.Element) continue;
-
-                    string name = node.Attributes["name"]?.Value;
-                    string conn = node.Attributes["connectionString"]?.Value; 
-                    string provider = node.Attributes["providerName"]?.Value;          
-                }
-            }
-        }
+        
 
         /// <summary>
         /// 生成简答题的正确答案
@@ -77,6 +54,23 @@ namespace UnitTest
             Song.Entities.Questions ques =Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == 129132493668093952).ToFirst<Questions>();
             string ans = Song.ServiceImpls.Exam.QuesAnswer.QuesType4ToAnswer(ques, 8,3);
         }
+        /// <summary>
+        /// 测试重新生成答案的XML节点
+        /// </summary>
 
+        [TestMethod]
+        public void RebuildAnsNode()
+        {
+            Helper.DbProvider.SetDbGateway();
+            string path = Helper.Path.GetXML();
+            string xml = System.IO.File.ReadAllText(path);
+            Song.ServiceImpls.Exam.Results results = new Song.ServiceImpls.Exam.Results(xml);
+
+            Song.ServiceImpls.Exam.QuesAnswer qa = results.QuesTypes[4].QuesAnswers[0];
+            qa.ToWrong(3);
+            qa.RebuildNode();
+            string ans = qa.Node.OuterXml;
+
+        }
     }
 }

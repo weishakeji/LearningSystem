@@ -19,7 +19,7 @@ namespace UnitTest.Helper
         /// </summary>
         public static void SetDbGateway()
         {
-            string name=string.Empty, connStr = string.Empty, providerName = string.Empty;
+            string name = string.Empty, connStr = string.Empty, providerName = string.Empty;
 
             string path = Helper.Path.WebSitePath();
             string dbconfig = System.IO.Path.Combine(path, "db.config");
