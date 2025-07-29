@@ -18,7 +18,7 @@ $ready(function () {
             accountVisible: false,   //是否显示当前学员
             scorerange: '成绩',     //成绩范围选择的提示信息  
             //生成成绩的面板
-            exrVisible: false,
+            exrVisible: false,           
             setscore: 0,     //设置成绩
 
             loading: false,
@@ -81,6 +81,12 @@ $ready(function () {
                 //console.error(attr);
                 //console.error(el);
                 //console.error('automatically 自动生成行的数据');
+            },
+            setAccountExr: function (row) {
+                this.exrVisible = true;
+                this.current = row;
+                
+                console.error(row);
             },
             //获取学员分组
             getsorts: function () {

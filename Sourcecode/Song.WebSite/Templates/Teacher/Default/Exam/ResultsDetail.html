@@ -128,7 +128,7 @@
                             <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
                                 icon-color="red" title="确定要重新计算成绩吗？" @confirm="ResultClacScore(scope.row)">
                                 <el-link type="primary" plain icon="el-icon-refresh" slot="reference"
-                                    @contextmenu="automatically" :exrid="scope.row.Exr_ID"> </el-link>
+                                     @rightdbl:300="setAccountExr(scope.row)" :exrid="scope.row.Exr_ID"> </el-link>
                             </el-popconfirm>
                         </el-tooltip>
                         <el-tooltip class="item" effect="dark" content="删除考试成绩" placement="bottom">
@@ -224,7 +224,7 @@
                 当前考试满分{{entity.Exam_Total}}分，及格分{{entity.Exam_PassScore}}分
             </div>
             <div>
-                设置考生   <span title="账号">({{account.Ac_AccName}})</span> 的成绩为：
+                设置考生   <span title="账号">({{current.Ac_Name}})</span> 的成绩为：
                 <el-slider v-model="setscore" :min="0" :max="entity.Exam_Total" show-input>
                 </el-slider>
             </div>
