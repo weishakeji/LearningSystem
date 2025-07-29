@@ -16,7 +16,10 @@ $ready(function () {
             account: {},      //当前学员信息
             current: {},     //当前行对象
             accountVisible: false,   //是否显示当前学员
-            scorerange: '成绩',     //成绩范围选择的提示信息           
+            scorerange: '成绩',     //成绩范围选择的提示信息  
+            //生成成绩的面板
+            exrVisible: false,
+            setscore: 0,     //设置成绩
 
             loading: false,
             loadingid: 0,
@@ -51,6 +54,7 @@ $ready(function () {
                 if (req.data.success) {
                     th.entity = req.data.result;
                     th.form.max = th.entity.Exam_Total;
+                    th.setscore = Math.round((th.entity.Exam_Total - th.entity.Exam_PassScore) / 2 + th.entity.Exam_PassScore);
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
@@ -67,9 +71,16 @@ $ready(function () {
         methods: {
             //自动生成成绩
             automatically: function (attr, el) {
-                console.error(attr);
-                console.error(el);
-                console.error('automatically 自动生成行的数据');
+                let exrid = attr.exrid;
+                //exrid不等于空，则表示是行内事件
+                if (exrid != null) {
+                    //alert(exrid);
+                    this.exrVisible = true;
+                }
+
+                //console.error(attr);
+                //console.error(el);
+                //console.error('automatically 自动生成行的数据');
             },
             //获取学员分组
             getsorts: function () {

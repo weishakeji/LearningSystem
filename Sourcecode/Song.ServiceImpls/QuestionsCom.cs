@@ -1553,7 +1553,6 @@ namespace Song.ServiceImpls
         private float _calcScoreQues4(Questions ques, string ans, float num)
         {
             if (string.IsNullOrWhiteSpace(ans)) return 0;
-            if (_determineQues4(ques, ans)) return num;
             //取试题所在专业与课程
             Subject sbj = Business.Do<ISubject>().SubjectSingle(ques.Sbj_ID);   
             Course cou = Business.Do<ICourse>().CourseSingle(ques.Cou_ID);

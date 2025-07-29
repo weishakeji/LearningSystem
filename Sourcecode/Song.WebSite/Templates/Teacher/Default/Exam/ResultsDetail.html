@@ -215,7 +215,24 @@
                 </el-row>
             </div>
         </el-dialog>
-
+        <!--build exr-->
+        <el-dialog :visible.sync="exrVisible">
+            <div slot="title">
+                <icon huge>&#xe829</icon>设置考试成绩
+            </div>
+            <div>
+                当前考试满分{{entity.Exam_Total}}分，及格分{{entity.Exam_PassScore}}分
+            </div>
+            <div>
+                设置考生   <span title="账号">({{account.Ac_AccName}})</span> 的成绩为：
+                <el-slider v-model="setscore" :min="0" :max="entity.Exam_Total" show-input>
+                </el-slider>
+            </div>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="exrVisible = false">取 消</el-button>
+                <el-button type="primary" @click="exrVisible = false">确 定</el-button>
+            </span>
+        </el-dialog>
     </div>
 
 
