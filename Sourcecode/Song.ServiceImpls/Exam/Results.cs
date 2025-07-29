@@ -205,7 +205,6 @@ namespace Song.ServiceImpls.Exam
         /// <summary>
         /// 初始化数据
         /// </summary>
-        /// <param name="doc"></param>
         private void _initData()
         {
             //按题型分类，解析答题信息
@@ -336,12 +335,18 @@ namespace Song.ServiceImpls.Exam
 
         #region 生成考试成绩
         /// <summary>
+        /// 生成考试成绩
+        /// </summary>
+        /// <param name="score">期望得分</param>
+        /// <returns></returns>
+        public float SetScore(float score) => SetScore(score, score, score);
+        /// <summary>
         /// 设置成绩，即希望以该得分重新生成成绩
         /// </summary>
         /// <param name="score">期望得分</param>
         /// <param name="highest">最高分</param>
         /// <param name="lowest">最低分</param>
-        public void SetScore(float score, float highest, float lowest)
+        public float SetScore(float score, float highest, float lowest)
         {
             //一些数据校验
             if (highest <= 0) highest = 0;
@@ -349,25 +354,27 @@ namespace Song.ServiceImpls.Exam
             if (highest < lowest) highest = lowest;     //最高分不能小于最低分
             if (score <= 0 || score > highest || score < lowest)
                 score = highest == 0 && lowest == 0 ? 0 : (float)Math.Round((highest + lowest) / 2 * 100) / 100;
-            ////将试题答题的对象，转为一维队列，方便处理
-            //List<QuesAnswer> qlist = new List<QuesAnswer>();
-            //foreach (QuesType qtype in this.QuesTypes)
-            //{ 
-            //    foreach (QuesAnswer q in qtype.QuesAnswers)              
-            //        qlist.Add(q);              
-            //}
-
-
-        }
-        //public void RandomScore(List<QuesAnswer> qlist)
-        //{
-        //    float actualScore = 0;
-        //    foreach (QuesAnswer q in qlist)
-        //    {
-        //        actualScore += q.Sucess ? q.Score : 0;
-        //    }
-
-        //}
+            //试卷满分
+            float total = 0;
+            foreach (QuesType qt in QuesTypes) total += qt.Number;
+            if (score > total) score = total;
+            //清空答题内容
+            foreach (QuesType qt in QuesTypes) qt.ToEmpty();
+            //重新生成答题
+            for (int i = 0; i < this.QuesTypes.Count; i++)
+            {
+                float percentage = this.QuesTypes[i].Number / total;
+                this.QuesTypes[i].SetScore(percentage * score);
+                if (this.Score >= score) break;
+                if(i == this.QuesTypes.Count - 1)
+                {
+                    float scoretm=score - this.Score;
+                    this.QuesTypes[i].SetScore(scoretm);
+                }
+            }
+            return this.Score;
+        }     
+       
         #endregion
     }
     #region 相关的类
@@ -386,7 +393,7 @@ namespace Song.ServiceImpls.Exam
         /// </summary>
         public int Count { get; set; }
         /// <summary>
-        /// 分数
+        /// 总分数
         /// </summary>
         public float Number { get; set; }
         /// <summary>
@@ -440,6 +447,14 @@ namespace Song.ServiceImpls.Exam
                 q.RebuildNode();            
         }
         /// <summary>
+        /// 清除答题内容
+        /// </summary>
+        public void ToEmpty()
+        {
+            //清除试题的答题内容
+            foreach (QuesAnswer qa in this.QuesAnswers) qa.ToEmpty();
+        }
+        /// <summary>
         /// 设置题型下的得分总计
         /// </summary>
         /// <param name="score"></param>
@@ -447,11 +462,26 @@ namespace Song.ServiceImpls.Exam
         {
             if (score >= this.Number) score = this.Number;
             if (this.QuesAnswers.Count == 0) return 0;
-            //复制试题列表
-            List<QuesAnswer> listqa = new List<QuesAnswer>(this.QuesAnswers);
-            //List<QuesAnswer> listqa
 
-            return 0;
+            //清除答题内容
+            foreach (QuesAnswer qa in this.QuesAnswers) qa.ToEmpty();
+
+            //
+            float tmscore = 0;       //临时存储的得分
+            //复制试题列表
+            List<QuesAnswer> listtm = new List<QuesAnswer>(this.QuesAnswers);
+            while (tmscore < score && listtm.Count > 0)
+            {
+                int seed = (int)(DateTime.Now.Ticks % int.MaxValue);
+                Random rd = new Random(tmscore == 0 ? seed : seed % (int)Math.Round(tmscore * 1000));
+                int index = rd.Next(0, listtm.Count);
+                tmscore += listtm[index].ToCorrect();
+                listtm.RemoveAt(index);
+            }
+            foreach (QuesAnswer qa in this.QuesAnswers)
+                if (!qa.Sucess) qa.ToWrong();
+            this.Score = tmscore;
+            return tmscore;
         }
     }
     /// <summary>
@@ -629,7 +659,7 @@ namespace Song.ServiceImpls.Exam
                     if (!_answers[i].Ans_IsCorrect)
                         itemid.Add(_answers[i].Ans_ID);
                 }
-                Random rd = new Random(_answers.Count * this.Index + (int)DateTime.Now.Ticks);
+                Random rd = new Random(_answers.Count * this.Index + (int)(DateTime.Now.Ticks % int.MaxValue));
                 int idx = rd.Next(100) % itemid.Count;
                 //如果有一个答案项
                 if (itemid.Count <= 1) this.Ans = string.Empty;
@@ -639,7 +669,7 @@ namespace Song.ServiceImpls.Exam
             if (this.Type == 2)
             {
                 List<Song.Entities.QuesAnswer> _answers = this.AnswerItems;
-                Random rd = new Random(_answers.Count * this.Index + (int)DateTime.Now.Ticks);
+                Random rd = new Random(_answers.Count * this.Index + (int)(DateTime.Now.Ticks % int.MaxValue));
                 int anscount = rd.Next(2, _answers.Count);
                 //错误答案项的ID
                 List<long> wrongid = new List<long>();
@@ -728,7 +758,7 @@ namespace Song.ServiceImpls.Exam
                 if (_answers.Count == 1) this.Ans = _answers[0].Ans_Context;
                 if (_answers.Count > 1)
                 {
-                    Random rd = new Random(_answers.Count * this.Index + (int)DateTime.Now.Ticks);
+                    Random rd = new Random(_answers.Count * this.Index + (int)(DateTime.Now.Ticks % int.MaxValue));
                     int idx = rd.Next(100) % _answers.Count;
                     this.Ans = _answers[idx].Ans_Context;
                 }

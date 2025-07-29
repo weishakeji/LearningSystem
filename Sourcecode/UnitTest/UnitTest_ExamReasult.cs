@@ -72,5 +72,27 @@ namespace UnitTest
             string ans = qa.Node.OuterXml;
 
         }
+        /// <summary>
+        /// 重新计分
+        /// </summary>
+        [TestMethod]
+        public void TypeSetScore()
+        {
+            Helper.DbProvider.SetDbGateway();
+            string path = Helper.Path.GetXML();
+            string xml = System.IO.File.ReadAllText(path);
+            Song.ServiceImpls.Exam.Results results = new Song.ServiceImpls.Exam.Results(xml);
+
+            //Song.ServiceImpls.Exam.QuesType qtype = results.QuesTypes[2];
+            //float scoretype=qtype.SetScore(16);
+
+            float score = results.SetScore(75);
+
+            string text = results.OutputXML(false);
+
+            //计算分数
+            //float score = results.Score;
+            Assert.IsTrue(score > 0);
+        }
     }
 }
