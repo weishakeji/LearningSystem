@@ -344,13 +344,15 @@ namespace Song.ServiceImpls.Exam
             if (highest < lowest) highest = lowest;     //最高分不能小于最低分
             if (score <= 0 || score > highest || score < lowest)
                 score = highest == 0 && lowest == 0 ? 0 : (float)Math.Round((highest + lowest) / 2 * 100) / 100;
-            //将试题答题的对象，转为一维队列，方便处理
-            List<QuesAnswer> qlist = new List<QuesAnswer>();
-            foreach (QuesType qtype in this.QuesTypes)
-            { 
-                foreach (QuesAnswer q in qtype.QuesAnswers)              
-                    qlist.Add(q);              
-            }
+            ////将试题答题的对象，转为一维队列，方便处理
+            //List<QuesAnswer> qlist = new List<QuesAnswer>();
+            //foreach (QuesType qtype in this.QuesTypes)
+            //{ 
+            //    foreach (QuesAnswer q in qtype.QuesAnswers)              
+            //        qlist.Add(q);              
+            //}
+
+
         }
         //public void RandomScore(List<QuesAnswer> qlist)
         //{
@@ -382,6 +384,10 @@ namespace Song.ServiceImpls.Exam
         /// 分数
         /// </summary>
         public float Number { get; set; }
+        /// <summary>
+        /// 得分
+        /// </summary>
+        public float Score { get; set; }
         /// <summary>
         /// 试题
         /// </summary>
@@ -415,7 +421,20 @@ namespace Song.ServiceImpls.Exam
                 QuesAnswer q = new QuesAnswer(node.ChildNodes[i], i + 1);               
                 QuesAnswers.Add(q);
             }
+        }
+        /// <summary>
+        /// 设置题型下的得分总计
+        /// </summary>
+        /// <param name="score"></param>
+        public float SetScore(float score)
+        {
+            if (score >= this.Number) score = this.Number;
+            if (this.QuesAnswers.Count == 0) return 0;
+            //复制试题列表
+            List<QuesAnswer> listqa = new List<QuesAnswer>(this.QuesAnswers);
+            //List<QuesAnswer> listqa
 
+            return 0;
         }
     }
     /// <summary>
@@ -519,6 +538,7 @@ namespace Song.ServiceImpls.Exam
             this.Sucess = score == this.Num;
             return score;
         }
+        #region 生成答题内容
         /// <summary>
         /// 生成失败的答题
         /// </summary>
@@ -724,6 +744,7 @@ namespace Song.ServiceImpls.Exam
             string aianswer = APIHub.LLM.Gatway.Consult(role, message);
             return aianswer;
         }
+        #endregion
     }
     #endregion
 }
