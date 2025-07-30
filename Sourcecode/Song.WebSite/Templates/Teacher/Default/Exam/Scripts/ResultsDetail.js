@@ -342,12 +342,9 @@ $ready(['Components/setscore.js'],
                     box.open();
                 },
                 //设置得分后，更新成绩
-                setScoreupate: function (item) {
-                    console.error(item);
-                    let index = this.datas.findIndex(t => t.Exr_ID == item.Exr_ID);
-                    //this.$set(this.datas, index, {});
-                    this.$set(this.datas, index, item);
-                    //this.datas.splice(index, 1, item);
+                setScoreupate: function (item) {                   
+                    let index = this.datas.findIndex(t => t.Exr_ID == item.Exr_ID);                   
+                    this.$set(this.datas, index, item);                   
                     this.$nextTick(() => {
                         this.$message({
                             message: '更新成功，新成绩 ' + item.Exr_ScoreFinal + ' 分',
