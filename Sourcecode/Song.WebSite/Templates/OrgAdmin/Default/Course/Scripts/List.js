@@ -142,7 +142,7 @@
                     if (req.data.success) {
                         var result = req.data.result;
                         let index = th.datas.findIndex(item => item.Cou_ID == result.Cou_ID);
-                        console.error(index);
+                        //console.error(index);
                         if (index >= 0) {
                             th.$set(th.datas, index, result);
                             th.$message({

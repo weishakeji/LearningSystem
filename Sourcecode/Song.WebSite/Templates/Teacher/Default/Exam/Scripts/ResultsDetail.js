@@ -10,16 +10,13 @@ $ready(function () {
                 min: -1, max: -1, manual: null,
                 size: 20, index: 1
             },
-            entity: {}, //当前考试对象
+            entity: {},     //当前考试对象
             sorts: {},       //当前场次的学员组（根据参考学员判断）
-            datas: [],     //成绩
+            datas: [],        //成绩数据，用于列表显示
             account: {},      //当前学员信息
-            current: {},     //当前行对象
+            current: {},        //当前行对象
             accountVisible: false,   //是否显示当前学员
-            scorerange: '成绩',     //成绩范围选择的提示信息  
-            //生成成绩的面板
-            exrVisible: false,           
-            setscore: 0,     //设置成绩
+            scorerange: '成绩',     //成绩范围选择的提示信息             
 
             loading: false,
             loadingid: 0,
@@ -54,7 +51,6 @@ $ready(function () {
                 if (req.data.success) {
                     th.entity = req.data.result;
                     th.form.max = th.entity.Exam_Total;
-                    th.setscore = Math.round((th.entity.Exam_Total - th.entity.Exam_PassScore) / 2 + th.entity.Exam_PassScore);
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
@@ -65,7 +61,6 @@ $ready(function () {
 
             //获取正在考试中的人数 
             th.getExamingcount();
-
 
         },
         methods: {
@@ -82,11 +77,10 @@ $ready(function () {
                 //console.error(el);
                 //console.error('automatically 自动生成行的数据');
             },
+            //显示修改学员成绩的面板
             setAccountExr: function (row) {
                 this.exrVisible = true;
                 this.current = row;
-                
-                console.error(row);
             },
             //获取学员分组
             getsorts: function () {
@@ -160,16 +154,6 @@ $ready(function () {
                 }).catch(err => console.error(err))
                     .finally(() => th.loading = false);
             },
-            //计算考试用时
-            calcSpan: function (item) {
-                if (item == null) return '';
-                let d1 = item.Exr_CrtTime;      //考试开始时间
-                let d2 = item.Exr_IsSubmit ? item.Exr_SubmitTime : item.Exr_LastTime;     //最后答题时间
-                d2 = item.Exr_OverTime > d2 ? d2 : item.Exr_OverTime;
-                if (d1 == null || d2 == null) return '';
-                let minute = Math.round((d2.getTime() - d1.getTime()) / 1000 / 60);      //考试用时（分钟）                        
-                return (minute <= 0 ? "<1" : minute) + ' 分钟';
-            },
             //计算所有成绩
             allcalcResultScore: function () {
                 this.$confirm('重新计算所有成绩, 是否继续?<br/>注：完成后的自动刷新页面数据。', '提示', {
@@ -229,7 +213,7 @@ $ready(function () {
                     });
             },
             //计算考试成绩
-            ResultClacScore: function (item) {
+            clacResultScore: function (item) {
                 var th = this;
                 //当前行正在处理中
                 th.$set(item, 'inprocess', true);
@@ -356,6 +340,40 @@ $ready(function () {
                     'showmask': true, 'min': false, 'ico': icon
                 });
                 box.open();
+            },
+            //设置考试成绩
+            setResultScore: function () {
+                var th = this;
+                var item = th.current;
+                th.exrVisible = false;
+                //当前行正在处理中
+                th.$set(item, 'inprocess', true);
+                $api.get('Exam/ResultSetScore', { 'exrid': item.Exr_ID, 'score': th.setscore }).then(function (req) {
+                    if (req.data.success) {
+                        let result = Number(req.data.result);
+                        th.$set(item, 'Exr_ScoreFinal', result);
+                        th.$set(item, 'Exr_Score', result);
+                        //console.error(item);
+                        let index = th.datas.findIndex(t => t.Exr_ID == item.Exr_ID);
+                        if (index >= 0) th.$set(th.datas, index, item);
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.$set(item, 'inprocess', false));
+            },
+        },
+        filters: {
+            //考试用时
+            'duration': function (item) {
+                if (item == null) return '';
+                let d1 = item.Exr_CrtTime;      //考试开始时间
+                let d2 = item.Exr_IsSubmit ? item.Exr_SubmitTime : item.Exr_LastTime;     //最后答题时间
+                d2 = item.Exr_OverTime > d2 ? d2 : item.Exr_OverTime;
+                if (d1 == null || d2 == null) return '';
+                let minute = Math.round((d2.getTime() - d1.getTime()) / 1000 / 60);      //考试用时（分钟）                        
+                return (minute <= 0 ? "<1" : minute) + ' 分钟';
             }
         },
         components: {
@@ -424,5 +442,68 @@ $ready(function () {
             }
         }
     });
+    //设置考试成绩
+    Vue.component('setscore', {
+        //当前考试，当前成绩
+        props: ['exam', 'exresult'],
+        data: function () {
+            return {
+                //生成成绩的面板
+                showpanel: false,
+                form: {
+                    score: 0,
+                    exrid: 0
+                },
+                //滑块的刻度
+                slidermarks: { 0: '0 分' },
 
+                loading: false
+            }
+        },
+        watch: {
+            'exam': {
+                handler: function (nv, ov) {
+                    let exam = nv;
+                    this.form.score = Math.round((exam.Exam_Total - exam.Exam_PassScore) / 2 + exam.Exam_PassScore);
+                    this.slidermarks[exam.Exam_Total] = '满分 '+exam.Exam_Total+'分';
+                    this.slidermarks[exam.Exam_PassScore] = exam.Exam_PassScore+'分 及格'
+                },
+                immediate: true
+            },
+        },
+        computed: {},
+        mounted: function () {
+
+        },
+        methods: {
+            //显示面板
+            show: function (exr) {
+                this.showpanel = true;
+                this.exresult = exr;
+                this.form.exrid = exr.Exr_ID;
+            }
+        },
+        template: `<div v-if="exam && exresult">
+        <el-dialog :visible.sync="showpanel">
+            <div slot="title">
+                <icon large>&#xe811</icon>设置考试成绩 - <b title="学员名称">{{exresult.Ac_Name}}</b>
+            </div>
+
+            <div class="large">
+                当前考试满分{{exam.Exam_Total}}分，及格分{{exam.Exam_PassScore}}分
+            </div>
+            <p class="large">
+                设置考生 <b title="学员名称">({{exresult.Ac_Name}})</b> 的成绩为：
+                <el-slider v-model="form.score" :min="0" show-input :max="exam.Exam_Total" :marks="slidermarks">
+                </el-slider>
+                考试时间，考试用时
+            </p>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="showpanel = false">取 消</el-button>
+                <el-button type="primary" @click="setResultScore()">确 定</el-button>
+            </span>
+        </el-dialog>
+    </div> `
+    });
 });
+

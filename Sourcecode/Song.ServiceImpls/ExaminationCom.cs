@@ -271,7 +271,69 @@ namespace Song.ServiceImpls
                 .OrderBy(Examination._.Exam_Date.Desc)
                 .ToFirst<Examination>();
         }
-    
+        /// <summary>
+        /// 计算当前考试成绩
+        /// </summary>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public Song.Entities.ExamResults ResultClacScore(ExamResults result)
+        {
+            //如果考试没有结束，且学员没有交卷，则不进行计算；
+            if (DateTime.Now < result.Exr_OverTime && result.Exr_IsSubmit == false) return result;
+            try
+            {
+                string resultXML = result.Exr_Results;
+                result.Exr_Score = (float)_ClacScore(resultXML, out resultXML);
+                result.Exr_Results = resultXML;
+            }
+            catch (Exception ex)
+            {
+                WeiSha.Core.Log.Error(this.GetType().FullName, ex);
+            }
+            //考试得分，加绘图得分，加综合评分
+            result.Exr_ScoreFinal = result.Exr_Score + result.Exr_Draw + result.Exr_Colligate;
+            result.Exr_IsCalc = true;
+            result.Exr_CalcTime = DateTime.Now;
+            //记录成绩
+            Field[] fields = new Field[] {
+                ExamResults._.Exr_Score, ExamResults._.Exr_ScoreFinal, ExamResults._.Exr_IsCalc, ExamResults._.Exr_CalcTime,
+                ExamResults._.Exr_Results
+            };
+            object[] objs = new object[] {
+                result.Exr_Score, result.Exr_ScoreFinal,
+                result.Exr_IsCalc, result.Exr_CalcTime,result.Exr_Results
+            };
+            if (result.Exr_ID <= 0) result = ResultAdd(result);
+            Gateway.Default.Update<ExamResults>(fields, objs, ExamResults._.Exr_ID == result.Exr_ID);
+            return result;
+        }
+        /// <summary>
+        /// 自动设置考试成绩得分
+        /// </summary>
+        /// <param name="exrid">考试的答题记录id</param>
+        /// <param name="score">期望的得分</param>
+        /// <returns></returns>
+        public ExamResults ResultSetScore(int exrid, float score)
+        {
+            ExamResults exr = Gateway.Default.From<ExamResults>().Where(ExamResults._.Exr_ID == exrid).ToFirst<ExamResults>();
+            return ResultSetScore(exr, score);
+        }
+        /// <summary>
+        /// 自动设置考试成绩得分
+        /// </summary>
+        /// <param name="result">考试的答题记录</param>
+        /// <param name="score">期望的得分</param>
+        public ExamResults ResultSetScore(ExamResults result, float score)
+        {
+            if (result == null) return null;
+            if (string.IsNullOrWhiteSpace(result.Exr_Results)) return result;
+            Exam.Results examresult = new Song.ServiceImpls.Exam.Results(result.Exr_Results);
+            float exrscore = examresult.SetScore(score);
+            result.Exr_Score = result.Exr_ScoreFinal = (float)Math.Round(exrscore * 100) / 100;
+            result.Exr_Results = examresult.OutputXML(false);
+            Gateway.Default.Save<ExamResults>(result);
+            return result;
+        }
         /// <summary>
         /// 批量计算考试成绩
         /// </summary>
@@ -784,43 +846,7 @@ namespace Song.ServiceImpls
         #endregion
 
 
-        #region 私有方法
-        /// <summary>
-        /// 计算当前考试成绩
-        /// </summary>
-        /// <param name="result"></param>
-        /// <returns></returns>
-        public Song.Entities.ExamResults ResultClacScore(ExamResults result)
-        {
-            //如果考试没有结束，且学员没有交卷，则不进行计算；
-            if (DateTime.Now < result.Exr_OverTime && result.Exr_IsSubmit == false) return result;
-            try
-            {
-                string resultXML = result.Exr_Results;
-                result.Exr_Score = (float)_ClacScore(resultXML, out resultXML);
-                result.Exr_Results = resultXML;
-            }
-            catch (Exception ex)
-            {
-                WeiSha.Core.Log.Error(this.GetType().FullName, ex);
-            }
-            //考试得分，加绘图得分，加综合评分
-            result.Exr_ScoreFinal = result.Exr_Score + result.Exr_Draw + result.Exr_Colligate;
-            result.Exr_IsCalc = true;
-            result.Exr_CalcTime = DateTime.Now;
-            //记录成绩
-            Field[] fields = new Field[] {
-                ExamResults._.Exr_Score, ExamResults._.Exr_ScoreFinal, ExamResults._.Exr_IsCalc, ExamResults._.Exr_CalcTime,
-                ExamResults._.Exr_Results
-            };
-            object[] objs = new object[] {
-                result.Exr_Score, result.Exr_ScoreFinal,
-                result.Exr_IsCalc, result.Exr_CalcTime,result.Exr_Results
-            };
-            if (result.Exr_ID <= 0) result = ResultAdd(result);
-            Gateway.Default.Update<ExamResults>(fields, objs, ExamResults._.Exr_ID == result.Exr_ID);
-            return result;
-        }
+        #region 私有方法        
         /// <summary>
         /// 通过答题的XML信息，计算成绩
         /// </summary>

@@ -1269,10 +1269,20 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public float ResultClacScore(int exrid)
         {
-            ExamResults exr=Business.Do<IExamination>().ResultSingle(exrid);
+            ExamResults exr = Business.Do<IExamination>().ResultSingle(exrid);
             if (exr == null) return 0;
-            exr=Business.Do<IExamination>().ResultClacScore(exr);
+            exr = Business.Do<IExamination>().ResultClacScore(exr);
             if (exr == null) return 0;
+            return exr.Exr_ScoreFinal;
+        }
+        /// <summary>
+        /// 设置考试成绩
+        /// </summary>
+        /// <param name="exrid"></param>
+        /// <param name="score"></param>
+        public float ResultSetScore(int exrid, float score)
+        {
+            ExamResults exr = Business.Do<IExamination>().ResultSetScore(exrid, score);
             return exr.Exr_ScoreFinal;
         }
         /// <summary>

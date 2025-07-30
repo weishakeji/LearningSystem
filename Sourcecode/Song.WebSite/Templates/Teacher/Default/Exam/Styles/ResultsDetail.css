@@ -82,3 +82,6 @@ body, html {
     float: right;
     text-align: right;
 }
+.el-slider__marks-text{
+    width: max-content;
+}
