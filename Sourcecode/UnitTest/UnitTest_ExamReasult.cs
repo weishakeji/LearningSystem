@@ -7,6 +7,7 @@ using Song.Entities;
 using WeiSha.Data;
 using WeiSha.Core;
 
+
 namespace UnitTest
 {
     /// <summary>
@@ -89,7 +90,6 @@ namespace UnitTest
             float score = results.SetScore(75);
 
             string text = results.OutputXML(false);
-
             //计算分数
             //float score = results.Score;
             Assert.IsTrue(score > 0);

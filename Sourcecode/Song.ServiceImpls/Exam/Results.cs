@@ -167,37 +167,31 @@ namespace Song.ServiceImpls.Exam
             if (isbase64) xn.AttrDecryptForBase64();
 
             //考试id，考试主题的uid，考试主题的标题
-            this.Examid = int.TryParse(xn.Attributes["examid"]?.Value, out int examid) ? examid : 0;
-            this.ExamUid = xn.Attributes["uid"]?.Value;
-            this.ExamTheme = xn.Attributes["theme"]?.Value;
+            this.Examid = xn.GetAttr<int>("examid");
+            this.ExamUid = xn.GetAttr("uid");
+            this.ExamTheme = xn.GetAttr("theme");
 
-            //时间
-            DateTime dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
-            //考试开始时间
-            long begin = long.TryParse(xn.Attributes["begin"].Value, out long begintm) ? begintm : 0;                 
-            this.Begin = begin.ToDateTime();
-            //考试结束时间
-            long over = long.TryParse(xn.Attributes["overtime"].Value, out long overtm) ? overtm : 0;
-            this.Overtime = over.ToDateTime();
-            //学员开始考试时间
-            long start = long.TryParse(xn.Attributes["starttime"].Value, out long starttm) ? starttm : 0;
-            this.Startime = start.ToDateTime();
+            //时间          
+            //考试限定开始时间，学员答题时间，结束时间            
+            this.Begin = xn.GetAttr<DateTime>("begin");
+            this.Startime = xn.GetAttr<DateTime>("starttime");
+            this.Overtime = xn.GetAttr<DateTime>("overtime");            
 
             //学员相关，学员id、名称，学员组，性别，身份证号
-            this.AccountID = int.TryParse(xn.Attributes["stid"]?.Value, out int stid) ? stid : 0;
-            this.AccountName = xn.Attributes["stname"]?.Value;
-            this.SortID = long.TryParse(xn.Attributes["stsid"]?.Value, out long stsid) ? stsid : 0;
-            this.Gender = int.TryParse(xn.Attributes["stsex"]?.Value, out int stsex) ? stsex : 0;
-            this.IDCardNumber = xn.Attributes["stcardid"]?.Value;
+            this.AccountID = xn.GetAttr<int>("stid");
+            this.AccountName = xn.GetAttr("stname"); 
+            this.SortID = xn.GetAttr<long>("stsid");
+            this.Gender = xn.GetAttr<int>("stsex");
+            this.IDCardNumber = xn.GetAttr("stcardid");
 
             //试卷id,专业id,专业名称
-            this.TestPaperID = long.TryParse(xn.Attributes["tpid"]?.Value, out long tpid) ? tpid : 0;
-            this.SubjectID = long.TryParse(xn.Attributes["sbjid"]?.Value, out long sbjid) ? sbjid : 0;
-            this.SubjectName = xn.Attributes["sbjname"]?.Value;
+            this.TestPaperID = xn.GetAttr<long>("tpid"); 
+            this.SubjectID = xn.GetAttr<long>("sbjid"); 
+            this.SubjectName = xn.GetAttr("sbjname");
 
             //交卷方式与当前试题
-            this.Pattern = int.TryParse(xn.Attributes["patter"]?.Value, out int patter) ? patter : 0;
-            this.QuesIndex = int.TryParse(xn.Attributes["index"]?.Value, out int index) ? index : 0;
+            this.Pattern = xn.GetAttr<int>("patter");
+            this.QuesIndex = xn.GetAttr<int>("index");
         }
         /// <summary>
         /// 初始化数据
@@ -812,6 +806,26 @@ namespace Song.ServiceImpls.Exam
             return node;
         }
         /// <summary>
+        /// 获取节点的属性值
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="node"></param>
+        /// <param name="attr"></param>
+        /// <returns></returns>
+        public static T GetAttr<T>(this XmlNode node,string attr)
+        {
+            string val = node.Attributes[attr]?.Value;
+            if (string.IsNullOrEmpty(val)) return default(T);
+            return val.Convert<T>();
+        }
+        /// <summary>
+        /// 获取节点的属性值
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="attr"></param>
+        /// <returns></returns>
+        public static string GetAttr(this XmlNode node, string attr) => node.Attributes[attr]?.Value;
+        /// <summary>
         /// 将节点属性转Base64编码
         /// </summary>
         /// <param name="node"></param>
@@ -878,6 +892,29 @@ namespace Song.ServiceImpls.Exam
             DateTime dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
             DateTime date = dtStart.Add(new TimeSpan(lng * 10000));
             return date;
+        }
+        /// <summary>
+        /// 字符串转换方法
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static T Convert<T>(this string str)
+        {
+            if (string.IsNullOrEmpty(str)) return default(T);
+            Type type = typeof(T);
+            switch (type.Name)
+            {
+                case "DateTime":
+                    long lng = long.TryParse(str, out long tm) ? tm : 0;
+                    DateTime dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+                    DateTime date = dtStart.Add(new TimeSpan(lng * 10000));
+                    return (T)System.Convert.ChangeType(date, type);
+                default:
+                    object obj = System.Convert.ChangeType(str, type);
+                    return (T)obj;
+            }
+            return default(T);
         }
     }
     #endregion

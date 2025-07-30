@@ -101,7 +101,7 @@ Vue.component('setscore', {
     template: `<div v-if="exam && exresult && showpanel">
     <el-dialog :visible.sync="showpanel">
         <div slot="title">
-            <icon large>&#xe811</icon>设置考试成绩 - <b title="学员名称">{{exresult.Ac_Name}}</b> （ 原始分 {{exresult.Exr_ScoreFinal}}  ）
+            <icon large>&#xe6b0</icon>设置考试成绩 - <b title="学员名称">{{exresult.Ac_Name}}</b> （ 原分数 {{exresult.Exr_ScoreFinal}}  ）
         </div>
         <el-form ref="updateform" :model="form" label-width="100px" :rules="rules" >
             <el-form-item label="成绩得分">
