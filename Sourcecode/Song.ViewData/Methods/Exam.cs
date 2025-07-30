@@ -1282,12 +1282,12 @@ namespace Song.ViewData.Methods
         /// <param name="score"></param>
         /// <param name="time"></param>
         /// <param name="dura"></param>
-        public float ResultSetScore(int exrid, float score, DateTime? time, int dura)
+        public ExamResults ResultSetScore(int exrid, float score, DateTime? time, int dura)
         {
             ExamResults exr = Business.Do<IExamination>().ResultSingle(exrid);
             if (exr == null) throw new Exception("考试成绩不存在");
             exr = Business.Do<IExamination>().ResultSetScore(exr, score, time, dura);
-            return exr.Exr_ScoreFinal;
+            return exr;
         }
         /// <summary>
         /// 批量计算考试成绩

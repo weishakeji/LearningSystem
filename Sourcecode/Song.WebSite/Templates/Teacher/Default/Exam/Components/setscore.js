@@ -59,17 +59,15 @@ Vue.component('setscore', {
         setResultScore: function () {
             var th = this;
             var item = th.exresult;
-            console.error(th.form);
-            //return;
             //当前行正在处理中
             th.$set(item, 'inprocess', true);
             $api.get('Exam/ResultSetScore', th.form).then(function (req) {
                 if (req.data.success) {
-                    let result = Number(req.data.result);
-                    th.$set(item, 'Exr_ScoreFinal', result);
-                    th.$set(item, 'Exr_Score', result);
-                    th.$set(item, 'inprocess', false);
-                    th.$emit('update', item);
+                    let result = req.data.result;
+                    //th.$set(item, 'Exr_ScoreFinal', result);
+                    //th.$set(item, 'Exr_Score', result);
+                    //th.$set(item, 'inprocess', false);
+                    th.$emit('update', result);
                     //console.error(item);
                     //let index = th.datas.findIndex(t => t.Exr_ID == item.Exr_ID);
                     //if (index >= 0) th.$set(th.datas, index, item);
@@ -96,7 +94,11 @@ Vue.component('setscore', {
                 <br/>例如：每道题2分，如果设置得分75，最终成绩会是76分。</help>
             </el-form-item>
             <el-form-item label="考试时间">
-                <el-date-picker v-model="form.time" type="datetime" placeholder="选择日期时间"></el-date-picker>
+                <el-date-picker v-model="form.time" type="datetime" placeholder="选择日期时间" :disabled="exam.Exam_DateType==1"></el-date-picker>                        
+            </el-form-item>
+            <el-form-item label="">
+                <warning multi  v-if="exam.Exam_DateType==1">当前考试为“固定时间”，不允许更改考试时间。</warning>
+                <warning multi  v-else>时间区间限定在<br/> {{exam.Exam_Date|date('yyyy-MM-dd HH:mm')}} 到 {{exam.Exam_DateOver|date('yyyy-MM-dd HH:mm')}} 之间。</warning>
             </el-form-item>
             <el-form-item label="用时(分钟）">
                 <el-slider v-model="form.dura" :min="1" show-input :max="exam.Exam_Span" :marks="durmarks">
