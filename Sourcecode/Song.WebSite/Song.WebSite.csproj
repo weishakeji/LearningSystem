@@ -1454,6 +1454,7 @@
     <Content Include="Templates\Teacher\Default\Course\Styles\List.css" />
     <Content Include="Templates\Teacher\Default\Exam\Components\exam_items.js" />
     <Content Include="Templates\Teacher\Default\Exam\Components\group_select.js" />
+    <Content Include="Templates\Teacher\Default\Exam\Components\setscore.js" />
     <Content Include="Templates\Teacher\Default\Exam\Components\Styles\exam_items.css" />
     <Content Include="Templates\Teacher\Default\Exam\Components\Styles\group_select.css" />
     <Content Include="Templates\Teacher\Default\Exam\List.html" />

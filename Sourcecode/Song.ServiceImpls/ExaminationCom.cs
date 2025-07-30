@@ -308,7 +308,7 @@ namespace Song.ServiceImpls
             return result;
         }
         /// <summary>
-        /// 自动设置考试成绩得分
+        /// 自助设置考试成绩得分
         /// </summary>
         /// <param name="exrid">考试的答题记录id</param>
         /// <param name="score">期望的得分</param>
@@ -319,7 +319,7 @@ namespace Song.ServiceImpls
             return ResultSetScore(exr, score);
         }
         /// <summary>
-        /// 自动设置考试成绩得分
+        /// 自助设置考试成绩得分
         /// </summary>
         /// <param name="result">考试的答题记录</param>
         /// <param name="score">期望的得分</param>
@@ -334,6 +334,40 @@ namespace Song.ServiceImpls
             Gateway.Default.Save<ExamResults>(result);
             return result;
         }
+        /// <summary>
+        /// 自助设置考试成绩得分
+        /// </summary>
+        /// <param name="result">考试的答题记录</param>
+        /// <param name="score">期望的得分</param>
+        /// <param name="time">考试开始时间</param>
+        /// <param name="duration">考试用时，单位分钟</param>
+        /// <returns></returns>
+        public ExamResults ResultSetScore(ExamResults result, float score, DateTime? time, int duration)
+        {
+            //考试限定开始时间，学员答题时间，答题结束时间
+            DateTime beginTime, starttime, overtime;
+            Examination exam= Gateway.Default.From<Examination>().Where(Examination._.Exam_ID == result.Exam_ID).ToFirst<Examination>();
+            beginTime = exam.Exam_Date; //考试的限定开始时间
+            starttime = time ?? result.Exr_CrtTime;
+            if (starttime < beginTime) starttime = beginTime;
+            overtime = starttime.AddMinutes(duration);
+            //
+            result.Exr_CrtTime=starttime;
+            result.Exr_LastTime = result.Exr_OverTime = result.Exr_SubmitTime = overtime;
+            result.Exr_IsSubmit = true;
+            //生成答题信息
+            Exam.Results examresult = new Song.ServiceImpls.Exam.Results(result.Exr_Results);
+            float exrscore = examresult.SetScore(score);
+            examresult.Begin = beginTime;
+            examresult.Startime = starttime;
+            examresult.Overtime = overtime;
+            //
+            result.Exr_Score = result.Exr_ScoreFinal = (float)Math.Round(exrscore * 100) / 100;
+            result.Exr_Results = examresult.OutputXML(false);
+            Gateway.Default.Save<ExamResults>(result);
+            return result;
+        }
+
         /// <summary>
         /// 批量计算考试成绩
         /// </summary>

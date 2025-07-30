@@ -1280,9 +1280,13 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="exrid"></param>
         /// <param name="score"></param>
-        public float ResultSetScore(int exrid, float score)
+        /// <param name="time"></param>
+        /// <param name="dura"></param>
+        public float ResultSetScore(int exrid, float score, DateTime? time, int dura)
         {
-            ExamResults exr = Business.Do<IExamination>().ResultSetScore(exrid, score);
+            ExamResults exr = Business.Do<IExamination>().ResultSingle(exrid);
+            if (exr == null) throw new Exception("考试成绩不存在");
+            exr = Business.Do<IExamination>().ResultSetScore(exr, score, time, dura);
             return exr.Exr_ScoreFinal;
         }
         /// <summary>

@@ -164,7 +164,7 @@ namespace Song.ServiceImpls.Exam
         private void _initAttr(bool isbase64)
         {
             XmlNode xn = Details.SelectSingleNode("results");
-            if (isbase64) xn = _getAttrBase64(xn);
+            if (isbase64) xn.AttrDecryptForBase64();
 
             //考试id，考试主题的uid，考试主题的标题
             this.Examid = int.TryParse(xn.Attributes["examid"]?.Value, out int examid) ? examid : 0;
@@ -174,17 +174,14 @@ namespace Song.ServiceImpls.Exam
             //时间
             DateTime dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
             //考试开始时间
-            long begin = long.TryParse(xn.Attributes["begin"].Value, out long begintm) ? begintm : 0;
-            DateTime beginTime = dtStart.Add(new TimeSpan(begin * 10000));
-            this.Begin = beginTime;
+            long begin = long.TryParse(xn.Attributes["begin"].Value, out long begintm) ? begintm : 0;                 
+            this.Begin = begin.ToDateTime();
             //考试结束时间
             long over = long.TryParse(xn.Attributes["overtime"].Value, out long overtm) ? overtm : 0;
-            DateTime overTime = dtStart.Add(new TimeSpan(over * 10000));
-            this.Overtime = overTime;
+            this.Overtime = over.ToDateTime();
             //学员开始考试时间
             long start = long.TryParse(xn.Attributes["starttime"].Value, out long starttm) ? starttm : 0;
-            DateTime startTime = dtStart.Add(new TimeSpan(start * 10000));
-            this.Startime = startTime;
+            this.Startime = start.ToDateTime();
 
             //学员相关，学员id、名称，学员组，性别，身份证号
             this.AccountID = int.TryParse(xn.Attributes["stid"]?.Value, out int stid) ? stid : 0;
@@ -216,29 +213,6 @@ namespace Song.ServiceImpls.Exam
                 QuesTypes.Add(qt);
             }
         }
-        /// <summary>
-        /// 将属性进行Base64解码
-        /// </summary>
-        /// <param name="xn"></param>
-        /// <returns></returns>
-        private XmlNode _getAttrBase64(XmlNode xn)
-        {
-            foreach (XmlAttribute attr in xn.Attributes)
-            {
-                string val = WeiSha.Core.DataConvert.DecryptForBase64(attr.Value);
-                val = val.Replace("<", "＜");
-                val = val.Replace(">", "＞");
-                val = val.Replace("(", "（");
-                val = val.Replace(")", "）");
-                val = val.Replace("&", "＆");
-                val = val.Replace("=", "〓");
-                val = val.Replace("\"", "＂");
-                val = val.Replace("'", "｀");
-                val = val.Replace("\\", "＼");
-                attr.Value = val;
-            }
-            return xn;
-        }
         #endregion
 
         #region 输出XML
@@ -256,6 +230,7 @@ namespace Song.ServiceImpls.Exam
                 doc = _handleAttr(doc, isbase64);
                 return doc.OuterXml;
             }
+            this.Details = _handleAttr(this.Details, false);
             return this.Details.OuterXml;
         }
         /// <summary>
@@ -269,34 +244,35 @@ namespace Song.ServiceImpls.Exam
             XmlNode xn = doc.SelectSingleNode("results");
 
             //考试id，考试主题的uid，考试主题的标题
-            xn.Attributes["examid"].Value = this.Examid.ToString();
-            xn.Attributes["uid"].Value = this.ExamUid;
-            xn.Attributes["theme"].Value = this.ExamTheme;
+            xn.SetAttr("examid", this.Examid.ToString());
+            xn.SetAttr("uid", this.ExamUid);
+            xn.SetAttr("theme", this.ExamTheme);
 
             //时间
-            xn.Attributes["begin"].Value = _handleTime(Begin).ToString();
-            xn.Attributes["overtime"].Value = _handleTime(Overtime).ToString();
-            xn.Attributes["starttime"].Value = _handleTime(Startime).ToString();
+            xn.SetAttr("begin", Begin.TimeStamp().ToString());
+            xn.SetAttr("starttime", Startime.TimeStamp().ToString());
+            xn.SetAttr("overtime", Overtime.TimeStamp().ToString());
 
             //学员相关，学员id、名称，学员组，性别，身份证号
-            xn.Attributes["stid"].Value = this.AccountID.ToString();
-            xn.Attributes["stname"].Value = this.AccountName;
-            xn.Attributes["stsid"].Value = this.SortID.ToString();
-            xn.Attributes["stsex"].Value = this.Gender.ToString();
-            xn.Attributes["stcardid"].Value = this.IDCardNumber;
+            xn.SetAttr("stid", AccountID.ToString());
+            xn.SetAttr("stname", AccountName);
+            xn.SetAttr("stsid", SortID.ToString());
+            xn.SetAttr("stsex", Gender.ToString());
+            xn.SetAttr("stcardid", IDCardNumber);
 
             //试卷id,专业id,专业名称
-            xn.Attributes["tpid"].Value = this.TestPaperID.ToString();
-            xn.Attributes["sbjid"].Value = this.SubjectID.ToString();
-            xn.Attributes["sbjname"].Value = this.SubjectName;
+            xn.SetAttr("tpid", TestPaperID.ToString());
+            xn.SetAttr("sbjid", SubjectID.ToString());
+            xn.SetAttr("sbjname", SubjectName);
 
             //交卷方式与当前试题
-            xn.Attributes["patter"].Value = this.Pattern.ToString();
-            xn.Attributes["index"].Value = this.QuesIndex.ToString();
-
-            if (isbase64) xn = _setAttrBase64(xn);
+            xn.SetAttr("patter", Pattern.ToString());
+            xn.SetAttr("index", QuesIndex.ToString());
+           
+            if (isbase64) xn.AttrEncryptForBase64();
             return doc;
         }
+   
         /// <summary>
         /// 将时间对象转为毫秒数（长整型）
         /// </summary>
@@ -308,29 +284,7 @@ namespace Song.ServiceImpls.Exam
             long timeStamp = (long)(time - startTime).TotalMilliseconds; // 相差毫秒数
             return timeStamp;
         }
-        /// <summary>
-        /// 将属性进行Base64编码
-        /// </summary>
-        /// <param name="xn"></param>
-        /// <returns></returns>
-        private XmlNode _setAttrBase64(XmlNode xn)
-        {
-            foreach (XmlAttribute attr in xn.Attributes)
-            {
-                string val = attr.Value;
-                val = val.Replace("＜", "<");
-                val = val.Replace("＞", ">");
-                val = val.Replace("（", "(");
-                val = val.Replace("）", ")");
-                val = val.Replace("＆", "&");
-                val = val.Replace("〓", "=");
-                val = val.Replace("＂", "\"");
-                val = val.Replace("｀", "'");
-                val = val.Replace("＼", "\\");
-                attr.Value = WeiSha.Core.DataConvert.EncryptForBase64(val);
-            }
-            return xn;
-        }
+        
         #endregion
 
         #region 生成考试成绩
@@ -828,6 +782,102 @@ namespace Song.ServiceImpls.Exam
             if (this.Type == 4 || this.Type == 5)
                 this.Node.InnerText = this.Ans;
             else this.Node.Attributes["ans"].Value = this.Ans;
+        }
+    }
+    #endregion
+
+    #region 工具类
+    /// <summary>
+    /// XML扩展类
+    /// </summary>
+    public static class XmlExtensions
+    {
+        /// <summary>
+        /// 设置节点属性，如果属性不存在，则创建属性并赋值
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="attr"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static XmlNode SetAttr(this XmlNode node, string attr, string value)
+        {
+            if (node.Attributes == null || node.Attributes[attr] == null)
+            {
+                // 如果属性不存在，则创建并添加
+                XmlAttribute newAttr = node.OwnerDocument.CreateAttribute(attr);
+                newAttr.Value = value;
+                node.Attributes.Append(newAttr);
+            }
+            else node.Attributes[attr].Value = value;
+            return node;
+        }
+        /// <summary>
+        /// 将节点属性转Base64编码
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        public static XmlNode AttrEncryptForBase64(this XmlNode node)
+        {
+            foreach (XmlAttribute attr in node.Attributes)
+            {
+                string val = attr.Value;
+                val = val.Replace("＜", "<");
+                val = val.Replace("＞", ">");
+                val = val.Replace("（", "(");
+                val = val.Replace("）", ")");
+                val = val.Replace("＆", "&");
+                val = val.Replace("〓", "=");
+                val = val.Replace("＂", "\"");
+                val = val.Replace("｀", "'");
+                val = val.Replace("＼", "\\");
+                attr.Value = WeiSha.Core.DataConvert.EncryptForBase64(val);
+            }
+            return node;
+        }
+        /// <summary>
+        /// 将节点属性进行Base64解码
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        public static XmlNode AttrDecryptForBase64(this XmlNode node)
+        {
+            foreach (XmlAttribute attr in node.Attributes)
+            {
+                string val = WeiSha.Core.DataConvert.DecryptForBase64(attr.Value);
+                val = val.Replace("<", "＜");
+                val = val.Replace(">", "＞");
+                val = val.Replace("(", "（");
+                val = val.Replace(")", "）");
+                val = val.Replace("&", "＆");
+                val = val.Replace("=", "〓");
+                val = val.Replace("\"", "＂");
+                val = val.Replace("'", "｀");
+                val = val.Replace("\\", "＼");
+                attr.Value = val;
+            }
+            return node;
+        }
+        /// <summary>
+        /// 将时间对象转为毫秒数（长整型）
+        /// </summary>
+        /// <param name="time"></param>
+        /// <returns></returns>
+        public static long TimeStamp(this DateTime time)
+        {
+            System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1)); // 当地时区
+            long timeStamp = (long)(time - startTime).TotalMilliseconds; // 相差毫秒数
+            return timeStamp;
+        }
+        /// <summary>
+        /// 长整型转时间
+        /// </summary>
+        /// <param name="lng"></param>
+        /// <returns></returns>
+        public static DateTime ToDateTime(this long lng)
+        {
+            DateTime dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+            DateTime date = dtStart.Add(new TimeSpan(lng * 10000));
+            return date;
         }
     }
     #endregion

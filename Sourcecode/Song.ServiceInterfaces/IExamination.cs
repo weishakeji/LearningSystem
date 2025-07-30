@@ -154,18 +154,27 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         ExamResults ResultClacScore(ExamResults result);
         /// <summary>
-        /// 自动设置考试成绩得分
+        /// 自助设置考试成绩得分
         /// </summary>
         /// <param name="exrid">考试的答题记录id</param>
         /// <param name="score">期望的得分</param>
         /// <returns></returns>
         ExamResults ResultSetScore(int exrid, float score);
         /// <summary>
-        /// 自动设置考试成绩得分
+        /// 自助设置考试成绩得分
         /// </summary>
         /// <param name="result">考试的答题记录</param>
         /// <param name="score">期望的得分</param>
         ExamResults ResultSetScore(ExamResults result, float score);
+        /// <summary>
+        /// 自助设置考试成绩得分
+        /// </summary>
+        /// <param name="result">考试的答题记录</param>
+        /// <param name="score">期望的得分</param>
+        /// <param name="time">考试开始时间</param>
+        /// <param name="duration">考试用时，单位分钟</param>
+        /// <returns></returns>
+        ExamResults ResultSetScore(ExamResults result, float score, DateTime? time, int duration);
         /// <summary>
         /// 批量计算考试成绩
         /// </summary>

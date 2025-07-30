@@ -90,7 +90,6 @@
             </el-table-column>
             <el-table-column label="考试时间" align="center">
                 <template slot-scope="scope">
-
                     {{scope.row.Exr_CrtTime|date("yyyy-MM-dd HH:mm:ss")}}
                 </template>
             </el-table-column>
@@ -216,7 +215,7 @@
             </div>
         </el-dialog>
         <!--build exr-->
-        <setscore ref="setscore" :exam="entity"></setscore>        
+        <setscore ref="setscore" :exam="entity" @update="setScoreupate"></setscore>        
     </div>
 
 
