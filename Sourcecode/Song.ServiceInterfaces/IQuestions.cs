@@ -14,6 +14,7 @@ namespace Song.ServiceInterfaces
     /// </summary>
     public interface IQuestions : WeiSha.Core.IBusinessInterface
     {
+        
         #region 试题管理
         /// <summary>
         /// 添加试题
@@ -294,6 +295,11 @@ namespace Song.ServiceInterfaces
         #endregion
 
         #region 题型管理（试题分类）
+        /// <summary>
+        /// 试题类型列表
+        /// </summary>
+        /// <returns></returns>
+        string[] QuestionTypes();
         /// <summary>
         /// 添加试题
         /// </summary>

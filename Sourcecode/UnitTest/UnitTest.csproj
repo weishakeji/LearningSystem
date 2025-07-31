@@ -65,6 +65,7 @@
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTest2.cs" />
+    <Compile Include="UnitTest_Testpaper.cs" />
     <Compile Include="UnitTestConvert.cs" />
     <Compile Include="UnitTestDb.cs" />
     <Compile Include="UnitTest_ExamReasult.cs" />

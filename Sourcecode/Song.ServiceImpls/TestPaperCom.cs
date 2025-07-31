@@ -20,7 +20,15 @@ namespace Song.ServiceImpls
 {
     public class TestPaperCom : ITestPaper
     {
-
+        #region 相关操作类
+        private static OrganizationCom orgCom = new OrganizationCom();
+        private static SubjectCom subjectCom = new SubjectCom();
+        private static CourseCom courseCom = new CourseCom();
+        private static OutlineCom outlineCom = new OutlineCom();
+        private static QuestionsCom questionsCom = new QuestionsCom();
+        private static AccountsCom accountCom = new AccountsCom();
+        private static TestPaperCom testPaperCom = new TestPaperCom();
+        #endregion
 
         #region ITestPaper 成员
 
@@ -28,7 +36,7 @@ namespace Song.ServiceImpls
         {
             if (entity.Tp_Id <= 0) entity.Tp_Id = WeiSha.Core.Request.SnowID();
            
-            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+            Song.Entities.Organization org = orgCom.OrganCurrent();
             if (org != null)
             {
                 entity.Org_ID = org.Org_ID;
@@ -56,7 +64,7 @@ namespace Song.ServiceImpls
             Gateway.Default.Save<TestPaper>(entity);
             //更新统计信息
             new Task(() => {
-                Business.Do<ITestPaper>().PaperCountUpdate(entity.Sbj_ID, entity.Cou_ID);
+                testPaperCom.PaperCountUpdate(entity.Sbj_ID, entity.Cou_ID);
             }).Start();
             
             return entity.Tp_Id;  
@@ -138,7 +146,7 @@ namespace Song.ServiceImpls
                     tran.Commit();
                     //更新统计信息
                     new Task(() => {
-                        Business.Do<ITestPaper>().PaperCountUpdate(tp.Sbj_ID, tp.Cou_ID);
+                        testPaperCom.PaperCountUpdate(tp.Sbj_ID, tp.Cou_ID);
                     }).Start();
                 }
                 catch(Exception ex)
@@ -182,7 +190,7 @@ namespace Song.ServiceImpls
             if (sbjid > 0)
             {
                 WhereClip wcSbjid = new WhereClip();
-                List<long> list = Business.Do<ISubject>().TreeID(sbjid, orgid);
+                List<long> list = subjectCom.TreeID(sbjid, orgid);
                 foreach (int l in list)
                     wcSbjid.Or(TestPaper._.Sbj_ID == l);
                 wc.And(wcSbjid);
@@ -201,7 +209,7 @@ namespace Song.ServiceImpls
             if (sbjid > 0)
             {
                 WhereClip wcSbjid = new WhereClip();
-                List<long> list = Business.Do<ISubject>().TreeID(sbjid, orgid);
+                List<long> list = subjectCom.TreeID(sbjid, orgid);
                 foreach (long l in list)
                     wcSbjid.Or(TestPaper._.Sbj_ID == l);
                 wc.And(wcSbjid);
@@ -249,7 +257,7 @@ namespace Song.ServiceImpls
             if (sbjid > 0)
             {
                 WhereClip wcSbjid = new WhereClip();
-                List<long> list = Business.Do<ISubject>().TreeID(sbjid, orgid);
+                List<long> list = subjectCom.TreeID(sbjid, orgid);
                 foreach (long l in list)
                     wcSbjid.Or(TestPaper._.Sbj_ID == l);
                 wc.And(wcSbjid);
@@ -417,7 +425,7 @@ namespace Song.ServiceImpls
                 float num = (float)t.TPI_Number;    //当前题型占的分数
                 if (count < 1) continue;
                 //当前类型的试题
-                List<Questions> ques = Business.Do<IQuestions>().QuesRandom(tp.Org_ID, (int)tp.Sbj_ID, tp.Cou_ID, -1, type,tp.Tp_Diff, tp.Tp_Diff2, true, count);
+                List<Questions> ques = questionsCom.QuesRandom(tp.Org_ID, (int)tp.Sbj_ID, tp.Cou_ID, -1, type,tp.Tp_Diff, tp.Tp_Diff2, true, count);
                 if (ques.Count < 1) continue;
                 ques = _clacQuesScore(ques, num, isanswer);
                 dic.Add(t, ques);
@@ -447,7 +455,7 @@ namespace Song.ServiceImpls
                 arr[i] = (from l in ques_course where l.Qus_Type == i + 1 select l).ToList<Questions>();
 
             //2、获取章节，按章节配置项取试题
-            List<Outline> outlines = Business.Do<IOutline>().OutlineCount(tp.Cou_ID, 0, true, 0);
+            List<Outline> outlines = outlineCom.OutlineCount(tp.Cou_ID, 0, true, 0);
             foreach (Outline ol in outlines)
             {
                 //3、取当前章节的各题型数量
@@ -463,7 +471,7 @@ namespace Song.ServiceImpls
                     if (isexist < 0) continue;
 
                     //4、抽取试题，并将抽到题汇集到一起，即到listQus列表中去   
-                    List<long> treeid = Business.Do<IOutline>().TreeID(ol.Ol_ID);
+                    List<long> treeid = outlineCom.TreeID(ol.Ol_ID);
                     //自定义查询条件
                     Func<Questions, bool> exp = x =>
                     {
@@ -765,14 +773,14 @@ namespace Song.ServiceImpls
                 if (score != null) float.TryParse(score.ToString(), out highest);
 
                 //学员的学习记录
-                Student_Course purchase = Business.Do<ICourse>().StudentCourse(tr.Ac_ID, tp.Cou_ID, true);
+                Student_Course purchase = courseCom.StudentCourse(tr.Ac_ID, tp.Cou_ID, true);
                 using (DbTrans tran = Gateway.Default.BeginTrans())
                 {
                     try
                     {
                         //删除当前成绩，并将当前成绩之外的结课考试的最高分，赋值到学员学习记录，计算综合成绩
                         tran.Delete<TestResults>(TestResults._.Tr_ID == identify);    
-                        Business.Do<ICourse>().StudentScoreSave(purchase, -1, -1, highest);
+                        courseCom.StudentScoreSave(purchase, -1, -1, highest);
                         tran.Commit();
                     }
                     catch (Exception ex)
@@ -963,7 +971,7 @@ namespace Song.ServiceImpls
                 IRow row = sheet.CreateRow(i + 1);
                 Type exrRef = exr[i].GetType();           //对象的反射对象
                 //当前学员对象
-                Accounts account = Business.Do<IAccounts>().AccountsSingle(exr[i].Ac_ID);
+                Accounts account = accountCom.AccountsSingle(exr[i].Ac_ID);
                 Type accRef = account == null ? null : account.GetType();        //学员对象的反射对象
                 for (int j = 0; j < nodes.Count; j++)
                 {

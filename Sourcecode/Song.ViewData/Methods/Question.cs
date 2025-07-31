@@ -24,7 +24,7 @@ namespace Song.ViewData.Methods
     public class Question : ViewMethod, IViewAPI
     {
         #region 题型
-        private static readonly string[] types= WeiSha.Core.App.Get["QuesType"].Split(',');
+        private static string[] _types=null;
         /// <summary>
         /// 题型
         /// </summary>
@@ -32,10 +32,9 @@ namespace Song.ViewData.Methods
         [Cache(Expires = int.MaxValue)]
         public string[] Types()
         {
-            string[] types = Question.types;
-            for (int i = 0; i < types.Length; i++)
-                types[i] = types[i].Trim();
-            return types;
+            if (_types == null)
+                _types = Business.Do<IQuestions>().QuestionTypes();
+            return _types;
         }
         #endregion
 
@@ -501,7 +500,7 @@ namespace Song.ViewData.Methods
             };
             List<Song.Entities.Questions> ques = Business.Do<IQuestions>().QuesSimplify(-1, -1, couid, olid, type, diff, true, fields, count);
             Dictionary<string, List<string>> dic = new Dictionary<string, List<string>>();
-            for (int i = 1; i <= Question.types.Length; i++)
+            for (int i = 1; i <= this.Types().Length; i++)
             {
                 List<string> list = new List<string>();
                 foreach (Song.Entities.Questions q in ques)
@@ -588,7 +587,7 @@ namespace Song.ViewData.Methods
         {
             Song.Entities.Questions[] ques = Business.Do<IStudent>().CollectCount(acid, 0, couid, type, -1);
             Dictionary<string, List<string>> dic = new Dictionary<string, List<string>>();
-            for (int i = 1; i <= Question.types.Length; i++)
+            for (int i = 1; i <= this.Types().Length; i++)
             {
                 List<string> list = new List<string>();
                 foreach (Song.Entities.Questions q in ques)
@@ -699,7 +698,7 @@ namespace Song.ViewData.Methods
         {
             Song.Entities.Questions[] ques = Business.Do<IStudent>().NotesCount(acid, couid, type, -1);
             Dictionary<string, List<string>> dic = new Dictionary<string, List<string>>();
-            for (int i = 1; i <= Question.types.Length; i++)
+            for (int i = 1; i <= this.Types().Length; i++)
             {
                 List<string> list = new List<string>();
                 foreach (Song.Entities.Questions q in ques)
@@ -876,7 +875,7 @@ namespace Song.ViewData.Methods
         {
             Song.Entities.Questions[] ques = Business.Do<IStudent>().QuesAll(acid, 0, couid, type);
             Dictionary<string, List<string>> dic = new Dictionary<string, List<string>>();
-            for (int i = 1; i <= Question.types.Length; i++)
+            for (int i = 1; i <= this.Types().Length; i++)
             {
                 List<string> list = new List<string>();
                 foreach (Song.Entities.Questions q in ques)
@@ -937,7 +936,7 @@ namespace Song.ViewData.Methods
         {
             List<Song.Entities.Questions> ques = Business.Do<IStudent>().QuesOftenwrong(couid, type, count);
             Dictionary<string, List<string>> dic = new Dictionary<string, List<string>>();
-            for (int i = 1; i <= Question.types.Length; i++)
+            for (int i = 1; i <= this.Types().Length; i++)
             {
                 List<string> list = new List<string>();
                 foreach (Song.Entities.Questions q in ques)
@@ -1241,6 +1240,7 @@ namespace Song.ViewData.Methods
         }
         private JObject _AIGenerate(int type, string sbj, string cou, string outline)
         {
+            string[] types = this.Types();
             string qtype = types[type - 1];
             //设定AI的角色
             string role = Song.APIHub.LLM.Gatway.TemplateRole("Questions/Generate");

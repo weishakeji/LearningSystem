@@ -584,7 +584,7 @@ namespace Song.ServiceImpls
             //机构
             if (orgid > 0) wc.And(Questions._.Org_ID == orgid);
             //试题类型
-            string[] types = WeiSha.Core.App.Get["QuesType"].Split(',');
+            string[] types = this.QuestionTypes();
             if (type < 1 || type > types.Length) type = -1;
             if (type > 0) wc.And(Questions._.Qus_Type == type);
             //难度区间
@@ -1124,6 +1124,23 @@ namespace Song.ServiceImpls
 
 
         #region 试题分类管理
+        /// <summary>
+        /// 试题类型列表
+        /// </summary>
+        /// <returns></returns>
+        public string[] QuestionTypes()
+        {
+            string types = string.Empty;
+            try
+            {
+                types = WeiSha.Core.App.Get["QuesType"].String;              
+            }
+            catch
+            {
+                types = "单选, 多选, 判断, 简答, 填空";
+            }
+            return types.Split(',');
+        }
         /// <summary>
         /// 添加试题类型
         /// </summary>
