@@ -66,7 +66,7 @@ namespace Song.SMS
         /// <returns></returns>
         private SmsItem[] initialize()
         {
-            XmlNodeList list = WeiSha.Core.PlatformInfoHandler.GetParaNode("SMS").ChildNodes;
+            XmlNodeList list = WeiSha.Core.WebConfig.ChildNode("SMS").ChildNodes;
             List<SmsItem> smslist = new List<SmsItem>();
             for (int i = 0; i < list.Count; i++)
             {

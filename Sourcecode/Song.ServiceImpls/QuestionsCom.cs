@@ -1130,15 +1130,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public string[] QuestionTypes()
         {
-            string types = string.Empty;
-            try
-            {
-                types = WeiSha.Core.App.Get["QuesType"].String;              
-            }
-            catch
-            {
-                types = "单选, 多选, 判断, 简答, 填空";
-            }
+            string types = WeiSha.Core.App.Get["QuesType"].String; 
             return types.Split(',');
         }
         /// <summary>

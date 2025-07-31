@@ -13,7 +13,8 @@ namespace UnitTest
         [TestMethod]
         public void TestMethod1()
         {
-            Helper.DbProvider.SetDbGateway();
+            Helper.DbProvider.SetDbGateway();       //设置数据库链接
+            WebConfig.Path = Helper.Path.WebSitePath(); //设置网站路径，用于取web.config中的配置
 
             XmlDocument doc = Song.ServiceImpls.Exam.TestPaperHandler.Putout(635).ToXml();
 
