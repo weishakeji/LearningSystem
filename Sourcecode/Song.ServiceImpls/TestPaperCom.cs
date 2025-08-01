@@ -393,6 +393,17 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 出卷，输出试卷内容
         /// </summary>
+        /// <param name="tpid">试卷id</param>
+        /// <param name="isanswer">试题是否带答案，模拟考试一般带答案，方便前端计算成绩</param>
+        /// <returns></returns>
+        public Dictionary<TestPaperItem, List<Questions>> Putout(long tpid, bool isanswer)
+        {
+            TestPaper paper = this.PaperSingle(tpid);
+            return Putout(paper, isanswer);
+        }
+        /// <summary>
+        /// 出卷，输出试卷内容
+        /// </summary>
         /// <param name="tp">试卷对象</param>
         /// <param name="isanswer">试题是否带答案，模拟考试一般带答案，方便前端计算成绩</param>
         /// <returns></returns>
@@ -407,6 +418,7 @@ namespace Song.ServiceImpls
         /// 按课程抽题组卷
         /// </summary>
         /// <param name="tp"></param>
+        /// <param name="isanswer"></param>
         /// <returns></returns>
         private Dictionary<TestPaperItem, List<Questions>> _putout_0(TestPaper tp, bool isanswer)
         {
@@ -595,6 +607,56 @@ namespace Song.ServiceImpls
                 q.Qus_Items = doc.OuterXml;
             }
             return q;
+        }
+        /// <summary>
+        /// 出卷，按历史答题内容生成试卷
+        /// </summary>
+        /// <param name="results">学员答题的xml记录</param>
+        /// <param name="isanswer">试题是否带答案，模拟考试一般带答案，方便前端计算成绩</param>
+        /// <returns></returns>
+        public Dictionary<TestPaperItem, List<Questions>> Putout(string results, bool isanswer)
+        {
+            XmlDocument docxml = new XmlDocument();
+            docxml.XmlResolver = null;
+            docxml.LoadXml(results, false);
+            return Putout(docxml,isanswer);
+           
+        }
+        /// <summary>
+        /// 出卷，按历史答题内容生成试卷
+        /// </summary>
+        /// <param name="resxml"></param>
+        /// <param name="isanswer"></param>
+        /// <returns></returns>
+        public Dictionary<TestPaperItem, List<Questions>> Putout(XmlDocument resxml, bool isanswer)
+        {
+            Dictionary<TestPaperItem, List<Questions>> dic = new Dictionary<TestPaperItem, List<Questions>>();
+            XmlNodeList quesnodes = resxml.GetElementsByTagName("ques");
+            foreach (XmlNode xn in quesnodes)
+            {
+                TestPaperItem item = new TestPaperItem();
+                item.TPI_Type = xn.GetAttr<int>("type");
+                item.TPI_Count = xn.GetAttr<int>("count");
+                item.TPI_Number = xn.GetAttr<int>("number");
+                //
+                List<Questions> qlist = new List<Questions>();
+                for (int n = 0; n < xn.ChildNodes.Count; n++)
+                {
+                    XmlNode qn = xn.ChildNodes[n];
+                    long qid = qn.GetAttr<long>("id");       //试题id                 
+                    if (qid <= 0) continue;
+                    Song.Entities.Questions q = questionsCom.QuesSingle(qid);
+                    if (q == null) continue;
+
+                    //试题分数
+                    q.Qus_Number = qn.GetAttr<float>("num");
+                    q.Qus_Explain = q.Qus_Answer = "";
+                    if (!isanswer) q = _clearAnswer(q);
+                    qlist.Add(q);
+                }
+                dic.Add(item, qlist);
+            }
+            return dic;
         }
         #endregion
 

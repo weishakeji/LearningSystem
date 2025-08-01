@@ -95,33 +95,7 @@ namespace Song.ServiceImpls.Exam
         public static TestPaperHandler Putout(XmlDocument resxml)
         {
             TestPaperHandler tp = new TestPaperHandler();
-            tp.PagerContents = new Dictionary<TestPaperItem, List<Questions>>();
-
-            XmlNodeList quesnodes = resxml.GetElementsByTagName("ques");
-            foreach (XmlNode xn in quesnodes)
-            {
-                TestPaperItem item = new TestPaperItem();
-                item.TPI_Type = xn.GetAttr<int>("type");
-                item.TPI_Count = xn.GetAttr<int>("count");
-                item.TPI_Number = xn.GetAttr<int>("number");
-                //
-                List<Questions> qlist = new List<Questions>();
-                for (int n = 0; n < xn.ChildNodes.Count; n++)
-                {
-                    XmlNode qn = xn.ChildNodes[n];
-                    long qid = qn.GetAttr<long>("id");       //试题id                 
-                    if (qid <= 0) continue;
-                    Song.Entities.Questions q = quescom.QuesSingle(qid);
-                    if (q == null) continue;
-
-                    //试题分数
-                    q.Qus_Number = qn.GetAttr<float>("num");
-                    q.Qus_Explain = "";
-                    q.Qus_Answer = "";
-                    qlist.Add(q);
-                }
-                tp.PagerContents.Add(item, qlist);
-            }
+            tp.PagerContents = tpcom.Putout(resxml, false);
             return tp;
         }
         #endregion

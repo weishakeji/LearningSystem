@@ -323,47 +323,25 @@ namespace Song.ViewData.Methods
         public JArray MakeoutPaper(int examid, long tpid,int stid)
         {
             //获取答题信息
-            Song.Entities.ExamResults exr = Business.Do<IExamination>().ResultForCache(examid, tpid, stid);
-            JArray array = new JArray();
-            if (exr == null)
-            {
-                //第一次，随机出题
-                array = _putout(tpid);
-            }
-            else
-            {
-                //如果已经交过卷
-                if (exr.Exr_IsSubmit)                                
-                    throw new Exception("已经交过卷");             
-                array = _putout(exr); 
-            }
-            return array;
-        }
-        /// <summary>
-        /// 随机出题
-        /// </summary>
-        /// <returns></returns>
-        private JArray _putout(long tpid)
-        {
-            //取果是第一次打开，则随机生成试题，此为获取试卷
-            Song.Entities.TestPaper paper = Business.Do<ITestPaper>().PaperSingle(tpid);
-            if (paper == null) return null;
-            //生成试卷
-            Dictionary<TestPaperItem, List<Questions>> dics = Business.Do<ITestPaper>().Putout(paper, false);
+            Song.Entities.ExamResults exr = Business.Do<IExamination>().ResultForCache(examid, tpid, stid);           
+            if (exr != null && exr.Exr_IsSubmit) throw new Exception("已经交过卷");
+
+            //试卷的试题，如果已经答题，则从答题信息中生成；如果没有答题，则随机生成
+            Dictionary<TestPaperItem, List<Questions>> dics = null;
+            if (exr != null) dics = Business.Do<ITestPaper>().Putout(exr.Exr_Results, false);
+            else dics = Business.Do<ITestPaper>().Putout(tpid, false);
+            //
             JArray jarr = new JArray();
             foreach (var di in dics)
             {
                 //按题型输出
                 Song.Entities.TestPaperItem pi = (Song.Entities.TestPaperItem)di.Key;   //试题类型                
-                List<Questions> questions = (List<Questions>)di.Value;   //当前类型的试题
-                int type = (int)pi.TPI_Type;    //试题类型
-                int count = questions.Count;  //试题数目
-                float num = (float)pi.TPI_Number;   //占用多少分
-                if (count < 1) continue;
+                List<Questions> questions = (List<Questions>)di.Value;   //当前类型的试题   
+                if (questions.Count < 1) continue;
                 JObject jo = new JObject();
-                jo.Add("type", type);
-                jo.Add("count", count);
-                jo.Add("number", num);
+                jo.Add("type", (int)pi.TPI_Type);       //试题类型
+                jo.Add("count", questions.Count);       //试题数目
+                jo.Add("number", (float)pi.TPI_Number); //占用多少分
                 JArray ques = new JArray();
                 foreach (Song.Entities.Questions q in questions)
                 {
@@ -373,57 +351,7 @@ namespace Song.ViewData.Methods
                 jo.Add("ques", ques);
                 jarr.Add(jo);
             }
-            return jarr;
-        }
-        /// <summary>
-        /// 如果已经提交过答案，通过提交的答题返回试题
-        /// </summary>
-        /// <param name="exr"></param>
-        /// <returns></returns>
-        private JArray _putout(Song.Entities.ExamResults exr)
-        {
-            XmlDocument resXml = new XmlDocument();
-            resXml.XmlResolver = null;
-            resXml.LoadXml(exr.Exr_Results, false);
-            JArray jarr = new JArray();
-            XmlNodeList quesnodes = resXml.GetElementsByTagName("ques");
-            for (int i = 0; i < quesnodes.Count; i++)
-            {
-                XmlNode node = quesnodes[i];
-                int type, count; float num;
-                int.TryParse(node.Attributes["type"].Value, out type);      //试题类型
-                int.TryParse(node.Attributes["count"].Value, out count);        //试题类型下的试题数
-                float.TryParse(node.Attributes["number"].Value, out num);   //试题类型下的试题总分                   
-                JObject quesObj = new JObject();
-                quesObj.Add("type", type);
-                quesObj.Add("count", count);
-                quesObj.Add("number", num);
-
-                JArray ques = new JArray();
-                for (int n = 0; n < node.ChildNodes.Count; n++)
-                {
-                    XmlNode qn = node.ChildNodes[n];
-                    long qid = qn.GetAttr<long>("id");       //试题id                 
-                    if (qid <= 0) continue;
-                    Song.Entities.Questions q = Business.Do<IQuestions>().QuesSingle(qid);
-                    if (q == null) continue;
-                    //试题分数，答题记录
-                    float qnum = 0; string ans = string.Empty; string file = string.Empty;
-                    if (node.ChildNodes[n].Attributes["num"] != null)
-                        float.TryParse(qn.Attributes["num"].Value, out qnum);
-                    ans = qn.Attributes["ans"]==null ? qn.InnerText : qn.Attributes["ans"].Value;    //答题内容
-                    file = qn.Attributes["file"].Value;                             //附件
-
-                    q.Qus_Number = qnum;
-                    q.Qus_Explain = "";
-                    q.Qus_Answer = "";
-                    string json = q.ToJson("", "Qus_CrtTime,Qus_LastTime");
-                    ques.Add(JObject.Parse(json));
-                }
-                quesObj.Add("ques", ques);
-                jarr.Add(quesObj);
-            }
-            return jarr;
+            return jarr; 
         }
         /// <summary>
         /// 提交考试答题信息
