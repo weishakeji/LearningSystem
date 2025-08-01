@@ -7,12 +7,14 @@ using System.Xml;
 using Song.Entities;
 using System.Reflection;
 using Newtonsoft.Json.Linq;
+using WeiSha.Core;
 
 namespace Song.ServiceImpls.Exam
 {
     public class TestPaperHandler
     {
         private static readonly TestPaperCom tpcom = new Song.ServiceImpls.TestPaperCom();
+        private static readonly QuestionsCom quescom = new Song.ServiceImpls.QuestionsCom();
         /// <summary>
         /// 试卷ID
         /// </summary>
@@ -35,7 +37,11 @@ namespace Song.ServiceImpls.Exam
             this.TestPaperID = tpid;
             this.TestPaperEntity = tpcom.PaperSingle(tpid);
         }
+        public TestPaperHandler()
+        {
 
+        }
+        #region 随机生成试卷
         /// <summary>
         /// 生成试卷
         /// </summary>
@@ -50,11 +56,77 @@ namespace Song.ServiceImpls.Exam
         /// <returns></returns>
         public static TestPaperHandler Putout(long tpid, bool isanswer)
         {
-            TestPaperHandler tp = new TestPaperHandler(tpid);
-            //生成试卷
-            tp.PagerContents = tpcom.Putout(tp.TestPaperEntity, isanswer);
+            TestPaperHandler tp = new TestPaperHandler(tpid);            
+            tp.PagerContents = tpcom.Putout(tp.TestPaperEntity, isanswer);  //生成试卷
             return tp;
         }
+        #endregion
+
+        #region 通过答题信息，反向生成试卷
+        /// <summary>
+        /// 通过答题信息，反向生成试卷
+        /// </summary>
+        /// <param name="exr">考试答题信息的记录对象</param>
+        /// <returns></returns>
+        public static TestPaperHandler Putout(ExamResults exr) => Putout(exr.Exr_Results);
+        /// <summary>
+        /// 通过答题信息，反向生成试卷
+        /// </summary>
+        /// <param name="tr">测试的答题信息</param>
+        /// <returns></returns>
+        public static TestPaperHandler Putout(TestResults tr) => Putout(tr.Tr_Results);
+        /// <summary>
+        /// 通过答题信息，反向生成试卷
+        /// </summary>
+        /// <param name="results">答题信息的xml文本</param>
+        /// <returns></returns>
+        public static TestPaperHandler Putout(string results)
+        {
+            XmlDocument docxml = new XmlDocument();
+            docxml.XmlResolver = null;
+            docxml.LoadXml(results, false);
+            return Putout(docxml);
+        }
+        /// <summary>
+        ///  通过答题信息，反向生成试卷
+        /// </summary>
+        /// <param name="resxml">答题信息的xml对象</param>
+        /// <returns></returns>
+        public static TestPaperHandler Putout(XmlDocument resxml)
+        {
+            TestPaperHandler tp = new TestPaperHandler();
+            tp.PagerContents = new Dictionary<TestPaperItem, List<Questions>>();
+
+            XmlNodeList quesnodes = resxml.GetElementsByTagName("ques");
+            foreach (XmlNode xn in quesnodes)
+            {
+                TestPaperItem item = new TestPaperItem();
+                item.TPI_Type = xn.GetAttr<int>("type");
+                item.TPI_Count = xn.GetAttr<int>("count");
+                item.TPI_Number = xn.GetAttr<int>("number");
+                //
+                List<Questions> qlist = new List<Questions>();
+                for (int n = 0; n < xn.ChildNodes.Count; n++)
+                {
+                    XmlNode qn = xn.ChildNodes[n];
+                    long qid = qn.GetAttr<long>("id");       //试题id                 
+                    if (qid <= 0) continue;
+                    Song.Entities.Questions q = quescom.QuesSingle(qid);
+                    if (q == null) continue;
+
+                    //试题分数
+                    q.Qus_Number = qn.GetAttr<float>("num");
+                    q.Qus_Explain = "";
+                    q.Qus_Answer = "";
+                    qlist.Add(q);
+                }
+                tp.PagerContents.Add(item, qlist);
+            }
+            return tp;
+        }
+        #endregion
+
+        #region 输出试卷
         /// <summary>
         /// 输出试卷为Json
         /// </summary>
@@ -119,7 +191,11 @@ namespace Song.ServiceImpls.Exam
                     XmlElement elq = doc.CreateElement("q");
                     elq.SetAttribute("id", q.Qus_ID.ToString());
                     elq.SetAttribute("num", q.Qus_Number.ToString());
-                    elq.SetAttribute("ans", "");
+                    if (q.Qus_Type == 4 || q.Qus_Type == 5)
+                    {
+                        elq.InnerText = string.Empty;
+                    }
+                    else elq.SetAttribute("ans", "");
                     elq.SetAttribute("file", "");
                     elq.SetAttribute("sucess", "false");
                     elq.SetAttribute("score", "0");
@@ -127,7 +203,6 @@ namespace Song.ServiceImpls.Exam
                 }
                 root.AppendChild(elques);
             }
-
             return doc;
         }
         /// <summary>
@@ -140,5 +215,6 @@ namespace Song.ServiceImpls.Exam
             Results results = new Results(doc.OuterXml);
             return results;
         }
+        #endregion
     }
 }

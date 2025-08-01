@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using Song.Entities;
 using System.Reflection;
+using WeiSha.Core;
 
 namespace Song.ServiceImpls.Exam
 {
@@ -38,7 +39,8 @@ namespace Song.ServiceImpls.Exam
         {
             Entity = entity;
             Details = new XmlDocument();
-            Details.LoadXml(entity.Exr_Results);
+            Details.XmlResolver = null;
+            Details.LoadXml(entity.Exr_Results, false);
             //解析考试成绩的属性
             this._initAttr(false);
             //解析试题的答题信息
@@ -52,6 +54,7 @@ namespace Song.ServiceImpls.Exam
         public Results(string details, bool isbase64)
         {
             Details = new XmlDocument();
+            Details.XmlResolver = null;
             Details.LoadXml(details);
             //解析考试成绩的属性
             this._initAttr(isbase64);

@@ -72,6 +72,9 @@ namespace UnitTest
             qa.RebuildNode();
             string ans = qa.Node.OuterXml;
 
+            long t = 0;
+            t.ToDateTime();
+
         }
         /// <summary>
         /// 重新计分

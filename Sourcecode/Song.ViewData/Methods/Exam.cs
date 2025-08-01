@@ -14,6 +14,7 @@ using Song.Entities;
 using Song.ServiceInterfaces;
 using Song.ViewData.Attri;
 using WeiSha.Core;
+using System.Data;
 
 
 namespace Song.ViewData.Methods
@@ -402,8 +403,7 @@ namespace Song.ViewData.Methods
                 for (int n = 0; n < node.ChildNodes.Count; n++)
                 {
                     XmlNode qn = node.ChildNodes[n];
-                    long qid = 0;       //试题id
-                    long.TryParse(qn.Attributes["id"].Value, out qid);
+                    long qid = qn.GetAttr<long>("id");       //试题id                 
                     if (qid <= 0) continue;
                     Song.Entities.Questions q = Business.Do<IQuestions>().QuesSingle(qid);
                     if (q == null) continue;

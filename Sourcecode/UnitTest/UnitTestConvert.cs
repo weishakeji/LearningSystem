@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using Song.ServiceImpls.Exam;
+using WeiSha.Core;
 
 namespace UnitTest
 {
@@ -13,10 +14,13 @@ namespace UnitTest
             string text = "1747301879000";
             DateTime t = text.Convert<DateTime>();
 
-            long lng= text.Convert<long>();
-            DateTime tt = lng.ToDateTime();
+            string fl = "5.6";
+            float lng= fl.Convert<float>();
 
-            Assert.AreEqual(t, tt);
+
+            //DateTime tt = lng.ToDateTime();
+
+            Assert.AreEqual(lng, 5.6);
             
         }
     }
