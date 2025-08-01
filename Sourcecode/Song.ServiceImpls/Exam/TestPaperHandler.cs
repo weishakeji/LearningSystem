@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using Song.Entities;
 using System.Reflection;
+using Newtonsoft.Json.Linq;
 
 namespace Song.ServiceImpls.Exam
 {
@@ -34,13 +35,35 @@ namespace Song.ServiceImpls.Exam
             this.TestPaperID = tpid;
             this.TestPaperEntity = tpcom.PaperSingle(tpid);
         }
+
         /// <summary>
-        /// 出卷
+        /// 生成试卷
         /// </summary>
-        public XmlDocument Putout()
+        /// <param name="tpid">试卷id</param>
+        /// <returns></returns>
+        public static TestPaperHandler Putout(long tpid) => Putout(tpid, false);
+        /// <summary>
+        /// 生成试卷
+        /// </summary>
+        /// <param name="tpid">试卷id</param>
+        /// <param name="isanswer">试题是否带答案，模拟考试一般带答案，方便前端计算成绩</param>
+        /// <returns></returns>
+        public static TestPaperHandler Putout(long tpid, bool isanswer)
+        {
+            TestPaperHandler tp = new TestPaperHandler(tpid);
+            //生成试卷
+            tp.PagerContents = tpcom.Putout(tp.TestPaperEntity, isanswer);
+            return tp;
+        }
+        /// <summary>
+        /// 输出试卷为Json
+        /// </summary>
+        /// <returns></returns>
+        public JArray ToJson()
         {
             //生成试卷
-            Dictionary<TestPaperItem, List<Questions>> dics = tpcom.Putout(TestPaperEntity, false);
+            Dictionary<TestPaperItem, List<Questions>> dics = this.PagerContents;
+            JArray jarr = new JArray();
             foreach (var di in dics)
             {
                 //按题型输出
@@ -50,46 +73,72 @@ namespace Song.ServiceImpls.Exam
                 int count = questions.Count;  //试题数目
                 float num = (float)pi.TPI_Number;   //占用多少分
                 if (count < 1) continue;
-                //JObject jo = new JObject();
-                //jo.Add("type", type);
-                //jo.Add("count", count);
-                //jo.Add("number", num);
-                //JArray ques = new JArray();
-                //foreach (Song.Entities.Questions q in questions)
-                //{
-                //    string json = q.ToJson("", "Qus_CrtTime,Qus_LastTime");
-                //    ques.Add(JObject.Parse(json));
-                //}
-                //jo.Add("ques", ques);
-                //jarr.Add(jo);
+                JObject jo = new JObject();
+                jo.Add("type", type);
+                jo.Add("count", count);
+                jo.Add("number", num);
+                JArray ques = new JArray();
+                foreach (Song.Entities.Questions q in questions)
+                {
+                    string json = q.ToJson("", "Qus_CrtTime,Qus_LastTime");
+                    ques.Add(JObject.Parse(json));
+                }
+                jo.Add("ques", ques);
+                jarr.Add(jo);
             }
-            XmlDocument doc = new XmlDocument();
-
-            return doc;
+            return jarr;
         }
-        public static TestPaperHandler Putout(long tpid)
-        {
-            TestPaperHandler tp = new TestPaperHandler(tpid);
-            //生成试卷
-            tp.PagerContents = tpcom.Putout(tp.TestPaperEntity, false);
-            return tp;
-        }
+        /// <summary>
+        /// 输出试卷为xml，答题状态
+        /// </summary>
+        /// <returns></returns>
         public XmlDocument ToXml()
         {
             XmlDocument doc = new XmlDocument();
             XmlDeclaration xmlDeclaration = doc.CreateXmlDeclaration("1.0", "UTF-8", null);
             doc.AppendChild(xmlDeclaration);
+            //创建根节点
+            XmlElement root = doc.CreateElement("results");
+            root.SetAttribute("tpid", this.TestPaperEntity.Tp_Id.ToString());   //试卷ID
+            root.SetAttribute("sbjid", this.TestPaperEntity.Sbj_ID.ToString());   //专业id
+            root.SetAttribute("sbjname", this.TestPaperEntity.Sbj_Name.ToString());   //专业名称
+            doc.AppendChild(root);
             Dictionary<TestPaperItem, List<Questions>> dics = this.PagerContents;
             foreach (var di in dics)
             {
+                //按题型输出
+                Song.Entities.TestPaperItem pi = (Song.Entities.TestPaperItem)di.Key;   //试题类型
+                List<Questions> questions = (List<Questions>)di.Value;   //当前类型的试题
+                XmlElement elques = doc.CreateElement("ques");
+                elques.SetAttribute("type", pi.TPI_Type.ToString());
+                elques.SetAttribute("count", questions.Count.ToString());
+                elques.SetAttribute("number", pi.TPI_Number.ToString());
+                //
+                foreach (Song.Entities.Questions q in questions)
+                {
+                    XmlElement elq = doc.CreateElement("q");
+                    elq.SetAttribute("id", q.Qus_ID.ToString());
+                    elq.SetAttribute("num", q.Qus_Number.ToString());
+                    elq.SetAttribute("ans", "");
+                    elq.SetAttribute("file", "");
+                    elq.SetAttribute("sucess", "false");
+                    elq.SetAttribute("score", "0");
+                    elques.AppendChild(elq);
+                }
+                root.AppendChild(elques);
             }
 
             return doc;
         }
+        /// <summary>
+        /// 根据试卷生成答题的xml解析对象
+        /// </summary>
+        /// <returns></returns>
         public Results ToResults()
-        {           
-
-            return null;
+        {
+            XmlDocument doc = this.ToXml();
+            Results results = new Results(doc.OuterXml);
+            return results;
         }
     }
 }

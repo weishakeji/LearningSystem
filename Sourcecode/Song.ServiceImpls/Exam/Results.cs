@@ -154,6 +154,10 @@ namespace Song.ServiceImpls.Exam
                 return score;
             }
         }
+        /// <summary>
+        /// 试题总数
+        /// </summary>
+        public int TotalCount { get; set; }
         #endregion
 
         #region 解析XML
@@ -206,6 +210,8 @@ namespace Song.ServiceImpls.Exam
                 QuesType qt = new QuesType(list[i]);
                 QuesTypes.Add(qt);
             }
+            //试题总数
+            TotalCount = QuesTypes.Sum(q => q.Count);
         }
         #endregion
 
@@ -302,7 +308,7 @@ namespace Song.ServiceImpls.Exam
             if (highest < lowest) highest = lowest;     //最高分不能小于最低分
             if (score <= 0 || score > highest || score < lowest)
                 score = highest == 0 && lowest == 0 ? 0 : (float)Math.Round((highest + lowest) / 2 * 100) / 100;
-            //试卷满分
+            //试卷总分
             float total = 0;
             foreach (QuesType qt in QuesTypes) total += qt.Number;
             if (score > total) score = total;
@@ -320,6 +326,8 @@ namespace Song.ServiceImpls.Exam
                     this.QuesTypes[i].SetScore(scoretm);
                 }
             }
+            //试题当前索引
+            this.QuesIndex = TotalCount <= 2 ? 0 : new Random().Next(1, TotalCount - 1);
             return this.Score;
         }     
        

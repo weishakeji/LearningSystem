@@ -39,16 +39,28 @@ namespace UnitTest.Helper
             }
             return false;
         }
+
+
         /// <summary>
-        /// 获取XML文件
+        /// 获取当前应用根目录的文件
         /// </summary>
         /// <returns></returns>
-        public static string GetXML()
+        public static string GetFilePath()
         {
             DirectoryInfo dir = new DirectoryInfo(StartupPath);
             while (!dir.Name.Equals("UnitTest", StringComparison.CurrentCultureIgnoreCase) && dir.Parent != null)
                 dir = dir.Parent;
             return System.IO.Path.Combine(dir.FullName, "examresult.xml");
+        }
+        /// <summary>
+        /// 获取Web站点下的文件
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public static string GetWebFilePath(string file)
+        {
+            string path = Helper.Path.WebSitePath();
+            return System.IO.Path.Combine(path, file);
         }
     }
 }

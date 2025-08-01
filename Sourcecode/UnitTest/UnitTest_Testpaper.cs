@@ -20,6 +20,10 @@ namespace UnitTest
 
             string xml = doc.OuterXml;
 
+            Song.ServiceImpls.Exam.Results results = new Song.ServiceImpls.Exam.Results(xml);
+            float score = results.SetScore(75);
+            string text = results.OutputXML(false);
+
             Assert.IsNotNull(xml);
         }
     }

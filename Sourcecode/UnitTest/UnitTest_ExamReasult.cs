@@ -22,7 +22,7 @@ namespace UnitTest
             Helper.DbProvider.SetDbGateway();
 
 
-            string path = Helper.Path.GetXML();
+            string path = Helper.Path.GetFilePath();
             string xml = System.IO.File.ReadAllText(path);
             Song.ServiceImpls.Exam.Results results = new Song.ServiceImpls.Exam.Results(xml);
 
@@ -63,7 +63,7 @@ namespace UnitTest
         public void RebuildAnsNode()
         {
             Helper.DbProvider.SetDbGateway();
-            string path = Helper.Path.GetXML();
+            string path = Helper.Path.GetFilePath();
             string xml = System.IO.File.ReadAllText(path);
             Song.ServiceImpls.Exam.Results results = new Song.ServiceImpls.Exam.Results(xml);
 
@@ -80,7 +80,7 @@ namespace UnitTest
         public void TypeSetScore()
         {
             Helper.DbProvider.SetDbGateway();
-            string path = Helper.Path.GetXML();
+            string path = Helper.Path.GetFilePath();
             string xml = System.IO.File.ReadAllText(path);
             Song.ServiceImpls.Exam.Results results = new Song.ServiceImpls.Exam.Results(xml);
 
