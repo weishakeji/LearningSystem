@@ -1,11 +1,10 @@
+REM 设置网站路径与端口
+set path=WebSite
+set port=8080
 
 @echo off
 echo 微厦在线学习考试系统 启动中...
 echo.
-
-REM 设置网站路径与端口
-set path=WebSite
-set port=8080
 
 REM 设置网站所在路径，默认为当前当前文件夹
 set BASE_DIR=%~dp0
