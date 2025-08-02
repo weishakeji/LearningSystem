@@ -1,8 +1,8 @@
+@echo off
 REM 设置网站路径与端口
 set path=WebSite
 set port=8080
 
-@echo off
 echo 微厦在线学习考试系统 启动中...
 echo.
 
