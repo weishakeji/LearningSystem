@@ -2,16 +2,18 @@
 
 :root {
     /*页面背景色*/
-    --bg-color: rgb(2, 42, 82);
+    --bg-color: rgb(59 147 235);
     /*管理界面的背景色*/
     --admin-bg-color: rgb(27, 87, 148);
     /*时间的颜色*/
     --time-color:#ccc;
+
 }
 
 
 panel#admin {
     background: url('bg.jpg');
+    background-size: cover;
 }
 
 #mainbody>div:first-child {

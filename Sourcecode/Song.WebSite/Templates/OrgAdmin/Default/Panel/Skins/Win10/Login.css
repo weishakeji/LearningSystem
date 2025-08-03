@@ -31,7 +31,7 @@
 
     /*滑块,依次：前景色、背景色，滑块前景色、滑块背景色，滑道背景色*/
     --login-drag-color: #999;
-    --login-drag-bgcolor: #09364c;
+    --login-drag-bgcolor: hsl(199deg 66.31% 27.08% / 60%);
     --login-dragbox-color: #fff;
     --login-dragbox-bgcolor: #bbb;
     --login-dragslide-bgcolor: #aaa;

@@ -25,7 +25,7 @@ $ctrljs(function () {
         $api.cache('Platform/PlatInfo:60'),
         $api.get('Organization/current')
     ).then(([platinfo, organ]) => {
-        //皮肤设置
+        //皮肤设置,默认取第一个：'Admin2025', 'Education', 'win10', 'win7'
         window.$skins.setup('', function (skin) {
             if (skin == null) return;
             console.log(skin);
