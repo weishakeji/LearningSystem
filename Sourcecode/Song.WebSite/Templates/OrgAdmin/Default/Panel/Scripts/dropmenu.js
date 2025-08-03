@@ -317,7 +317,6 @@
 					let obj = dropmenu._getObj(n);
 					let data = obj.getData(nid);
 					//
-					console.error(data);
 					obj.trigger('click', {
 						data: data
 					});
