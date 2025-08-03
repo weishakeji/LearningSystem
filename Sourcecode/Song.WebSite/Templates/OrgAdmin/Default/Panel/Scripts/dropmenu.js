@@ -193,7 +193,7 @@
 
 			function _childs(item, obj) {
 				let panel = $dom(document.createElement('drop-panel'));
-				panel.attr('root',obj.target);
+				panel.attr('root', obj.target);
 				panel.attr('pid', item.id).level(item.level + item.index + 1);
 				if (item.level == 1) panel.addClass('level1');
 				//计算高度
@@ -234,7 +234,7 @@
 			obj.domtit.find('drop-node').bind('mouseover', function (event) {
 				let n = event.target ? event.target : event.srcElement;
 				while (n.tagName.toLowerCase() != 'drop-node') n = n.parentNode;
-				let node = $dom(n);				
+				let node = $dom(n);
 				let obj = dropmenu._getObj(n);
 				let nid = node.attr('nid');
 				//隐藏其它面板
@@ -317,6 +317,7 @@
 					let obj = dropmenu._getObj(n);
 					let data = obj.getData(nid);
 					//
+					console.error(data);
 					obj.trigger('click', {
 						data: data
 					});
@@ -341,22 +342,15 @@
 		let span = null;
 		if (item.type == 'link') {
 			let link = node.add('a');
-			if (item.img) {
-				link.add('ico').add('img').attr('src', item.img);
-			} else {
-				link.add('ico').html(item.ico ? '&#x' + item.ico : '');
-			}
+			if (item.img) link.add('ico').add('img').attr('src', item.img);
+			else link.add('ico').html(item.ico ? '&#x' + item.ico : '');
 			link.attr('href', item.url).attr('target', item.target ? item.target : '_blank');
 			span = link.add('span');
 		} else {
-			if (item.img) {
-				node.add('ico').add('img').attr('src', item.img);
-			} else {
-				node.add('ico').html(item.ico ? '&#x' + item.ico : '');
-			}
+			if (item.img) node.add('ico').add('img').attr('src', item.img);
+			else node.add('ico').html(item.ico ? '&#x' + item.ico : '');
 			span = node.add('span');
 		}
-
 		//字体样式
 		if (item.font) {
 			if (item.font.color && item.font.color != null) {
