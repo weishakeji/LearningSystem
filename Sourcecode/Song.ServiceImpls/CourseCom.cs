@@ -402,7 +402,7 @@ namespace Song.ServiceImpls
         /// 学员购买的该课程,以及学员组关联的课程,不分页，不排序
         /// </summary>
         /// <param name="stid">学员id</param>
-        /// <param name="sear"></param>
+        /// <param name="sear">用于检索课程的字符</param>
         /// <param name="state">0不管是否过期，1必须是购买时效内的，2必须是购买时效外的</param>
         /// <param name="enable">是否启用</param>
         /// <param name="istry"></param>
