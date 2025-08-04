@@ -26,7 +26,7 @@
 
      /*查询面板，依次：背景色、内阴影、边框颜色、内容区背景*/
      --querypanel-title-color: rgb(0 67 83);
-     --querypanel-bg-color: rgb(255 255 255 / 50%);
+     --querypanel-bg-color: rgb(171 231 253 / 40%);
      --querypanel-bg-shadow: rgba(194, 194, 194, 0.2);
      --querypanel-border-color: #829a9f;
      --querypanel-area-bgcolor: rgb(255 255 255 / 20%);

@@ -9,100 +9,94 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <div id="vapp" v-cloak>
-            <div class="toolsbar">
-                <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" path="TitleModify" width="600"
-                    height="350" :selects='selects' idkey='Ths_ID' table="datatables"></btngroup>
-                <query_panel :model="form" :loading="loading">
-                    <el-form-item label="">
-                        <el-input v-model.trim="form.name" clearable style="width:150px"
-                            @keyup.enter.native="handleCurrentChange()">
-                            <i class="el-icon-search" slot="suffix" v-on:click="handleCurrentChange()"> </i>
-                        </el-input>
-                    </el-form-item>
-                </query_panel>
-            </div>
-
-            <el-table ref="datatables"  border resizable  :data="datas" tooltip-effect="dark" style="width: 100%;" v-loading="loading"
-                @selection-change="val=>selects=val"
-                @row-dblclick="(row, column, event)=>$refs.btngroup.modify(row[$refs.btngroup.idkey])" row-key="Ths_ID"
-                :row-class-name="data=>{return data.row.Ths_IsUse ? 'enable' : 'disabled';}" draggable>
-                <el-table-column type="selection" width="35">
-                </el-table-column>
-                <el-table-column type="index" width="50" align="center">
-                    <template slot-scope="scope">
-                        <span>{{scope.$index + 1}}</span>
-                    </template>
-                </el-table-column>
-                <el-table-column label="职称" width="150">
-                    <template slot-scope="scope">
-                        <span v-html="showsearch(scope.row.Ths_Name,form.name)" class="draghandle large"> </span>                       
-                    </template>
-                </el-table-column>
-                <el-table-column label="教师" width="60">
-                    <template slot-scope="scope">                      
-                        <teacher_count :sortid="scope.row.Ths_ID"></teacher_count>
-                    </template>
-                </el-table-column>
-                <el-table-column label="课程数" width="100">
-                    <template slot-scope="scope">
-                        <course_count :thsid="scope.row.Ths_ID"></course_count>
-                    </template>
-                </el-table-column>
-                <el-table-column label="备注" min-width="150">
-                    <template slot-scope="scope">
-                        {{scope.row.Ths_Intro}}
-                    </template>
-                </el-table-column>
-                <el-table-column label="默认" width="100">
-                    <template slot-scope="scope">
-                        <span class="el-icon-loading" v-if="loadingid==scope.row.Ths_ID"></span>
-                        <div v-else>
-                            <el-tag type="danger" v-if="scope.row.Ths_IsDefault">
-                                <icon>&#xe747</icon>默认项
-                            </el-tag>
-                            <el-popconfirm v-else confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
-                                icon-color="red" title="是否将当前项设置为默认？" @confirm="setDefault(scope.row.Ths_ID)">
-                                <el-tag type="info" v-if="!scope.row.Ths_IsDefault" slot="reference">
-                                    普通
-                                </el-tag>
-                            </el-popconfirm>
-
-                        </div>
-                    </template>
-                </el-table-column>
-                <el-table-column label="启用" width="100">
-                    <template slot-scope="scope">
-                        <span class="el-icon-loading" v-show="loadingid==scope.row.Ths_ID"></span>
-                        <div v-show="loadingid!=scope.row.Ths_ID">
-                            <el-switch v-model="scope.row.Ths_IsUse" @change="changeState(scope.row)"
-                                active-color="#13ce66" inactive-color="#ff4949" v-show="loadingid!=scope.row.Ths_ID"
-                                :active-text="scope.row.Ths_IsUse ? '启用' : '禁用'">
-                            </el-switch>
-                        </div>
-                    </template>
-                </el-table-column>
-                <el-table-column label="操作" width="120" align="center">
-                    <template slot-scope="scope">
-                        <span class="el-icon-loading" v-if="loadingid==scope.row.Ths_ID"></span>
-                        <el-button-group v-else>
-                            <el-link type="primary" plain icon="el-icon-edit"
-                                @click='$refs.btngroup.modify(scope.row.Ths_ID)'>
-                                修改
-                            </el-link>
-                            <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
-                                icon-color="red" title="确定删除吗？" @confirm="$refs.btngroup.delete(scope.row.Ths_ID,{})">
-                                <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除
-                                </el-link>
-                            </el-popconfirm>
-                        </el-button-group>
-                    </template>
-                </el-table-column>
-            </el-table>
-
-
-
+        <div class="toolsbar">
+            <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" path="TitleModify" width="600" height="350"
+                :selects='selects' idkey='Ths_ID' table="datatables"></btngroup>
+            <query_panel :model="form" :loading="loading">
+                <el-form-item label="">
+                    <el-input v-model.trim="form.name" clearable style="width:150px"
+                        @keyup.enter.native="handleCurrentChange()">
+                        <i class="el-icon-search" slot="suffix" v-on:click="handleCurrentChange()"> </i>
+                    </el-input>
+                </el-form-item>
+            </query_panel>
         </div>
+        <el-table ref="datatables" border resizable :data="datas" tooltip-effect="dark" style="width: 100%;"
+            v-loading="loading" @selection-change="val=>selects=val"
+            @row-dblclick="(row, column, event)=>$refs.btngroup.modify(row[$refs.btngroup.idkey])" row-key="Ths_ID"
+            :row-class-name="data=>{return data.row.Ths_IsUse ? 'enable' : 'disabled';}" draggable>
+            <el-table-column type="selection" width="35">
+            </el-table-column>
+            <el-table-column type="index" width="50" align="center">
+                <template slot-scope="scope">
+                    <span>{{scope.$index + 1}}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="职称" width="150">
+                <template slot-scope="scope">
+                    <span v-html="showsearch(scope.row.Ths_Name,form.name)" class="draghandle large"> </span>
+                </template>
+            </el-table-column>
+            <el-table-column label="教师" width="60">
+                <template slot-scope="scope">
+                    <teacher_count :sortid="scope.row.Ths_ID"></teacher_count>
+                </template>
+            </el-table-column>
+            <el-table-column label="课程数" width="100">
+                <template slot-scope="scope">
+                    <course_count :thsid="scope.row.Ths_ID"></course_count>
+                </template>
+            </el-table-column>
+            <el-table-column label="备注" min-width="150">
+                <template slot-scope="scope">
+                    {{scope.row.Ths_Intro}}
+                </template>
+            </el-table-column>
+            <el-table-column label="默认" width="100">
+                <template slot-scope="scope">
+                    <span class="el-icon-loading" v-if="loadingid==scope.row.Ths_ID"></span>
+                    <div v-else>
+                        <el-tag type="danger" v-if="scope.row.Ths_IsDefault">
+                            <icon>&#xe747</icon>默认项
+                        </el-tag>
+                        <el-popconfirm v-else confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
+                            icon-color="red" title="是否将当前项设置为默认？" @confirm="setDefault(scope.row.Ths_ID)">
+                            <el-tag type="info" v-if="!scope.row.Ths_IsDefault" slot="reference">
+                                普通
+                            </el-tag>
+                        </el-popconfirm>
+
+                    </div>
+                </template>
+            </el-table-column>
+            <el-table-column label="启用" width="100">
+                <template slot-scope="scope">
+                    <span class="el-icon-loading" v-show="loadingid==scope.row.Ths_ID"></span>
+                    <div v-show="loadingid!=scope.row.Ths_ID">
+                        <el-switch v-model="scope.row.Ths_IsUse" @change="changeState(scope.row)" active-color="#13ce66"
+                            inactive-color="#ff4949" v-show="loadingid!=scope.row.Ths_ID"
+                            :active-text="scope.row.Ths_IsUse ? '启用' : '禁用'">
+                        </el-switch>
+                    </div>
+                </template>
+            </el-table-column>
+            <el-table-column label="操作" width="120" align="center">
+                <template slot-scope="scope">
+                    <span class="el-icon-loading" v-if="loadingid==scope.row.Ths_ID"></span>
+                    <el-button-group v-else>
+                        <el-link type="primary" plain icon="el-icon-edit"
+                            @click='$refs.btngroup.modify(scope.row.Ths_ID)'>
+                            修改
+                        </el-link>
+                        <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
+                            icon-color="red" title="确定删除吗？" @confirm="$refs.btngroup.delete(scope.row.Ths_ID,{})">
+                            <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除
+                            </el-link>
+                        </el-popconfirm>
+                    </el-button-group>
+                </template>
+            </el-table-column>
+        </el-table>
     </div>
 </body>
 

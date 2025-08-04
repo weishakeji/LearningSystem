@@ -120,28 +120,30 @@ dl, dd {
 }
 
 /*表格背景透明*/
-
+.el-table, .el-table__expanded-cell{
+	background-color: transparent;
+}
 .table-wrapper .el-table--fit {
 	padding: 20px;
 }
 
-.el-table, .el-table__expanded-cell {
-	--background-color: transparent !important;
-}
-
 .el-table th, .el-table tr {
-	--background-color: transparent !important;
+	background-color: rgba(255, 255, 255, 0.3) !important;
 }
 
 .el-table--enable-row-transition .el-table__body td, .el-table .cell {
-	--background-color: transparent !important;
+	background-color: transparent !important;
 }
-
+.el-table__header td,.el-table__header th{
+	background-color: rgba(255, 255, 255, 0.5) !important;
+}
 /*选中行，高亮显示*/
 tr.el-table__row:has(.el-checkbox.is-checked) td.el-table__cell {
 	background-color: rgb(217, 236, 255) !important;
 }
-
+.el-table--striped .el-table__body tr.el-table__row--striped td.el-table__cell {
+    background: rgba(255, 255, 255, 0.8) !important;;
+}
 /*当表格行处理禁用状态时*/
 table.el-table__body tr.disabled td, table.el-table__body tr.disabled *:not(.el-link, .red, red, alert, warning) {
 	color: #aaa !important;
