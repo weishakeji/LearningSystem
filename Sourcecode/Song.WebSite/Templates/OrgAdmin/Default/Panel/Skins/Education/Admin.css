@@ -8,6 +8,10 @@ body {
 panel#admin {
     background-image: linear-gradient(to bottom right,  rgb(36 89 82),#58c198,#ffb83c 80%,#ffb83c 100%);
 }
+panel#admin {
+    background: url('bg.jpg');
+    background-size: cover;
+}
 #user-area drop_roots  drop-node * {
     color: #eee !important;
 }

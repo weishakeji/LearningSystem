@@ -2,7 +2,7 @@
 
 .treemenu {
     /*左侧选项卡的背景、背景色、选中背景色（右侧面板同色）*/
-    --tag-color: #0e0e0e;
+    --tag-color: #eee;
     --tag-bg: rgb(66 89 113 / 0%);
     --tag-selected-bg: rgb(200 237 255);
 

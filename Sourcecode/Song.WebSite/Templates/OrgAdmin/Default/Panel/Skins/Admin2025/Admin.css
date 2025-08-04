@@ -19,10 +19,7 @@
 panel#admin {
     background-image: linear-gradient(to right, rgb(112 125 131) 30%, rgb(140 197 148));
 }
-panel#admin {
-    background: url('bg.jpg');
-    background-size: cover;
-}
+
 /*主区域*/
 #mainbody {
     height: calc(100% - 48px);
