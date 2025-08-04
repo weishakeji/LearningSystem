@@ -27,7 +27,7 @@
     --node-curr-border: solid 1px rgb(84 206 243 / 60%);
     /*查询面板，依次：背景色、内阴影、边框颜色、内容区背景*/
     --querypanel-title-color: #333;
-    --querypanel-bg-color: rgb(229 247 255);
+    --querypanel-bg-color: rgb(229 247 255 / 40%);
     --querypanel-bg-shadow: rgba(64, 158, 255, 0.2);
     --querypanel-border-color: #5d9ead;
     --querypanel-area-bgcolor: rgb(199 232 239 / 30%);

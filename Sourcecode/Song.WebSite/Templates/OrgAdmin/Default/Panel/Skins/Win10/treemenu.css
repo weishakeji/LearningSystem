@@ -25,10 +25,10 @@
     --node-curr-border: solid 1px rgb(9 164 199 / 60%);
     /*查询面板，依次：背景色、内阴影、边框颜色、内容区背景*/
     --querypanel-title-color: #222;
-    --querypanel-bg-color: rgb(93 178 209);
+    --querypanel-bg-color: rgb(93 178 209 / 40%);
     --querypanel-bg-shadow: rgba(64, 158, 255, 0.2);
     --querypanel-border-color: #5d9ead;
-    --querypanel-area-bgcolor: rgb(199 232 239 / 30%);
+    --querypanel-area-bgcolor: rgba(255, 255, 255, 0.3);
     /*查询面板中的文字颜色*/
     --querypanel-treetit-color: #fff;
     --querypanel-treenode-color: rgb(46 63 81);
@@ -55,4 +55,14 @@
 .treemenu tree_box.current>tree-node::before {
     box-shadow: none !important;
     background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+div.querypanel>section>section>tree_area {
+    padding: 0px;
+    box-sizing: border-box;
+    height: calc(100% - 30px);
+    background-color: var(--querypanel-area-bgcolor);
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 25%,
+            transparent 25%, transparent 50%, rgba(255, 255, 255, 0.05) 50%,
+            rgba(255, 255, 255, 0.1) 75%, transparent 75%, transparent);
 }
