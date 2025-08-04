@@ -15,24 +15,24 @@
     --title-color: #fff;
     --title-bg: rgb(81 147 117);
     /*菜单项，滑标滑过的效果，依次为：前景色、背景色、边线、阴影*/
-    --node-hover-color: #eef5e8;
+    --node-hover-color: rgb(81 147 117);
     --node-hover-bg: transparent;
-    --node-hover-border: solid 1px rgba(160, 160, 160, 0.6);
+    --node-hover-border: solid 1px rgb(163 159 159 / 80%);
     --node-hover-shadow: none;
     /*菜单项，当前选中的颜色与背景色*/
-    --node-curr-color: #fff;
-    --node-curr-bg: transparent;
-    --node-curr-border: solid 1px rgb(163 159 159 / 80%);
+    --node-curr-color: rgb(81 147 117);
+    --node-curr-bg: rgba(255, 255, 255, 0.8);
+    --node-curr-border: solid 1px rgba(1, 128, 96, 0.6);
 
      /*查询面板，依次：背景色、内阴影、边框颜色、内容区背景*/
-     --querypanel-title-color: rgb(255 255 255);
-     --querypanel-bg-color: rgb(5 145 106);
-     --querypanel-bg-shadow: rgb(8 8 8 / 20%);
+     --querypanel-title-color: rgb(0 67 83);
+     --querypanel-bg-color: rgba(194, 194, 194, 0.3);
+     --querypanel-bg-shadow: rgba(194, 194, 194, 0.2);
      --querypanel-border-color: #829a9f;
-     --querypanel-area-bgcolor: rgb(6 18 12 / 51%);
+     --querypanel-area-bgcolor: rgb(255 255 255 / 20%);
       /*查询面板中的文字颜色*/
       --querypanel-treetit-color: rgb(251 251 251);
-      --querypanel-treenode-color: #c3c3c3;
+      --querypanel-treenode-color: #535151;
      --querypanel-treenode-shadow: none;
 }
 
@@ -51,4 +51,16 @@
 }
 .treemenu a, .treemenu tree-node{
     text-shadow: none;
+}
+div.querypanel>section{
+    background-image:none;
+}
+div.querypanel>section>section>tree_area {
+    padding: 0px;
+    box-sizing: border-box;
+    height: calc(100% - 30px);
+    background-color: var(--querypanel-area-bgcolor);
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 25%,
+            transparent 25%, transparent 50%, rgba(255, 255, 255, 0.05) 50%,
+            rgba(255, 255, 255, 0.1) 75%, transparent 75%, transparent);
 }

@@ -1,1 +1,25 @@
 ﻿@charset "utf-8";
+.tabsbox {
+    /*标题文字,背景*/
+    --tab-tag-color: rgb(0, 0, 0);
+    --tab-tag-bgcolor: rgba(255, 255, 255);
+    --tab-focus-bgcolor: rgb(255, 254, 254);
+    --tab-path-color: rgb(97, 97, 97);
+    /*按钮*/
+    --tab-close-bgcolor: rgb(255, 255, 255);
+    --tab-close-hovercolor: #ccc;
+    --tab-btn-color: #666;
+    /*更多的面板*/
+    --tab-more-bgcolor: rgba(255, 253, 253, 0.8);
+    /*内容区背景*/
+    --tab-body-bgcolor: rgba(255, 255, 255,.8);
+    /*右键菜单,依次为：前景色，背景色，分隔线，边线颜色*/
+    --tab-menu-color: #666;
+    --tab-menu-bgcolor: #eee;
+    --tab-menu-hr: #ddd;
+    --tab-menu-border: #999;
+    /*右键菜单，鼠标滑过，依次为：背景色，边线色，阴影*/
+    --tab-menu-hover-bgcolor: rgba(161, 197, 247, 0.2);
+    --tab-menu-hover-border: rgba(161, 197, 247, 0.8);
+    --tab-menu-hover-shadow: rgb(255, 255, 255) 0px 0px 3px inset;
+}
