@@ -520,8 +520,15 @@ div.querypanel>section header>div[query] input {
     font-size: 16px;
     box-sizing: border-box;
     padding: 0px 25px 0px 30px;
+    border: 1px solid #aaa;
+    transition: all 0.3s;
+    background-color: rgba(255, 255, 255, 0.3);
 }
-
+div.querypanel>section header>div[query] input:focus{
+    outline: none;
+    border: 1px solid #aaa;
+    background-color: #fff;
+}
 div.querypanel>section header>div[query] clear {
     position: absolute;
     right: 5px;
