@@ -25,7 +25,7 @@
     --querypanel-bg-color: rgb(235 235 235);
     --querypanel-bg-shadow: rgba(64, 158, 255, 0.2);
     --querypanel-border-color: #5d9ead;
-    --querypanel-area-bgcolor: rgb(199 232 239 / 30%);
+    --querypanel-area-bgcolor: rgb(245 245 245);
      /*查询面板中的文字颜色*/
      --querypanel-treetit-color: rgb(34, 98, 194);
      --querypanel-treenode-color: #6c6c6c;
