@@ -24,7 +24,7 @@
 
         },
         watch: {
-           
+
         },
         created: function () {
             var th = this;
@@ -192,23 +192,23 @@
                 methods: {
                     //查看当前考试的成绩列表
                     btnResultView: function (row) {
-                        var file = 'ResultsDetail?id=' + row.Exam_ID;
-                        var boxid = "ResultsDetail_" + row.Exam_ID + "_" + file;
-                        var title = '  “' + row.Exam_Title + "”";
-                        window.vapp.openbox(file, boxid, title, 1200, '80%', { 'ico': 'e696' });
+                        this.btnOpen(row, 'ResultsDetail', '查看成绩', 'e696', 1200, '80%');
                     },
                     //打开人工批阅
                     btnResultManual: function (row) {
-                        var file = 'ResultsManual?id=' + row.Exam_ID, title;
-                        var boxid = "ResultsManual_" + row.Exam_ID + "_" + file;
-                        var title = ' 人工判卷/批阅 - “' + row.Exam_Title + "”";
-                        window.vapp.openbox(file, boxid, title, 1000, '80%', { 'ico': 'e696' });
+                        this.btnOpen(row, 'ResultsManual', '人工判卷/批阅', 'e696', 1000, '80%');
+                    },
+                    //打开未参加考试的人员
+                    btnResultManual: function (row) {
+                        this.btnOpen(row, 'AbsenceList', '未参加考试人员', 'e696', 1000, '80%');
                     },
                     btnOpen: function (row, file, title, icon, width, height) {
                         file = $api.url.set(file, { 'id': row.Exam_ID });
                         let boxid = file + "_" + row.Exam_ID;
                         var title = title + '  - “' + row.Exam_Title + "”";
-                        window.vapp.openbox(file, boxid, title, 1000, '80%', { 'ico': icon });
+                        if (width == null) width = "80%";
+                        if (height == null) height = "80%";
+                        window.vapp.openbox(file, boxid, title, width, height, { 'ico': icon });
                     },
                 },
                 template: `<div><el-row :gutter="20" class="row_title">
@@ -234,7 +234,7 @@
                 </el-col>
                 <el-col :span="2" remark="缺考人数"><loading asterisk v-if="item.absence==-1"></loading>
                     <el-tooltip  v-else content="查看/导出缺考人员" placement="bottom" effect="light">
-                        <el-link type="info" @click="btnResultView(item)">{{item.absence}}</el-link>      
+                        <el-link type="info" @click="btnResultManual(item)">{{item.absence}}</el-link>      
                     </el-tooltip> 
                 </el-col>
                 <el-col :span="2" v-if="item.manual">
