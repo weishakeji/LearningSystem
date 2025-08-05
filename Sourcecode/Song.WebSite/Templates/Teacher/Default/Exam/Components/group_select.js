@@ -57,7 +57,7 @@ Vue.component('group_select', {
         getSelectedSort: function () {
             var th = this;
             if (th.theme.Exam_ID <= 0) return;
-            $api.get('Exam/groups', { 'uid': th.theme.Exam_UID }).then(function (req) {
+            $api.get('Exam/Groups', { 'uid': th.theme.Exam_UID }).then(function (req) {
                 if (req.data.success) {
                     var result = req.data.result;
                     for (var i = 0; i < result.length; i++)

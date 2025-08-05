@@ -751,6 +751,12 @@ namespace Song.ServiceInterfaces
 
         #region 统计数据
         /// <summary>
+        /// 账号总数
+        /// </summary>
+        /// <param name="orgid">机构id，小于或等0取所有</param>
+        /// <returns></returns>
+        int Total(int orgid);        
+        /// <summary>
         /// 统计各个年龄段的学员
         /// </summary>
         /// <param name="orgid">机构id</param>

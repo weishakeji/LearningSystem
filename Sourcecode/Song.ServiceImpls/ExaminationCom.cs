@@ -1384,10 +1384,7 @@ namespace Song.ServiceImpls
         {
             Examination[] exam = this.ExamItem(uid);
             double rate = 0;
-            foreach (Examination ex in exam)
-            {
-                rate += this.PassRate4Exam(ex);
-            }
+            foreach (Examination ex in exam) rate += this.PassRate4Exam(ex);
             return rate / exam.Length;
         }
         /// <summary>
@@ -1402,6 +1399,11 @@ namespace Song.ServiceImpls
             if (exam == null) return 0;
             return this.PassRate4Exam(exam);
         }
+        /// <summary>
+        /// 计算某场考试的及极率
+        /// </summary>
+        /// <param name="exam"></param>
+        /// <returns></returns>
         public double PassRate4Exam(Examination exam)
         {
             int sum = Gateway.Default.Count<ExamResults>(ExamResults._.Exam_ID == exam.Exam_ID && ExamResults._.Exr_ScoreFinal >= 0);
@@ -1467,20 +1469,7 @@ namespace Song.ServiceImpls
             double tm = obj is DBNull ? 0 : Convert.ToDouble(obj);
             tm = Math.Round(Math.Round(tm * 10000) / 10000, 2, MidpointRounding.AwayFromZero);
             return tm;
-        }
-        /// <summary>
-        /// 当前考试的参考人数
-        /// </summary>
-        /// <param name="examid"></param>
-        /// <returns></returns>
-        public int Number4Exam(int examid)
-        {
-            //ExamResults[] erx = Gateway.Default.From<ExamResults>().Where(ExamResults._.Exam_ID == examid)
-            //    .SubQuery().Select(ExamResults._.Exr_ID.Sum()).GroupBy(ExamResults._.Ac_ID.Group).ToArray<ExamResults>();
-            //return erx.Length;
-            return Gateway.Default.Count<ExamResults>(ExamResults._.Exam_ID == examid);
-            
-        }
+        }       
         /// <summary>
         /// 参加考试主题的学员列表
         /// </summary>
@@ -1918,6 +1907,118 @@ namespace Song.ServiceImpls
                 }
             }
             return papers;
+        }
+        #endregion
+
+        #region 统计
+        /// <summary>
+        /// 考试主题下允许参考的学员数量
+        /// </summary>
+        /// <param name="examid">考试主题的ID</param>
+        /// <returns></returns>
+        public int NumberOfStudent(int examid)
+        {
+            Examination exam = this.ExamSingle(examid);
+            return NumberOfStudent(exam);
+        }
+        /// <summary>
+        /// 考试主题下允许参考的学员数量
+        /// </summary>
+        /// <param name="exam">考试主题的ID</param>
+        /// <returns></returns>
+        public int NumberOfStudent(Examination exam)
+        {
+            if (!exam.Exam_IsTheme) exam = Gateway.Default.From<Examination>().Where(Examination._.Exam_IsTheme == true && Examination._.Exam_UID == exam.Exam_UID).ToFirst<Examination>();
+            //先计算需要参加考试的人数
+            int total = 0;
+            //如果参考人员为全体学员
+            if (exam.Exam_GroupType == 1) total = Gateway.Default.Count<Accounts>(Accounts._.Org_ID == exam.Org_ID);
+            //按学员组计算
+            if (exam.Exam_GroupType == 2)
+            {
+                StudentSort[] sts = this.GroupForStudentSort(exam.Exam_UID);
+                WhereClip wc = new WhereClip();
+                foreach (StudentSort ss in sts) wc.Or(Accounts._.Sts_ID == ss.Sts_ID);
+                total = Gateway.Default.Count<Accounts>(wc);
+            }
+            return total;
+        }
+        /// <summary>
+        /// 当前考试的参考人次，如果学员多次考试，则人次大于人数
+        /// </summary>
+        /// <param name="examid"></param>
+        /// <returns></returns>
+        public int Numbertimes4Exam(int examid)
+        {
+            return Gateway.Default.Count<ExamResults>(ExamResults._.Exam_ID == examid);
+        }
+        /// <summary>
+        /// 当前考试的参考人数
+        /// </summary>
+        /// <param name="examid">考试场次id</param>
+        /// <returns></returns>
+        public int Number4Exam(int examid)
+        {
+            return Gateway.Default.From<ExamResults>().Where(ExamResults._.Exam_ID == examid).Select(ExamResults._.Ac_ID)
+                .GroupBy(ExamResults._.Ac_ID.Group).Count();
+        }
+        /// <summary>
+        /// 当前考试的缺考的人数
+        /// </summary>
+        /// <param name="examid"></param>
+        /// <returns></returns>
+        public int NumberAbsence4Exam(int examid)
+        {
+            //先计算需要参加考试的人数
+            int total = this.NumberOfStudent(examid);
+            //已经参加考试的人数
+            int examnum = this.Number4Exam(examid);
+            return total - examnum;
+        }
+        /// <summary>
+        /// 当前考试主题的参考人次，如果学员多次考试，则人次大于人数
+        /// </summary>
+        /// <param name="examid">考试主题的id</param>
+        /// <returns></returns>
+        public int Numbertimes4Theme(int examid)
+        {
+            Examination exam = this.ExamSingle(examid);
+            if (!exam.Exam_IsTheme) return this.Numbertimes4Exam(examid);
+            //考试主题下的所有考试场次
+            Examination[] exams = this.ExamItem(exam.Exam_UID);
+            WhereClip wc = new WhereClip();
+            foreach (Examination em in exams) wc.Or(ExamResults._.Exam_ID == em.Exam_ID);
+            return Gateway.Default.Count<ExamResults>(wc);
+        }
+        /// <summary>
+        /// 当前考试的参考人数
+        /// </summary>
+        /// <param name="examid">考试主题的id</param>
+        /// <returns></returns>
+        public int Number4Theme(int examid)
+        {
+            Examination exam = this.ExamSingle(examid);
+            if (!exam.Exam_IsTheme) return this.Number4Exam(examid);
+            //考试主题下的所有考试场次
+            Examination[] exams = this.ExamItem(exam.Exam_UID);
+            WhereClip wc = new WhereClip();
+            foreach (Examination em in exams) wc.Or(ExamResults._.Exam_ID == em.Exam_ID);
+            //
+            return Gateway.Default.From<ExamResults>().Where(wc).Select(ExamResults._.Ac_ID)
+                .GroupBy(ExamResults._.Ac_ID.Group).Count();
+        }
+        /// <summary>
+        /// 当前考试的缺考的人数
+        /// </summary>
+        /// <param name="examid">考试主题的id</param>
+        /// <returns></returns>
+        public int NumberAbsence4Theme(int examid)
+        {
+            //先计算需要参加考试的人数
+            int total = this.NumberOfStudent(examid);
+            //已经参加考试的人数
+            int examnum = this.Number4Theme(examid);
+            return total - examnum;
         }
         #endregion
     }

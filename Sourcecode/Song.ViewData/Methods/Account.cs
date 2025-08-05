@@ -977,7 +977,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public int SortOfNumber(long sortid)
         {
-            return Business.Do<IStudent>().SortOfNumber(sortid);
+            return Business.Do<IStudent>().TotalOfSort(sortid);
         }
         /// <summary>
         /// 添加学员组

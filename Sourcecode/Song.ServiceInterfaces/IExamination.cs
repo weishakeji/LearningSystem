@@ -357,13 +357,7 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="examid">考试场次id</param>
         /// <returns></returns>
-        double Lowest4Exam(int examid);
-        /// <summary>
-        /// 当前考试的参考人数
-        /// </summary>
-        /// <param name="examid">考试场次id</param>
-        /// <returns></returns>
-        int Number4Exam(int examid);
+        double Lowest4Exam(int examid);        
         /// <summary>
         /// 参加考试主题的学员列表
         /// </summary>
@@ -442,7 +436,54 @@ namespace Song.ServiceInterfaces
         #endregion
 
         #region 统计
-
+        /// <summary>
+        /// 考试主题下允许参考的学员数量
+        /// </summary>
+        /// <param name="examid">考试主题的ID</param>
+        /// <returns></returns>
+        int NumberOfStudent(int examid);
+        /// <summary>
+        /// 考试主题下允许参考的学员数量
+        /// </summary>
+        /// <param name="exam">考试主题的实体</param>
+        /// <returns></returns>
+        int NumberOfStudent(Examination exam);
+        /// <summary>
+        /// 当前考试的参考人次，如果学员多次考试，则人次大于人数
+        /// </summary>
+        /// <param name="examid">考试场次id</param>
+        /// <returns></returns>
+        int Numbertimes4Exam(int examid);
+        /// <summary>
+        /// 当前考试的参考人数
+        /// </summary>
+        /// <param name="examid">考试场次id</param>
+        /// <returns></returns>
+        int Number4Exam(int examid);
+        /// <summary>
+        /// 当前考试的缺考的人数
+        /// </summary>
+        /// <param name="examid"></param>
+        /// <returns></returns>
+        int NumberAbsence4Exam(int examid);
+        /// <summary>
+        /// 当前考试主题的参考人次，如果学员多次考试，则人次大于人数
+        /// </summary>
+        /// <param name="examid">考试主题的id</param>
+        /// <returns></returns>
+        int Numbertimes4Theme(int examid);
+        /// <summary>
+        /// 当前考试的参考人数
+        /// </summary>
+        /// <param name="examid">考试主题的id</param>
+        /// <returns></returns>
+        int Number4Theme(int examid);
+        /// <summary>
+        /// 当前考试的缺考的人数
+        /// </summary>
+        /// <param name="examid">考试主题的id</param>
+        /// <returns></returns>
+        int NumberAbsence4Theme(int examid);
         #endregion
     }
 }

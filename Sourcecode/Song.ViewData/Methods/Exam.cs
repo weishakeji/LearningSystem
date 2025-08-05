@@ -758,7 +758,7 @@ namespace Song.ViewData.Methods
         [HttpGet]
         public JObject AttendCount(int examid)
         {            
-            int num = Business.Do<IExamination>().Number4Exam(examid);
+            int num = Business.Do<IExamination>().Numbertimes4Exam(examid);
             JObject jo = new JObject();
             jo.Add("id", examid);
             jo.Add("number", num);
@@ -766,7 +766,7 @@ namespace Song.ViewData.Methods
         }
 
         /// <summary>
-        /// 考试主题下的参考人数
+        /// 考试主题下的参考人次
         /// </summary>
         /// <param name="examid">考试id</param>
         /// <returns>id:考试id,number:参考人数</returns>
@@ -782,7 +782,7 @@ namespace Song.ViewData.Methods
             Song.Entities.Examination[] exams = Business.Do<IExamination>().ExamItem(theme.Exam_UID);
             for (int i = 0; i < exams.Length; i++)
             {
-                total += Business.Do<IExamination>().Number4Exam(exams[i].Exam_ID);
+                total += Business.Do<IExamination>().Numbertimes4Exam(exams[i].Exam_ID);
             }
             JObject jo = new JObject();
             jo.Add("id", examid);
@@ -831,7 +831,7 @@ namespace Song.ViewData.Methods
         {
             bool manual = false;
             //考生数，如果没有人考试，则不需要批阅
-            int students = Business.Do<IExamination>().Number4Exam(examid);
+            int students = Business.Do<IExamination>().Numbertimes4Exam(examid);
             if (students > 0)
             {
                 Song.Entities.Examination exas = Business.Do<IExamination>().ExamSingle(examid);

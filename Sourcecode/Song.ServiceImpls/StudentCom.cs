@@ -205,9 +205,20 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="stsid"></param>
         /// <returns></returns>
-        public int SortOfNumber(long stsid)
+        public int TotalOfSort(long stsid)
         {
             return Gateway.Default.Count<Accounts>(Accounts._.Sts_ID == stsid);
+        }
+        /// <summary>
+        /// 指定学员组的账号数
+        /// </summary>
+        /// <param name="sts">学员组的学员数量</param>
+        /// <returns></returns>
+        public int TotalOfSort(long[] sts)
+        {
+            WhereClip wc = new WhereClip();
+            foreach (long l in sts) wc.Or(Accounts._.Sts_ID == l);
+            return Gateway.Default.Count<Accounts>(wc);
         }
         /// <summary>
         /// 更新学员组中的学员数量

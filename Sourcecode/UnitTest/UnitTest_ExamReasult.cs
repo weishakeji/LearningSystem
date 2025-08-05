@@ -97,5 +97,31 @@ namespace UnitTest
             //float score = results.Score;
             Assert.IsTrue(score > 0);
         }
+
+        /// <summary>
+        /// 考试的人数
+        /// </summary>
+
+        [TestMethod]
+        public void Number4Exam()
+        {
+            Helper.DbProvider.SetDbGateway();
+            Song.ServiceImpls.ExaminationCom com = new ExaminationCom();
+
+            try
+            {
+                int number = com.Number4Exam(857);
+                int abs = com.NumberAbsence4Exam(857);
+
+
+                Assert.AreEqual(number, 2255);
+
+                Assert.AreEqual(abs, 2255);
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+
+        }
     }
 }

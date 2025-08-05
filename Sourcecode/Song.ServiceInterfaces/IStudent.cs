@@ -97,7 +97,13 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="stsid"></param>
         /// <returns></returns>
-        int SortOfNumber(long stsid);
+        int TotalOfSort(long stsid);
+        /// <summary>
+        /// 指定学员组的账号数
+        /// </summary>
+        /// <param name="sts">学员组的学员数量</param>
+        /// <returns></returns>
+        int TotalOfSort(long[] sts);
         /// <summary>
         /// 更新学员组中的学员数量
         /// </summary>
