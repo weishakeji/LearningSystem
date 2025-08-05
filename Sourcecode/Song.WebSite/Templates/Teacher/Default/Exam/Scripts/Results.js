@@ -1,6 +1,6 @@
 ﻿$ready(function () {
-    window.vue = new Vue({
-        el: '#app',
+    window.vapp = new Vue({
+        el: '#vapp',
         data: {
             organ: {},
             config: {},      //当前机构配置项      
@@ -143,7 +143,7 @@
                 th.form.size = Math.floor(area / 49);
                 $api.get('Exam/ThemeAdminPager', this.form).then(function (req) {
                     if (req.data.success) {
-                        window.vue.datas = req.data.result;
+                        th.datas = req.data.result;
                         th.totalpages = Number(req.data.totalpages);
                         th.total = req.data.total;
                     } else {
@@ -163,7 +163,7 @@
             //打开弹窗
             openbox: function (file, boxid, title, width, height, params) {
                 if (params == null) params = {};
-                window.vue.$refs.btngroup.pagebox(file, title, boxid, width, height, params);
+                this.$refs.btngroup.pagebox(file, title, boxid, width, height, params);
             },
             //表格行点击事件
             clickTable: function (row, index, e) {
@@ -258,7 +258,7 @@
                                     $api.get("Exam/AttendCount", { 'examid': th.examlist[i].Exam_ID }),
                                     $api.cache("Exam/AbsenceCount", { 'examid': th.examlist[i].Exam_ID }),
                                     $api.cache("Exam/Manual4Exam", { 'examid': th.examlist[i].Exam_ID })
-                                ).then(([avg, num, absence,manual]) => {
+                                ).then(([avg, num, absence, manual]) => {
                                     for (var n = 0; n < th.examlist.length; n++) {
                                         if (th.examlist[n].Exam_ID == avg.data.result.id) {
                                             th.examlist[n].avg = avg.data.result.average;
@@ -281,15 +281,21 @@
                         var file = 'ResultsDetail?id=' + row.Exam_ID;
                         var boxid = "ResultsDetail_" + row.Exam_ID + "_" + file;
                         var title = '  “' + row.Exam_Title + "”";
-                        window.vue.openbox(file, boxid, title, 1200, '80%', { 'ico': 'e696' });
+                        window.vapp.openbox(file, boxid, title, 1200, '80%', { 'ico': 'e696' });
                     },
                     //打开人工批阅
                     btnResultManual: function (row) {
                         var file = 'ResultsManual?id=' + row.Exam_ID, title;
                         var boxid = "ResultsManual_" + row.Exam_ID + "_" + file;
                         var title = ' 人工判卷/批阅 - “' + row.Exam_Title + "”";
-                        window.vue.openbox(file, boxid, title, 1000, '80%', { 'ico': 'e696' });
-                    }
+                        window.vapp.openbox(file, boxid, title, 1000, '80%', { 'ico': 'e696' });
+                    },
+                    btnOpen: function (row, file, title, icon, width, height) {
+                        file = $api.url.set(file, { 'id': row.Exam_ID });
+                        let boxid = file + "_" + row.Exam_ID;
+                        var title = title + '  - “' + row.Exam_Title + "”";
+                        window.vapp.openbox(file, boxid, title, 1000, '80%', { 'ico': icon });
+                    },
                 },
                 template: `<div><el-row :gutter="20" class="row_title">
                 <el-col :span="8">考试场次</el-col>
@@ -309,12 +315,14 @@
                 <el-col :span="2"><loading asterisk v-if="item.avg==-1"></loading><span v-else>{{item.avg}}</span></el-col>
                 <el-col :span="2" remark="参考人数"><loading asterisk v-if="item.number==-1"></loading>
                     <el-tooltip  v-else content="点击查看成绩" placement="bottom" effect="light">
-                        <el-link type="primary" @click="btnResultView(item)" class="Exam_Name">
-                        {{item.number}}
-                        </el-link>      
+                        <el-link type="primary" @click="btnResultView(item)">{{item.number}}</el-link>      
                     </el-tooltip>   
                 </el-col>
-                <el-col :span="2"><loading asterisk v-if="item.absence==-1"></loading><span v-else>{{item.absence}}</span></el-col>
+                <el-col :span="2" remark="缺考人数"><loading asterisk v-if="item.absence==-1"></loading>
+                    <el-tooltip  v-else content="查看/导出缺考人员" placement="bottom" effect="light">
+                        <el-link type="info" @click="btnResultView(item)">{{item.absence}}</el-link>      
+                    </el-tooltip> 
+                </el-col>
                 <el-col :span="2" v-if="item.manual">
                     <el-tooltip content="考试存在主观题，需要人工判卷" placement="bottom" effect="light">
                         <el-link type="primary" @click="btnResultManual(item)"><icon>&#xa02e</icon>批阅</el-link> 

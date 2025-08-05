@@ -1452,6 +1452,7 @@
     <Content Include="Templates\Teacher\Default\Course\Scripts\List.js" />
     <Content Include="Templates\Teacher\Default\Course\Styles\Messages.css" />
     <Content Include="Templates\Teacher\Default\Course\Styles\List.css" />
+    <Content Include="Templates\Teacher\Default\Exam\AbsenceList.html" />
     <Content Include="Templates\Teacher\Default\Exam\Components\exam_items.js" />
     <Content Include="Templates\Teacher\Default\Exam\Components\group_select.js" />
     <Content Include="Templates\Teacher\Default\Exam\Components\setscore.js" />
@@ -1462,11 +1463,13 @@
     <Content Include="Templates\Teacher\Default\Exam\ResultsOutput.html" />
     <Content Include="Templates\Teacher\Default\Exam\ResultsSummarize.html" />
     <Content Include="Templates\Teacher\Default\Exam\ResultsManual.html" />
+    <Content Include="Templates\Teacher\Default\Exam\Scripts\AbsenceList.js" />
     <Content Include="Templates\Teacher\Default\Exam\Scripts\List.js" />
     <Content Include="Templates\Teacher\Default\Exam\Scripts\Modify.js" />
     <Content Include="Templates\Teacher\Default\Exam\Scripts\ResultsOutput.js" />
     <Content Include="Templates\Teacher\Default\Exam\Scripts\ResultsSummarize.js" />
     <Content Include="Templates\Teacher\Default\Exam\Scripts\ResultsManual.js" />
+    <Content Include="Templates\Teacher\Default\Exam\Styles\AbsenceList.css" />
     <Content Include="Templates\Teacher\Default\Exam\Styles\List.css" />
     <Content Include="Templates\Teacher\Default\Exam\Styles\Modify.css" />
     <Content Include="Templates\Teacher\Default\Exam\Styles\ResultsOutput.css" />
