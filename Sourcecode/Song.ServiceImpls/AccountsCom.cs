@@ -2258,7 +2258,7 @@ namespace Song.ServiceImpls
         public int Total(int orgid)
         {
             WhereClip wc = new WhereClip();
-            if (orgid >= 0) wc &= Accounts._.Org_ID == orgid;
+            if (orgid > 0) wc &= Accounts._.Org_ID == orgid;
             return Gateway.Default.Count<Accounts>(wc);
         }
         /// <summary>

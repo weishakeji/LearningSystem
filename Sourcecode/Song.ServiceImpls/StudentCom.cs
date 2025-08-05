@@ -212,12 +212,12 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 指定学员组的账号数
         /// </summary>
-        /// <param name="sts">学员组的学员数量</param>
+        /// <param name="sts">学员组的id</param>
         /// <returns></returns>
         public int TotalOfSort(long[] sts)
         {
             WhereClip wc = new WhereClip();
-            foreach (long l in sts) wc.Or(Accounts._.Sts_ID == l);
+            foreach (long l in sts) if (l > 0) wc.Or(Accounts._.Sts_ID == l);
             return Gateway.Default.Count<Accounts>(wc);
         }
         /// <summary>

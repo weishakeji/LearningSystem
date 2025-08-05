@@ -48,7 +48,8 @@
                     </el-form-item>
                     <el-form-item label="状态" prop="Exam_State">
                         <el-row>
-                            <el-switch v-model="entity.Exam_IsUse" :active-text="entity.Exam_IsUse ? '启用' : '禁用'"> </el-switch>
+                            <el-switch v-model="entity.Exam_IsUse" :active-text="entity.Exam_IsUse ? '启用' : '禁用'">
+                            </el-switch>
                         </el-row>
                         <el-row>
                             <el-switch v-model="entity.Exam_IsToggle"
@@ -58,7 +59,8 @@
                             <el-switch v-model="entity.Exam_IsShowBtn" active-text="显示确认按钮"> </el-switch>
                         </el-row>
                         <el-row>
-                            <el-switch v-model="entity.Exam_IsRightClick" :active-text="entity.Exam_IsRightClick ? '禁用右键' : '允许右键'"> </el-switch>
+                            <el-switch v-model="entity.Exam_IsRightClick"
+                                :active-text="entity.Exam_IsRightClick ? '禁用右键' : '允许右键'"> </el-switch>
                         </el-row>
                     </el-form-item>
                     <el-form-item label="简述" prop="Exam_Intro">
@@ -69,8 +71,8 @@
                 <div v-show="activeName=='exams'">
                     <exam_items ref="exam_items" :theme="entity" :organ="organ" @addexam="addexam"></exam_items>
                 </div>
-                <div v-show="activeName=='range'">
-                    <el-form-item label="" prop="Exam_GroupType" label-width="10px">
+                <div v-show="activeName=='range'" class="range">
+                    <el-form-item label="" prop="Exam_GroupType" label-width="10px" class="grouptype">
                         <el-radio-group v-model="entity.Exam_GroupType">
                             <el-radio-button :label="1">
                                 <icon>&#xe67d</icon>全体学生
@@ -79,8 +81,11 @@
                                 <icon>&#xe812</icon>限定分组
                             </el-radio-button>
                         </el-radio-group>
+                        <icon student size="large">{{studenttotal}}</icon>
                     </el-form-item>
-                    <group_select ref="group_select" :type="entity.Exam_GroupType" :theme="entity" :organ="organ">
+
+                    <group_select ref="group_select" @selected="groupselected" :type="entity.Exam_GroupType"
+                        :theme="entity" :organ="organ">
                     </group_select>
                 </div>
             </el-form>

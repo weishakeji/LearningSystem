@@ -1794,6 +1794,30 @@ namespace Song.ViewData.Methods
 
         #region 统计信息
         /// <summary>
+        /// 学员数量
+        /// </summary>
+        /// <param name="orgid">机构id，小于或等0取所有</param>
+        /// <returns></returns>
+        public int Total(int orgid)
+        {
+            return Business.Do<IAccounts>().Total(orgid);
+        }
+        /// <summary>
+        /// 指定学员组的账号数
+        /// </summary>
+        /// <param name="sts">学员组的学员数量</param>
+        /// <returns></returns>
+        public int TotalOfSort(string sts)
+        {
+            List<long> list = new List<long>();
+            foreach(string t in sts.Split(','))
+            {
+                long tm = t.Convert<long>();
+                list.Add(tm);
+            }
+            return Business.Do<IStudent>().TotalOfSort(list.ToArray());
+        }
+        /// <summary>
         /// 统计各个年龄段的学员
         /// </summary>
         /// <param name="orgid">机构id</param>

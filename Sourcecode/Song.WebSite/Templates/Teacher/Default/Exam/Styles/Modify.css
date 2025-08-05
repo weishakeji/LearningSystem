@@ -7,9 +7,11 @@
 .el-tabs {
     margin: 10px 10px 0px 10px;
 }
+
 .el-tabs__nav-scroll {
     padding-left: 8px;
 }
+
 .el-tabs icon {
     font-size: 18px;
 }
@@ -42,103 +44,11 @@
     box-sizing: border-box;
 }
 
-
-
-/*图片上传*/
-.art_logo {
-    margin: 0px 0px 0px 20px;
-    width: calc(100% - 20px);
-    height: calc(100% - 10px) !important;
-    overflow: hidden;
+/*参加考试的学员数量*/
+.grouptype>div.el-form-item__content icon[student] {
+    float: right;
 }
-
-.art_logo .img_tools {
-    height: 30px;
-    display: flex;
-    line-height: 30px;
-}
-
-.art_logo .img_tools+div {
-    height: calc(100% - 30px) !important;
-    width: 100%;
-    overflow: auto;
-}
-
-.upload_img_area {
-    margin-right: 40px;
-}
-
-.upload_img_area * {
-    font-size: 14px !important;
-}
-
-.upload_img_area .error {
-    top: 30px;
-    display: table;
-    width: 300px;
-}
-
-/*附件管理*/
-.art_access {
-    margin: 0px 0px 0px 20px;
-    width: calc(100% - 20px);
-    height: calc(100% - 10px) !important;
-    overflow: hidden;
-}
-
-.art_access .file_tools {
-    height: 30px;
-    display: flex;
-    line-height: 30px;
-    margin-bottom: 20px;
-
-}
-
-.art_access .file_tools+dl {
-    height: calc(100% - 60px) !important;
-    width: 100%;
-    overflow: auto;
-}
-
-.art_access dl, .art_access dd {
-    margin: 0px;
-    padding: 0px;
-}
-
-.art_access dd {
-    display: block;
-    line-height: 30px;
-    position: relative;
-    padding: 0px 10px 0px 15px;
-    box-sizing: border-box;
-}
-
-.art_access dd:nth-child(even) {
-    background-color: #eee;
-}
-
-.art_access dd a span:first-child {
-    margin-right: 8px;
-}
-
-.art_access dd .el-link {
-    position: absolute;
-    right: 0px;
-    top: 10px;
-}
-.art_access dd .el-link::before{
-    margin-right: 8px;
-}
-.upload_file_area {
-    margin-right: 40px;
-}
-
-.upload_file_area * {
-    font-size: 14px !important;
-}
-
-.upload_file_area .error {
-    top: 36px;
-    display: table;
-    width: 300px;
+.stscount{
+    margin-left: 10px;
+    color: #909399;
 }

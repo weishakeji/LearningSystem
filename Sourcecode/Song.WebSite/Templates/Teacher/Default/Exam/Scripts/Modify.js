@@ -38,6 +38,8 @@ $ready(function () {
             },
             //考试时间区间（当设置为“设定时间区间”时)
             dateRange: [],
+            //参考的学员数量
+            studenttotal: 0,
 
             loadstate: {
                 init: false,        //初始化            
@@ -58,7 +60,12 @@ $ready(function () {
                     this.dateRange[0] = this.entity.Exam_Date = date;
                     this.dateRange[1] = this.entity.Exam_DateOver = over;
                 }
-                console.log(nv);
+                //console.log(nv);
+            },
+            //当学员范围变化时
+            'entity.Exam_GroupType': function (nv, ov) {
+                this.groupselected();
+
             }
         },
         created: function () {
@@ -114,6 +121,29 @@ $ready(function () {
             //当前增加场次时
             addexam: function (exam, exams) {
                 this.$forceUpdate();
+            },
+            //参考人员的学员组变更时
+            groupselected: function (stsid, sorts) {
+                var api = null;
+                if (stsid == null) {
+                    stsid = [];
+                    let groups = this.$refs['group_select'].examGroup;
+                    for (var i = 0; i < groups.length; i++) {
+                        stsid.push(groups[i].Sts_ID);
+                    }
+                }
+                if (this.entity.Exam_GroupType == 1) api = $api.get('Account/Total', { "orgid": "" });
+                else api = $api.get('Account/TotalOfSort', { "sts": stsid.join(',') });
+                var th = this;
+                api.then(req => {
+                    if (req.data.success) {
+                        th.studenttotal = req.data.result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => { });
             },
             //保存
             btnEnter: function (formName, isclose) {

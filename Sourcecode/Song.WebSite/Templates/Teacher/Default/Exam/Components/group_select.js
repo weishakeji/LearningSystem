@@ -61,7 +61,7 @@ Vue.component('group_select', {
                 if (req.data.success) {
                     var result = req.data.result;
                     for (var i = 0; i < result.length; i++)
-                        th.selectedSorts.push(result[i].Sts_ID);
+                        th.selectedSorts.push(result[i].Sts_ID);                 
                     th.completed--;
                 } else {
                     console.error(req.data.exception);
@@ -98,14 +98,18 @@ Vue.component('group_select', {
             }
             this.examGroup = groups;
             console.log(arr);
+            this.$emit('selected', val, arr);
             return arr;
-        }
+        },
 
     },
     //
     template: `<div class="SortSelected" v-show="type==2">
         <el-transfer v-model="selectedSorts" :props="{key: 'Sts_ID',label: 'Sts_Name'}" filterable
         :titles="['学员组', '已选择的学员组']" :data="studentSorts" @change="selectedObj">
+            <span slot-scope="{ option }">
+                {{ option.Sts_Name }} <span class="stscount">({{ option.Sts_Count }})</span>
+            </span>
         </el-transfer>
     </div>`
 });
