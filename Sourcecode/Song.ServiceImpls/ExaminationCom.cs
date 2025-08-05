@@ -1473,7 +1473,7 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 参加考试主题的学员列表
         /// </summary>
-        /// <param name="id">考试主题的id</param>
+        /// <param name="examid">考试主题的id</param>
         /// <param name="name"></param>
         /// <param name="idcard"></param>
         /// <param name="stsid"></param>
@@ -1481,7 +1481,7 @@ namespace Song.ServiceImpls
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public List<Accounts> AttendThemeAccounts(int id, string name, string idcard, long stsid, int size, int index, out int countSum)
+        public List<Accounts> AttendThemeAccounts(int examid, string name, string idcard, long stsid, int size, int index, out int countSum)
         {
             //下述Sql语句，兼容Sqlserver,postgresql,sqlite
             //当前考试主题下的所有参考学员
@@ -1489,11 +1489,12 @@ namespace Song.ServiceImpls
                             MAX(""Exr_OverTime"") as Exr_OverTime, MAX(""Sts_ID"") as Sts_ID
             from ""ExamResults"" where {where} and ({examid}) group by ""Ac_ID""";
             //考试id的判断条件            
-            Examination[] items = this.ExamItem(id);
-            string examid = string.Empty;
+            Examination[] items = this.ExamItem(examid);
+            //if (items.Length < 1) return null;
+            string exam_id = string.Empty;
             for (int i = 0; items != null && i < items.Length; i++)
-                examid += @"""Exam_ID""=" + items[0].Exam_ID + (i < items.Length - 1 ? " or " : "");
-            sql = sql.Replace("{examid}", string.IsNullOrWhiteSpace(examid) ? "1=1" : examid);
+                exam_id += @"""Exam_ID""=" + items[0].Exam_ID + (i < items.Length - 1 ? " or " : "");
+            sql = sql.Replace("{examid}", string.IsNullOrWhiteSpace(exam_id) ? "1=0" : exam_id);
 
             //查询条件
             string where = " {stsid} and {name} and {idcard}";
@@ -1986,6 +1987,7 @@ namespace Song.ServiceImpls
             if (!exam.Exam_IsTheme) return this.Numbertimes4Exam(examid);
             //考试主题下的所有考试场次
             Examination[] exams = this.ExamItem(exam.Exam_UID);
+            if (exams.Length < 1) return 0;
             WhereClip wc = new WhereClip();
             foreach (Examination em in exams) wc.Or(ExamResults._.Exam_ID == em.Exam_ID);
             return Gateway.Default.Count<ExamResults>(wc);
@@ -2001,6 +2003,7 @@ namespace Song.ServiceImpls
             if (!exam.Exam_IsTheme) return this.Number4Exam(examid);
             //考试主题下的所有考试场次
             Examination[] exams = this.ExamItem(exam.Exam_UID);
+            if (exams.Length < 1) return 0;
             WhereClip wc = new WhereClip();
             foreach (Examination em in exams) wc.Or(ExamResults._.Exam_ID == em.Exam_ID);
             //

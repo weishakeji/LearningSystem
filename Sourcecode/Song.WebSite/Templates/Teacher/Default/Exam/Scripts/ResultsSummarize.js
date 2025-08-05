@@ -10,7 +10,7 @@ $ready(function () {
             sorts: [],       //当前考试主题下参考学员的学员组
 
             form: {
-                id: $api.querystring('id'),
+                examid: $api.querystring('id'),
                 name: '', idcard: '', stsid: 0,
                 size: 20, index: 1
             },

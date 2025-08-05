@@ -51,9 +51,18 @@
                         </el-tooltip>
                     </template>
                 </el-table-column>
-                <el-table-column label="参考人次" width="100" align="center">
+                <el-table-column label="参考人数" width="100" align="center">
                     <template slot-scope="scope">
-                        <attend :exam="scope.row"></attend>
+                        <el-tooltip content="查看成绩" placement="bottom" effect="light">
+                            <el-link type="primary" @click="btnResultSummarize(scope.row)">
+                                <attendcount :exam="scope.row"  @click="btnResultSummarize(scope.row)"></attendcount>
+                            </el-link>
+                        </el-tooltip>                        
+                    </template>
+                </el-table-column>
+                <el-table-column label="应考人数" width="100" align="center">
+                    <template slot-scope="scope">
+                        <studenttotal :exam="scope.row"></studenttotal>
                     </template>
                 </el-table-column>
                 <el-table-column label="参考人员">

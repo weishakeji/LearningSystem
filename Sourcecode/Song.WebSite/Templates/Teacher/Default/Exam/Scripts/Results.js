@@ -172,13 +172,31 @@
             }
         },
         components: {
-            //考试主题的参考人员
-            'attend': {
+            //考试主题下应该考加的人员数
+            'studenttotal': {
                 props: ['exam'],
                 data: function () {
-                    return {
-                        num: -1
-                    }
+                    return { num: -1 }
+                },
+                created: function () {
+                    var th = this;
+                    $api.cache('Exam/StudentTotalTheme', { 'examid': this.exam.Exam_ID }).then(function (req) {
+                        if (req.data.success) {
+                            th.num = req.data.result.number;
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.data.message;
+                        }
+                    }).catch(err => console.error(err))
+                        .finally(() => { });
+                },
+                template: '<span><span class="el-icon-loading" v-if="num==-1"></span><span v-else>{{num}}</span></span>'
+            },
+            //考试主题下实际参加考试的人员数
+            'attendcount': {
+                props: ['exam'],
+                data: function () {
+                    return { num: -1 }
                 },
                 created: function () {
                     var th = this;
@@ -189,7 +207,8 @@
                             console.error(req.data.exception);
                             throw req.data.message;
                         }
-                    }).catch(err => console.error(err));
+                    }).catch(err => console.error(err))
+                        .finally(() => { });
                 },
                 template: '<span><span class="el-icon-loading" v-if="num==-1"></span><span v-else>{{num}}</span></span>'
             },
@@ -237,12 +256,14 @@
                                 $api.bat(
                                     $api.cache('Exam/Average4Exam', { 'examid': th.examlist[i].Exam_ID }),
                                     $api.get("Exam/AttendCount", { 'examid': th.examlist[i].Exam_ID }),
+                                    $api.cache("Exam/AbsenceCount", { 'examid': th.examlist[i].Exam_ID }),
                                     $api.cache("Exam/Manual4Exam", { 'examid': th.examlist[i].Exam_ID })
-                                ).then(([avg, num, manual]) => {
+                                ).then(([avg, num, absence,manual]) => {
                                     for (var n = 0; n < th.examlist.length; n++) {
                                         if (th.examlist[n].Exam_ID == avg.data.result.id) {
                                             th.examlist[n].avg = avg.data.result.average;
                                             th.examlist[n].number = num.data.result.number;
+                                            th.examlist[n].absence = absence.data.result.number;
                                             th.examlist[n].manual = manual.data.result.manual;
                                         }
                                     }
@@ -273,30 +294,34 @@
                 template: `<div><el-row :gutter="20" class="row_title">
                 <el-col :span="8">考试场次</el-col>
                 <el-col :span="6">专业</el-col>
-                <el-col :span="4">及格/满分</el-col>              
+                <el-col :span="2">及格/满分</el-col>              
                 <el-col :span="2">平均分</el-col>
                 <el-col :span="2">参考人数</el-col>
+                <el-col :span="2">缺考人数</el-col>
                 <el-col :span="2"></el-col>
               </el-row>
               <el-row :gutter="20" v-for="(item,index) in examlist"  :key="index">
                 <el-col :span="8">
-                    <el-tooltip content="点击查看成绩" placement="bottom" effect="light">
-                        <el-link type="primary" @click="btnResultView(item)" class="Exam_Name">
-                            <icon>&#xe696</icon>{{item.Exam_Name}}
-                        </el-link>      
-                    </el-tooltip>              
+                    {{item.Exam_Name}}                                 
                 </el-col>
                 <el-col :span="6">{{item.Sbj_Name}}</el-col>
-                <el-col :span="4">{{item.Exam_PassScore}}/{{item.Exam_Total}}</el-col>             
-                <el-col :span="2"><span class="el-icon-loading" v-if="item.avg==-1"></span><span v-else>{{item.avg}}</span></el-col>
-                <el-col :span="2"><span class="el-icon-loading" v-if="item.number==-1"></span><span v-else>{{item.number}}</span></el-col>
+                <el-col :span="2">{{item.Exam_PassScore}}/{{item.Exam_Total}}</el-col>             
+                <el-col :span="2"><loading asterisk v-if="item.avg==-1"></loading><span v-else>{{item.avg}}</span></el-col>
+                <el-col :span="2" remark="参考人数"><loading asterisk v-if="item.number==-1"></loading>
+                    <el-tooltip  v-else content="点击查看成绩" placement="bottom" effect="light">
+                        <el-link type="primary" @click="btnResultView(item)" class="Exam_Name">
+                        {{item.number}}
+                        </el-link>      
+                    </el-tooltip>   
+                </el-col>
+                <el-col :span="2"><loading asterisk v-if="item.absence==-1"></loading><span v-else>{{item.absence}}</span></el-col>
                 <el-col :span="2" v-if="item.manual">
                     <el-tooltip content="考试存在主观题，需要人工判卷" placement="bottom" effect="light">
                         <el-link type="primary" @click="btnResultManual(item)"><icon>&#xa02e</icon>批阅</el-link> 
                     </el-tooltip> 
                 </el-col>
               </el-row>
-              </div>`
+            </div>`
             }
         }
     });

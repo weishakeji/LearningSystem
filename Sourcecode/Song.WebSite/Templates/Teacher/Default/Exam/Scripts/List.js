@@ -126,8 +126,8 @@ $ready(function () {
             }
         },
         components: {
-            //考试主题的参考人员
-            'attend': {
+            //考试主题下应该考加的人员数
+            'studenttotal': {
                 props: ['exam'],
                 data: function () {
                     return {
@@ -136,7 +136,7 @@ $ready(function () {
                 },
                 created: function () {
                     var th = this;
-                    $api.cache('Exam/AttendTheme', { 'examid': this.exam.Exam_ID }).then(function (req) {
+                    $api.cache('Exam/StudentTotalTheme', { 'examid': this.exam.Exam_ID }).then(function (req) {
                         if (req.data.success) {
                             th.num = req.data.result.number;
                         } else {

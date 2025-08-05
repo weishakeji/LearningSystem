@@ -58,9 +58,9 @@
 
                     </template>
                 </el-table-column>
-                <el-table-column label="参考人次" width="100" align="center">
+                <el-table-column label="应参考人数" width="100" align="center">
                     <template slot-scope="scope">
-                        <attend :exam="scope.row"></attend>
+                        <studenttotal :exam="scope.row"></studenttotal>
                     </template>
                 </el-table-column>
                 <el-table-column label="参考人员">

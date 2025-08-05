@@ -37,7 +37,7 @@
         </div>
         <template>
             <el-table :data="accounts"  border resizable  style="width: 100%">
-                <el-table-column type="index" width="50" label="#">
+                <el-table-column type="index" width="80" label="#">
                     <template slot-scope="scope">
                         <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
                     </template>

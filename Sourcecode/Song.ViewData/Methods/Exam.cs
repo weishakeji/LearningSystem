@@ -764,26 +764,43 @@ namespace Song.ViewData.Methods
             jo.Add("number", num);
             return jo;
         }
-
         /// <summary>
-        /// 考试主题下的参考人次
+        /// 某场考试的缺考人数
+        /// </summary>
+        /// <param name="examid">考试id</param>
+        /// <returns>id:考试id,number:参考人数</returns>
+        [HttpGet]
+        public JObject AbsenceCount(int examid)
+        {
+            int num = Business.Do<IExamination>().NumberAbsence4Exam(examid);
+            JObject jo = new JObject();
+            jo.Add("id", examid);
+            jo.Add("number", num);
+            return jo;
+        }
+        /// <summary>
+        /// 考试主题下的参加考试人数
+        /// </summary>
+        /// <param name="examid">考试id</param>
+        /// <returns>id:考试id,number:参考人数</returns>
+        [HttpGet]
+        public JObject StudentTotalTheme(int examid)
+        {
+            int total = Business.Do<IExamination>().NumberOfStudent(examid);
+            JObject jo = new JObject();
+            jo.Add("id", examid);
+            jo.Add("number", total);
+            return jo;
+        }
+        /// <summary>
+        /// 考试主题下的参加考试人数
         /// </summary>
         /// <param name="examid">考试id</param>
         /// <returns>id:考试id,number:参考人数</returns>
         [HttpGet]
         public JObject AttendTheme(int examid)
         {
-            Song.Entities.Examination theme = Business.Do<IExamination>().ExamSingle(examid);
-            if (!theme.Exam_IsTheme)
-            {
-                return this.AttendCount(examid);
-            }
-            int total = 0;
-            Song.Entities.Examination[] exams = Business.Do<IExamination>().ExamItem(theme.Exam_UID);
-            for (int i = 0; i < exams.Length; i++)
-            {
-                total += Business.Do<IExamination>().Numbertimes4Exam(exams[i].Exam_ID);
-            }
+            int total = Business.Do<IExamination>().Number4Theme(examid);
             JObject jo = new JObject();
             jo.Add("id", examid);
             jo.Add("number", total);
@@ -805,17 +822,17 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 参加考试的所有学员，
         /// </summary>
-        /// <param name="id">考试主题的id</param>
+        /// <param name="examid">考试主题的id</param>
         /// <param name="name">学员姓名</param>
         /// <param name="idcard"></param>
         /// <param name="stsid"></param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public ListResult AttendThemeAccounts(int id, string name, string idcard, long stsid, int size,int index)
+        public ListResult AttendThemeAccounts(int examid, string name, string idcard, long stsid, int size,int index)
         {
             int total = 0;
-            List<Accounts> datas = Business.Do<IExamination>().AttendThemeAccounts(id, name, idcard, stsid,size, index, out total);
+            List<Accounts> datas = Business.Do<IExamination>().AttendThemeAccounts(examid, name, idcard, stsid,size, index, out total);
             ListResult result = new ListResult(datas);
             result.Index = index;
             result.Size = size;
