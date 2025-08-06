@@ -876,7 +876,9 @@ namespace Song.ServiceImpls
                 if ("asc".Equals(orderpattr, StringComparison.CurrentCultureIgnoreCase) ||
                     "desc".Equals(orderpattr, StringComparison.CurrentCultureIgnoreCase))
                     ordtype = orderpattr;
-                order = new OrderByClip(string.Format("__[Accounts]__.__[{0}]__ {1} ", orderby, ordtype));
+                //创建实体字段对象
+                Field field = new Field("Accounts", orderby);
+                order = new OrderByClip(field, ordtype);
             }
             Accounts[] accs = Gateway.Default.From<Accounts>().Where(wc).OrderBy(order).ToArray<Accounts>(size, (index - 1) * size);
             foreach (Song.Entities.Accounts ac in accs)

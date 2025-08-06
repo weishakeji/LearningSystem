@@ -1506,10 +1506,9 @@ namespace Song.ServiceImpls
             sql = sql.Replace("{where}", where);
 
             //数据库类型不同，造成的差异
-            if (Gateway.Default.DbType == DbProviderType.SQLServer)
-                sql = sql.Replace("true", "1").Replace("false", "0");
-            if (Gateway.Default.DbType == DbProviderType.PostgreSQL)
-                sql = sql.Replace("LIKE", "ILIKE");
+            if (Gateway.Default.DbType == DbProviderType.SQLServer) sql = sql.Replace("true", "1").Replace("false", "0");
+            if (Gateway.Default.DbType == DbProviderType.PostgreSQL) sql = sql.Replace("LIKE", "ILIKE");
+
             //计算总数
             string total = "select COUNT(*) as count from ( " + sql + ") as t ";
             object obj = Gateway.Default.FromSql(total).ToScalar();
@@ -1532,7 +1531,47 @@ namespace Song.ServiceImpls
                 return Gateway.Default.FromSql(result).ToList<Accounts>();
             }
         }
-        public ExamResults[] Results(int examid, string name, string idcard, long stsid, float min, float max, bool? manual, int size, int index, out int countSum)
+
+        /// <summary>
+        /// 某个考试场次所缺考的学员列表
+        /// </summary>
+        /// <param name="examid">考试场次的id</param>
+        /// <param name="name">学员姓名</param>
+        /// <param name="idcard">身份证号</param>
+        /// <param name="stsid">学员组id</param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <param name="countSum"></param>
+        /// <returns></returns>
+        public List<Accounts> AbsenceExamAccounts(int examid, string name, string idcard, long stsid, int size, int index, out int countSum)
+        {
+            StringBuilder sb=new StringBuilder(@"SELECT ""Accounts"".* FROM ""Accounts"" WHERE
+                 NOT EXISTS(
+                    SELECT 1 FROM ""ExamResults"" WHERE ""ExamResults"".""Exam_ID"" = 852 and ""ExamResults"".""Ac_ID"" = ""Accounts"".""Ac_ID"")
+                AND ""Accounts"".""Ac_Name"" LIKE '%张%'-- 不区分大小写的模糊查询
+                ORDER BY ""Accounts"".""Ac_ID""");
+            StringBuilder seacher = new StringBuilder();
+            WhereClip wc=new WhereClip();
+            wc.And(Accounts._.Ac_ID>0);
+            wc.ToString();
+            //Gateway.Default.FromSql(sb.ToString()).ToList<Accounts>();
+            throw new Exception();
+        }
+        /// <summary>
+        /// 当前考试场次下的学员成绩
+        /// </summary>
+        /// <param name="examid"></param>
+        /// <param name="name">学员姓名</param>
+        /// <param name="idcard">身份证号</param>
+        /// <param name="stsid">学员组ID</param>
+        /// <param name="min">按分数区间获取记录，此处是最低分</param>
+        /// <param name="max">最高分</param>
+        /// <param name="manual">是否批阅</param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <param name="countSum"></param>
+        /// <returns></returns>
+        public List<ExamResults> ResultsPager(int examid, string name, string idcard, long stsid, float min, float max, bool? manual, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if(examid>0) wc.And(ExamResults._.Exam_ID == examid);
@@ -1547,8 +1586,8 @@ namespace Song.ServiceImpls
             if (!string.IsNullOrWhiteSpace(name)) wc.And(ExamResults._.Ac_Name.Contains(name));           
             if (!string.IsNullOrWhiteSpace(idcard)) wc.And(ExamResults._.Ac_IDCardNumber.Contains(idcard));
             countSum = Gateway.Default.Count<ExamResults>(wc);
-            ExamResults[] exr = Gateway.Default.From<ExamResults>().Where(wc).OrderBy(ExamResults._.Exr_LastTime.Desc).ToArray<ExamResults>(size, (index - 1) * size);
-            for (int i = 0; i < exr.Length; i++)
+            List<ExamResults> exr = Gateway.Default.From<ExamResults>().Where(wc).OrderBy(ExamResults._.Exr_LastTime.Desc).ToList<ExamResults>(size, (index - 1) * size);
+            for (int i = 0; i < exr.Count; i++)
             {
                 if (exr[i].Exr_Score < 0 || exr[i].Exr_IsCalc == false)
                     exr[i] = ResultClacScore(exr[i]);
@@ -1562,16 +1601,16 @@ namespace Song.ServiceImpls
         /// <param name="examid">考试场次id</param>
         /// <param name="count">取多少条</param>
         /// <returns></returns>
-        public ExamResults[] Results(int examid, int count)
+        public List<ExamResults> Results(int examid, int count)
         {
             WhereClip wc = ExamResults._.Exam_ID == examid;
-            ExamResults[] exr = Gateway.Default.From<ExamResults>().Where(wc).OrderBy(ExamResults._.Exr_CrtTime.Desc).ToArray<ExamResults>();
-            for (int i = 0; i < exr.Length; i++)
+            List<ExamResults> exr = Gateway.Default.From<ExamResults>().Where(wc).OrderBy(ExamResults._.Exr_CrtTime.Desc).ToList<ExamResults>();
+            for (int i = 0; i < exr.Count; i++)
             {
                 if (exr[i].Exr_Score < 0 || exr[i].Exr_IsCalc == false)
                     exr[i] = ResultClacScore(exr[i]);
             }
-            exr = Gateway.Default.From<ExamResults>().Where(wc).OrderBy(ExamResults._.Exr_ScoreFinal.Desc).ToArray<ExamResults>(count);
+            exr = Gateway.Default.From<ExamResults>().Where(wc).OrderBy(ExamResults._.Exr_ScoreFinal.Desc).ToList<ExamResults>(count);
             return exr;
         }
 

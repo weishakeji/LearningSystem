@@ -121,6 +121,21 @@ namespace UnitTest
             {
                 throw ex;
             }
+        }
+        /// <summary>
+        /// 缺考的人数
+        /// </summary>
+
+        [TestMethod]
+        public void AbsenceExamAccounts()
+        {
+            Helper.DbProvider.SetDbGateway();
+
+            WhereClip wc = new WhereClip();
+            wc.And(Accounts._.Ac_ID == 1);
+            wc.And(Accounts._.Ac_IsUse == true);
+            wc.Or(Accounts._.Ac_IsPass == false);
+            string tm = wc.ToSQL();
 
         }
     }

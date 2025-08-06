@@ -357,11 +357,11 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="examid">考试场次id</param>
         /// <returns></returns>
-        double Lowest4Exam(int examid);        
+        double Lowest4Exam(int examid);
         /// <summary>
         /// 参加考试主题的学员列表
         /// </summary>
-        /// <param name="id">考试主题的id</param>
+        /// <param name="examid">考试主题的id</param>
         /// <param name="name">学员姓名</param>
         /// <param name="idcard">身份证号</param>
         /// <param name="stsid">学员组ID</param>
@@ -369,9 +369,21 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        List<Accounts> AttendThemeAccounts(int id, string name, string idcard, long stsid, int size, int index, out int countSum);
+        List<Accounts> AttendThemeAccounts(int examid, string name, string idcard, long stsid, int size, int index, out int countSum);
         /// <summary>
-        /// 当前考试场次下的所有人员成绩
+        /// 某个考试场次所缺考的学员列表
+        /// </summary>
+        /// <param name="examid">考试场次的id</param>
+        /// <param name="name">学员姓名</param>
+        /// <param name="idcard">身份证号</param>
+        /// <param name="stsid">学员组id</param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <param name="countSum"></param>
+        /// <returns></returns>
+        List<Accounts> AbsenceExamAccounts(int examid, string name, string idcard, long stsid, int size, int index, out int countSum);
+        /// <summary>
+        /// 当前考试场次下的学员成绩
         /// </summary>
         /// <param name="examid"></param>
         /// <param name="name">学员姓名</param>
@@ -384,7 +396,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        ExamResults[] Results(int examid, string name, string idcard, long stsid, float min, float max,bool? manual, int size, int index, out int countSum);
+        List<ExamResults> ResultsPager(int examid, string name, string idcard, long stsid, float min, float max,bool? manual, int size, int index, out int countSum);
       
         /// <summary>
         /// 当前考试场次下的所有人员成绩
@@ -392,7 +404,8 @@ namespace Song.ServiceInterfaces
         /// <param name="examid">考试场次id</param>
         /// <param name="count">取多少条</param>
         /// <returns></returns>
-        ExamResults[] Results(int examid, int count);
+        List<ExamResults> Results(int examid, int count);
+
         #endregion
 
         #region 成绩导出

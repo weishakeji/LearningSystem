@@ -1415,6 +1415,16 @@
     <Content Include="Templates\Student\Default\OtherLogin\Weixin.html" />
     <Content Include="Templates\Student\Default\OtherLogin\Yunzhijia.html" />
     <Content Include="Templates\Student\Default\OtherLogin\ZzGongshang.html" />
+    <Content Include="Templates\Student\Default\Question\Components\AnswerCard.js" />
+    <Content Include="Templates\Student\Default\Question\Components\ExercisesState.js" />
+    <Content Include="Templates\Student\Default\Question\Components\Quesbuttons.js" />
+    <Content Include="Templates\Student\Default\Question\Components\Question.js" />
+    <Content Include="Templates\Student\Default\Question\Errors.html" />
+    <Content Include="Templates\Student\Default\Question\Review.html" />
+    <Content Include="Templates\Student\Default\Question\Scripts\Errors.js" />
+    <Content Include="Templates\Student\Default\Question\Scripts\Review.js" />
+    <Content Include="Templates\Student\Default\Question\Styles\Errors.css" />
+    <Content Include="Templates\Student\Default\Question\Styles\Review.css" />
     <Content Include="Templates\Student\Default\Self\BindPhone.html" />
     <Content Include="Templates\Student\Default\Self\LoginLog.html" />
     <Content Include="Templates\Student\Default\Self\Scripts\BindPhone.js" />
