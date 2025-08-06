@@ -257,6 +257,11 @@ namespace Song.ServiceImpls
             wc.And(ExamResults._.Exam_ID == examid);
             return Gateway.Default.From<ExamResults>().Where(wc).OrderBy(ExamResults._.Exr_ScoreFinal.Desc).ToFirst<ExamResults>();
         }
+        /// <summary>
+        /// 获取考试主题
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns></returns>
         public Examination ExamSingle(string uid)
         {
             return Gateway.Default.From<Examination>().Where(Examination._.Exam_UID == uid && Examination._.Exam_IsTheme == true).ToFirst<Examination>();
@@ -995,14 +1000,30 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="examid"></param>
         /// <returns></returns>
-        public StudentSort[] StudentSort4Exam(int examid)
+        public List<StudentSort> ResultSort4Exam(int examid)
         {
             //下述Sql语句，兼容Sqlserver,postgresql,sqlite
-            string sql = @"select sts.""Sts_ID"", ""Sts_Name"",exr.count as Sts_Count from ""StudentSort"" as sts  inner join 
+            string sql = @"select sts.""Sts_ID"", ""Sts_Name"",exr.count as ""Sts_Count"" from ""StudentSort"" as sts  inner join 
                         (select ""Sts_ID"", COUNT(*) as count from ""ExamResults"" where ""ExamResults"".""Exam_ID"" = {0} group by ""Sts_ID"") as exr
                         on sts.""Sts_ID"" = exr.""Sts_ID"" order by sts.""Sts_Tax"" asc";
             sql = string.Format(sql, examid);
-            return Gateway.Default.FromSql(sql).ToArray<StudentSort>();
+            return Gateway.Default.FromSql(sql).ToList<StudentSort>();
+        }
+        /// <summary>
+        /// 未参加考试的学员的学员组
+        /// </summary>
+        /// <param name="examid">考试场次id</param>
+        /// <returns></returns>
+        public List<StudentSort> AbsenceSort4Exam(int examid)
+        {
+            //下述Sql语句，兼容Sqlserver,postgresql,sqlite
+            string sql = @"select ""StudentSort"".""Sts_ID"", ""Sts_Name"",acc.count as ""Sts_Count"" from ""StudentSort"" inner join 
+          (SELECT ""Accounts"".""Sts_ID"",COUNT(*) as count FROM ""Accounts"" WHERE 
+                NOT EXISTS (SELECT ""ExamResults"".""Ac_ID"" FROM ""ExamResults"" WHERE ""ExamResults"".""Exam_ID"" = {0} and ""ExamResults"".""Ac_ID"" = ""Accounts"".""Ac_ID"")
+             GROUP BY ""Accounts"".""Sts_ID"") as acc
+        on ""StudentSort"".""Sts_ID"" = acc.""Sts_ID"" order by ""StudentSort"".""Sts_Tax"" asc";
+            sql = string.Format(sql, examid);
+            return Gateway.Default.FromSql(sql).ToList<StudentSort>();
         }
         /// <summary>
         /// 考试主题下的所有参考人员成绩
@@ -1545,17 +1566,41 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public List<Accounts> AbsenceExamAccounts(int examid, string name, string idcard, long stsid, int size, int index, out int countSum)
         {
-            StringBuilder sb=new StringBuilder(@"SELECT ""Accounts"".* FROM ""Accounts"" WHERE
-                 NOT EXISTS(
-                    SELECT 1 FROM ""ExamResults"" WHERE ""ExamResults"".""Exam_ID"" = 852 and ""ExamResults"".""Ac_ID"" = ""Accounts"".""Ac_ID"")
-                AND ""Accounts"".""Ac_Name"" LIKE '%张%'-- 不区分大小写的模糊查询
-                ORDER BY ""Accounts"".""Ac_ID""");
-            StringBuilder seacher = new StringBuilder();
-            WhereClip wc=new WhereClip();
-            wc.And(Accounts._.Ac_ID>0);
-            wc.ToString();
-            //Gateway.Default.FromSql(sb.ToString()).ToList<Accounts>();
-            throw new Exception();
+            Examination exam = this.ExamSingle(examid);
+            if (!exam.Exam_IsTheme) exam= this.ExamSingle(exam.Exam_UID);
+            //查询条件
+            WhereClip wc = new WhereClip();
+            //如果参考人员为按学员组
+            if (exam.Exam_GroupType == 2)
+            {
+                StudentSort[] sts = this.GroupForStudentSort(exam.Exam_UID);
+                foreach (StudentSort ss in sts) wc.Or(ExamResults._.Sts_ID == ss.Sts_ID);
+            }
+            if (!string.IsNullOrWhiteSpace(name)) wc.And(Accounts._.Ac_Name.Contains(name));
+            if (!string.IsNullOrWhiteSpace(idcard)) wc.And(Accounts._.Ac_IDCardNumber.Contains(idcard));
+            if (stsid > 0) wc.And(Accounts._.Sts_ID == stsid);
+            if (stsid < 0) wc.And(Accounts._.Sts_ID == 0);
+
+            //子查询条件
+            WhereClip wcsub = ExamResults._.Exam_ID == examid && ExamResults._.Ac_ID == Accounts._.Ac_ID;
+            QuerySection<ExamResults> querysub = Gateway.Default.From<ExamResults>().Where(wcsub).Select(ExamResults._.Ac_ID);
+            wc.And(WhereClip.NotExists(querysub));
+
+            //主查询
+            QuerySection<Accounts> query = Gateway.Default.From<Accounts>().Where(wc);
+            countSum = query.Count();   //记录总数
+            //查询
+            List<Accounts> list= query.ToList<Accounts>(size, (index - 1) * size);
+            foreach (var ac in list)
+            {
+                if (ac.Ac_Birthday > DateTime.Now.AddYears(-100))
+                {
+                    ac.Ac_Age = (int)((DateTime.Now - ac.Ac_Birthday).TotalDays / (365 * 3 + 366) * 4);
+                    ac.Ac_Age = ac.Ac_Age > 150 ? 0 : ac.Ac_Age;
+                }
+                else if (ac.Ac_Age > 0) ac.Ac_Age = DateTime.Now.Year - ac.Ac_Age;
+            }
+            return list;
         }
         /// <summary>
         /// 当前考试场次下的学员成绩

@@ -32,7 +32,7 @@ $ready(function () {
             //获取学员分组
             getsorts: function () {
                 var th = this;
-                $api.get('Exam/Sort4Exam', { 'examid': this.examid }).then(function (req) {
+                $api.get('Exam/ResultSort4Exam', { 'examid': this.examid }).then(function (req) {
                     if (req.data.success) {
                         th.sorts = req.data.result;
                     } else {

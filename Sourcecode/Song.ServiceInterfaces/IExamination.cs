@@ -283,22 +283,28 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         StudentSort[] StudentSort4Theme(int id);
         /// <summary>
-        /// 考试场次下的学员组
+        /// 考试场次下，参加考试的学员的学员组,仅统计参加考试的学员
         /// </summary>
-        /// <param name="examid"></param>
+        /// <param name="examid">考试场次id</param>
         /// <returns></returns>
-        StudentSort[] StudentSort4Exam(int examid);
+        List<StudentSort> ResultSort4Exam(int examid);
+        /// <summary>
+        /// 未参加考试的学员的学员组
+        /// </summary>
+        /// <param name="examid">考试场次id</param>
+        /// <returns></returns>
+        List<StudentSort> AbsenceSort4Exam(int examid);
         /// <summary>
         /// 考试主题下的所有参考人员成绩
         /// </summary>
-        /// <param name="id">当前考试主题的ID</param>
+        /// <param name="examid">当前考试主题的ID</param>
         /// <param name="stsid">学生分组的id，为0时取所有，为-1时取不在组的学员，大于0则取当前组学员</param>
         /// <returns></returns>
         DataTable Result4Theme(int examid, long stsid);
         /// <summary>
         /// 考试主题下的所有参考人员成绩
         /// </summary>
-        /// <param name="id">当前考试主题的ID</param>
+        /// <param name="examid">当前考试主题的ID</param>
         /// <param name="stsid">学生分组的id，为0时取所有，为-1时取不在组的学员，大于0则取当前组学员</param>
         /// <returns></returns>
         DataTable Result4Theme(int examid, string stsid);

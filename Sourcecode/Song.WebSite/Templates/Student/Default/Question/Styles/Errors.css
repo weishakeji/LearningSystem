@@ -1,0 +1,120 @@
+﻿@charset "utf-8";
+.toolsbar .el-tag {
+	border-bottom: none;
+	border-radius: 3px 3px 0px 0px;
+	margin-left: 10px;
+	margin-top: 8px;
+}
+
+#vapp {
+	display: flex;
+	flex-direction: column;
+}
+
+#pager-box {
+	position: static;
+}
+
+/*内容区域*/
+context {
+	display: block;
+	flex: 1;
+	overflow-y: auto;
+	padding: 10px;
+	box-sizing: border-box;
+	overflow: hidden;
+	position: relative;
+}
+
+context loading {
+	position: absolute;
+	width: 100%;
+	line-height: 40px;
+	top: 0px;
+	left: 0px;
+	text-align: center;
+	
+}
+
+context .nodata {
+	font-size: 18px;
+	color: #999;
+	padding: 20px;
+}
+
+context .el-card {
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+/*课程内容*/
+.el-card__body {
+	box-sizing: border-box;
+	position: relative;
+	display: flex;
+}
+
+.el-card__body img:first-child {
+	margin-right: 20px;
+	display: inline-block;
+	height: 100px;
+}
+
+.rec {
+	position: absolute;
+	top: 19px;
+	left: 19px;
+}
+
+.rec::before {
+	content: "\e741";
+	font-family: webdesk_icon;
+	font-size: 35px;
+	margin-right: 3px;
+	font-size: 60px;
+	display: block;
+	position: absolute;
+	margin: -2px 0px 0px -4px;
+	color: rgb(255, 30, 30);
+	text-shadow: -1px -1px 2px #fff, -1px -1px 3px #fff;
+}
+
+
+/*课程右侧的内容区*/
+.info_box {
+	flex: 1;
+	position: relative;
+	display: flex;
+	flex-direction: column;	
+}
+
+.info_row {
+	display: flex;
+}
+.info_column{
+	display: flex;
+	flex-direction: column;
+}
+.subject {
+	flex: 1;
+	font-size: 14px;
+	color: #666;
+	line-height: 30px;
+}
+
+.subject::before {
+	content: "\e750";
+	font-family: webdesk_icon;
+	color: #999;
+}
+.cour_name{
+	flex: 1;
+}
+/*最下面的一行*/
+.info_box>div:last-child{
+	position: absolute;
+	width: 100%;
+	left: 0px;
+	bottom: 0px;
+	display: flex;
+}

@@ -607,7 +607,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="acc">学员账户的clone对象</param>
         /// <returns></returns>
-        private Song.Entities.Accounts _tran(Song.Entities.Accounts acc)
+        internal static Song.Entities.Accounts _tran(Song.Entities.Accounts acc)
         {
             if (acc == null) return acc;
             Song.Entities.Accounts curr = acc.Clone<Song.Entities.Accounts>();

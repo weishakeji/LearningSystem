@@ -824,8 +824,8 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="examid">考试主题的id</param>
         /// <param name="name">学员姓名</param>
-        /// <param name="idcard"></param>
-        /// <param name="stsid"></param>
+        /// <param name="idcard">身份证号</param>
+        /// <param name="stsid">学员组</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <returns></returns>
@@ -833,6 +833,30 @@ namespace Song.ViewData.Methods
         {
             int total = 0;
             List<Accounts> datas = Business.Do<IExamination>().AttendThemeAccounts(examid, name, idcard, stsid,size, index, out total);
+            ListResult result = new ListResult(datas);
+            result.Index = index;
+            result.Size = size;
+            result.Total = total;
+            return result;
+        }
+        /// <summary>
+        /// 缺考的学员列表
+        /// </summary>
+        /// <param name="examid">考试场次的id</param>
+        /// <param name="name">学员姓名</param>
+        /// <param name="idcard">身份证号</param>
+        /// <param name="stsid">学员组</param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public ListResult AbsenceExamAccounts(int examid, string name, string idcard, long stsid, int size, int index)
+        {
+            int total = 0;
+            List<Accounts> datas = Business.Do<IExamination>().AbsenceExamAccounts(examid, name, idcard, stsid, size, index, out total);
+            for (int i = 0; i < datas.Count; i++)
+            {
+                datas[i] = Account._tran(datas[i]);
+            }
             ListResult result = new ListResult(datas);
             result.Index = index;
             result.Size = size;
@@ -927,9 +951,18 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="examid"></param>
         /// <returns>Sts_Count列为学员组下的参考人员数量</returns>
-        public StudentSort[] Sort4Exam(int examid)
+        public List<StudentSort> ResultSort4Exam(int examid)
         {
-            return Business.Do<IExamination>().StudentSort4Exam(examid);
+            return Business.Do<IExamination>().ResultSort4Exam(examid);
+        }
+        /// <summary>
+        /// 未参加考试的学员的学员组
+        /// </summary>
+        /// <param name="examid">考试场次id</param>
+        /// <returns></returns>
+        public List<StudentSort> AbsenceSort4Exam(int examid)
+        {
+            return Business.Do<IExamination>().AbsenceSort4Exam(examid);
         }
         /// <summary>
         /// 当前考试主题下的所有成绩，包括各个场次

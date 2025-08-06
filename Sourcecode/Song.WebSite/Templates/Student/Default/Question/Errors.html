@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title></title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+
+        <div class="toolsbar">
+            <el-tag>
+                <icon>&#xe67d</icon>错题回顾
+            </el-tag>
+            <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item>
+                    <el-input v-model="form.course" clearable style="width:180px" placeholder="按课程检索">
+                        <icon slot="prefix">&#xe813</icon>
+                    </el-input>
+                </el-form-item>
+            </query_panel>
+        </div>
+
+        <context>
+            <loading v-show='loading'>正在加载中...</loading>
+            <template v-if="courses.length<1">
+                <div class="nodata">
+                    <icon>&#xe839</icon>没有满足条件的数据
+                </div>
+            </template>
+            <template v-else>
+                <el-card v-for="(item,index) in courses" class="course"  shadow="hover">
+                    <a target="_blank" :href="'/web/course/detail.'+item.Cou_ID">
+                        <img :src="item.Cou_LogoSmall" v-if="item.Cou_LogoSmall!=''" />
+                        <img src="/Utilities/images/cou_nophoto.jpg" v-else /></a>
+                    <span class="rec" v-if="item.Cou_IsRec"></span>
+                    <div class="info_box" remark="课程信息">
+                        <div class="info_row">
+                            <div class="cour_name">
+                                <span>{{(form.index - 1) * form.size + index + 1}}.</span>
+                                <a target="_blank" :href="'/web/course/detail.'+item.Cou_ID"> {{item.Cou_Name}}</a>
+                            </div>
+                            <div class="btns">
+                                <el-popconfirm title="确定清空当前课程下的答错的题吗？" @confirm="clearErrors(item.Cou_ID)">
+                                    <el-link type="danger" slot="reference">
+                                        <icon>&#xe800</icon>清空试题
+                                    </el-link>
+                                </el-popconfirm>
+
+                                <el-link type="primary" @click="viewDetail(item)">
+                                    <icon>&#xe75e</icon>试题详情
+                                </el-link>
+                            </div>
+                        </div>
+                        <div class="info_row">
+                            <div class="subject" title="课程专业"> {{item.Sbj_Name}}</div>
+                        </div>
+                        <div class="info_row">
+                            <question_info :acid="account.Ac_ID" :couid="item.Cou_ID">
+                                <template scope="item">
+                                    <el-tag type="success">错题数量：{{item.count}} 道</el-tag>
+
+                                </template>
+                            </question_info>
+                        </div>
+                    </div>
+                </el-card>
+            </template>
+        </context>
+
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
+                :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
