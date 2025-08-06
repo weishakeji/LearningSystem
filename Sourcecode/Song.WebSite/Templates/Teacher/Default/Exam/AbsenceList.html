@@ -29,6 +29,9 @@
                     <el-input v-model="form.name" style="width:100px" clearable placeholder="学员姓名"></el-input>
                 </el-form-item>
                 <el-form-item label="">
+                    <el-input v-model="form.phone" style="width:100px" clearable placeholder="手机号"></el-input>
+                </el-form-item>
+                <el-form-item label="">
                     <el-input v-model="form.idcard" style="width:120px" clearable placeholder="身份证"></el-input>
                 </el-form-item>
             </query_panel>
@@ -59,10 +62,7 @@
                 <template slot-scope="scope">
                     <template v-if="!(scope.row.Ac_MobiTel2!='' && scope.row.Ac_MobiTel2==scope.row.Ac_MobiTel1)">
                         <span class="mobi" v-html='showsearch(showmobi(scope.row),form.phone)'></span>
-                    </template>
-                    <el-tooltip v-else effect="light" content="已绑定手机号" placement="right">
-                        <span v-html='showsearch(showmobi(scope.row),form.phone)'></span>
-                    </el-tooltip>
+                    </template>                  
                 </template>
             </el-table-column>
             <el-table-column prop="Ac_Birthday" label="年龄" width="60">

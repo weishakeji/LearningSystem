@@ -845,14 +845,15 @@ namespace Song.ViewData.Methods
         /// <param name="examid">考试场次的id</param>
         /// <param name="name">学员姓名</param>
         /// <param name="idcard">身份证号</param>
+        /// <param name="phone">手机号</param>
         /// <param name="stsid">学员组</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public ListResult AbsenceExamAccounts(int examid, string name, string idcard, long stsid, int size, int index)
+        public ListResult AbsenceExamAccounts(int examid, string name, string idcard, string phone, long stsid, int size, int index)
         {
             int total = 0;
-            List<Accounts> datas = Business.Do<IExamination>().AbsenceExamAccounts(examid, name, idcard, stsid, size, index, out total);
+            List<Accounts> datas = Business.Do<IExamination>().AbsenceExamAccounts(examid, name, idcard, phone, stsid, size, index, out total);
             for (int i = 0; i < datas.Count; i++)
             {
                 datas[i] = Account._tran(datas[i]);

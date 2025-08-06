@@ -1564,7 +1564,7 @@ namespace Song.ServiceImpls
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public List<Accounts> AbsenceExamAccounts(int examid, string name, string idcard, long stsid, int size, int index, out int countSum)
+        public List<Accounts> AbsenceExamAccounts(int examid, string name, string idcard, string phone, long stsid, int size, int index, out int countSum)
         {
             Examination exam = this.ExamSingle(examid);
             if (!exam.Exam_IsTheme) exam= this.ExamSingle(exam.Exam_UID);
@@ -1578,6 +1578,7 @@ namespace Song.ServiceImpls
             }
             if (!string.IsNullOrWhiteSpace(name)) wc.And(Accounts._.Ac_Name.Contains(name));
             if (!string.IsNullOrWhiteSpace(idcard)) wc.And(Accounts._.Ac_IDCardNumber.Contains(idcard));
+            if (!string.IsNullOrWhiteSpace(phone)) wc.And(Accounts._.Ac_MobiTel1.Contains(phone));
             if (stsid > 0) wc.And(Accounts._.Sts_ID == stsid);
             if (stsid < 0) wc.And(Accounts._.Sts_ID == 0);
 

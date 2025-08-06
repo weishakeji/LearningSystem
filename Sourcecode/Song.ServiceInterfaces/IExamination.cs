@@ -387,7 +387,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        List<Accounts> AbsenceExamAccounts(int examid, string name, string idcard, long stsid, int size, int index, out int countSum);
+        List<Accounts> AbsenceExamAccounts(int examid, string name, string idcard, string phone, long stsid, int size, int index, out int countSum);
         /// <summary>
         /// 当前考试场次下的学员成绩
         /// </summary>

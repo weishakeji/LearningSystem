@@ -4,7 +4,7 @@ $ready(function () {
         data: {
             form: {
                 "examid": $api.querystring('id'),
-                "name": "", "idcard": "", "stsid": "",
+                "name": "", "idcard": "", "phone": "", "stsid": "",
                 "size": 8, "index": 1
             },
             entity: {},     //当前考试对象
@@ -55,8 +55,8 @@ $ready(function () {
 
         },
         methods: {
-             //获取学员分组，未参加考试（即缺考）学员的学员组
-             getsorts: function () {
+            //获取学员分组，未参加考试（即缺考）学员的学员组
+            getsorts: function () {
                 var th = this;
                 $api.get('Exam/AbsenceSort4Exam', { 'examid': this.form.examid }).then(function (req) {
                     if (req.data.success) {
@@ -78,7 +78,7 @@ $ready(function () {
                 th.form.size = Math.floor(area / 42);
                 $api.get("Exam/AbsenceExamAccounts", th.form).then(function (d) {
                     if (d.data.success) {
-                        th.datas = d.data.result;                    
+                        th.datas = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
                         th.total = d.data.total;
                     } else {
