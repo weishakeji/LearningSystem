@@ -141,8 +141,8 @@ dl, dd {
 tr.el-table__row:has(.el-checkbox.is-checked) td.el-table__cell {
 	background-color: rgb(217, 236, 255) !important;
 }
-.el-table--striped .el-table__body tr.el-table__row--striped td.el-table__cell {
-    background: rgba(255, 255, 255, 0.8) !important;;
+tr.el-table__row--striped td.el-table__cell {
+    background: rgba(255, 255, 255, 0.8) !important;
 }
 /*当表格行处理禁用状态时*/
 table.el-table__body tr.disabled td, table.el-table__body tr.disabled *:not(.el-link, .red, red, alert, warning) {
