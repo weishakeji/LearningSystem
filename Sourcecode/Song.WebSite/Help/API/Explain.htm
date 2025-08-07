@@ -18,7 +18,13 @@
         </card-title>
         <card-content>
         <p>$api封装了Axion.js的核心方法，可以直接访问接口，返回Promise对象。</p>
-        <p>常用的方法包含了$api.get、$api.post、$api.delete（删除数据时专用）、$api.put（更新），、$api.cache（缓存）。</p>
+        <p>常用的方法包含了$api.get、$api.post、$api.delete、$api.cache、$api.put。</p>
+        <p>一般情况下，$api.get用于读数据；$api.post用于接收数据，例如提交表单、上传文件等；$api.delete用于删除数据。
+            $api.cache用于缓存数据，采IndexedDb实现，默认缓存10分钟，有效期内直接取浏览器本地数据，不会访问网络；
+            $api.put用于强制更新缓存数据，如果有服务器端缓存，也会同步更新。
+
+        </p>
+
             <pre class="line-numbers"><code class="language-javascript">
     $api.get('Account/Current').then(req=>{
         if(req.data.success){

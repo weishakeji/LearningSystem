@@ -191,7 +191,7 @@ Vue.component('sbj_cascader', {
         //course:课程对象
         subjectPath: function (sbjid, course) {
             if (sbjid == null) return course ? course.Sbj_Name : '';
-            if (!th.isnull) return course ? course.Sbj_Name : '';
+            if (!this.isnull) return course ? course.Sbj_Name : '';
             //获取专业的路径，从顶级到子级
             var arr = [];
             var sbj = null;

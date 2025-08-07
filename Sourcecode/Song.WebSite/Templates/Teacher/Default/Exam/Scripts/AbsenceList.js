@@ -98,6 +98,15 @@ $ready(function () {
                 if (!(Object.prototype.toString.call(time) === '[object Date]')) return true;
                 return false;
             },
+            //复制到粘贴板
+            copytext: function (val, textbox) {
+                this.copy(val, textbox).then(function (th) {
+                    th.$message({
+                        message: '复制 “' + val + '” 到粘贴板',
+                        type: 'success'
+                    });
+                });
+            },
         },
         filters: {
 
