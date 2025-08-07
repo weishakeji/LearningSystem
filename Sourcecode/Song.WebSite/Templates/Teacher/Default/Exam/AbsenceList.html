@@ -11,7 +11,7 @@
 <body>
     <div id="vapp" v-cloak>
         <div class="toolsbar">
-            <btngroup show="导出" ref='btngroup' width="600" height="500" idkey='Ac_ID' table="datatable"></btngroup>
+            <btngroup show="导出" ref='btngroup' width="600" height="500"  @output="output"></btngroup>
             <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item label="">
                     <el-select v-model="form.stsid" placeholder="请选择" style="width: 160px;"

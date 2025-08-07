@@ -75,7 +75,7 @@ $ready(function () {
                 th.loadstate.def = true;
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 105;
-                th.form.size = Math.floor(area / 42);
+                th.form.size = Math.floor(area / 40);
                 $api.get("Exam/AbsenceExamAccounts", th.form).then(function (d) {
                     if (d.data.success) {
                         th.datas = d.data.result;
@@ -106,6 +106,13 @@ $ready(function () {
                         type: 'success'
                     });
                 });
+            },
+            //导出的窗口
+            output: function () {
+                let url = $api.url.set("/teacher/exam/ResultsOutput", { "examid": this.form.examid });
+                let boxid = "ResultsOutput_" + this.form.examid;
+                let title = '成绩导出 - “' + this.entity.Exam_Name + "”";
+                //this._openbox(url, title, boxid, 800, 600, 'e73e');
             },
         },
         filters: {

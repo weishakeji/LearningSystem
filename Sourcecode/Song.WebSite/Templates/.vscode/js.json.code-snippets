@@ -22,7 +22,7 @@
 		"\t\tcomputed: {",
 		"\t\t\tloading: function () {",
         "\t\t\t\tif (!this.loadstate) return false;",
-        "\t\t\t\tfor (let t in this.loadstate) {",
+        "\t\t\t\tfor (let key in this.loadstate) {",
         "\t\t\t\t\tif (this.loadstate.hasOwnProperty(key)",
         "\t\t\t\t\t\t&& this.loadstate[key])",
         "\t\t\t\t\treturn true;",

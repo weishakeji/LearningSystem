@@ -192,15 +192,15 @@
                 methods: {
                     //查看当前考试的成绩列表
                     btnResultView: function (row) {
-                        this.btnOpen(row, 'ResultsDetail', '查看成绩', 'e696', 1200, '80%');
+                        this.btnOpen(row, 'ResultsDetail', '查看成绩', 'e811', 1200, '80%');
                     },
                     //打开人工批阅
                     btnResultManual: function (row) {
-                        this.btnOpen(row, 'ResultsManual', '人工判卷/批阅', 'e696', 1000, '80%');
+                        this.btnOpen(row, 'ResultsManual', '人工判卷/批阅', 'a02e', 1000, '80%');
                     },
                     //打开未参加考试的人员
-                    btnResultManual: function (row) {
-                        this.btnOpen(row, 'AbsenceList', '未参加考试人员', 'e696', 1000, '80%');
+                    btnAbsence: function (row) {
+                        this.btnOpen(row, 'AbsenceList', '未参加考试人员', 'e774', 1000, '80%');
                     },
                     btnOpen: function (row, file, title, icon, width, height) {
                         file = $api.url.set(file, { 'id': row.Exam_ID });
@@ -234,7 +234,7 @@
                 </el-col>
                 <el-col :span="2" remark="缺考人数"><loading asterisk v-if="item.absence==-1"></loading>
                     <el-tooltip  v-else content="查看/导出缺考人员" placement="bottom" effect="light">
-                        <el-link type="info" @click="btnResultManual(item)">{{item.absence}}</el-link>      
+                        <el-link type="info" @click="btnAbsence(item)">{{item.absence}}</el-link>      
                     </el-tooltip> 
                 </el-col>
                 <el-col :span="2" v-if="item.manual">
