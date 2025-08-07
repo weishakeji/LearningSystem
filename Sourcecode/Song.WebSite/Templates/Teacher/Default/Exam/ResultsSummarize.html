@@ -36,7 +36,7 @@
             </query_panel>
         </div>
         <template>
-            <el-table :data="accounts"  border resizable  style="width: 100%">
+            <el-table :data="accounts" border resizable style="width: 100%">
                 <el-table-column type="index" width="80" label="#">
                     <template slot-scope="scope">
                         <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
@@ -65,7 +65,7 @@
 
             </el-table>
             <div id="pager-box">
-                <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" 
+                <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index"
                     :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
                 </el-pagination>
             </div>
@@ -115,7 +115,7 @@
             </div>
         </el-dialog>
 
-        <el-dialog title="成绩导出" :visible.sync="exportVisible"  width="80%" :show-close="false" :before-close="()=>{}">
+        <el-dialog title="成绩导出" :visible.sync="exportVisible" width="80%" :show-close="false" :before-close="()=>{}">
             <el-form ref="exportquery" :model="exportquery" @submit.native.prevent label-width="100px">
                 <el-form-item label="导出范围" prop="scope">
                     <el-radio v-model="exportquery.scope" :label="1">所有参考学员</el-radio>
@@ -130,20 +130,20 @@
                         </el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
-                <el-form-item label="下载文件" v-if="files.length>0">
-                    <dl>
+                <template v-if="files.length>0">
+                    <el-divider content-position="left">文件下载</el-divider>
+                    <dl class="files">
                         <dd v-for="(f,i) in files">
-                            <div>{{i+1}}. <a :href="f.url" target="_blank" title="点击下载" :download="f.file">
-                                    {{f.file}}</a>
-                                {{f.size|size}}
-                                <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
-                                    <el-link type="danger" icon="el-icon-delete" v-loading="fileloading" slot="reference">删除
-                                    </el-link>
-                                </el-popconfirm>
-                            </div>
+                            <a :href="f.url" :filetype="f.type" target="_blank" title="点击下载" :download="f.file">
+                                {{f.file}}</a>
+                            <span>{{f.size|size}}</span>
+                            <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
+                                <el-link type="danger" icon="el-icon-delete" v-loading="loading" slot="reference">删除
+                                </el-link>
+                            </el-popconfirm>
                         </dd>
                     </dl>
-                </el-form-item>
+                </template>
             </el-form>
 
             <span slot="footer" class="dialog-footer">

@@ -146,7 +146,7 @@ $ready(function () {
             //已经导出的文件列表
             getFiles: function () {
                 var th = this;
-                $api.get('Exam/ExcelFiles', { 'examid': th.examid }).then(function (req) {
+                $api.get('Exam/ExcelResultsFiles', { 'examid': th.examid }).then(function (req) {
                     if (req.data.success) {
                         th.files = req.data.result;
                     } else {
@@ -159,36 +159,26 @@ $ready(function () {
             //生成导出文件
             toexcel: function () {
                 var th = this;
-                //导出所有参考学员
-                if (th.exportquery.scope == 1) {
-                    th.fileloading = true;
-                    $api.post('Exam/OutputParticipate', { 'examid': th.examid, 'sorts': '' }).then(function (req) {
-                        if (req.data.success) {
-                            th.getFiles();
-                        } else {
-                            console.error(req.data.exception);
-                            throw req.data.message;
-                        }
-                    }).catch(err => alert(err))
-                        .finally(() => th.fileloading = false);
-                }
-                //按学员组导出
+                //学员组id的字符串
+                let sort = '';               
+                //按学员组导出，需要验证一下是否选择学员组
                 if (th.exportquery.scope == 2) {
                     if (th.exportquery.sorts.length < 1) {
                         alert('未选择学员组');
                         return;
                     }
-                    let sort = th.exportquery.sorts.join(',');
-                    $api.post('Exam/OutputParticipate', { 'examid': th.examid, 'sorts': sort }).then(function (req) {
-                        if (req.data.success) {
-                            th.getFiles();
-                        } else {
-                            console.error(req.data.exception);
-                            throw req.data.message;
-                        }
-                    }).catch(err => alert(err))
-                        .finally(() => th.fileloading = false);
+                    sort = th.exportquery.sorts.join(',');                   
                 }
+                th.fileloading = true;
+                $api.post('Exam/OutputResults4Theme', { 'examid': th.examid, 'sorts': sort }).then(function (req) {
+                    if (req.data.success) {
+                        th.getFiles();
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.data.message;
+                    }
+                }).catch(err => alert(err))
+                    .finally(() => th.fileloading = false);
             },
             //删除文件
             deleteFile: function (file) {

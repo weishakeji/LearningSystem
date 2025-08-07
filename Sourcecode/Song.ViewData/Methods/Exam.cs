@@ -1304,46 +1304,19 @@ namespace Song.ViewData.Methods
         #region 导出考试成绩
         private static string outputPath = "ExamresultToExcel";
         /// <summary>
-        /// 某场考试的成绩导出，导出所有参考学员的成绩
-        /// </summary>
-        /// <param name="examid">考试的id</param> 
-        /// <returns></returns>
-        [HttpPost]
-        public JObject ResultsOutputAll(int examid)
-        {
-            //导出文件的位置
-            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\" + examid + "\\";
-            if (!System.IO.Directory.Exists(rootpath))
-                System.IO.Directory.CreateDirectory(rootpath);
-
-            DateTime date = DateTime.Now;
-            string filename = string.Format("考试成绩.{0}.({1}).xls", examid, date.ToString("yyyy-MM-dd hh-mm-ss"));
-            string filePath = rootpath + filename;
-            filePath = Business.Do<IExamination>().ResultsOutputAll(filePath, examid);
-            JObject jo = new JObject();
-            jo.Add("file", filename);
-            jo.Add("url", string.Format("{0}/{1}/{2}", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath, examid, filename));
-            jo.Add("date", date);
-            return jo;
-        }
-        /// <summary>
         /// 某场考试的考试成绩按学员组导出
         /// </summary>
-        /// <param name="examid">考试id</param>
+        /// <param name="examid">考试场次id</param>
         /// <param name="sorts">学员组的id，多个id用逗号分隔</param>
         /// <returns></returns>
         [HttpPost]
         public JObject ResultsOutputSorts(int examid,string sorts)
-        {
-            if (string.IsNullOrWhiteSpace(sorts)) return this.ResultsOutputAll(examid);
-            string[] sortstring = sorts.Split(',');
-            if (sortstring.Length<1) return this.ResultsOutputAll(examid);
-            long[] sortsid = new long[sortstring.Length];
-            for (int i = 0; i < sortstring.Length; i++)
+        {           
+            List<long> sortsid = new List<long>();
+            foreach (string sts in sorts.Split(','))
             {
-                long tm = 0;
-                long.TryParse(sortstring[i], out tm);
-                sortsid[i] = tm;
+                long tm = sts.Convert<long>();
+                if (tm > 0) sortsid.Add(tm);
             }
             //导出文件的位置
             string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\" + examid + "\\";
@@ -1351,9 +1324,9 @@ namespace Song.ViewData.Methods
                 System.IO.Directory.CreateDirectory(rootpath);
 
             DateTime date = DateTime.Now;
-            string filename = string.Format("学员组成绩.{0}.({1}).xls", examid, date.ToString("yyyy-MM-dd hh-mm-ss"));
+            string filename = string.Format("Results.{0}.({1}).xls", examid, date.ToString("yyyy-MM-dd HH-mm-ss"));
             string filePath = rootpath + filename;
-            filePath = Business.Do<IExamination>().ResultsOutputSorts(filePath, examid, sortsid);
+            filePath = Business.Do<IExamination>().OutputResults4Exam(filePath, examid, sortsid.ToArray<long>());
             JObject jo = new JObject();
             jo.Add("file", filename);
             jo.Add("url", string.Format("{0}/{1}/{2}", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath, examid, filename));
@@ -1361,29 +1334,19 @@ namespace Song.ViewData.Methods
             return jo;
         }
         /// <summary>
-        /// 导出参加考试的学员成绩
+        /// 考试主题下的所有成绩，按学员组分成工作表
         /// </summary>
         /// <param name="examid">考试主题的id</param>
         /// <param name="sorts">学员组的id</param>
         /// <returns></returns>
         [HttpPost]
-        public JObject OutputParticipate(int examid, string sorts)
+        public JObject OutputResults4Theme(int examid, string sorts)
         {
-            long[] sortsid = null;
-            if (!string.IsNullOrWhiteSpace(sorts))
+            List<long> sortsid = new List<long>();
+            foreach (string sts in sorts.Split(','))
             {
-                string[] sortstring = sorts.Split(',');
-                if (sortstring.Length > 0)
-                {
-                    List<long> list = new List<long>();
-                    for (int i = 0; i < sortstring.Length; i++)
-                    {
-                        long tm = 0;
-                        long.TryParse(sortstring[i], out tm);
-                        list.Add(tm);
-                    }
-                    if (list.Count > 0) sortsid = list.ToArray<long>();
-                }
+                long tm = sts.Convert<long>();
+                if (tm > 0) sortsid.Add(tm);
             }
             //导出文件的位置
             string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\" + examid + "\\";
@@ -1391,32 +1354,9 @@ namespace Song.ViewData.Methods
                 System.IO.Directory.CreateDirectory(rootpath);
 
             DateTime date = DateTime.Now;
-            string filename = string.Format("成绩.{0}.({1}).xls", examid, date.ToString("yyyy-MM-dd hh-mm-ss"));
+            string filename = string.Format("Results.{0}.({1}).xls", examid, date.ToString("yyyy-MM-dd HH-mm-ss"));
             string filePath = rootpath + filename;
-            filePath = Business.Do<IExamination>().OutputParticipate(filePath, examid, sortsid);
-            JObject jo = new JObject();
-            jo.Add("file", filename);
-            jo.Add("url", string.Format("{0}/{1}/{2}", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath, examid, filename));
-            jo.Add("date", date);
-            return jo;
-        }
-        /// <summary>
-        /// 导出所有，包括未参加考试的学员
-        /// </summary>
-        /// <param name="examid"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public JObject OutputEvery(int examid)
-        {
-            //导出文件的位置
-            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\" + examid + "\\";
-            if (!System.IO.Directory.Exists(rootpath))
-                System.IO.Directory.CreateDirectory(rootpath);
-
-            DateTime date = DateTime.Now;
-            string filename = string.Format("考试成绩-全部.{0}.({1}).xls", examid, date.ToString("yyyy-MM-dd hh-mm-ss"));
-            string filePath = rootpath + filename;
-            filePath = Business.Do<IExamination>().OutputEvery(filePath, examid);
+            filePath = Business.Do<IExamination>().OutputResults4Theme(filePath, examid, sortsid.ToArray<long>());
             JObject jo = new JObject();
             jo.Add("file", filename);
             jo.Add("url", string.Format("{0}/{1}/{2}", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath, examid, filename));
@@ -1435,11 +1375,11 @@ namespace Song.ViewData.Methods
             return Song.ViewData.Helper.Excel.DeleteFile(filename, outputPath + "\\" + examid, "Temp");
         }
         /// <summary>
-        /// 已经生成的Excel文件
+        /// 获取已经生成的成绩导出的Excel文件
         /// </summary>
-        /// <param name="examid"></param>
+        /// <param name="examid">考试的id，不分考试主题与场次</param>
         /// <returns>file:文件名,url:下载地址,date:创建时间</returns>
-        public JArray ExcelFiles(int examid)
+        public JArray ExcelResultsFiles(int examid)
         {
             string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\" + examid + "\\";
             if (!System.IO.Directory.Exists(rootpath))
@@ -1449,6 +1389,7 @@ namespace Song.ViewData.Methods
             FileInfo[] files = dir.GetFiles("*.xls").OrderByDescending(f => f.CreationTime).ToArray();
             foreach (System.IO.FileInfo f in files)
             {
+                if (!f.Name.StartsWith("Results")) continue;
                 JObject jo = new JObject();
                 jo.Add("file", f.Name);
                 jo.Add("url", string.Format("{0}/{1}/{2}", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath, examid, f.Name));

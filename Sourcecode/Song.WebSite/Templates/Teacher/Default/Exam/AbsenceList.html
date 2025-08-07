@@ -11,7 +11,7 @@
 <body>
     <div id="vapp" v-cloak>
         <div class="toolsbar">
-            <btngroup show="导出" ref='btngroup' width="600" height="500"  @output="output"></btngroup>
+            <btngroup show="导出" ref='btngroup' width="600" height="500" @output="output_panel=true"></btngroup>
             <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item label="">
                     <el-select v-model="form.stsid" placeholder="请选择" style="width: 160px;"
@@ -42,7 +42,7 @@
             :row-class-name="data=>{return data.row.Ac_IsUse ? 'enable' : 'disabled';}">
             <el-table-column type="selection" width="35">
             </el-table-column>
-            <el-table-column type="index" label="#" min-width="20" class-name="index" align="center">
+            <el-table-column type="index" label="#" min-width="30" class-name="index" align="center">
                 <template slot-scope="scope">
                     <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
                 </template>
@@ -62,14 +62,14 @@
                 <template slot-scope="scope">
                     <template v-if="!(scope.row.Ac_MobiTel2!='' && scope.row.Ac_MobiTel2==scope.row.Ac_MobiTel1)">
                         <span class="mobi" v-html='showsearch(showmobi(scope.row),form.phone)'></span>
-                    </template>                  
+                    </template>
                 </template>
             </el-table-column>
             <el-table-column prop="Ac_Birthday" label="年龄" width="60">
                 <template slot-scope="scope">
                     <template
                         v-if="(!timeisnull(scope.row.Ac_Birthday) || scope.row.Ac_Age>0 ) && scope.row.Ac_Birthday<new Date() ">
-                        <span title="年龄" v-if="scope.row.Ac_Age>=0">                          
+                        <span title="年龄" v-if="scope.row.Ac_Age>=0">
                             {{scope.row.Ac_Age}} 岁
                         </span>
 
@@ -107,6 +107,14 @@
                 :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
             </el-pagination>
         </div>
+        <!-- 导出面板-->
+        <el-dialog title="提示" :visible.sync="output_panel" width="30%">
+            <span slot="title"><icon large>&#xe73e</icon>缺人员信息导出</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="output_panel = false">取 消</el-button>
+                <el-button type="primary" @click="output_panel = false">生成导出文件</el-button>
+            </span>
+        </el-dialog>       
     </div>
 </body>
 

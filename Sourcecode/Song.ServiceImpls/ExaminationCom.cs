@@ -1662,42 +1662,13 @@ namespace Song.ServiceImpls
 
         #region 成绩导出
         /// <summary>
-        /// 某场考试的成绩导出，全部学员
-        /// </summary>
-        /// <param name="path"></param>
-        /// <param name="examid">考试id</param>
-        /// <returns></returns>
-        public string ResultsOutputAll(string path, int examid)
-        {
-            HSSFWorkbook hssfworkbook = new HSSFWorkbook();
-            //xml配置文件
-            XmlDocument xmldoc = new XmlDocument();
-            string confing = WeiSha.Core.App.Get["ExcelInputConfig"].VirtualPath + "考试成绩.xml";
-            xmldoc.Load(WeiSha.Core.Server.MapPath(confing));
-            XmlNodeList nodes = xmldoc.GetElementsByTagName("item");
-            //创建工作簿对象
-            Examination exam = Gateway.Default.From<Examination>().Where(Examination._.Exam_ID == examid).ToFirst<Examination>();
-            ISheet sheet = hssfworkbook.CreateSheet(exam.Exam_Name);
-           
-            WhereClip wc = new WhereClip();
-            wc.And(ExamResults._.Exam_ID == examid);
-            ExamResults[] exr = Gateway.Default.From<ExamResults>().Where(wc).OrderBy(ExamResults._.Exr_LastTime.Desc).ToArray<ExamResults>();
-
-            setSheet(exr, sheet, nodes);
-
-            FileStream file = new FileStream(path, FileMode.Create);
-            hssfworkbook.Write(file);
-            file.Close();
-            return path;
-        }
-        /// <summary>
         /// 某场考试的考试成绩按学员组导出
         /// </summary>
         /// <param name="filePath"></param>
-        /// <param name="examid"></param>
+        /// <param name="examid">考试场次id</param>
         /// <param name="sorts"></param>
         /// <returns></returns>
-        public string ResultsOutputSorts(string filePath, int examid, long[] sorts)
+        public string OutputResults4Exam(string filePath, int examid, long[] sorts)
         {
             HSSFWorkbook hssfworkbook = new HSSFWorkbook();
             //xml配置文件
@@ -1705,18 +1676,30 @@ namespace Song.ServiceImpls
             string confing = WeiSha.Core.App.Get["ExcelInputConfig"].VirtualPath + "考试成绩.xml";
             xmldoc.Load(WeiSha.Core.Server.MapPath(confing));
             XmlNodeList nodes = xmldoc.GetElementsByTagName("item");
-            //考试主题下的所有参考人员（分过组的）成绩
-            foreach (long sid in sorts)
+            //            
+            if (sorts == null || sorts.Length < 1)
             {
-                StudentSort sts = Business.Do<IStudent>().SortSingle(sid);
-                if (sts == null) continue;
-                WhereClip wc = new WhereClip();
-                wc.And(ExamResults._.Exam_ID == examid && ExamResults._.Sts_ID == sid);
-                ExamResults[] exr = Gateway.Default.From<ExamResults>().Where(wc).OrderBy(ExamResults._.Exr_LastTime.Desc).ToArray<ExamResults>();
-
-                ISheet sheet = hssfworkbook.CreateSheet(sts.Sts_Name);  
-
-                setSheet(exr, sheet, nodes);               
+                //用考试名称，创建工作表对象
+                Examination exam = Gateway.Default.From<Examination>().Where(Examination._.Exam_ID == examid).ToFirst<Examination>();
+                ISheet sheet = hssfworkbook.CreateSheet(exam.Exam_Name);
+                //生成数据行
+                ExamResults[] exr = Gateway.Default.From<ExamResults>().Where(ExamResults._.Exam_ID == examid).OrderBy(ExamResults._.Exr_LastTime.Desc).ToArray<ExamResults>();
+                setSheet(exr, sheet, nodes);
+            }
+            else
+            {
+                //考试主题下的所有参考人员（分过组的）成绩          
+                foreach (long sid in sorts)
+                {
+                    StudentSort sts = Business.Do<IStudent>().SortSingle(sid);
+                    if (sts == null) continue;
+                    WhereClip wc = new WhereClip();
+                    wc.And(ExamResults._.Exam_ID == examid && ExamResults._.Sts_ID == sid);
+                    ExamResults[] exr = Gateway.Default.From<ExamResults>().Where(wc).OrderBy(ExamResults._.Exr_LastTime.Desc).ToArray<ExamResults>();
+                    if (exr.Length < 1) continue;
+                    ISheet sheet = hssfworkbook.CreateSheet(sts.Sts_Name);
+                    setSheet(exr, sheet, nodes);
+                }
             }
             FileStream file = new FileStream(filePath, FileMode.Create);
             hssfworkbook.Write(file);
@@ -1828,15 +1811,22 @@ namespace Song.ServiceImpls
             }
         }
         #endregion
-        public string OutputParticipate(string filePath, int examid, long[] sorts)
+        /// <summary>
+        /// 考试主题下的所有成绩
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="examid">考试主题的id</param>
+        /// <param name="sorts">学员组</param>
+        /// <returns></returns>
+        public string OutputResults4Theme(string filePath, int examid, long[] sorts)
         {
+            //如果没有指定学员组，则取所有学员组
             if (sorts == null || sorts.Length < 1)
             {
                 StudentSort[] list = this.StudentSort4Theme(examid);
                 sorts = new long[list.Length];
                 for (int i = 0; i < list.Length; i++)              
                     sorts[i] = list[i].Sts_ID;
-               
             }
             HSSFWorkbook hssfworkbook = new HSSFWorkbook();
             //考试主题下的所有参考人员（分过组的）成绩
@@ -1877,70 +1867,7 @@ namespace Song.ServiceImpls
             file.Close();
             return filePath;
         }
-       
-        public string OutputEvery(string filePath, int examid)
-        {  
-            Song.Entities.Examination theme = Business.Do<IExamination>().ExamSingle(examid);
-            HSSFWorkbook hssfworkbook = new HSSFWorkbook();
-            //当前考试限定的学生分组
-            string stsid = "";
-            Song.Entities.StudentSort[] sts = Business.Do<IExamination>().GroupForStudentSort(theme.Exam_UID);
-            //如果没有设定分组，则取当前参加考试的学员的分组
-            if (sts == null || sts.Length < 1) sts = Business.Do<IExamination>().StudentSort4Theme(theme.Exam_ID);
-            foreach (Song.Entities.StudentSort ss in sts)
-                stsid += ss.Sts_ID + ",";
-            DataTable dt = Business.Do<IExamination>().Result4Theme(theme.Exam_ID, stsid);
-            dt.TableName = "--所有学员--";
-            buildExcelSql_2_fromData(dt, hssfworkbook);
 
-            //每个分组单独创建工作表
-            foreach (string s in stsid.Split(','))
-            {
-                if (string.IsNullOrWhiteSpace(s)) continue;
-                int sid = 0;
-                int.TryParse(s, out sid);
-                if (sid <= 0) continue;
-                //取每个组的学员的考试成绩
-                DataTable dtTm = this.Result4Theme(theme.Exam_ID, sid);
-                if (dtTm == null) continue;
-                Song.Entities.StudentSort sort = Business.Do<IStudent>().SortSingle(sid);
-                dtTm.TableName = sort.Sts_Name;
-                buildExcelSql_2_fromData(dtTm, hssfworkbook);
-            }
-
-            FileStream file = new FileStream(filePath, FileMode.Create);
-            hssfworkbook.Write(file);
-            file.Close();
-            return filePath;
-        }
-        private void buildExcelSql_2_fromData(DataTable dt, HSSFWorkbook hssfworkbook)
-        {
-            //构建Excel表格结构
-            ISheet sheet = hssfworkbook.CreateSheet(dt.TableName);   //创建工作簿对象                
-            IRow rowHead = sheet.CreateRow(0);          //创建数据行对象                
-            for (int i = 0; i < dt.Columns.Count; i++)      //创建表头
-                rowHead.CreateCell(i).SetCellValue(dt.Columns[i].ColumnName);
-            ICellStyle style_size = hssfworkbook.CreateCellStyle();     //生成数据行
-            style_size.WrapText = true;
-            for (int i = 0; i < dt.Rows.Count; i++)
-            {
-                IRow row = sheet.CreateRow(i + 1);
-                for (int j = 0; j < dt.Columns.Count; j++)
-                {
-                    //此处是两个数值（用$分隔），前面是成绩，后面是成绩记的id
-                    string val = dt.Rows[i][j].ToString();
-                    if (!string.IsNullOrWhiteSpace(val) && val.IndexOf("$") > -1)
-                    {
-                        val = val.Substring(0, val.LastIndexOf("$"));
-                        double score = 0;
-                        double.TryParse(val, out score);
-                        row.CreateCell(j).SetCellValue(score);
-                    }
-                    else
-                        row.CreateCell(j).SetCellValue(val);
-                }
-            }
-        }
         /// <summary>
         /// 学员在某个课程下的考试成绩
         /// </summary>

@@ -416,35 +416,21 @@ namespace Song.ServiceInterfaces
 
         #region 成绩导出
         /// <summary>
-        /// 某场考试的成绩导出，全部学员
+        /// 某场考试的考试成绩，按学员组导出，如果没有设置组，则导出全部
         /// </summary>
         /// <param name="filePath"></param>
         /// <param name="examid">考试场次id</param>
-        /// <returns></returns>
-        string ResultsOutputAll(string filePath, int examid);
-        /// <summary>
-        /// 某场考试的考试成绩按学员组导出
-        /// </summary>
-        /// <param name="filePath"></param>
-        /// <param name="examid"></param>
         /// <param name="sorts"></param>
         /// <returns></returns>
-        string ResultsOutputSorts(string filePath, int examid, long[] sorts);
+        string OutputResults4Exam(string filePath, int examid, long[] sorts);
         /// <summary>
-        /// 导出参加考试的学员成绩
+        /// 考试主题下的所有成绩
         /// </summary>
         /// <param name="filePath"></param>
         /// <param name="examid">考试主题的id</param>
-        /// <param name="sorts"></param>
+        /// <param name="sorts">学员组</param>
         /// <returns></returns>
-        string OutputParticipate(string filePath, int examid, long[] sorts);
-        /// <summary>
-        /// 导出所有，包括未参加考试的学员
-        /// </summary>
-        /// <param name="filePath"></param>
-        /// <param name="examid"></param>
-        /// <returns></returns>
-        string OutputEvery(string filePath, int examid);
+        string OutputResults4Theme(string filePath, int examid, long[] sorts);
         /// <summary>
         /// 学员在某个课程下的考试成绩
         /// </summary>

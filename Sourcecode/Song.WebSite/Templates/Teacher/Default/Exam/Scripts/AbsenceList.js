@@ -15,6 +15,9 @@ $ready(function () {
             totalpages: 1, //总页数
             selects: [], //数据表中选中的行
 
+            output_panel: false, //导出窗口
+            files: [],          //已经生成的excel文件列表
+
             loadstate: {
                 init: false,        //初始化
                 def: false,         //默认
@@ -107,13 +110,7 @@ $ready(function () {
                     });
                 });
             },
-            //导出的窗口
-            output: function () {
-                let url = $api.url.set("/teacher/exam/ResultsOutput", { "examid": this.form.examid });
-                let boxid = "ResultsOutput_" + this.form.examid;
-                let title = '成绩导出 - “' + this.entity.Exam_Name + "”";
-                //this._openbox(url, title, boxid, 800, 600, 'e73e');
-            },
+           
         },
         filters: {
 
