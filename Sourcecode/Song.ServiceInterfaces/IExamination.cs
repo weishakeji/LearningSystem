@@ -436,9 +436,8 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="filePath"></param>
         /// <param name="examid">考试场次id</param>
-        /// <param name="sorts">学员组</param>
         /// <returns></returns>
-        string ExportAbsences4Exam(string filePath, int examid, long[] sorts);
+        string ExportAbsences4Exam(string filePath, int examid);
         /// <summary>
         /// 学员在某个课程下的考试成绩
         /// </summary>

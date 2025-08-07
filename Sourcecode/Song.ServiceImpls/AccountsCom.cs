@@ -904,19 +904,19 @@ namespace Song.ServiceImpls
             //
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc &= Accounts._.Org_ID == orgid;
-            Accounts[] accounts = null;
+            List<Accounts> accounts = null;
             //如果没有分组信息，则取当前机构的所有
             if (string.IsNullOrWhiteSpace(sorts))
             {
                 if (isall)
                 {
-                    accounts = Gateway.Default.From<Accounts>().Where(wc).OrderBy(Accounts._.Ac_RegTime.Desc).ToArray<Accounts>();
+                    accounts = Gateway.Default.From<Accounts>().Where(wc).OrderBy(Accounts._.Ac_RegTime.Desc).ToList<Accounts>();
                     _export4Excel_to_sheet(hssfworkbook, "学员信息", accounts, nodes);
                 }
                 else
                 {
                     wc &= Accounts._.Org_ID == orgid;
-                    accounts = Gateway.Default.From<Accounts>().Where(wc && Accounts._.Sts_ID <= 0).OrderBy(Accounts._.Ac_RegTime.Desc).ToArray<Accounts>();
+                    accounts = Gateway.Default.From<Accounts>().Where(wc && Accounts._.Sts_ID <= 0).OrderBy(Accounts._.Ac_RegTime.Desc).ToList<Accounts>();
                     _export4Excel_to_sheet(hssfworkbook, "未分组学员", accounts, nodes);
                 }
             }
@@ -932,7 +932,7 @@ namespace Song.ServiceImpls
                     //
                     Song.Entities.StudentSort sts=Gateway.Default.From<StudentSort>().Where(StudentSort._.Sts_ID == sortid).ToFirst<StudentSort>();
                     if(sts==null)continue;
-                    accounts = Gateway.Default.From<Accounts>().Where(Accounts._.Org_ID == orgid && Accounts._.Sts_ID == sts.Sts_ID).OrderBy(Accounts._.Ac_RegTime.Desc).ToArray<Accounts>();
+                    accounts = Gateway.Default.From<Accounts>().Where(Accounts._.Org_ID == orgid && Accounts._.Sts_ID == sts.Sts_ID).OrderBy(Accounts._.Ac_RegTime.Desc).ToList<Accounts>();
                     _export4Excel_to_sheet(hssfworkbook, sts.Sts_Name, accounts, nodes);
                 }
                 ////其它学员（没有分组的学员）
@@ -963,11 +963,11 @@ namespace Song.ServiceImpls
             xmldoc.Load(WeiSha.Core.Server.MapPath(confing));
             XmlNodeList nodes = xmldoc.GetElementsByTagName("item");
             //
-            Accounts[] accounts = null;
+            List<Accounts> accounts = null;
             //如果没有分组信息，则取当前机构的所有
             if (string.IsNullOrWhiteSpace(orgs))
             {
-                accounts = Gateway.Default.From<Accounts>().OrderBy(Accounts._.Ac_RegTime.Desc).ToArray<Accounts>();
+                accounts = Gateway.Default.From<Accounts>().OrderBy(Accounts._.Ac_RegTime.Desc).ToList<Accounts>();
                 _export4Excel_to_sheet(hssfworkbook, "全部学员信息", accounts, nodes);
             }
             else
@@ -982,7 +982,7 @@ namespace Song.ServiceImpls
                     //
                     Song.Entities.Organization org = Business.Do<IOrganization>().OrganSingle(orgid);
                     if (org == null) continue;
-                    accounts = Gateway.Default.From<Accounts>().Where(Accounts._.Org_ID == orgid).OrderBy(Accounts._.Ac_RegTime.Desc).ToArray<Accounts>();
+                    accounts = Gateway.Default.From<Accounts>().Where(Accounts._.Org_ID == orgid).OrderBy(Accounts._.Ac_RegTime.Desc).ToList<Accounts>();
                     _export4Excel_to_sheet(hssfworkbook, org.Org_Name + org.Org_ID.ToString(), accounts, nodes);
                 }
             }
@@ -993,7 +993,7 @@ namespace Song.ServiceImpls
             file.Close();
             return path;
         }
-        private void _export4Excel_to_sheet(HSSFWorkbook hssfworkbook, string sheetName, Accounts[] accounts, XmlNodeList nodes)
+        internal static void _export4Excel_to_sheet(HSSFWorkbook hssfworkbook, string sheetName, List<Accounts> accounts, XmlNodeList nodes)
         {
             ISheet sheet = hssfworkbook.CreateSheet(sheetName);   //创建工作簿对象
             //创建数据行对象
@@ -1008,7 +1008,7 @@ namespace Song.ServiceImpls
             ICellStyle style_size = hssfworkbook.CreateCellStyle();
             style_size.WrapText = true;
 
-            for (int i = 0; i < accounts.Length; i++)
+            for (int i = 0; i < accounts.Count; i++)
             {
                 IRow row = sheet.CreateRow(i + 1);
                 for (int j = 0; j < nodes.Count; j++)

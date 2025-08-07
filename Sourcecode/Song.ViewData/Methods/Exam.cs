@@ -1364,6 +1364,29 @@ namespace Song.ViewData.Methods
             return jo;
         }
         /// <summary>
+        /// 导出某场考试的缺考人员
+        /// </summary>
+        /// <param name="examid">考试主题的id</param>
+        /// <returns></returns>
+        [HttpPost]
+        public JObject ExportAbsences4Exam(int examid)
+        {
+            //导出文件的位置
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\" + examid + "\\";
+            if (!System.IO.Directory.Exists(rootpath))
+                System.IO.Directory.CreateDirectory(rootpath);
+
+            DateTime date = DateTime.Now;
+            string filename = string.Format("Absences.{0}.({1}).xls", examid, date.ToString("yyyy-MM-dd HH-mm-ss"));
+            string filePath = rootpath + filename;
+            filePath = Business.Do<IExamination>().ExportAbsences4Exam(filePath, examid);
+            JObject jo = new JObject();
+            jo.Add("file", filename);
+            jo.Add("url", string.Format("{0}/{1}/{2}", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath, examid, filename));
+            jo.Add("date", date);
+            return jo;
+        }
+        /// <summary>
         /// 删除Excel文件
         /// </summary>
         /// <param name="examid"></param>
@@ -1379,7 +1402,20 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="examid">考试的id，不分考试主题与场次</param>
         /// <returns>file:文件名,url:下载地址,date:创建时间</returns>
-        public JArray ExcelResultsFiles(int examid)
+        public JArray ExcelResultsFiles(int examid) => _excelFiles(examid, "Results");
+        /// <summary>
+        ///  获取已经生成的缺考学员的Excel文件
+        /// </summary>
+        /// <param name="examid"></param>
+        /// <returns></returns>
+        public JArray ExcelAbsencesFiles(int examid) => _excelFiles(examid, "Absences");
+        /// <summary>
+        /// 获取Excel文件
+        /// </summary>
+        /// <param name="examid"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        private JArray _excelFiles(int examid,string type)
         {
             string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\" + examid + "\\";
             if (!System.IO.Directory.Exists(rootpath))
@@ -1389,7 +1425,7 @@ namespace Song.ViewData.Methods
             FileInfo[] files = dir.GetFiles("*.xls").OrderByDescending(f => f.CreationTime).ToArray();
             foreach (System.IO.FileInfo f in files)
             {
-                if (!f.Name.StartsWith("Results")) continue;
+                if (!f.Name.StartsWith(type)) continue;
                 JObject jo = new JObject();
                 jo.Add("file", f.Name);
                 jo.Add("url", string.Format("{0}/{1}/{2}", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath, examid, f.Name));
