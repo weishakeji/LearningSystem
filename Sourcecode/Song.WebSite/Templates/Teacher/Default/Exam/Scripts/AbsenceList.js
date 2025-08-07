@@ -1,4 +1,4 @@
-$ready(function () {
+$ready(['Components/setscore.js'], function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
@@ -17,6 +17,9 @@ $ready(function () {
 
             export_panel: false, //导出窗口
             files: [],          //已经生成的excel文件列表
+
+            accountVisible: false,   //是否显示当前学员
+            account: {},      //当前学员信息
 
             loadstate: {
                 init: false,        //初始化
@@ -59,6 +62,11 @@ $ready(function () {
 
         },
         methods: {
+             //显示学员的面板
+             getaccount: function (row) {
+                this.accountVisible = true;
+                this.account = row;
+            },
             //获取学员分组，未参加考试（即缺考）学员的学员组
             getsorts: function () {
                 var th = this;

@@ -74,10 +74,12 @@
             </el-table-column>
             <el-table-column label="姓名" width="150">
                 <template slot-scope="scope">
-                    <icon :woman="scope.row.Ac_Sex=='2'" :man="scope.row.Ac_Sex!='2'"
-                        v-html='showsearch(scope.row.Ac_Name,form.name)' class="link large"
-                        @click="getaccount(scope.row)">
-                    </icon>
+                    <el-link type="primary" plain @dblright:300="$refs['setscore'].show(scope.row)">
+                        <icon :woman="scope.row.Ac_Sex=='2'" :man="scope.row.Ac_Sex!='2'"
+                            v-html='showsearch(scope.row.Ac_Name,form.name)' class="large"
+                            @click="getaccount(scope.row)">
+                        </icon>
+                    </el-link>
                 </template>
             </el-table-column>
             <el-table-column label="身份证">
@@ -129,8 +131,7 @@
                         <el-tooltip class="item" effect="dark" content="重新计算成绩" placement="bottom">
                             <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
                                 icon-color="red" title="确定要重新计算成绩吗？" @confirm="clacResultScore(scope.row)">
-                                <el-link type="primary" plain icon="el-icon-refresh" slot="reference"
-                                    @dblright:300="$refs['setscore'].show(scope.row)" :exrid="scope.row.Exr_ID">
+                                <el-link type="primary" plain icon="el-icon-refresh" slot="reference" :exrid="scope.row.Exr_ID">
                                 </el-link>
                             </el-popconfirm>
                         </el-tooltip>

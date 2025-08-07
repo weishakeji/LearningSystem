@@ -49,13 +49,14 @@
             </el-table-column>
             <el-table-column label="姓名" width="120" class-name="account">
                 <div slot-scope="scope">
-                    <div :class="{'woman': scope.row.Ac_Sex==2,'man': scope.row.Ac_Sex==1,'large':true}">
+                    <el-link type="primary" plain :class="{'woman': scope.row.Ac_Sex==2,'man': scope.row.Ac_Sex==1,'large':true}"
+                     @dblright:300="alert(scope.row.Ac_Name)" @click="getaccount(scope.row)">
                         <icon :woman="scope.row.Ac_Sex==2" :man="scope.row.Ac_Sex==1">
                             <span v-html='showsearch(scope.row.Ac_Name,form.name)' v-if="scope.row.Ac_Name!=''"
                                 @dblclick.stop="copytext(scope.row.Ac_Name)"></span>
                             <span v-else class="noname">(没有名字)</span>
                         </icon>
-                    </div>
+                    </el-link>
                 </div>
             </el-table-column>
             <el-table-column label="电话" width="100">
@@ -129,6 +130,52 @@
                 <el-button type="primary" @click="toexcel" :loading="loading">生成导出文件</el-button>
             </span>
         </el-dialog>
+          <!--考生信息-->
+          <el-dialog title="考生信息" :visible.sync="accountVisible">
+            <div slot="title">
+                <icon style="font-size: 25px;">&#xe669</icon>考生信息
+            </div>
+            <el-row :gutter="20">
+                <el-col :span="24" class="accountInfo">
+                    <avatar :account="account" circle="true" size="80"></avatar>
+                    <div>
+                        <icon :woman="account.Ac_Sex=='2'" :man="account.Ac_Sex!='2'">
+                            <b>{{account.Ac_Name}}</b>
+                        </icon>
+                        <span title="账号">({{account.Ac_AccName}})</span>
+                    </div>
+                    <div icon="&#xe68f" title="身份证" v-html="account.Ac_IDCardNumber"></div>
+                    <div icon="&#xa047" title="电话">
+                        <span v-html='account.Ac_MobiTel1'></span>
+                        <span
+                            v-if="account.Ac_MobiTel1!='' && account.Ac_MobiTel2!='' && account.Ac_MobiTel1!= account.Ac_MobiTel2 ">/</span>
+                        <span v-if="account.Ac_MobiTel1!= account.Ac_MobiTel2 " v-html='account.Ac_MobiTel2'></span>
+                    </div>
+
+                </el-col>
+            </el-row>
+            <el-divider></el-divider>
+            <div class="examInfo">
+                <el-row :gutter="20">
+                    <el-col :span="4">
+                        考试
+                    </el-col>
+                    <el-col :span="20">
+                        {{entity.Exam_Title}}
+                    </el-col>
+                </el-row>   
+                <el-row :gutter="20">
+                    <el-col :span="4">
+                        成绩
+                    </el-col>
+                    <el-col :span="20">
+                       <warning>该学员缺考</warning>
+                    </el-col>
+                </el-row>
+            </div>
+        </el-dialog>
+         <!--build exr-->
+         <setscore ref="setscore" :exam="entity"></setscore>
     </div>
 </body>
 
