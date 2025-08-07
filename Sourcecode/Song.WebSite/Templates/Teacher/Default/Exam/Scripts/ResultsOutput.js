@@ -70,7 +70,7 @@ $ready(function () {
                     sort = th.exportquery.sorts.join(',');
                 }
                 th.fileloading = true;
-                $api.post('Exam/ResultsOutputSorts', { 'examid': th.examid, 'sorts': sort }).then(function (req) {
+                $api.post('Exam/ResultsExport4Eaxm', { 'examid': th.examid, 'sorts': sort }).then(function (req) {
                     if (req.data.success) {
                         th.getFiles();
                     } else {

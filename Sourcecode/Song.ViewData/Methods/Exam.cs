@@ -1310,7 +1310,7 @@ namespace Song.ViewData.Methods
         /// <param name="sorts">学员组的id，多个id用逗号分隔</param>
         /// <returns></returns>
         [HttpPost]
-        public JObject ResultsOutputSorts(int examid,string sorts)
+        public JObject ResultsExport4Eaxm(int examid,string sorts)
         {           
             List<long> sortsid = new List<long>();
             foreach (string sts in sorts.Split(','))
@@ -1326,7 +1326,7 @@ namespace Song.ViewData.Methods
             DateTime date = DateTime.Now;
             string filename = string.Format("Results.{0}.({1}).xls", examid, date.ToString("yyyy-MM-dd HH-mm-ss"));
             string filePath = rootpath + filename;
-            filePath = Business.Do<IExamination>().OutputResults4Exam(filePath, examid, sortsid.ToArray<long>());
+            filePath = Business.Do<IExamination>().ExportResults4Exam(filePath, examid, sortsid.ToArray<long>());
             JObject jo = new JObject();
             jo.Add("file", filename);
             jo.Add("url", string.Format("{0}/{1}/{2}", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath, examid, filename));
@@ -1340,7 +1340,7 @@ namespace Song.ViewData.Methods
         /// <param name="sorts">学员组的id</param>
         /// <returns></returns>
         [HttpPost]
-        public JObject OutputResults4Theme(int examid, string sorts)
+        public JObject ResultsExport4Theme(int examid, string sorts)
         {
             List<long> sortsid = new List<long>();
             foreach (string sts in sorts.Split(','))
@@ -1356,7 +1356,7 @@ namespace Song.ViewData.Methods
             DateTime date = DateTime.Now;
             string filename = string.Format("Results.{0}.({1}).xls", examid, date.ToString("yyyy-MM-dd HH-mm-ss"));
             string filePath = rootpath + filename;
-            filePath = Business.Do<IExamination>().OutputResults4Theme(filePath, examid, sortsid.ToArray<long>());
+            filePath = Business.Do<IExamination>().ExportResults4Theme(filePath, examid, sortsid.ToArray<long>());
             JObject jo = new JObject();
             jo.Add("file", filename);
             jo.Add("url", string.Format("{0}/{1}/{2}", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath, examid, filename));

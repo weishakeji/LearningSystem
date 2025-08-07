@@ -1668,7 +1668,7 @@ namespace Song.ServiceImpls
         /// <param name="examid">考试场次id</param>
         /// <param name="sorts"></param>
         /// <returns></returns>
-        public string OutputResults4Exam(string filePath, int examid, long[] sorts)
+        public string ExportResults4Exam(string filePath, int examid, long[] sorts)
         {
             HSSFWorkbook hssfworkbook = new HSSFWorkbook();
             //xml配置文件
@@ -1818,7 +1818,7 @@ namespace Song.ServiceImpls
         /// <param name="examid">考试主题的id</param>
         /// <param name="sorts">学员组</param>
         /// <returns></returns>
-        public string OutputResults4Theme(string filePath, int examid, long[] sorts)
+        public string ExportResults4Theme(string filePath, int examid, long[] sorts)
         {
             //如果没有指定学员组，则取所有学员组
             if (sorts == null || sorts.Length < 1)
@@ -1867,7 +1867,52 @@ namespace Song.ServiceImpls
             file.Close();
             return filePath;
         }
-
+        /// <summary>
+        /// 导出某场考试的缺考人员
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="examid">考试场次id</param>
+        /// <param name="sorts">学员组</param>
+        /// <returns></returns>
+        public string ExportAbsences4Exam(string filePath, int examid, long[] sorts)
+        {
+            HSSFWorkbook hssfworkbook = new HSSFWorkbook();
+            //xml配置文件
+            XmlDocument xmldoc = new XmlDocument();
+            string confing = WeiSha.Core.App.Get["ExcelInputConfig"].VirtualPath + "学生信息.xml";
+            xmldoc.Load(WeiSha.Core.Server.MapPath(confing));
+            XmlNodeList nodes = xmldoc.GetElementsByTagName("item");
+            //            
+            if (sorts == null || sorts.Length < 1)
+            {
+                //用考试名称，创建工作表对象
+                Examination exam = Gateway.Default.From<Examination>().Where(Examination._.Exam_ID == examid).ToFirst<Examination>();
+                ISheet sheet = hssfworkbook.CreateSheet(exam.Exam_Name);
+                //生成数据行
+                int total = 0;
+                List<Accounts> accounts = AbsenceExamAccounts(examid,string.Empty,string.Empty,string.Empty,0,int.MaxValue,1,out total);
+                //setSheet(accounts, sheet, nodes);
+            }
+            else
+            {
+                //考试主题下的所有参考人员（分过组的）成绩          
+                foreach (long sid in sorts)
+                {
+                    StudentSort sts = Business.Do<IStudent>().SortSingle(sid);
+                    if (sts == null) continue;
+                    WhereClip wc = new WhereClip();
+                    wc.And(ExamResults._.Exam_ID == examid && ExamResults._.Sts_ID == sid);
+                    ExamResults[] exr = Gateway.Default.From<ExamResults>().Where(wc).OrderBy(ExamResults._.Exr_LastTime.Desc).ToArray<ExamResults>();
+                    if (exr.Length < 1) continue;
+                    ISheet sheet = hssfworkbook.CreateSheet(sts.Sts_Name);
+                    setSheet(exr, sheet, nodes);
+                }
+            }
+            FileStream file = new FileStream(filePath, FileMode.Create);
+            hssfworkbook.Write(file);
+            file.Close();
+            return filePath;
+        }
         /// <summary>
         /// 学员在某个课程下的考试成绩
         /// </summary>

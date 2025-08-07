@@ -420,9 +420,9 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="filePath"></param>
         /// <param name="examid">考试场次id</param>
-        /// <param name="sorts"></param>
+        /// <param name="sorts">学员组</param>
         /// <returns></returns>
-        string OutputResults4Exam(string filePath, int examid, long[] sorts);
+        string ExportResults4Exam(string filePath, int examid, long[] sorts);
         /// <summary>
         /// 考试主题下的所有成绩
         /// </summary>
@@ -430,7 +430,15 @@ namespace Song.ServiceInterfaces
         /// <param name="examid">考试主题的id</param>
         /// <param name="sorts">学员组</param>
         /// <returns></returns>
-        string OutputResults4Theme(string filePath, int examid, long[] sorts);
+        string ExportResults4Theme(string filePath, int examid, long[] sorts);
+        /// <summary>
+        /// 导出某场考试的缺考人员
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="examid">考试场次id</param>
+        /// <param name="sorts">学员组</param>
+        /// <returns></returns>
+        string ExportAbsences4Exam(string filePath, int examid, long[] sorts);
         /// <summary>
         /// 学员在某个课程下的考试成绩
         /// </summary>
