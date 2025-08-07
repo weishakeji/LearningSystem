@@ -15,7 +15,7 @@ $ready(function () {
             totalpages: 1, //总页数
             selects: [], //数据表中选中的行
 
-            output_panel: false, //导出窗口
+            export_panel: false, //导出窗口
             files: [],          //已经生成的excel文件列表
 
             loadstate: {
@@ -42,6 +42,7 @@ $ready(function () {
             }).catch((err) => console.error(err));
             th.getsorts();
             th.handleCurrentChange();
+            this.getFiles();
         },
         computed: {
             loading: function () {
@@ -110,7 +111,56 @@ $ready(function () {
                     });
                 });
             },
-           
+            //已经导出的文件列表
+            getFiles: function () {
+                var th = this;
+                th.loadstate.get = true;
+                $api.get('Exam/ExcelAbsencesFiles', { 'examid': th.form.examid }).then(function (req) {
+                    if (req.data.success) {
+                        th.files = req.data.result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loadstate.get = false);
+            },
+            //生成导出文件
+            toexcel: function () {
+                var th = this;
+                th.loadstate.def = true;
+                $api.post('Exam/ExportAbsences4Exam', { 'examid': th.form.examid }).then(function (req) {
+                    if (req.data.success) {
+                        th.getFiles();
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loadstate.def = false);
+            },
+            //删除文件
+            deleteFile: function (file) {
+                var th = this;
+                th.loadstate.del = true;
+                $api.get('Exam/ExcelDelete', { 'examid': th.form.examid, 'filename': file }).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.getFiles();
+                        th.$notify({
+                            message: '文件删除成功！',
+                            type: 'success',
+                            position: 'bottom-left',
+                            duration: 2000
+                        });
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.data.message;
+                    }
+                }).catch(err => alert(err))
+                    .finally(() => th.loadstate.del = false);
+            },
+
         },
         filters: {
 

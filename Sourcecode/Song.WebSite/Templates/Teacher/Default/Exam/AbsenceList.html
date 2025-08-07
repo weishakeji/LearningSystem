@@ -11,7 +11,7 @@
 <body>
     <div id="vapp" v-cloak>
         <div class="toolsbar">
-            <btngroup show="导出" ref='btngroup' width="600" height="500" @output="output_panel=true"></btngroup>
+            <btngroup show="导出" ref='btngroup' width="600" height="500" @output="export_panel=true"></btngroup>
             <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item label="">
                     <el-select v-model="form.stsid" placeholder="请选择" style="width: 160px;"
@@ -108,13 +108,27 @@
             </el-pagination>
         </div>
         <!-- 导出面板-->
-        <el-dialog title="提示" :visible.sync="output_panel" width="30%">
-            <span slot="title"><icon large>&#xe73e</icon>缺人员信息导出</span>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="output_panel = false">取 消</el-button>
-                <el-button type="primary" @click="output_panel = false">生成导出文件</el-button>
+        <el-dialog title="提示" :visible.sync="export_panel" width="80%" :show-close="false" :before-close="()=>{}">
+            <span slot="title">
+                <icon large>&#xe73e</icon>缺考人员信息导出
             </span>
-        </el-dialog>       
+            <dl class="files" v-if="files.length>0">
+                <dd v-for="(f,i) in files">
+                    <a :href="f.url" :filetype="f.type" target="_blank" title="点击下载" :download="f.file">
+                        {{f.file}}</a>
+                    <span>{{f.size|size}}</span>
+                    <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
+                        <el-link type="danger" icon="el-icon-delete" v-loading="loading" slot="reference">删除
+                        </el-link>
+                    </el-popconfirm>
+                </dd>
+            </dl>
+            <help v-else>点击“生成导出文件”</help>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="export_panel = false" :disabled="loading">取 消</el-button>
+                <el-button type="primary" @click="toexcel" :loading="loading">生成导出文件</el-button>
+            </span>
+        </el-dialog>
     </div>
 </body>
 
