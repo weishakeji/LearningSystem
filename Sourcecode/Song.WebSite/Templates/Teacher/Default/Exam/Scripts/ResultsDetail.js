@@ -64,19 +64,6 @@ $ready(['Components/setscore.js'],
 
             },
             methods: {
-                //自动生成成绩
-                automatically: function (attr, el) {
-                    let exrid = attr.exrid;
-                    //exrid不等于空，则表示是行内事件
-                    if (exrid != null) {
-                        //alert(exrid);
-                        this.exrVisible = true;
-                    }
-
-                    //console.error(attr);
-                    //console.error(el);
-                    //console.error('automatically 自动生成行的数据');
-                },
                 //显示修改学员成绩的面板
                 setAccountExr: function (row) {
                     this.exrVisible = true;
