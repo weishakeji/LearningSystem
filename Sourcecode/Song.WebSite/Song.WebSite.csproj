@@ -1463,6 +1463,7 @@
     <Content Include="Templates\Teacher\Default\Course\Styles\Messages.css" />
     <Content Include="Templates\Teacher\Default\Course\Styles\List.css" />
     <Content Include="Templates\Teacher\Default\Exam\AbsenceList.html" />
+    <Content Include="Templates\Teacher\Default\Exam\Components\createscore.js" />
     <Content Include="Templates\Teacher\Default\Exam\Components\exam_items.js" />
     <Content Include="Templates\Teacher\Default\Exam\Components\group_select.js" />
     <Content Include="Templates\Teacher\Default\Exam\Components\setscore.js" />

@@ -221,7 +221,7 @@
                 <el-col :span="2"></el-col>
               </el-row>
               <el-row :gutter="20" v-for="(item,index) in examlist"  :key="index">
-                <el-col :span="8">
+                <el-col :span="8" class='exam_name'>
                     {{item.Exam_Name}}                                 
                 </el-col>
                 <el-col :span="6">{{item.Sbj_Name}}</el-col>

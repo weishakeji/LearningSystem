@@ -361,19 +361,21 @@ namespace Song.ServiceImpls
             starttime = time ?? result.Exr_CrtTime;
             if (starttime < beginTime) starttime = beginTime;
             overtime = starttime.AddMinutes(duration);
-            //
+            //交卷时间与成绩计算时间
             result.Exr_CrtTime=starttime;
             result.Exr_LastTime = result.Exr_OverTime = result.Exr_SubmitTime = overtime;
+            result.Exr_CalcTime = overtime.AddMinutes(3);
             result.Exr_IsSubmit = true;
             //生成答题信息
             Exam.Results examresult = new Song.ServiceImpls.Exam.Results(result.Exr_Results);
             float exrscore = examresult.SetScore(score);
             examresult.Begin = beginTime;
             examresult.Startime = starttime;
-            examresult.Overtime = overtime;
+            examresult.Overtime = overtime; 
             //
             result.Exr_Score = result.Exr_ScoreFinal = (float)Math.Round(exrscore * 100) / 100;
             result.Exr_Results = examresult.OutputXML(false);
+            result.Exr_IsCalc = true;
             Gateway.Default.Save<ExamResults>(result);
             return result;
         }
@@ -422,7 +424,8 @@ namespace Song.ServiceImpls
                     exr.Sbj_Name = subject.Sbj_Name;
                 }
                 //IP与Mac
-
+                exr.Exr_IP = WeiSha.Core.IP.Random();
+                exr.Exr_Mac = WeiSha.Core.Request.UniqueID();   //原本是网卡的mac地址,此处不再记录
                 //出卷,生成试卷
                 Song.ServiceImpls.Exam.Results results = Song.ServiceImpls.Exam.TestPaperHandler.Putout(exr.Tp_Id).ToResults(exam, acc);
                 exr.Exr_Results = results.OutputXML(false);
