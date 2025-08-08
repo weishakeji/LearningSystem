@@ -1257,10 +1257,10 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 设置考试成绩
         /// </summary>
-        /// <param name="exrid"></param>
-        /// <param name="score"></param>
-        /// <param name="time"></param>
-        /// <param name="dura"></param>
+        /// <param name="exrid">考试成绩记录的id</param>
+        /// <param name="score">得分</param>
+        /// <param name="time">开始时间</param>
+        /// <param name="dura">用时</param>
         public ExamResults ResultSetScore(int exrid, float score, DateTime? time, int dura)
         {
             ExamResults exr = Business.Do<IExamination>().ResultSingle(exrid);
@@ -1271,13 +1271,14 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 创建考试成绩
         /// </summary>
-        /// <param name="exrid"></param>
-        /// <param name="score"></param>
-        /// <param name="time"></param>
-        /// <param name="dura"></param>
-        public ExamResults ResultCreateScore(int exam,int acid, float score, DateTime? time, int dura)
+        /// <param name="examid">考试场次id</param>
+        /// <param name="acid">学员账号id</param>
+        /// <param name="score">得分</param>
+        /// <param name="time">开始时间</param>
+        /// <param name="dura">用时</param>
+        public ExamResults ResultCreateScore(int examid,int acid, float score, DateTime? time, int dura)
         {
-            return Business.Do<IExamination>().ResultSetScore(exam, acid, score, time, dura);
+            return Business.Do<IExamination>().ResultSetScore(examid, acid, score, time, dura);
         }
         /// <summary>
         /// 批量计算考试成绩
