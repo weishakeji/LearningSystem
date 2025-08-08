@@ -184,7 +184,7 @@ namespace Song.ServiceInterfaces
         /// <param name="time">考试开始时间</param>
         /// <param name="duration">考试用时，单位分钟</param>
         /// <returns></returns>
-        ExamResults ResultSetScore(int accid, int examid, float score, DateTime? time, int duration);
+        ExamResults ResultSetScore(int examid, int accid, float score, DateTime? time, int duration);
         /// <summary>
         /// 批量计算考试成绩
         /// </summary>

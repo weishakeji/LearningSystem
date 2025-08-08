@@ -1,7 +1,7 @@
-//设置考试成绩
-Vue.component('setscore', {
-    //当前考试，当前成绩
-    props: ['exam', 'exresult'],
+//创建考试成绩
+Vue.component('createscore', {
+    //当前考试，指定的学员
+    props: ['exam', 'account'],
     data: function () {
         //验证考试时间的方法
         var validateDate = (rule, value, callback) => {
@@ -18,12 +18,7 @@ Vue.component('setscore', {
         return {
             //生成成绩的面板
             showpanel: false,
-            form: {
-                score: 0,
-                dura: 0,     //考试用时
-                time: '',        //考试时间
-                exrid: 0
-            },
+            form: { "examid": "", "acid": "", "score": "", "time": "", "dura": "" },
             rules: {
                 time: [
                     { required: true, message: '考试时间不得为空', trigger: 'blur' },
@@ -41,6 +36,7 @@ Vue.component('setscore', {
         'exam': {
             handler: function (nv, ov) {
                 let exam = nv;
+                this.form.examid = exam.Exam_ID;
                 //设置表单的值               
                 this.scoremarks[exam.Exam_Total] = '满分';
                 this.scoremarks[exam.Exam_PassScore] = exam.Exam_PassScore + ' 分及格'
@@ -50,16 +46,23 @@ Vue.component('setscore', {
             },
             immediate: false, deep: true
         },
-        'exresult': function (nv, ov) {
+        'account': function (nv, ov) {
             if ($api.isnull(this.exam) || $api.isnull(nv)) return;
-            let exam = this.exam, exr = nv;
+            let exam = this.exam;
             //设置考试得分，不低于原始分和及格分
-            let lowest = exr.Exr_ScoreFinal <= exam.Exam_PassScore ? exam.Exam_PassScore : exr.Exr_ScoreFinal;
+            let lowest = exam.Exam_PassScore;
             this.form.score = Math.round(Math.random() * (exam.Exam_Total - lowest) + lowest);
+            //设置考试时间
+            if (exam.Exam_DateType == 1) this.form.time = exam.Exam_Date;
+            if (exam.Exam_DateType == 2) {
+                //生成随机开始时间
+                let maxspan = (exam.Exam_DateOver.getTime() - exam.Exam_Date.getTime()) / 1000;
+                if (maxspan > 31536000) maxspan = 31536000;   //最长一年
+                else maxspan = maxspan / 3;
+                this.form.time = new Date(exam.Exam_Date.getTime() + Math.round(Math.random() * (maxspan)) * 1000);
+            }
             //设置考试用时
             this.form.dura = Math.floor((Math.random() + 1) * exam.Exam_Span / 2);
-            //设置考试时间
-            this.form.time = exr.Exr_CrtTime;
         }
     },
     computed: {},
@@ -68,33 +71,34 @@ Vue.component('setscore', {
     },
     methods: {
         //显示面板
-        show: function (exr) {
+        show: function (acc) {
             this.showpanel = true;
-            this.exresult = exr;
-            this.form.exrid = exr.Exr_ID;
+            this.account = acc;
+            this.form.acid = acc.Ac_ID;
         },
         //设置考试成绩
         setResultScore: function () {
             var th = this;
             this.$refs['updateform'].validate((valid) => {
                 if (valid) {
-                    th.loading = true;
-                    var item = th.exresult;
                     //当前行正在处理中
-                    th.$set(item, 'inprocess', true);
-                    $api.get('Exam/ResultSetScore', th.form).then(function (req) {
+                    th.loading = true;
+                    /*
+                    window.setTimeout(function () {
+                        th.loading = false
+                    }, 6000);
+                    return;*/
+                    $api.get('Exam/ResultCreateScore', th.form).then(function (req) {
                         if (req.data.success) {
                             let result = req.data.result;
                             th.$emit('update', result);
+                            th.showpanel = false;
                         } else {
                             console.error(req.data.exception);
                             throw req.config.way + ' ' + req.data.message;
                         }
                     }).catch(err => console.error(err))
-                        .finally(() => {
-                            th.loading = false;
-                            th.$set(item, 'inprocess', false);
-                        });
+                        .finally(() => th.loading = false);
                 } else {
                     console.error('error submit!!');
                     return false;
@@ -102,10 +106,10 @@ Vue.component('setscore', {
             });
         },
     },
-    template: `<div v-if="exam && exresult && showpanel">
-    <el-dialog :visible.sync="showpanel" width="70%">
+    template: `<div v-if="exam && account && showpanel">
+    <el-dialog :visible.sync="showpanel" width="80%">
         <div slot="title">
-            <icon large>&#xe6b0</icon>设置考试成绩 - <b title="学员名称">{{exresult.Ac_Name}}</b> （ 原分数 {{exresult.Exr_ScoreFinal}}  ）
+            <icon large>&#xe6b0</icon>创建考试成绩 - <b title="学员名称">{{account.Ac_Name}}</b> 
         </div>
         <el-form ref="updateform" :model="form" label-width="100px" :rules="rules" >
             <el-form-item label="成绩得分">

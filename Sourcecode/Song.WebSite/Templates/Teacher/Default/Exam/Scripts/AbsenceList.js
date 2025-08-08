@@ -1,4 +1,4 @@
-$ready(['Components/setscore.js'], function () {
+$ready(['Components/createscore.js'], function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
@@ -45,7 +45,7 @@ $ready(['Components/setscore.js'], function () {
             }).catch((err) => console.error(err));
             th.getsorts();
             th.handleCurrentChange();
-            this.getFiles();
+            th.getFiles();
         },
         computed: {
             loading: function () {
@@ -168,7 +168,16 @@ $ready(['Components/setscore.js'], function () {
                 }).catch(err => alert(err))
                     .finally(() => th.loadstate.del = false);
             },
-
+            //创建学员考试成绩成功
+            crtscoreupdate:function(item){
+                this.$nextTick(() => {
+                    this.$message({
+                        message: item.Ac_Name + ' 新成绩 ' + item.Exr_ScoreFinal + ' 分',
+                        type: 'success'
+                    });
+                });
+                this.handleCurrentChange();
+            }
         },
         filters: {
 

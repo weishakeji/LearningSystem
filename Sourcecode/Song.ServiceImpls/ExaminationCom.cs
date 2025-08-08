@@ -386,18 +386,18 @@ namespace Song.ServiceImpls
         /// <param name="time">考试开始时间</param>
         /// <param name="duration">考试用时，单位分钟</param>
         /// <returns></returns>
-        public ExamResults ResultSetScore(int accid, int examid, float score, DateTime? time, int duration)
+        public ExamResults ResultSetScore(int examid, int accid, float score, DateTime? time, int duration)
         {
             ExamResults exr = this.ResultSingle(accid, examid);     //考试答题记录的对象
             //当前考试对象
-            Examination exam = Gateway.Default.From<Examination>().Where(Examination._.Exam_ID == examid).ToFirst<Examination>();   
+            Examination exam = Gateway.Default.From<Examination>().Where(Examination._.Exam_ID == examid).ToFirst<Examination>();
             if (exr == null)
             {
                 exr = new ExamResults();
                 //设置学员的信息
                 Accounts acc = accountsCom.AccountsSingle(accid);
                 if (acc == null) throw new Exception("学员账号不存在");
-                exr.Ac_ID = acc.Ac_ID;  
+                exr.Ac_ID = acc.Ac_ID;
                 exr.Ac_IDCardNumber = acc.Ac_IDCardNumber;  //身份证号
                 exr.Ac_Name = acc.Ac_Name;
                 exr.Ac_Sex = acc.Ac_Sex;
@@ -408,11 +408,11 @@ namespace Song.ServiceImpls
                 exr.Exam_UID = exam.Exam_UID;
                 exr.Exam_Title = exam.Exam_Title;
                 //机构信息
-                Organization org = orgCom.OrganSingle(exam.Org_ID);
-                exr.Org_ID = exam.Org_ID;
-                exr.Org_Name = org.Org_Name;
+                Organization org = orgCom.OrganSingle(acc.Org_ID);
+                exr.Org_ID = acc.Org_ID;
+                if (org != null) exr.Org_Name = org.Org_Name;
                 //试卷信息
-                TestPaper tp = tpCom.PaperSingle(exam.Th_ID);
+                TestPaper tp = tpCom.PaperSingle(exam.Tp_Id);
                 exr.Tp_Id = tp.Tp_Id;
                 //专业信息
                 Subject subject = sbjCom.SubjectSingle(tp.Sbj_ID);
