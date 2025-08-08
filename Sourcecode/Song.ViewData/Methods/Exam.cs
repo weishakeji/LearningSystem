@@ -1269,6 +1269,17 @@ namespace Song.ViewData.Methods
             return exr;
         }
         /// <summary>
+        /// 创建考试成绩
+        /// </summary>
+        /// <param name="exrid"></param>
+        /// <param name="score"></param>
+        /// <param name="time"></param>
+        /// <param name="dura"></param>
+        public ExamResults ResultCreateScore(int exam,int acid, float score, DateTime? time, int dura)
+        {
+            return Business.Do<IExamination>().ResultSetScore(exam, acid, score, time, dura);
+        }
+        /// <summary>
         /// 批量计算考试成绩
         /// </summary>
         /// <param name="examid">考试场次id</param>

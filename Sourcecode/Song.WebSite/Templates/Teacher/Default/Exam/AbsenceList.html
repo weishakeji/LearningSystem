@@ -50,7 +50,7 @@
             <el-table-column label="姓名" width="120" class-name="account">
                 <div slot-scope="scope">
                     <el-link type="primary" plain :class="{'woman': scope.row.Ac_Sex==2,'man': scope.row.Ac_Sex==1,'large':true}"
-                     @dblright:300="alert(scope.row.Ac_Name)" @click="getaccount(scope.row)">
+                    @dblright:300="$refs['setscore'].show(scope.row)" @click="getaccount(scope.row)">
                         <icon :woman="scope.row.Ac_Sex==2" :man="scope.row.Ac_Sex==1">
                             <span v-html='showsearch(scope.row.Ac_Name,form.name)' v-if="scope.row.Ac_Name!=''"
                                 @dblclick.stop="copytext(scope.row.Ac_Name)"></span>

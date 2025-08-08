@@ -18,7 +18,12 @@ namespace Song.ServiceImpls
 {
     public class ExaminationCom : IExamination
     {
-
+        private static AccountsCom accountsCom = new AccountsCom();
+        private static StudentCom studentCom = new StudentCom();
+        private static OrganizationCom orgCom = new OrganizationCom();
+        private static QuestionsCom quesCom = new QuestionsCom();
+        private static TestPaperCom tpCom = new TestPaperCom();
+        private static SubjectCom sbjCom = new SubjectCom();
         public int ExamAdd(Teacher teacher, Examination entity)
         {
             entity.Exam_CrtTime = DateTime.Now;
@@ -26,7 +31,7 @@ namespace Song.ServiceImpls
             entity.Th_ID = teacher.Th_ID;
             entity.Th_Name = teacher.Th_Name;
             //
-            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+            Song.Entities.Organization org = orgCom.OrganCurrent();
             if (org != null)
             {
                 entity.Org_ID = org.Org_ID;
@@ -37,7 +42,7 @@ namespace Song.ServiceImpls
 
         public void ExamAdd(Teacher teacher, Examination theme, Examination[] items, ExamGroup[] groups)
         {
-            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+            Song.Entities.Organization org = orgCom.OrganCurrent();
             if (org != null)
             {
                 theme.Org_ID = org.Org_ID;
@@ -372,7 +377,59 @@ namespace Song.ServiceImpls
             Gateway.Default.Save<ExamResults>(result);
             return result;
         }
+        /// <summary>
+        /// 自助设置考试成绩得分，如果没有成绩记录，则创建一个
+        /// </summary>
+        /// <param name="accid">学员账号id</param>
+        /// <param name="examid">考试场次id</param>
+        /// <param name="score">期望的得分</param>
+        /// <param name="time">考试开始时间</param>
+        /// <param name="duration">考试用时，单位分钟</param>
+        /// <returns></returns>
+        public ExamResults ResultSetScore(int accid, int examid, float score, DateTime? time, int duration)
+        {
+            ExamResults exr = this.ResultSingle(accid, examid);     //考试答题记录的对象
+            //当前考试对象
+            Examination exam = Gateway.Default.From<Examination>().Where(Examination._.Exam_ID == examid).ToFirst<Examination>();   
+            if (exr == null)
+            {
+                exr = new ExamResults();
+                //设置学员的信息
+                Accounts acc = accountsCom.AccountsSingle(accid);
+                if (acc == null) throw new Exception("学员账号不存在");
+                exr.Ac_ID = acc.Ac_ID;  
+                exr.Ac_IDCardNumber = acc.Ac_IDCardNumber;  //身份证号
+                exr.Ac_Name = acc.Ac_Name;
+                exr.Ac_Sex = acc.Ac_Sex;
+                exr.Sts_ID = acc.Sts_ID;    //学员组id
+                //考试的信息
+                exr.Exam_ID = examid;
+                exr.Exam_Name = exam.Exam_Name;
+                exr.Exam_UID = exam.Exam_UID;
+                exr.Exam_Title = exam.Exam_Title;
+                //机构信息
+                Organization org = orgCom.OrganSingle(exam.Org_ID);
+                exr.Org_ID = exam.Org_ID;
+                exr.Org_Name = org.Org_Name;
+                //试卷信息
+                TestPaper tp = tpCom.PaperSingle(exam.Th_ID);
+                exr.Tp_Id = tp.Tp_Id;
+                //专业信息
+                Subject subject = sbjCom.SubjectSingle(tp.Sbj_ID);
+                if (subject != null)
+                {
+                    exr.Sbj_ID = subject.Sbj_ID;
+                    exr.Sbj_Name = subject.Sbj_Name;
+                }
+                //IP与Mac
 
+                //出卷,生成试卷
+                Song.ServiceImpls.Exam.Results results = Song.ServiceImpls.Exam.TestPaperHandler.Putout(exr.Tp_Id).ToResults(exam, acc);
+                exr.Exr_Results = results.OutputXML(false);
+            }
+            exr = this.ResultSetScore(exr, score, time, duration);
+            return exr;
+        }
         /// <summary>
         /// 批量计算考试成绩
         /// </summary>
@@ -710,7 +767,7 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 获取最新的答题信息（正式答题信息），获取时并不进行计算状态的判断
         /// </summary>
-        /// <param name="examid">考试id</param>
+        /// <param name="examid">考试场次id</param>
         /// <param name="tpid">试卷id</param>
         /// <param name="acid">考生id</param>
         /// <returns></returns>
@@ -931,7 +988,7 @@ namespace Song.ServiceImpls
                         ans = type == 1 || type == 2 || type == 3 ? qnode[j].Attributes["ans"].Value : qnode[j].InnerText
                     };
                     //是否正确
-                    float quesScore = Business.Do<IQuestions>().CalcScore(ques.id, ques.ans, ques.num);
+                    float quesScore = quesCom.CalcScore(ques.id, ques.ans, ques.num);
                     score += quesScore;
                     ((XmlElement)qnode[j]).SetAttribute("sucess", (quesScore== ques.num).ToString().ToLower());
                     ((XmlElement)qnode[j]).SetAttribute("score", quesScore.ToString());
@@ -948,7 +1005,7 @@ namespace Song.ServiceImpls
                         sq.Sbj_ID = info.sbjid;
                         ////难度
                         //sq.Qus_Diff = qus.Qus_Diff;
-                        Business.Do<IStudent>().QuesAdd(sq);
+                        studentCom.QuesAdd(sq);
                     }
                 }
 
@@ -1691,7 +1748,7 @@ namespace Song.ServiceImpls
                 //考试主题下的所有参考人员（分过组的）成绩          
                 foreach (long sid in sorts)
                 {
-                    StudentSort sts = Business.Do<IStudent>().SortSingle(sid);
+                    StudentSort sts = studentCom.SortSingle(sid);
                     if (sts == null) continue;
                     WhereClip wc = new WhereClip();
                     wc.And(ExamResults._.Exam_ID == examid && ExamResults._.Sts_ID == sid);
@@ -1724,7 +1781,7 @@ namespace Song.ServiceImpls
                 IRow row = sheet.CreateRow(i + 1);
                 Type exrRef = exr[i].GetType();           //ExamResults对象的反射对象
                 //当前学员对象
-                Accounts account = Business.Do<IAccounts>().AccountsSingle(exr[i].Ac_ID);
+                Accounts account = accountsCom.AccountsSingle(exr[i].Ac_ID);
                 Type accRef = account == null ? null : account.GetType();        //学员对象的反射对象
                 for (int j = 0; j < nodes.Count; j++)
                 {
@@ -1832,7 +1889,7 @@ namespace Song.ServiceImpls
             //考试主题下的所有参考人员（分过组的）成绩
             foreach (long sid in sorts)
             {
-                StudentSort sts = Business.Do<IStudent>().SortSingle(sid);
+                StudentSort sts = studentCom.SortSingle(sid);
                 if (sts == null) continue;
                 DataTable dt = this.Result4Theme(examid, sts.Sts_ID);
                 if (dt.Rows.Count < 1) continue;

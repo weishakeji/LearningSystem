@@ -29,3 +29,7 @@
 .examInfo .el-row:last-child {
     margin-top: 20px;
 }
+
+.el-slider__marks-text{
+    width: max-content;
+}

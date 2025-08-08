@@ -189,6 +189,26 @@ namespace Song.ServiceImpls.Exam
             Results results = new Results(doc.OuterXml);
             return results;
         }
+        /// <summary>
+        /// 根据试卷生成答题的xml解析对象
+        /// </summary>
+        /// <returns></returns>
+        public Results ToResults(Examination exam, Accounts acc)
+        {
+            XmlDocument doc = this.ToXml();
+            Results results = new Results(doc.OuterXml);
+            results.Examid = exam.Exam_ID;
+            results.ExamUid = exam.Exam_UID;
+            results.ExamTheme = exam.Exam_Title;    //考试主题
+            //学员信息
+            results.AccountID = acc.Ac_ID;
+            results.AccountName = acc.Ac_Name;
+            results.IDCardNumber = acc.Ac_IDCardNumber;
+            results.Gender = acc.Ac_Sex;
+            results.SortID = acc.Sts_ID;
+            
+            return results;
+        }
         #endregion
     }
 }
