@@ -187,6 +187,7 @@
     <Compile Include="Cache\EntitiesCache.cs" />
     <Compile Include="Cache\ExamResultsCache.cs" />
     <Compile Include="DepartCom.cs" />
+    <Compile Include="Exam\BatchResults.cs" />
     <Compile Include="Exam\HandlerExtensions.cs" />
     <Compile Include="Exam\Results.cs" />
     <Compile Include="Exam\TestPaperHandler.cs" />

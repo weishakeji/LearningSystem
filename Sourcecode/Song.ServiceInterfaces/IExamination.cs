@@ -186,6 +186,16 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         ExamResults ResultSetScore(int examid, int accid, float score, DateTime? time, int duration);
         /// <summary>
+        /// 自助设置考试成绩得分，如果没有成绩记录，则创建一个
+        /// </summary>
+        /// <param name="exam">考试场次的对象</param>
+        /// <param name="acc">学员账号的对象</param>
+        /// <param name="score">期望的得分</param>
+        /// <param name="time">考试开始时间</param>
+        /// <param name="duration">考试用时，单位分钟</param>
+        /// <returns></returns>
+        ExamResults ResultSetScore(Examination exam, Accounts acc, float score, DateTime? time, int duration);
+        /// <summary>
         /// 批量计算考试成绩
         /// </summary>
         /// <param name="examid">考试场次id</param>

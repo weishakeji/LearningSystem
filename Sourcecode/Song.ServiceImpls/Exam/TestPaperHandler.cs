@@ -95,6 +95,7 @@ namespace Song.ServiceImpls.Exam
         public static TestPaperHandler Putout(XmlDocument resxml)
         {
             TestPaperHandler tp = new TestPaperHandler();
+            //生成试卷内容，即试题
             tp.PagerContents = tpcom.Putout(resxml, false);
             return tp;
         }

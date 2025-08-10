@@ -56,7 +56,8 @@ Vue.component('createscore', {
             if (exam.Exam_DateType == 1) this.form.time = exam.Exam_Date;
             if (exam.Exam_DateType == 2) {
                 //生成随机开始时间
-                let maxspan = (exam.Exam_DateOver.getTime() - exam.Exam_Date.getTime()) / 1000;
+                let dateover = exam.Exam_DateOver > new Date() ? new Date() : exam.Exam_DateOver;
+                let maxspan = (dateover.getTime() - exam.Exam_Date.getTime()) / 1000;
                 if (maxspan > 31536000) maxspan = 31536000;   //最长一年
                 else maxspan = maxspan / 3;
                 this.form.time = new Date(exam.Exam_Date.getTime() + Math.round(Math.random() * (maxspan)) * 1000);

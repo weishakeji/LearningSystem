@@ -389,15 +389,19 @@ namespace Song.ServiceImpls
         /// <param name="duration">考试用时，单位分钟</param>
         /// <returns></returns>
         public ExamResults ResultSetScore(int examid, int accid, float score, DateTime? time, int duration)
-        {
-            ExamResults exr = this.ResultSingle(accid, examid);     //考试答题记录的对象
+        {           
             //当前考试对象
-            Examination exam = Gateway.Default.From<Examination>().Where(Examination._.Exam_ID == examid).ToFirst<Examination>();
+            Examination exam = Gateway.Default.From<Examination>().Where(Examination._.Exam_ID == examid).ToFirst<Examination>();            
+            Accounts acc = accountsCom.AccountsSingle(accid);
+            return ResultSetScore(exam, acc, score, time, duration);          
+        }
+        public ExamResults ResultSetScore(Examination exam, Accounts acc, float score, DateTime? time, int duration)
+        {
+            ExamResults exr = this.ResultSingle(acc.Ac_ID, exam.Exam_ID);     //考试答题记录的对象        
             if (exr == null)
             {
                 exr = new ExamResults();
-                //设置学员的信息
-                Accounts acc = accountsCom.AccountsSingle(accid);
+                //设置学员的信息               
                 if (acc == null) throw new Exception("学员账号不存在");
                 exr.Ac_ID = acc.Ac_ID;
                 exr.Ac_IDCardNumber = acc.Ac_IDCardNumber;  //身份证号
@@ -405,7 +409,7 @@ namespace Song.ServiceImpls
                 exr.Ac_Sex = acc.Ac_Sex;
                 exr.Sts_ID = acc.Sts_ID;    //学员组id
                 //考试的信息
-                exr.Exam_ID = examid;
+                exr.Exam_ID = exam.Exam_ID;
                 exr.Exam_Name = exam.Exam_Name;
                 exr.Exam_UID = exam.Exam_UID;
                 exr.Exam_Title = exam.Exam_Title;
