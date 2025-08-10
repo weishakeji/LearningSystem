@@ -316,127 +316,7 @@ namespace Song.ServiceImpls
             if (result.Exr_ID <= 0) result = ResultAdd(result);
             Gateway.Default.Update<ExamResults>(fields, objs, ExamResults._.Exr_ID == result.Exr_ID);
             return result;
-        }
-        /// <summary>
-        /// 自助设置考试成绩得分
-        /// </summary>
-        /// <param name="exrid">考试的答题记录id</param>
-        /// <param name="score">期望的得分</param>
-        /// <returns></returns>
-        public ExamResults ResultSetScore(int exrid, float score)
-        {
-            ExamResults exr = Gateway.Default.From<ExamResults>().Where(ExamResults._.Exr_ID == exrid).ToFirst<ExamResults>();
-            return ResultSetScore(exr, score);
-        }
-        /// <summary>
-        /// 自助设置考试成绩得分
-        /// </summary>
-        /// <param name="result">考试的答题记录</param>
-        /// <param name="score">期望的得分</param>
-        public ExamResults ResultSetScore(ExamResults result, float score)
-        {
-            if (result == null) return null;
-            if (string.IsNullOrWhiteSpace(result.Exr_Results)) return result;
-            Exam.Results examresult = new Song.ServiceImpls.Exam.Results(result.Exr_Results);
-            float exrscore = examresult.SetScore(score);
-            result.Exr_Score = result.Exr_ScoreFinal = (float)Math.Round(exrscore * 100) / 100;
-            result.Exr_Results = examresult.OutputXML(false);
-            Gateway.Default.Save<ExamResults>(result);
-            return result;
-        }
-        /// <summary>
-        /// 自助设置考试成绩得分
-        /// </summary>
-        /// <param name="result">考试的答题记录</param>
-        /// <param name="score">期望的得分</param>
-        /// <param name="time">考试开始时间</param>
-        /// <param name="duration">考试用时，单位分钟</param>
-        /// <returns></returns>
-        public ExamResults ResultSetScore(ExamResults result, float score, DateTime? time, int duration)
-        {
-            //考试限定开始时间，学员答题时间，答题结束时间
-            DateTime beginTime, starttime, overtime;
-            Examination exam= Gateway.Default.From<Examination>().Where(Examination._.Exam_ID == result.Exam_ID).ToFirst<Examination>();
-            beginTime = exam.Exam_Date; //考试的限定开始时间
-            starttime = time ?? result.Exr_CrtTime;
-            if (starttime < beginTime) starttime = beginTime;
-            overtime = starttime.AddMinutes(duration);
-            //交卷时间与成绩计算时间
-            result.Exr_CrtTime=starttime;
-            result.Exr_LastTime = result.Exr_OverTime = result.Exr_SubmitTime = overtime;
-            result.Exr_CalcTime = overtime.AddMinutes(3);
-            result.Exr_IsSubmit = true;
-            //生成答题信息
-            Exam.Results examresult = new Song.ServiceImpls.Exam.Results(result.Exr_Results);
-            float exrscore = examresult.SetScore(score);
-            examresult.Begin = beginTime;
-            examresult.Startime = starttime;
-            examresult.Overtime = overtime; 
-            //
-            result.Exr_Score = result.Exr_ScoreFinal = (float)Math.Round(exrscore * 100) / 100;
-            result.Exr_Results = examresult.OutputXML(false);
-            result.Exr_IsCalc = true;
-            Gateway.Default.Save<ExamResults>(result);
-            return result;
-        }
-        /// <summary>
-        /// 自助设置考试成绩得分，如果没有成绩记录，则创建一个
-        /// </summary>
-        /// <param name="accid">学员账号id</param>
-        /// <param name="examid">考试场次id</param>
-        /// <param name="score">期望的得分</param>
-        /// <param name="time">考试开始时间</param>
-        /// <param name="duration">考试用时，单位分钟</param>
-        /// <returns></returns>
-        public ExamResults ResultSetScore(int examid, int accid, float score, DateTime? time, int duration)
-        {           
-            //当前考试对象
-            Examination exam = Gateway.Default.From<Examination>().Where(Examination._.Exam_ID == examid).ToFirst<Examination>();            
-            Accounts acc = accountsCom.AccountsSingle(accid);
-            return ResultSetScore(exam, acc, score, time, duration);          
-        }
-        public ExamResults ResultSetScore(Examination exam, Accounts acc, float score, DateTime? time, int duration)
-        {
-            ExamResults exr = this.ResultSingle(acc.Ac_ID, exam.Exam_ID);     //考试答题记录的对象        
-            if (exr == null)
-            {
-                exr = new ExamResults();
-                //设置学员的信息               
-                if (acc == null) throw new Exception("学员账号不存在");
-                exr.Ac_ID = acc.Ac_ID;
-                exr.Ac_IDCardNumber = acc.Ac_IDCardNumber;  //身份证号
-                exr.Ac_Name = acc.Ac_Name;
-                exr.Ac_Sex = acc.Ac_Sex;
-                exr.Sts_ID = acc.Sts_ID;    //学员组id
-                //考试的信息
-                exr.Exam_ID = exam.Exam_ID;
-                exr.Exam_Name = exam.Exam_Name;
-                exr.Exam_UID = exam.Exam_UID;
-                exr.Exam_Title = exam.Exam_Title;
-                //机构信息
-                Organization org = orgCom.OrganSingle(acc.Org_ID);
-                exr.Org_ID = acc.Org_ID;
-                if (org != null) exr.Org_Name = org.Org_Name;
-                //试卷信息
-                TestPaper tp = tpCom.PaperSingle(exam.Tp_Id);
-                exr.Tp_Id = tp.Tp_Id;
-                //专业信息
-                Subject subject = sbjCom.SubjectSingle(tp.Sbj_ID);
-                if (subject != null)
-                {
-                    exr.Sbj_ID = subject.Sbj_ID;
-                    exr.Sbj_Name = subject.Sbj_Name;
-                }
-                //IP与Mac
-                exr.Exr_IP = WeiSha.Core.IP.Random();
-                exr.Exr_Mac = WeiSha.Core.Request.UniqueID();   //原本是网卡的mac地址,此处不再记录
-                //出卷,生成试卷
-                Song.ServiceImpls.Exam.Results results = Song.ServiceImpls.Exam.TestPaperHandler.Putout(exr.Tp_Id).ToResults(exam, acc);
-                exr.Exr_Results = results.OutputXML(false);
-            }
-            exr = this.ResultSetScore(exr, score, time, duration);
-            return exr;
-        }
+        }        
         /// <summary>
         /// 批量计算考试成绩
         /// </summary>
@@ -1723,6 +1603,141 @@ namespace Song.ServiceImpls
             exr = Gateway.Default.From<ExamResults>().Where(wc).OrderBy(ExamResults._.Exr_ScoreFinal.Desc).ToList<ExamResults>(count);
             return exr;
         }
+        #region 自动设置成绩
+        /// <summary>
+        /// 自助设置考试成绩得分
+        /// </summary>
+        /// <param name="exrid">考试的答题记录id</param>
+        /// <param name="score">期望的得分</param>
+        /// <returns></returns>
+        public ExamResults ResultSetScore(int exrid, float score)
+        {
+            ExamResults exr = Gateway.Default.From<ExamResults>().Where(ExamResults._.Exr_ID == exrid).ToFirst<ExamResults>();
+            return ResultSetScore(exr, score);
+        }
+        /// <summary>
+        /// 自助设置考试成绩得分
+        /// </summary>
+        /// <param name="result">考试的答题记录</param>
+        /// <param name="score">期望的得分</param>
+        public ExamResults ResultSetScore(ExamResults result, float score)
+        {
+            if (result == null) return null;
+            if (string.IsNullOrWhiteSpace(result.Exr_Results)) return result;
+            Exam.Results examresult = new Song.ServiceImpls.Exam.Results(result.Exr_Results);
+            float exrscore = examresult.SetScore(score);
+            result.Exr_Score = result.Exr_ScoreFinal = (float)Math.Round(exrscore * 100) / 100;
+            result.Exr_Results = examresult.OutputXML(false);
+            Gateway.Default.Save<ExamResults>(result);
+            return result;
+        }
+        /// <summary>
+        /// 自助设置考试成绩得分
+        /// </summary>
+        /// <param name="result">考试的答题记录</param>
+        /// <param name="score">期望的得分</param>
+        /// <param name="time">考试开始时间</param>
+        /// <param name="duration">考试用时，单位分钟</param>
+        /// <returns></returns>
+        public ExamResults ResultSetScore(ExamResults result, float score, DateTime? time, int duration)
+        {
+            //考试限定开始时间，学员答题时间，答题结束时间
+            DateTime beginTime, starttime, overtime;
+            Examination exam = Gateway.Default.From<Examination>().Where(Examination._.Exam_ID == result.Exam_ID).ToFirst<Examination>();
+            beginTime = exam.Exam_Date; //考试的限定开始时间
+            starttime = time ?? result.Exr_CrtTime;
+            if (starttime < beginTime) starttime = beginTime;
+            overtime = starttime.AddMinutes(duration);
+            //交卷时间与成绩计算时间
+            result.Exr_CrtTime = starttime;
+            result.Exr_LastTime = result.Exr_OverTime = result.Exr_SubmitTime = overtime;
+            result.Exr_CalcTime = overtime.AddMinutes(3);
+            result.Exr_IsSubmit = true;
+            //生成答题信息
+            Exam.Results examresult = new Song.ServiceImpls.Exam.Results(result.Exr_Results);
+            float exrscore = examresult.SetScore(score);
+            examresult.Begin = beginTime;
+            examresult.Startime = starttime;
+            examresult.Overtime = overtime;
+            //
+            result.Exr_Score = result.Exr_ScoreFinal = (float)Math.Round(exrscore * 100) / 100;
+            result.Exr_Results = examresult.OutputXML(false);
+            result.Exr_IsCalc = true;
+            Gateway.Default.Save<ExamResults>(result);
+            return result;
+        }
+        /// <summary>
+        /// 自助设置考试成绩得分，如果没有成绩记录，则创建一个
+        /// </summary>
+        /// <param name="accid">学员账号id</param>
+        /// <param name="examid">考试场次id</param>
+        /// <param name="score">期望的得分</param>
+        /// <param name="time">考试开始时间</param>
+        /// <param name="duration">考试用时，单位分钟</param>
+        /// <returns></returns>
+        public ExamResults ResultSetScore(int examid, int accid, float score, DateTime? time, int duration)
+        {
+            //当前考试对象
+            Examination exam = Gateway.Default.From<Examination>().Where(Examination._.Exam_ID == examid).ToFirst<Examination>();
+            Accounts acc = accountsCom.AccountsSingle(accid);
+            return ResultSetScore(exam, acc, score, time, duration);
+        }
+        public ExamResults ResultSetScore(Examination exam, Accounts acc, float score, DateTime? time, int duration)
+        {
+            ExamResults exr = this.ResultSingle(acc.Ac_ID, exam.Exam_ID);     //考试答题记录的对象        
+            if (exr == null)
+            {
+                exr = new ExamResults();
+                //设置学员的信息               
+                if (acc == null) throw new Exception("学员账号不存在");
+                exr.Ac_ID = acc.Ac_ID;
+                exr.Ac_IDCardNumber = acc.Ac_IDCardNumber;  //身份证号
+                exr.Ac_Name = acc.Ac_Name;
+                exr.Ac_Sex = acc.Ac_Sex;
+                exr.Sts_ID = acc.Sts_ID;    //学员组id
+                //考试的信息
+                exr.Exam_ID = exam.Exam_ID;
+                exr.Exam_Name = exam.Exam_Name;
+                exr.Exam_UID = exam.Exam_UID;
+                exr.Exam_Title = exam.Exam_Title;
+                //机构信息
+                Organization org = orgCom.OrganSingle(acc.Org_ID);
+                exr.Org_ID = acc.Org_ID;
+                if (org != null) exr.Org_Name = org.Org_Name;
+                //试卷信息
+                TestPaper tp = tpCom.PaperSingle(exam.Tp_Id);
+                exr.Tp_Id = tp.Tp_Id;
+                //专业信息
+                Subject subject = sbjCom.SubjectSingle(tp.Sbj_ID);
+                if (subject != null)
+                {
+                    exr.Sbj_ID = subject.Sbj_ID;
+                    exr.Sbj_Name = subject.Sbj_Name;
+                }
+                //IP与Mac
+                exr.Exr_IP = WeiSha.Core.IP.Random();
+                exr.Exr_Mac = WeiSha.Core.Request.UniqueID();   //原本是网卡的mac地址,此处不再记录
+                //出卷,生成试卷
+                Song.ServiceImpls.Exam.Results results = Song.ServiceImpls.Exam.TestPaperHandler.Putout(exr.Tp_Id).ToResults(exam, acc);
+                exr.Exr_Results = results.OutputXML(false);
+            }
+            exr = this.ResultSetScore(exr, score, time, duration);
+            return exr;
+        }
+
+        /// <summary>
+        /// 批量生成缺考人员的成绩
+        /// </summary>
+        /// <param name="examid">考试场次id</param>
+        /// <returns></returns>
+        public (int, int) ResultAbsenceBatchScore(int examid, int minScore, int maxScore, DateTime minTime, DateTime maxTime, int minSpan, int maxSpan)
+        {
+            var task = Exam.BatchResults.GetTask(examid);
+            if (task.Item1 > 0) return task;
+            Exam.BatchResults.Start(examid, minScore, maxScore, minTime, maxTime, minSpan, maxSpan);
+            return Exam.BatchResults.GetTask(examid);
+        }
+        #endregion
 
         #region 成绩导出
         /// <summary>

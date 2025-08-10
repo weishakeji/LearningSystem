@@ -152,49 +152,7 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="result"></param>
         /// <returns></returns>
-        ExamResults ResultClacScore(ExamResults result);
-        /// <summary>
-        /// 自助设置考试成绩得分
-        /// </summary>
-        /// <param name="exrid">考试的答题记录id</param>
-        /// <param name="score">期望的得分</param>
-        /// <returns></returns>
-        ExamResults ResultSetScore(int exrid, float score);
-        /// <summary>
-        /// 自助设置考试成绩得分
-        /// </summary>
-        /// <param name="result">考试的答题记录</param>
-        /// <param name="score">期望的得分</param>
-        ExamResults ResultSetScore(ExamResults result, float score);
-        /// <summary>
-        /// 自助设置考试成绩得分
-        /// </summary>
-        /// <param name="result">考试的答题记录</param>
-        /// <param name="score">期望的得分</param>
-        /// <param name="time">考试开始时间</param>
-        /// <param name="duration">考试用时，单位分钟</param>
-        /// <returns></returns>
-        ExamResults ResultSetScore(ExamResults result, float score, DateTime? time, int duration);
-        /// <summary>
-        /// 自助设置考试成绩得分，如果没有成绩记录，则创建一个
-        /// </summary>
-        /// <param name="accid">学员账号id</param>
-        /// <param name="examid">考试场次id</param>
-        /// <param name="score">期望的得分</param>
-        /// <param name="time">考试开始时间</param>
-        /// <param name="duration">考试用时，单位分钟</param>
-        /// <returns></returns>
-        ExamResults ResultSetScore(int examid, int accid, float score, DateTime? time, int duration);
-        /// <summary>
-        /// 自助设置考试成绩得分，如果没有成绩记录，则创建一个
-        /// </summary>
-        /// <param name="exam">考试场次的对象</param>
-        /// <param name="acc">学员账号的对象</param>
-        /// <param name="score">期望的得分</param>
-        /// <param name="time">考试开始时间</param>
-        /// <param name="duration">考试用时，单位分钟</param>
-        /// <returns></returns>
-        ExamResults ResultSetScore(Examination exam, Accounts acc, float score, DateTime? time, int duration);
+        ExamResults ResultClacScore(ExamResults result);       
         /// <summary>
         /// 批量计算考试成绩
         /// </summary>
@@ -287,6 +245,64 @@ namespace Song.ServiceInterfaces
         /// <param name="results"></param>
         /// <returns></returns>
         List<Questions> QuesForResults(string results);
+        #endregion
+
+        #region 自动设置成绩
+        /// <summary>
+        /// 自助设置考试成绩得分
+        /// </summary>
+        /// <param name="exrid">考试的答题记录id</param>
+        /// <param name="score">期望的得分</param>
+        /// <returns></returns>
+        ExamResults ResultSetScore(int exrid, float score);
+        /// <summary>
+        /// 自助设置考试成绩得分
+        /// </summary>
+        /// <param name="result">考试的答题记录</param>
+        /// <param name="score">期望的得分</param>
+        ExamResults ResultSetScore(ExamResults result, float score);
+        /// <summary>
+        /// 自助设置考试成绩得分
+        /// </summary>
+        /// <param name="result">考试的答题记录</param>
+        /// <param name="score">期望的得分</param>
+        /// <param name="time">考试开始时间</param>
+        /// <param name="duration">考试用时，单位分钟</param>
+        /// <returns></returns>
+        ExamResults ResultSetScore(ExamResults result, float score, DateTime? time, int duration);
+        /// <summary>
+        /// 自助设置考试成绩得分，如果没有成绩记录，则创建一个
+        /// </summary>
+        /// <param name="accid">学员账号id</param>
+        /// <param name="examid">考试场次id</param>
+        /// <param name="score">期望的得分</param>
+        /// <param name="time">考试开始时间</param>
+        /// <param name="duration">考试用时，单位分钟</param>
+        /// <returns></returns>
+        ExamResults ResultSetScore(int examid, int accid, float score, DateTime? time, int duration);
+        /// <summary>
+        /// 自助设置考试成绩得分，如果没有成绩记录，则创建一个
+        /// </summary>
+        /// <param name="exam">考试场次的对象</param>
+        /// <param name="acc">学员账号的对象</param>
+        /// <param name="score">期望的得分</param>
+        /// <param name="time">考试开始时间</param>
+        /// <param name="duration">考试用时，单位分钟</param>
+        /// <returns></returns>
+        ExamResults ResultSetScore(Examination exam, Accounts acc, float score, DateTime? time, int duration);
+
+        /// <summary>
+        /// 批量生成缺考人员的成绩
+        /// </summary>
+        /// <param name="examid">考试场次id</param>
+        /// <param name="minScore"></param>
+        /// <param name="maxScore"></param>
+        /// <param name="minTime"></param>
+        /// <param name="maxTime"></param>
+        /// <param name="minSpan"></param>
+        /// <param name="maxSpan"></param>
+        /// <returns></returns>
+        (int, int) ResultAbsenceBatchScore(int examid, int minScore, int maxScore, DateTime minTime, DateTime maxTime, int minSpan, int maxSpan);
         #endregion
 
         #region 成绩统计

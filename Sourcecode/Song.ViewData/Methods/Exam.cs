@@ -1281,6 +1281,25 @@ namespace Song.ViewData.Methods
             return Business.Do<IExamination>().ResultSetScore(examid, acid, score, time, dura);
         }
         /// <summary>
+        /// 创建缺考学员的成绩
+        /// </summary>
+        /// <param name="examid">考试场次id</param>
+        /// <param name="minScore">最少得分</param>
+        /// <param name="maxScore">最高得分</param>
+        /// <param name="minTime">最早考试时间</param>
+        /// <param name="maxTime">最晚考试时间</param>
+        /// <param name="minSpan">最短考试用时</param>
+        /// <param name="maxSpan">最长考试用时</param>
+        /// <returns></returns>
+        public JObject ResultAbsenceBatchScore(int examid, int minScore, int maxScore, DateTime minTime, DateTime maxTime, int minSpan, int maxSpan)
+        {
+            var task= Business.Do<IExamination>().ResultAbsenceBatchScore(examid, minScore, maxScore, minTime, maxTime, minSpan, maxSpan);
+            JObject jo = new JObject();
+            jo.Add("total",task.Item1);
+            jo.Add("count", task.Item2);
+            return jo;
+        }
+        /// <summary>
         /// 批量计算考试成绩
         /// </summary>
         /// <param name="examid">考试场次id</param>
