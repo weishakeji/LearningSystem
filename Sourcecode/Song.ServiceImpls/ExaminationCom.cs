@@ -940,7 +940,7 @@ namespace Song.ServiceImpls
             return Gateway.Default.FromSql(sql).ToArray<StudentSort>();
         }
         /// <summary>
-        /// 考试场次下的学员组
+        /// 考试场次下学员成绩的学员组
         /// </summary>
         /// <param name="examid"></param>
         /// <returns></returns>
@@ -2099,11 +2099,29 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public int NumberAbsence4Exam(int examid)
         {
-            //先计算需要参加考试的人数
-            int total = this.NumberOfStudent(examid);
-            //已经参加考试的人数
-            int examnum = this.Number4Exam(examid);
-            return total - examnum;
+            ////先计算需要参加考试的人数
+            //int total = this.NumberOfStudent(examid);
+            ////已经参加考试的人数
+            //int examnum = this.Number4Exam(examid);
+            //return total - examnum;
+
+            Examination exam = this.ExamSingle(examid);
+            if (!exam.Exam_IsTheme) exam = this.ExamSingle(exam.Exam_UID);
+            //查询条件
+            WhereClip wc = new WhereClip();
+            //如果参考人员为按学员组
+            if (exam.Exam_GroupType == 2)
+            {
+                StudentSort[] sts = this.GroupForStudentSort(exam.Exam_UID);
+                foreach (StudentSort ss in sts) wc.Or(Accounts._.Sts_ID == ss.Sts_ID);
+            }
+            //子查询条件
+            WhereClip wcsub = ExamResults._.Exam_ID == examid && ExamResults._.Ac_ID == Accounts._.Ac_ID;
+            QuerySection<ExamResults> querysub = Gateway.Default.From<ExamResults>().Where(wcsub).Select(ExamResults._.Ac_ID);
+            wc.And(WhereClip.NotExists(querysub));
+            //主查询
+            QuerySection<Accounts> query = Gateway.Default.From<Accounts>().Where(wc);
+            return query.Count();   //记录总数
         }
         /// <summary>
         /// 当前考试主题的参考人次，如果学员多次考试，则人次大于人数

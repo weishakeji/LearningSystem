@@ -67,7 +67,7 @@ namespace Song.ServiceInterfaces
         Examination[] ExamItem(string uid);
         Examination[] ExamItem(int id);
         /// <summary>
-        /// 当前考试主题关联的学生分类
+        /// 当前考试主题关联的学员组
         /// </summary>
         /// <param name="uid"></param>
         /// <returns></returns>
