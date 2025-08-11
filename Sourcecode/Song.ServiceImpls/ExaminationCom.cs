@@ -2099,12 +2099,6 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public int NumberAbsence4Exam(int examid)
         {
-            ////先计算需要参加考试的人数
-            //int total = this.NumberOfStudent(examid);
-            ////已经参加考试的人数
-            //int examnum = this.Number4Exam(examid);
-            //return total - examnum;
-
             Examination exam = this.ExamSingle(examid);
             if (!exam.Exam_IsTheme) exam = this.ExamSingle(exam.Exam_UID);
             //查询条件

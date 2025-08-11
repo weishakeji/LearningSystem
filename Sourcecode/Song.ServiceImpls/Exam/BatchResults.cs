@@ -192,7 +192,7 @@ namespace Song.ServiceImpls.Exam
         {
             if (this.Exam.Exam_DateType == 1) return this.Exam.Exam_Date;
             TimeSpan timeSpan = this.MaxTime - this.MinTime;
-            double randomMilliseconds = new Random((int)(WeiSha.Core.Request.SnowID() % int.MaxValue)).Next() * timeSpan.TotalMilliseconds;
+            double randomMilliseconds = new Random((int)(WeiSha.Core.Request.SnowID() % int.MaxValue)).NextDouble() * timeSpan.TotalMilliseconds;
             return this.MinTime.AddMilliseconds(randomMilliseconds);
         }
         /// <summary>
