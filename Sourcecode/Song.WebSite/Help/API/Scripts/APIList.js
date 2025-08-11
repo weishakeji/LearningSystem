@@ -64,6 +64,13 @@
      .finally(()=>{});";
                 return jsstr;
             },
+            //测试脚本的参数
+            'apiparams': function () {
+                //参数
+                let params = {};
+                this.method.Paras.forEach(item => params[item.Name] = item.Value ? item.Value : "");
+                return JSON.stringify(params) == "{}" ? "" : JSON.stringify(params);
+            }
         },
         mounted: function () {
 

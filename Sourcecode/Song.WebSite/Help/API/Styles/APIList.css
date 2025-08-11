@@ -46,11 +46,11 @@
     letter-spacing: 0.3em;
 }
 
-.method_card .method_btns>* {
+.method_btns>* {
     cursor: pointer;
 }
 
-.method_card .method_btns>*:hover {
+.method_btns>*:hover {
     transform: scale(1.05);
 }
 /*面板折叠*/

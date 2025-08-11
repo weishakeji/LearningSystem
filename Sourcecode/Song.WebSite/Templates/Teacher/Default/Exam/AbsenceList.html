@@ -11,7 +11,12 @@
 <body>
     <div id="vapp" v-cloak>
         <div class="toolsbar">
-            <btngroup show="导出" ref='btngroup' width="600" height="500" @output="export_panel=true"></btngroup>
+            <btngroup show="" ref='btngroup' width="600" height="500">
+                <el-button type="info" plain size="mini" @click="export_panel=true"
+                    @dblright="$refs['crtbtscore'].show()">
+                    <icon>&#xe73e</icon>导出
+                </el-button>
+            </btngroup>
             <query_panel :model="form" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item label="">
                     <el-select v-model="form.stsid" placeholder="请选择" style="width: 160px;"
@@ -49,8 +54,9 @@
             </el-table-column>
             <el-table-column label="姓名" width="120" class-name="account">
                 <div slot-scope="scope">
-                    <el-link type="primary" plain :class="{'woman': scope.row.Ac_Sex==2,'man': scope.row.Ac_Sex==1,'large':true}"
-                    @dblright:300="$refs['crtscore'].show(scope.row)" @click="getaccount(scope.row)">
+                    <el-link type="primary" plain
+                        :class="{'woman': scope.row.Ac_Sex==2,'man': scope.row.Ac_Sex==1,'large':true}"
+                        @dblright:300="$refs['crtscore'].show(scope.row)" @click="getaccount(scope.row)">
                         <icon :woman="scope.row.Ac_Sex==2" :man="scope.row.Ac_Sex==1">
                             <span v-html='showsearch(scope.row.Ac_Name,form.name)' v-if="scope.row.Ac_Name!=''"
                                 @dblclick.stop="copytext(scope.row.Ac_Name)"></span>
@@ -130,8 +136,8 @@
                 <el-button type="primary" @click="toexcel" :loading="loading">生成导出文件</el-button>
             </span>
         </el-dialog>
-          <!--考生信息-->
-          <el-dialog title="考生信息" :visible.sync="accountVisible">
+        <!--考生信息-->
+        <el-dialog title="考生信息" :visible.sync="accountVisible">
             <div slot="title">
                 <icon style="font-size: 25px;">&#xe669</icon>考生信息
             </div>
@@ -163,19 +169,20 @@
                     <el-col :span="20">
                         {{entity.Exam_Title}}
                     </el-col>
-                </el-row>   
+                </el-row>
                 <el-row :gutter="20">
                     <el-col :span="4">
                         成绩
                     </el-col>
                     <el-col :span="20">
-                       <warning>该学员缺考</warning>
+                        <warning>该学员缺考</warning>
                     </el-col>
                 </el-row>
             </div>
         </el-dialog>
-         <!--build exr-->
-         <createscore ref="crtscore" :exam="entity" @update="crtscoreupdate"></createscore>
+        <!--build exr-->
+        <createscore ref="crtscore" :exam="entity" @update="crtscoreupdate"></createscore>
+        <createbatchscore ref="crtbtscore" :exam="entity"></createbatchscore>
     </div>
 </body>
 

@@ -1,0 +1,10 @@
+.range-item .el-form-item__content {
+    display: flex;
+}
+
+.range-item .el-form-item__content>*:first-child {
+    flex: 1;
+}
+.range-item .el-form-item__content>*:last-child {
+   margin-left: 20px;
+}
