@@ -182,7 +182,7 @@
         </el-dialog>
         <!--build exr-->
         <createscore ref="crtscore" :exam="entity" @update="crtscoreupdate"></createscore>
-        <createbatchscore ref="crtbtscore" :exam="entity"></createbatchscore>
+        <createbatchscore ref="crtbtscore" :exam="entity" @completed="handleCurrentChange(1)"></createbatchscore>
     </div>
 </body>
 

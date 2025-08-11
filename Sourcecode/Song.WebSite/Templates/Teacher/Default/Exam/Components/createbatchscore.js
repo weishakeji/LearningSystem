@@ -141,11 +141,15 @@ Vue.component('createbatchscore', {
                             window.setTimeout(function () {
                                 th.getprogress();
                             }, 500);
-                        } else if (th.showpanel) {
+                        } else {
+                            th.$emit('completed');
+                        }
+                        if (th.completed && th.showpanel) {
                             th.$message({
                                 message: '恭喜你，这是一条成功消息',
                                 type: 'success'
                             });
+                            th.showpanel = false;
                         }
 
                     } else {
