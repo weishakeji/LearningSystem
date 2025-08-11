@@ -41,7 +41,7 @@ Vue.component('createbatchscore', {
     watch: {
         'exam': {
             handler: function (nv, ov) {
-                if(nv==null)return;               
+                if (nv == null) return;
                 let exam = nv;
                 this.form.examid = exam.Exam_ID;
                 //设置表单的值               
@@ -79,22 +79,22 @@ Vue.component('createbatchscore', {
     computed: {
         //执行中
         processing: function () {
-            return this.progressvalue.count > 0 || this.progressvalue.total>0;
+            return this.progressvalue.count > 0 || this.progressvalue.total > 0;
         },
         //处理完成
         completed: function () {
-            return this.progressvalue.count <= 0 && this.progressvalue.total<=0;
+            return this.progressvalue.count <= 0 && this.progressvalue.total <= 0;
         },
-        percentage:function(){
-            if(this.progressvalue.total<=0)return 0;
+        percentage: function () {
+            if (this.progressvalue.total <= 0) return 0;
             let total = this.progressvalue.total;
             let count = this.progressvalue.count;
-            return Math.floor((total-count)/total*10000)/100;
+            return Math.floor((total - count) / total * 10000) / 100;
 
         }
     },
     mounted: function () {
-     
+
     },
     methods: {
         //显示面板
@@ -103,19 +103,11 @@ Vue.component('createbatchscore', {
         },
         //设置考试成绩
         setResultScore: function () {
-            //console.error(this.form);
-            //return;
             var th = this;
             this.$refs['updateform'].validate((valid) => {
                 if (valid) {
-                    //return;
                     //当前行正在处理中
                     th.loading = true;
-                    /*
-                    window.setTimeout(function () {
-                        th.loading = false
-                    }, 6000);
-                    return;*/
                     $api.get('Exam/ResultAbsenceBatchScore', th.form).then(function (req) {
                         if (req.data.success) {
                             let result = req.data.result;
@@ -149,6 +141,11 @@ Vue.component('createbatchscore', {
                             window.setTimeout(function () {
                                 th.getprogress();
                             }, 500);
+                        } else if (th.showpanel) {
+                            th.$message({
+                                message: '恭喜你，这是一条成功消息',
+                                type: 'success'
+                            });
                         }
 
                     } else {

@@ -91,6 +91,7 @@ namespace Song.ServiceImpls.Exam
                 {
                     //缺考的学员
                     _accounts = examCom.AbsenceExamAccounts(this.ExamID, null, null, null, 0, int.MaxValue, 1, out int countSum);
+
                     this.Total = countSum;
                 }
             }
@@ -154,7 +155,7 @@ namespace Song.ServiceImpls.Exam
         public int RandomScore(Accounts acc)
         {
             //按学历计算权重
-            int eduweight = 10, acedu = acc.Ac_Education.Convert<int>();
+            int eduweight = 5, acedu = acc.Ac_Education.Convert<int>();
             if (acedu > 0 && acedu < 90)
             {
                 if (acedu == 81) eduweight = 1;     //小学
@@ -165,7 +166,7 @@ namespace Song.ServiceImpls.Exam
                 if (acedu <= 21) eduweight = 10;    //本科
             }
             //按年龄权重
-            double ageweight = 10; int acage = DateTime.Now.Year - acc.Ac_Age;
+            double ageweight = 5; int acage = DateTime.Now.Year - acc.Ac_Age;
             if (acage > 70) acage = 70;
             if (acage < 20) acage = 20;
             // 定义峰值年龄（权重最高的年龄）
@@ -174,14 +175,16 @@ namespace Song.ServiceImpls.Exam
             const int maxAgeDifference = 30; // 年龄差超过此值权重为1                                             
             ageweight = 10 - 10 * ageDifference / maxAgeDifference;
             ageweight = Math.Max(0, Math.Min(10, ageweight));
+            //随机权重
+            double rdweight = new Random((int)(WeiSha.Core.Request.SnowID() % int.MaxValue)).Next(10);
 
             //最终权重
-            double weight = (eduweight + ageweight) / 2 / 10;
+            double weight = (eduweight + ageweight + rdweight) / 3 / 10;
             //供选择的得分区间
             int scorerange = this.MaxScore - this.MinScore;
-            int rdrange = (int)(scorerange * (1 - weight));
-            int randomScore = new Random((int)(WeiSha.Core.Request.SnowID() % int.MaxValue)).Next(rdrange);
-            randomScore += (int)(scorerange * weight) + this.MinScore;
+            int rdrange = (int)(scorerange * (1 - weight));     //随机数的生成区间
+            int randomScore = new Random((int)(WeiSha.Core.Request.SnowID() % int.MaxValue)).Next(scorerange);
+            randomScore += (int)(scorerange * weight) + this.MinScore;            
             return randomScore;
         }
         /// <summary>
