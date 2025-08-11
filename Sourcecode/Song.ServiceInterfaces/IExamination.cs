@@ -303,6 +303,12 @@ namespace Song.ServiceInterfaces
         /// <param name="maxSpan"></param>
         /// <returns></returns>
         (int, int) ResultAbsenceBatchScore(int examid, int minScore, int maxScore, DateTime minTime, DateTime maxTime, int minSpan, int maxSpan);
+        /// <summary>
+        /// 批量生成缺考人员的成绩的进度
+        /// </summary>
+        /// <param name="examid"></param>
+        /// <returns></returns>
+        (int, int) ResultAbsenceBatchScore(int examid);
         #endregion
 
         #region 成绩统计

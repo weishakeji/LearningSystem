@@ -1518,7 +1518,7 @@ namespace Song.ServiceImpls
             if (exam.Exam_GroupType == 2)
             {
                 StudentSort[] sts = this.GroupForStudentSort(exam.Exam_UID);
-                foreach (StudentSort ss in sts) wc.Or(ExamResults._.Sts_ID == ss.Sts_ID);
+                foreach (StudentSort ss in sts) wc.Or(Accounts._.Sts_ID == ss.Sts_ID);
             }
             if (!string.IsNullOrWhiteSpace(name)) wc.And(Accounts._.Ac_Name.Contains(name));
             if (!string.IsNullOrWhiteSpace(idcard)) wc.And(Accounts._.Ac_IDCardNumber.Contains(idcard));
@@ -1736,6 +1736,17 @@ namespace Song.ServiceImpls
             if (task.Item1 > 0) return task;
             Exam.BatchResults.Start(examid, minScore, maxScore, minTime, maxTime, minSpan, maxSpan);
             return Exam.BatchResults.GetTask(examid);
+        }
+        /// <summary>
+        /// 批量生成缺考人员的成绩的进度
+        /// </summary>
+        /// <param name="examid"></param>
+        /// <returns></returns>
+        public (int, int) ResultAbsenceBatchScore(int examid)
+        {
+            var task = Exam.BatchResults.GetTask(examid);
+            if (task.Item1 > 0) return task;
+            return (0, 0);
         }
         #endregion
 

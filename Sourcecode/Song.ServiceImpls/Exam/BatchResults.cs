@@ -7,6 +7,7 @@ using System.Xml;
 using Song.Entities;
 using System.Reflection;
 using WeiSha.Core;
+using System.Threading;
 
 namespace Song.ServiceImpls.Exam
 {
@@ -59,9 +60,12 @@ namespace Song.ServiceImpls.Exam
             {
                 lock (this._lockobj)
                 {
-                    if(this._accounts==null)
+                    if (this._accounts == null)
+                    {
                         //缺考的学员
                         _accounts = examCom.AbsenceExamAccounts(this.ExamID, null, null, null, 0, int.MaxValue, 1, out int countSum);
+                        this.Total = countSum;
+                    }
                     return this._accounts;
                 }
             }
@@ -76,6 +80,21 @@ namespace Song.ServiceImpls.Exam
         #endregion
 
         #region 方法
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        public void Init()
+        {
+            lock (this._lockobj)
+            {
+                if (this._accounts == null)
+                {
+                    //缺考的学员
+                    _accounts = examCom.AbsenceExamAccounts(this.ExamID, null, null, null, 0, int.MaxValue, 1, out int countSum);
+                    this.Total = countSum;
+                }
+            }
+        }
         /// <summary>
         /// 设置随得分的区间，考试时间与用时
         /// </summary>
@@ -110,6 +129,7 @@ namespace Song.ServiceImpls.Exam
             int i = 0;
             while (this.Accounts.Count > 0)
             {
+                //Thread.Sleep(300);
                 Song.Entities.Accounts acc = this.Accounts[0];
                 float score = this.RandomScore(acc);
                 DateTime start = this.RandomTime();
@@ -214,6 +234,7 @@ namespace Song.ServiceImpls.Exam
                 if (br == null)
                 {
                     br = new BatchResults(examid, minScore, maxScore, minTime, maxTime, minSpan, maxSpan);
+                    br.Init();
                     Task.Run(() =>
                     {
                         br.CreateScore();
@@ -232,7 +253,7 @@ namespace Song.ServiceImpls.Exam
             lock (_locktask)
             {
 
-                BatchResults br= _list.Find(t => t.ExamID == examid);
+                BatchResults br = _list.Find(t => t.ExamID == examid);
                 if (br != null) return (br.Total, br.Count);
                 return (0, 0);
             }

@@ -1300,6 +1300,19 @@ namespace Song.ViewData.Methods
             return jo;
         }
         /// <summary>
+        /// 创建缺考学员的成绩的进度
+        /// </summary>
+        /// <param name="examid"></param>
+        /// <returns></returns>
+        public JObject ResultAbsenceBatchScoreLoading(int examid)
+        {
+            var task = Business.Do<IExamination>().ResultAbsenceBatchScore(examid);
+            JObject jo = new JObject();
+            jo.Add("total", task.Item1);
+            jo.Add("count", task.Item2);
+            return jo;
+        }
+        /// <summary>
         /// 批量计算考试成绩
         /// </summary>
         /// <param name="examid">考试场次id</param>

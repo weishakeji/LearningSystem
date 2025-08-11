@@ -5,6 +5,17 @@
 .range-item .el-form-item__content>*:first-child {
     flex: 1;
 }
+
 .range-item .el-form-item__content>*:last-child {
-   margin-left: 20px;
+    margin-left: 20px;
+}
+
+.progress-info {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.loading {
+    margin-top: 20px;
+    text-align: center;
 }
