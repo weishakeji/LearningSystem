@@ -37,7 +37,8 @@ Vue.component('general', {
             handler: function (nv, ov) {
                 if (!$api.isnull(nv)) {
                     this.couid = nv.Cou_ID;
-                    this.question.Sbj_ID = nv.Sbj_ID;
+                    this.$set(this.question, 'Sbj_ID', nv.Sbj_ID);
+                    //this.question.Sbj_ID = nv.Sbj_ID;
                     if (this.$refs['subject']) this.$refs['subject'].setsbj(nv.Sbj_ID);
                 }
             }, immediate: true
@@ -65,8 +66,11 @@ Vue.component('general', {
     methods: {
         //专业更改时
         changeSbj: function (id, sbj, labels, arr) {
-            this.question['Sbj_ID'] = id;
-            this.question['Sbj_Name'] = labels != null && labels.length > 0 ? labels[labels.length - 1] : '';
+            this.$set(this.question, 'Sbj_ID', id);
+            let sbjname = labels != null && labels.length > 0 ? labels[labels.length - 1] : '';
+            this.$set(this.question, 'Sbj_Name', sbjname);
+            //this.question['Sbj_ID'] = id;
+            //this.question['Sbj_Name'] = labels != null && labels.length > 0 ? labels[labels.length - 1] : '';
             this.getCourses(id);
         },
         //获取课程
@@ -170,7 +174,7 @@ Vue.component('general', {
             return name;
         },
         //章节节点点击事件
-        outlineClick: function (data, node, el) {          
+        outlineClick: function (data, node, el) {
             this.question.Ol_ID = data.Ol_ID;
             this.question.Ol_Name = data.Ol_Name;
             this.outline = this.getoutline(this.outlines, data.Ol_ID);

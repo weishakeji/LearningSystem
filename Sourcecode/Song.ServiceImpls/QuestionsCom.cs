@@ -27,8 +27,7 @@ namespace Song.ServiceImpls
 
         public long QuesAdd(Questions entity)
         {
-            if (entity.Qus_ID <= 0)          
-                entity.Qus_ID = WeiSha.Core.Request.SnowID();
+            if (entity.Qus_ID <= 0) entity.Qus_ID = WeiSha.Core.Request.SnowID();
    
             entity.Qus_CrtTime = DateTime.Now;
             entity.Qus_LastTime = DateTime.Now;
@@ -41,11 +40,21 @@ namespace Song.ServiceImpls
                 if (org != null) entity.Org_ID = org.Org_ID;
             }
             //获取科目名称
+            if (entity.Sbj_ID <= 0 && entity.Cou_ID > 0)
+            {
+                Course course = Gateway.Default.From<Course>().Where(Course._.Cou_ID == entity.Cou_ID).ToFirst<Course>();
+                if (course != null)
+                {
+                    entity.Sbj_ID = course.Sbj_ID;
+                    entity.Sbj_Name = course.Sbj_Name;
+                }
+            }
             if(entity.Sbj_ID>0 && string.IsNullOrWhiteSpace(entity.Sbj_Name))
             {
                 Subject sbj = Business.Do<ISubject>().SubjectSingle(entity.Sbj_ID);
                 if (sbj != null) entity.Sbj_Name = sbj.Sbj_Name;
             }
+
             if (string.IsNullOrWhiteSpace(entity.Qus_UID))
                 entity.Qus_UID = WeiSha.Core.Request.UniqueID();          
             Gateway.Default.Save<Questions>(entity);

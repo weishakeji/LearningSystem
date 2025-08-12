@@ -11,9 +11,9 @@ Vue.component('modify_main', {
             course: {},          //当前试题的课程
             //当前试题
             question: {
-                Qus_ID: 0,
-                Qus_Title: '',
-                Cou_ID: 0, Sbj_ID: 0, Ol_ID: 0, Ol_Name: '',
+                Qus_ID: 0, Qus_Type: 1, Qus_IsUse: true,
+                Cou_ID: 0, Sbj_ID: 0, Ol_ID: 0,
+                Qus_Title: '', Ol_Name: '',
                 Qus_Diff: 3,
                 Qus_IsCorrect: false,
                 Qus_Items: []
@@ -95,7 +95,7 @@ Vue.component('modify_main', {
     methods: {
         //获取试题信息
         getEntity: function () {
-            var th = this;           
+            var th = this;
             th.loading = true;
             var promise = new Promise((resolve, reject) => {
                 if (th.isadd) {
@@ -204,7 +204,7 @@ Vue.component('modify_main', {
                     throw req.config.way + ' ' + req.data.message;
                 }
             }).catch(err => {
-                alert('AI生成异常，请重新生成。' );
+                alert('AI生成异常，请重新生成。');
                 console.error(err);
             }).finally(() => th.loading_ai = false);
         },

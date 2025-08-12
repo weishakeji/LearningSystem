@@ -12,7 +12,7 @@ Vue.component('ques_ansitem', {
     watch: {
         'show': function (nv, ov) {
             //编辑框下面的按钮组是否禁用
-            var btnCrt = this.$parent.$parent.$refs['enter_button'];
+            var btnCrt = this.$parent.$parent.$refs['enterbutton'];
             if (btnCrt) btnCrt.disabled = nv;
             //关闭的效果
             if (!nv) {
