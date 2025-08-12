@@ -144,13 +144,7 @@ Vue.component('study_video', {
         //播放完成
         completed: function () {
             if (this.state.isLive) return;
-            var msg = "当前视频播放完成，是否进入下一个章节?<br/>";
-            //msg += "<span style='color:red'>" + window.video_completed_countdown + "</span> 后自动跳转。";
-            this.$dialog.confirm({
-                message: '当前视频播放完成，是否进入下一个章节?',
-            }).then(() => {
-                this.$emit('completed', this.outline, this.state);
-            }).catch(() => { });
+            this.$emit('completed', this.outline, this.state);
         },
         //生成随机数，平均分布，且不重复
         buildrandom: function (count, length) {

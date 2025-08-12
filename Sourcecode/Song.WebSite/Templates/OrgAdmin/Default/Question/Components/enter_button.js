@@ -50,6 +50,7 @@ Vue.component('enter_button', {
             //是否设置专业
             if (!qus.Sbj_ID || qus.Sbj_ID <= 0) {
                 //console.error(qus);
+                console.error('试题必须设置所属专业');
                 //return this.prompt('试题必须设置所属专业', 1);
             }
             return true;

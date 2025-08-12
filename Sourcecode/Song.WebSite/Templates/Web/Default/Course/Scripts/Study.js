@@ -56,6 +56,25 @@ $ready(function () {
                         if (next != null) refoutline.outlineClick(next);
                     }
                 }
+            },
+            //视频播放完成
+            videocompleted: function (outline, state) {
+                //右侧章节列表控件
+                let oltree = this.$refs['rightArea'];
+                let nextvideo = oltree.nextVideo(outline);
+                if (nextvideo != null) {
+                    var msg = "当前视频播放完成，是否进入下一个视频章节?<br/>";
+                    //msg += "<span style='color:red'>" + window.video_completed_countdown + "</span> 后自动跳转。";
+                    this.$confirm(msg, '完成', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        dangerouslyUseHTMLString: true,
+                        closeOnClickModal: false,
+                        type: 'success'
+                    }).then(() => {
+                        oltree.outlineClick(nextvideo);
+                    }).catch(() => { });
+                }
             }
         },
         created: function () {

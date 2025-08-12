@@ -166,6 +166,11 @@ Vue.component('outline_tree', {
             if (nextnode != null && !nextnode.Ol_IsVideo) return this.nextVideo(nextnode);
             return nextnode;
         },
+        //播放下一个视频章节
+        playnextVideo: function (outline) {
+            let nextnode = this.nextVideo(outline);
+            if (nextnode) this.outlineClick(nextnode);
+        },
         show: function () {
             this.menushow = true;
         }

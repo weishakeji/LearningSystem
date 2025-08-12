@@ -35,7 +35,7 @@
                 <study_video remark="视频" ref='videoplayer'
                     v-if="titState=='existVideo' && state.existVideo && !state.isLive" :account="account"
                     :outline="outline" :state="state" :config="config" @playing="(t)=>{$refs['rightArea'].playtime=t;}"
-                    @completed="(o,s)=>{$refs['rightArea'].nextVideo(o,s);}">
+                    @completed="videocompleted">
                 </study_video>
                 <study_live remark="直播" v-if="titState=='isLive' && state.isLive" :account="account" :outline="outline"
                     :state="state"> </study_live>

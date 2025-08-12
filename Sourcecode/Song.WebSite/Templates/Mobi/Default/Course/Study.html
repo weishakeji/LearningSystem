@@ -21,7 +21,7 @@
             <template v-else>
                 <study_video remark="视频" ref='videoplayer' v-if="state.existVideo && !state.isLive" :account="account"
                     :outline="outline" :state="state" :config="config" @playing="(t)=>{}"
-                    @completed="(o,s)=>{$refs['outline_tree'].nextVideo(o,s);}">
+                    @completed="videocompleted">
                 </study_video>
                 <study_live remark="直播" ref='liveplayer' v-if="state.isLive" :account="account" :outline="outline"
                     :state="state"></study_live>

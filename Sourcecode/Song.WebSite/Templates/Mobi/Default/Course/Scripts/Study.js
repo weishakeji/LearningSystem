@@ -148,6 +148,20 @@ $ready(function () {
                             throw req.data.message;
                         }
                     }).catch(err => console.error(err));
+            },
+            //视频播放完成
+            videocompleted: function (outline, state) {
+                if (this.state.isLive) return;
+                //右侧章节列表控件
+                let oltree = this.$refs['outline_tree'];
+                let nextvideo = oltree.nextVideo(outline);
+                if (nextvideo == null) return;
+                this.$dialog.confirm({
+                    message: '当前视频播放完成，是否进入下一个视频章节?',
+                }).then(() => {
+                    oltree.outlineClick(nextvideo);
+                }).catch(() => { });
+
             }
         }
     });
