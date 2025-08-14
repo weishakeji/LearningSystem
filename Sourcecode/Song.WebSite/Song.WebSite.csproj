@@ -297,6 +297,7 @@
     <Content Include="Help\License.html" />
     <Content Include="Help\Scripts\Copyrigh.js" />
     <Content Include="Help\Scripts\About.js" />
+    <Content Include="Help\Scripts\core.js" />
     <Content Include="Help\Scripts\Index.js" />
     <Content Include="Help\Scripts\License.js" />
     <Content Include="Help\Service.html" />
