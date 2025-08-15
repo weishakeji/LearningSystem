@@ -54,7 +54,6 @@ html, body, #vapp {
 
 .right_box {
     width: calc(100% - 230px);
-    background-color: #fff;
 }
 /*置顶图标*/
 .top{

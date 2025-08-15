@@ -5,6 +5,8 @@
 #sort_area{
 	width: 0px;
 	background-color: aqua;
+	width: 300px;
+	display: none;
 }
 #link_area{
 	

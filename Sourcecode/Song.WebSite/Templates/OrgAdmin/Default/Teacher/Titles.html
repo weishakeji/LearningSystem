@@ -21,7 +21,7 @@
                 </el-form-item>
             </query_panel>
         </div>
-        <el-table ref="datatables" border resizable :data="datas" tooltip-effect="dark" style="width: 100%;"
+        <el-table ref="datatables" border resizable  :stripe="true"  :data="datas" tooltip-effect="dark" style="width: 100%;"
             v-loading="loading" @selection-change="val=>selects=val"
             @row-dblclick="(row, column, event)=>$refs.btngroup.modify(row[$refs.btngroup.idkey])" row-key="Ths_ID"
             :row-class-name="data=>{return data.row.Ths_IsUse ? 'enable' : 'disabled';}" draggable>

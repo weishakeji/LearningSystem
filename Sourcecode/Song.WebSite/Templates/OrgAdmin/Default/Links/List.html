@@ -39,7 +39,7 @@
                     </el-form-item>
                 </query_panel>
             </div>
-            <el-table ref="datatables"  border resizable :data="datas" tooltip-effect="dark" style="width: 100%" v-loading="loading"
+            <el-table ref="datatables"  border resizable :data="datas" :stripe="true"  tooltip-effect="dark" style="width: 100%" v-loading="loading"
                 @selection-change="val=>selects=val" @row-dblclick="rowdblclick" row-key="Lk_Id"
                 :row-class-name="data=>{return data.row.Lk_IsUse ? 'enable' : 'disabled';}">
                 <el-table-column type="selection" width="35">
