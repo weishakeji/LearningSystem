@@ -1,7 +1,10 @@
-$ready(function () {
+$ready([
+    'Components/entities.js'
+], function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
+            entity: {},      //当前实体
             loadstate: {
                 init: false,        //初始化
                 def: false,         //默认
@@ -14,7 +17,7 @@ $ready(function () {
 
         },
         created: function () {
-            alert(3)
+            //alert(3)
         },
         computed: {
             loading: function () {
@@ -28,7 +31,11 @@ $ready(function () {
             }
         },
         watch: {
-
+            'entity': {
+                handler: function (nv, ov) {
+                    console.error(nv);
+                }, deep: true
+            }
         },
         methods: {
 

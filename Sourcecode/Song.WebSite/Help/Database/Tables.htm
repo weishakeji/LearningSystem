@@ -2,14 +2,15 @@
 <html lang="en">
 <head resource>
     <meta charset="utf-8">
-    <meta view="Table" page="/Help/DataBase/Table.htm" />
+    <meta view="Tables" page="/Help/DataBase/Tables.htm" />
     <title>表结构</title>
     <script type="text/javascript" src="/Utilities/Scripts/webdom.js"></script>
     <script type="text/javascript" src="../Scripts/core.js"></script>
 </head>
 <body>
     <div id="vapp" v-cloak> 
-    
+     <!--左侧数据库表的列表-->
+     <entities @selected="m=>entity=m"></entities>
     </div> 
 </body>
 </html>

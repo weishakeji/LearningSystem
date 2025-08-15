@@ -110,6 +110,7 @@ Vue.component('interfaces', {
                 <el-tag>总数 {{total}} / {{list.length}} </el-tag>
                 <el-input placeholder="搜索" suffix-icon="el-icon-search" clearable v-model.trim="search"></el-input>
             </div>      
+            <div v-if="showcount<=0">没有满足条件的接口</div>
             <el-collapse v-model="activeName" accordion>
                 <el-collapse-item  v-for="(item,idx) in list" :name="idx" v-show="show(item,search)">
                     <div slot="title" class="item_title" :current="current!=null && item.Name==current.Name">
@@ -122,7 +123,7 @@ Vue.component('interfaces', {
                     <methods :api="item" ref="method" :search="search" @load="methodsLoaded" @selected="selected"></methods>
                 </el-collapse-item>
             </el-collapse>
-            <div v-if="showcount<=0">没有满足条件的接口</div>
+           
         </template>
     </div>`
 });

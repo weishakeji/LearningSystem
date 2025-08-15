@@ -1,0 +1,107 @@
+﻿.entities {
+    /*当前选中的颜色*/
+    --api-current-color: #409eff;
+}
+
+.entities {
+    width: 350px;
+    height: 100%;
+    padding: 0px 10px 10px 10px;
+    box-sizing: border-box;
+}
+
+.entities .bar {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.entities .bar .el-tag {
+    line-height: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.entities .bar .el-input {
+    font-size: 18px;
+}
+
+.entities div[role='tablist'] {
+    height: calc(100% - 40px);
+    overflow: auto;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.entities div[role='tablist']::-webkit-scrollbar {
+    /*滚动条整体样式*/
+    width: 2px;
+    height: 1px;
+}
+
+.entities div[role='tablist']::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+}
+
+.entities div[role='tablist']::-webkit-scrollbar-track {
+    border-radius: 2px;
+}
+
+.entities .el-collapse-item__header {
+    box-sizing: border-box;
+    padding-left: 15px;
+    font-size: 16px;
+    border-left: 1px solid #EBEEF5;
+    border-right: 1px solid #EBEEF5;
+}
+
+.entities .el-collapse-item__header .item_title {
+    width: calc(100% - 20px);
+    float: right;
+    display: flex;
+    justify-content: space-between;
+}
+
+.entities .el-collapse-item__header .item_title[current] .name {
+    font-weight: bold;
+    color: var(--api-current-color);
+}
+
+.entities .el-collapse-item__header .item_title .intro {
+    font-size: 14px;
+    margin-left: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #999;
+    display: block;
+    flex: 1;
+    line-height: 28px;
+    text-align: right;
+}
+
+.entities .el-collapse-item__header .name {
+    color: #333;
+}
+
+.el-collapse-item__content {
+    border-left: 1px solid #EBEEF5;
+    border-right: 1px solid #EBEEF5;
+    box-sizing: border-box;
+    padding-bottom: 5px;
+}
+
+.el-collapse-item__content .intro:first-child {  
+    padding: 5px 10px 5px 20px;    
+    position: relative;
+}
+.el-collapse-item__content .intro:first-child *{
+    font-size: 16px;
+    line-height: 20px;
+}
+.el-collapse-item__content .intro:first-child *:not(red){
+    color: #999;
+}
+/*表结构没有描述*/
+.nointro .el-collapse-item__arrow, .nointro div[role="tabpanel"]{
+    display: none;
+}

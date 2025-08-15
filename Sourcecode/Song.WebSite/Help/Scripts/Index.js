@@ -42,7 +42,7 @@ window.vapp = new Vue({
                 icon: { i: 'a01c', s: 22, l: 0, t: 0 }, color: { f: '', b: '' }
             },           
             {
-                name: '数据库说明', type: 'node', url: 'database/index.htm',
+                name: '数据库', type: 'node', url: 'database/index.htm',
                 icon: { i: 'e6a4', s: 23, l: 0, t: 0 }, color: { f: '', b: '' }
             },           
             {
