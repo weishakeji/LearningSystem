@@ -54,7 +54,7 @@ $ready([
                 deep: true, immediate: false,
                 handler: function (nval, oval) {
                     //if (JSON.stringify(oval) != "{}")
-                        //this.updateentity();
+                    //this.updateentity();
                 }
             }
         },
@@ -63,6 +63,21 @@ $ready([
             setentity: function (ent, entities) {
                 this.entity = ent;
                 this.datas = entities;
+                this.getDetails();
+            },
+            //获取详细信息
+            getDetails: function () {
+                var th = this;
+                th.loading = true;
+                $api.bat(
+                    $api.get('Helper/EntityFields', { 'tablename': th.entity.name }), //获取字段（属性）
+                    $api.get('Helper/EntityDetails', { 'name': th.entity.name })  //字段说明
+                ).then(([field, detal]) => {
+                    th.properties = field.data.result;
+                    th.details = detal.data.result;
+                    Vue.set(th.states, 'update', false);
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
             },
             //实体详情的标注,attr:实体属性,state:是否编辑状态
             state: function (attr, state) {
@@ -83,8 +98,9 @@ $ready([
                 this.state(attr, false);
             },
             //保存实体的标题说明与简介，不涉及字段
-            updateentity: function () {
+            updateentity: function (attr) {
                 var th = this;
+                th.state(attr, false);
                 th.loading = true;
                 let datas = {};
                 for (let key in this.datas) {
@@ -96,7 +112,7 @@ $ready([
                     if (req.data.success) {
                         th.$notify({
                             title: '保存成功',
-                            message: '数据实体的描述信息保存成功！',
+                            message: '实体描述信息保存成功！',
                             type: 'success'
                         });
                     } else {
@@ -121,9 +137,36 @@ $ready([
                     type: 'success'
                 });
             },
+            //显示类型
+            showtype: function (ty, length) {
+                if (ty == 'nvarchar') {
+                    var leng = Number(length);
+                    if (leng < 0) return 'nvarchar(max)'
+                    else return 'nvarchar(' + (leng / 2) + ')';
+                }
+                return ty;
+            },
+            //获取内容，attr:实体或字段名称，cont:内容类型
+            text: function (attr, cont, html) {
+                var item = this.details[attr];
+                if (item == null) return '';
+                try {
+                    var text = !!item[cont] ? item[cont] : "";
+                    if (html == null || !html) return text;
+                    text = text.replace(/\n/g, "<br/>");
+                    return text;
+                } catch (err) {
+                    console.error(err);
+                }
+            },
         },
         filters: {
-
+            //实体详情的显示
+            show: function (val, search) {
+                if (!search || search == '') return val;
+                var regExp = new RegExp(search, 'ig');
+                return val.replace(regExp, `<red>${search}</red>`);
+            }
         },
         components: {
 

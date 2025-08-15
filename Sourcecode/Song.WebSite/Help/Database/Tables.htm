@@ -18,23 +18,67 @@
             <div class="entity_header">
                 <div class="name">
                     <span @dblclick="copy(entity.name)" title="双击复制"> {{entity.index+1}}. {{entity.name}}</span>
-                    <span class="mark" v-if="!state('mark')" @click="edit('mark')">{{entity.mark}}</span>
+                    <span class="mark" v-if="!state('mark')" @dblclick="edit('mark')">{{entity.mark}}</span>
                     <el-input v-else class="mark" ref="mark" v-model="entity.mark" clearable
-                        @keyup.enter="leave('mark')" @blur="leave('mark')">
+                        @keyup.enter="updateentity('mark')" @blur="updateentity('mark')">
                     </el-input>
                     <el-input placeholder="搜索" prefix-icon="el-icon-search" class="query" clearable v-model="search">
                     </el-input>
                 </div>
                 <div class="intro">
-                    <span v-if="!state('intro')" @click="edit('intro')">
+                    <span v-if="!state('intro')" @dblclick="edit('intro')">
                         <i class="el-icon-edit"></i>说明：<span v-html="entity.intro"></span>
                     </span>
                     <span v-else><i class="el-icon-edit"></i> 说明：<br />
-                        <el-input type="textarea"  :rows="2" placeholder="请输入内容" @blur="leave('intro')"
+                        <el-input type="textarea" :rows="2" placeholder="请输入内容" @blur="updateentity('intro')"
                             v-model="entity.intro">
-                        </el-input>                        
+                        </el-input>
                     </span>
                 </div>
+            </div>
+            <div class="entity_details">
+                <table border="0">
+                    <thead>
+                        <tr>
+                            <th width="50px">序号</th>
+                            <th>字段</th>
+                            <th>类型</th>
+                            <th width="50px">可空</th>
+                            <th>关联</th>
+                            <th>备注</th>
+                            <th>说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(v,k,i) in properties">
+                            <td>{{i+1}}</td>
+                            <td v-html="$options.filters.show(k,search)+(v.primary=='1' ? ' (主键)' : '')"
+                                @dblclick="copy(k)" title="双击复制" class="field"></td>
+                            <td>{{showtype(v.type,v.length)}}</td>
+                            <td>{{Number(v.nullable)==0 ? '' : '✔'}}</td>
+                            <td @dblclick="edit(k+'.relation')" mark="关联">
+                                <span v-if="!state(k+'.relation')">{{text(k,'relation')}}</span>
+                                <select v-if="state(k+'.relation')" :id="k+'.relation'" :value="text(k,'relation')"
+                                    @blur="leave(k+'.relation')" @change="leave(k+'.relation')">
+                                    <option value=""></option>
+                                    <option :value="key" v-for="(val,key,index) in datas">{{key}}</option>
+                                </select>
+                            </td>
+                            <td @dblclick="edit(k+'.mark')" mark="备注">
+                                <span v-if="!state(k+'.mark')"
+                                    v-html="$options.filters.show(text(k,'mark',true),search)"></span>
+                                <textarea rows="3" v-if="state(k+'.mark')" :id="k+'.mark'" :value="text(k,'mark')"
+                                    @blur="leave(k+'.mark')"></textarea>
+                            </td>
+                            <td @dblclick="edit(k+'.intro')" mark="说明">
+                                <span v-if="!state(k+'.intro')"
+                                    v-html="$options.filters.show(text(k,'intro',true),search)"></span>
+                                <textarea rows="4" v-if="state(k+'.intro')" :id="k+'.intro'" :value="text(k,'intro')"
+                                    @blur="leave(k+'.intro')"></textarea>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

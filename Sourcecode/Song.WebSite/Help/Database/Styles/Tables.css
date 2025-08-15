@@ -5,7 +5,9 @@ html, body, #vapp {
     margin: 0px;
     overflow: hidden;
 }
-
+p{
+    text-indent: 0px;
+}
 #vapp[v-cloak] {
     display: none;
 }
@@ -16,6 +18,9 @@ html, body, #vapp {
 
 #content {
     flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 
@@ -45,5 +50,87 @@ html, body, #vapp {
 .entity_header textarea {
     box-sizing: border-box;
     background-color: transparent;
+
+}
+
+/*表结构的字段详情*/
+.entity_details{
+    overflow: auto;
+    box-sizing: border-box;
+    padding-right: 10px;
+    position: relative;
+}
+table {
+    width: 100%;
+    background-color: #ddd;
+    border-collapse: separate;
+    border: 1px solid #ddd;
+    border-top: 0px;
+    margin: 0px 10px 20px 0px;
+    position: relative;
+    overflow: auto;
+    table-layout: fixed;
+}
+
+table tr th {
+    text-align: center;
+    background-color: #eee;
+    border-top: 2px solid #ddd;
+    padding: 5px;
+    position: sticky;
+    top: 0px;
+    z-index: 1;
+}
+
+table td {
+    font-size: 14px;
+    line-height: 30px;
+    background-color: #fff;
+}
+
+table td textarea {
+    width: 100%;
+    padding: 0px;
+    overflow: auto;
+}
+
+
+table tr:not(:first-child):hover td {
+    background-color: rgb(251, 255, 239);
+}
+
+table tr td {
+    text-align: center;
+    font-size: 15px;
+}
+
+table tr td:nth-child(2), table tr th:nth-child(2) {
+    text-indent: 8px;
+    text-align: left;
+}
+
+table tr td:nth-child(6) {
+    line-height: 1.2rem;
+    padding: 0px 10px;
+}
+
+table tr td:nth-child(6) input {
+    width: 98%;
+}
+
+/*字段说明，即表格的最后一列*/
+table tr td:nth-child(7) {
+    padding: 2px 8px 2px 8px;
+    line-height: 22px;
+    text-align: left;
+
+}
+
+table tr th:nth-child(7) {
+    min-width: 300px;
+}
+
+table tr td:nth-child(7) div {
+    cursor: pointer;
 
 }
