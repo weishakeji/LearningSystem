@@ -49,12 +49,12 @@ $ready([
                     console.error(nv);
                 }, deep: true
             },
-            //表的结构介绍变更时
-            'datas': {
-                deep: true, immediate: false,
+            //当props中的states赋值时，传递给组件内部的editstates
+            'details': {
+                deep: true,
+                //immediate: true,
                 handler: function (nval, oval) {
-                    //if (JSON.stringify(oval) != "{}")
-                    //this.updateentity();
+                    if (this.states['update']) this.updateDetails();
                 }
             }
         },
@@ -92,9 +92,21 @@ $ready([
                 this.$nextTick(function () {
                     $dom('.' + attr).find('input,textarea').focus();
                 });
+                window.setTimeout(function () {
+                    document.getElementById(attr).focus();
+                }, 200);
             },
             //退出编辑状态
             leave: function (attr) {
+                var val = document.getElementById(attr).value;
+                if (attr.indexOf('.') > -1) {
+                    var prefix = attr.substring(0, attr.indexOf('.'));
+                    var suffix = attr.substring(attr.indexOf('.') + 1);
+                    this.details[prefix][suffix] = val;
+                    Vue.set(this.states, 'update', true);
+                } else {
+                    this.entity[attr] = val;
+                }
                 this.state(attr, false);
             },
             //保存实体的标题说明与简介，不涉及字段
@@ -123,7 +135,25 @@ $ready([
                     console.error(err);
                 }).finally(() => th.loading = false);
             },
+            //更新详细信息
+            updateDetails: function () {
+                var th = this;
+                th.loading = true;
+                $api.post('Helper/EntityDetails', { 'name': th.entity.name, 'detail': th.details }).then(function (req) {
+                    if (req.data.success) {
+                        th.$notify({
+                            title: '保存成功',
+                            message: '描述信息保存成功！',
+                            type: 'success'
+                        });
+                        Vue.set(th.states, 'update', false);
 
+                    } else {
+                        throw req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading = false);
+            },
             //复制到粘贴板
             copy: function (val) {
                 var oInput = document.createElement('input');
@@ -136,15 +166,6 @@ $ready([
                     message: '复制 “' + val + '” 到粘贴板',
                     type: 'success'
                 });
-            },
-            //显示类型
-            showtype: function (ty, length) {
-                if (ty == 'nvarchar') {
-                    var leng = Number(length);
-                    if (leng < 0) return 'nvarchar(max)'
-                    else return 'nvarchar(' + (leng / 2) + ')';
-                }
-                return ty;
             },
             //获取内容，attr:实体或字段名称，cont:内容类型
             text: function (attr, cont, html) {
@@ -166,6 +187,15 @@ $ready([
                 if (!search || search == '') return val;
                 var regExp = new RegExp(search, 'ig');
                 return val.replace(regExp, `<red>${search}</red>`);
+            },
+            //字段类型的显示
+            type: function (ty, length) {
+                if (ty == 'nvarchar') {
+                    var leng = Number(length);
+                    if (leng < 0) return 'nvarchar(max)'
+                    else return 'nvarchar(' + (leng / 2) + ')';
+                }
+                return ty;
             }
         },
         components: {

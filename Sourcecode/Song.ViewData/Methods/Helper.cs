@@ -441,8 +441,11 @@ namespace Song.ViewData.Methods
             string file = string.Format("{0}help\\datas\\Entitiy\\{1}.json", AppDomain.CurrentDomain.BaseDirectory, name);
             if (!string.IsNullOrWhiteSpace(detail))
             {
+                JObject temp = (JObject)JsonConvert.DeserializeObject(detail);
+                if (temp == null) throw new Exception("要写入的数据不是合法的Json类型");
+                string jsonString = JsonConvert.SerializeObject(temp, Newtonsoft.Json.Formatting.Indented);
                 using (System.IO.StreamWriter f = new System.IO.StreamWriter(file, false))
-                    f.Write(detail);
+                    f.Write(jsonString);
             }
             return true;
         }

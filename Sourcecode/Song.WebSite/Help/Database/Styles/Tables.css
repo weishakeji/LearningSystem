@@ -93,7 +93,9 @@ table td textarea {
     padding: 0px;
     overflow: auto;
 }
-
+table td select {
+    width: 100%;
+}
 
 table tr:not(:first-child):hover td {
     background-color: rgb(251, 255, 239);
