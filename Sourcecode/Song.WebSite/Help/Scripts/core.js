@@ -5,6 +5,7 @@
         '/Utilities/Fonts/icon.css',
         '/Utilities/ElementUi/index.css',
         '/Utilities/styles/public.css',
+        '/Help/Styles/public.css',     
         '/Utilities/prism/prism.css',        //高亮显示
         '/Utilities/jsontreejs/jsonTree.css',
         '/Utilities/jsontreejs/themes/light/jsontree.js.light.theme.css'

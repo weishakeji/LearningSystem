@@ -5,13 +5,13 @@ $ready(function () {
             activeName: 'detail',
             //菜单项
             menus: [
-                { name: '简述', tag: 'detail', url: 'detail.html', icon: 'e6b0'}, 
-                { name: '表结构', tag: 'structure', url: 'structure.html', icon: 'e6a4'}, 
-                { name: '索引', tag: 'index', url: 'index.html', icon: 'e744'}, 
-                { name: '查询', tag: 'query', url: 'query.html', icon: 'a00b'}, 
-                { name: '实体生成', tag: 'entity', url: 'entity.html', icon: 'e667'}, 
-                { name: '导出', tag: 'export', url: 'export.html', icon: 'e73e'}, 
-                { name: '其它', tag: 'other', url: 'other.html', icon: 'e67e'}, 
+                { name: '简述', tag: 'detail', icon: 'e6b0' },
+                { name: '表结构', tag: 'table', icon: 'e6a4' },
+                { name: '索引', tag: 'dbindex', icon: 'e744' },
+                { name: '查询', tag: 'query', icon: 'a00b' },
+                { name: '实体生成', tag: 'entity', icon: 'e667' },
+                { name: '导出', tag: 'export', icon: 'e73e' },
+                { name: '其它', tag: 'other', icon: 'e67e' },
             ]
         },
         watch: {

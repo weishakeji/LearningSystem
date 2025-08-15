@@ -1,0 +1,16 @@
+{
+	"Css Template": {
+		"prefix": "tmpl:css",
+		"description": "Css 模板",
+		"body": [
+			"#vapp {",
+			"\twidth: 100%;",
+			"\theight: 100%;",
+			"\tmargin: 0px;",
+			"\tpadding: 0px;",
+			"\toverflow: hidden;",
+			"\tposition: relative;",
+			"}"
+		]
+	}
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta view="Detail" page="/Help/DataBase/Detail.htm" />
+    <title>数据库说明</title>
+    <script type="text/javascript" src="/Utilities/Scripts/webdom.js"></script>
+    <script type="text/javascript" src="../Scripts/core.js"></script>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <p>当前系统同时支持 Postgresql 和 SQLite，以及MSSQL Server。考虑到后续将跨平台部署，MSSQL Server将逐渐放弃。</p>
+        <p>在v2版本中，仍然支持MSSQL Server数据库，但不再提供升级脚本，后续在v3版本中，将不再支持MSSQL Server数据库。</p>
+        <hr />
+        <p>商业版使用 Postgresql 数据库，社区版使用 SQLite 数据库，初次部署默认是 SQLite 数据库，如果需要更改，可以在db.config中修改数据库链接信息。</p>
+
+
+        <div class="tip">
+            当前数据库： <loading v-if="loading"></loading>
+            <template v-else>
+                <template v-if="dbType!=''"><span class="dbtype" v-html="dbType"></span>
+                    <br />
+                    <span v-html="verison"></span>
+                </template>
+                <warning v-else>未检测到数据库</warning>
+            </template>          
+        </div>
+        <p>点击此处 <a href="https://www.postgresql.org/download/" target="_blank">下载Postgresql数据库</a></p>
+        <hr />
+        
+    </div>
+</body>
+
+</html>

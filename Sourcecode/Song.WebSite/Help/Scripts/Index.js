@@ -44,11 +44,7 @@ window.vapp = new Vue({
             {
                 name: '数据库说明', type: 'node', url: 'database/index.htm',
                 icon: { i: 'e6a4', s: 23, l: 0, t: 0 }, color: { f: '', b: '' }
-            },
-            {
-                name: '数据实体生成', type: 'node', url: 'Contents/DataEntity.html',
-                icon: { i: 'e820', s: 28, l: 1, t: 0 }, color: { f: '', b: '' }
-            },
+            },           
             {
                 name: '图标库', type: 'node', url: '../Utilities/Fonts/index.html',
                 icon: { i: 'a007', s: 29, l: -4, t: -2 }, color: { f: '', b: '' }

@@ -1,0 +1,29 @@
+{
+	"Vue Component Template": {
+		"prefix": "tmpl:vue-global-component",
+		"description": "Vue Component  微厦在线学习系统的专用模板",
+		"body": [
+			"Vue.component('$1', {",
+			"\tprops: ['value'],",
+			"\tdata: function () {",
+			"\t\treturn {           ",
+			"\t\t\tloading: false",
+			"\t\t}",
+			"\t},",
+			"\twatch: {",
+			"\t",
+			"\t},",
+			"\tcomputed: {},",
+			"\tmounted: function () {",
+			"\t",
+			"\t},",
+			"\tmethods: {       ",
+			"\t",
+			"\t},",
+			"\ttemplate: `<div>",
+			"\t\t",
+			"\t</div> `",
+			"});"
+		]
+	}
+}
