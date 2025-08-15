@@ -93,7 +93,8 @@ $ready([
                     $dom('.' + attr).find('input,textarea').focus();
                 });
                 window.setTimeout(function () {
-                    document.getElementById(attr).focus();
+                    let el=document.getElementById(attr);
+                    if(el) el.focus();
                 }, 200);
             },
             //退出编辑状态

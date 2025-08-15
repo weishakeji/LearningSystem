@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head resource>
     <meta charset="utf-8">
     <meta view="DbIndex" page="/Help/DataBase/DbIndex.htm" />
@@ -7,9 +8,46 @@
     <script type="text/javascript" src="/Utilities/Scripts/webdom.js"></script>
     <script type="text/javascript" src="../Scripts/core.js"></script>
 </head>
+
 <body>
-    <div id="vapp" v-cloak> 
-        数据库索引
-    </div> 
+    <div id="vapp" v-cloak>
+        <!--左侧数据库表的列表-->
+        <entities @selected="setentity"></entities>
+        <!--表结构的详情-->
+        <div id="content">
+            <div class="entity_header">
+                <div class="name">
+                    <span @dblclick="copy(entity.name)" title="双击复制"> {{entity.index+1}}. {{entity.name}}</span>
+                    <span class="mark">{{entity.mark}}</span>
+                </div>
+                <div class="intro">
+                    <span>说明：<span v-html="entity.intro"></span>
+                </div>
+            </div>
+            <div class="entity_indexs">
+                <p>当前表共 {{indexs.length}} 个索引</p>
+
+                <table border="0">
+                    <thead>
+                        <tr>
+                            <th width="50px">序号</th>
+                            <th>索引名称</th>
+                            <th>字段</th>
+                            <th>脚本</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item,idx) in indexs">
+                            <td>{{idx+1}}</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.columnname}}</td>
+                            <td>{{item.indexdef}}</td>
+                        </tr>
+                    </tbody>
+                </table>                
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>
