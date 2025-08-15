@@ -9,3 +9,41 @@ html, body, #vapp {
 #vapp[v-cloak] {
     display: none;
 }
+
+#vapp {
+    display: flex;
+}
+
+#content {
+    flex: 1;
+}
+
+
+/*实体详情区域*/
+
+.entity_header {
+    margin: 0px 5px 0px 20px;
+    padding: 0px 0px 10px 0px;
+    box-sizing: border-box;
+}
+.entity_header .name{
+    display: flex;
+    justify-content: space-between;
+    white-space: nowrap;
+}
+.entity_header .mark {
+    margin: 0px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #777;
+    line-height: 200%;
+}
+.entity_header .query{
+    width: 160px;
+    margin-left: auto;
+}
+.entity_header textarea {
+    box-sizing: border-box;
+    background-color: transparent;
+
+}

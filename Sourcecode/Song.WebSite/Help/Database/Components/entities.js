@@ -73,7 +73,7 @@ Vue.component('entities', {
             if (idx == null || idx.length < 1) return;
             this.activeName = idx;
             let index = parseInt(idx);
-            if (index == this.index) return;
+            //if (index == this.index) return;
             //当前选中的表结构
             let obj = {};
             let count = 0;
@@ -87,8 +87,8 @@ Vue.component('entities', {
             this.$set(obj, 'index', index);
             let url = $api.setpara('index', index);
             history.pushState({}, "", url);
-            //触发事件
-            this.$emit('selected', obj, index);
+            //触发事件,当前表结构对象和所有对象
+            this.$emit('selected', obj, this.entities);
         },
     },
     // 
