@@ -122,11 +122,6 @@ namespace Song.ServiceInterfaces
         /// <returns>返回缺少的表与字段</returns>
         Dictionary<string,string[]> DatabaseCompleteTest();
         /// <summary>
-        /// 数据库链接测试
-        /// </summary>
-        /// <returns>链接正确为true，否则为false</returns>
-        bool DatabaseLinkTest();
-        /// <summary>
         /// 执行sql语句,返回影响的行数
         /// </summary>
         /// <param name="sql"></param>
@@ -159,27 +154,7 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         DataTable ForSql(string sql);
 
-        #region 数据库信息
-        /// <summary>
-        /// 数据库类型，例如Sqlserver或PostgreSql
-        /// </summary>
-        /// <returns></returns>
-        string DataBaseType();
-        /// <summary>
-        ///  数据库名称
-        /// </summary>
-        /// <returns></returns>
-        string DataBaseName();
-        /// <summary>
-        ///  数据库版本号
-        /// </summary>
-        /// <returns></returns>
-        string DbVersion();
-        /// <summary>
-        /// 数据库里所有的表
-        /// </summary>
-        /// <returns></returns>
-        List<string> DataTables();
+        #region 数据库信息 
         /// <summary>
         /// 获取数据字段
         /// </summary>

@@ -55,7 +55,8 @@ p{
 
 /*表结构的字段详情*/
 .entity_details{
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     box-sizing: border-box;
     padding-right: 10px;
     position: relative;
@@ -68,7 +69,8 @@ table {
     border-top: 0px;
     margin: 0px 10px 20px 0px;
     position: relative;
-    overflow: auto;
+    overflow: hidden auto;
+
     table-layout: fixed;
 }
 

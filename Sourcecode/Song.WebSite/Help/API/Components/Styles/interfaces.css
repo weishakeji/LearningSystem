@@ -74,7 +74,7 @@
     text-overflow: ellipsis;
     color: #999;
     display: block;
-    line-height: 28px;
+    line-height: 50px;
     flex: 1;
     text-align: right;
 }
@@ -91,11 +91,22 @@
 }
 
 .el-collapse-item__content .intro:first-child {
-    font-size: 13px;
-    color: #999;
     padding: 5px 10px 5px 20px;
-    line-height: 20px;
     position: relative;
+}
+
+.el-collapse-item__content .intro:first-child * {
+    font-size: 16px;
+    line-height: 20px;
+}
+
+.el-collapse-item__content .intro:first-child *:not(red) {
+    color: #999;
+}
+
+/*表结构没有描述*/
+.nointro .el-collapse-item__arrow, .nointro div[role="tabpanel"] {
+    display: none;
 }
 
 /*接口方法样式*/
@@ -116,17 +127,21 @@
 
     background-color: rgb(236, 245, 255);
 }
-.el-collapse-item__content .method>div{
+
+.el-collapse-item__content .method>div {
     display: flex;
     justify-content: space-between;
 }
+
 .el-collapse-item__content .method>div:first-child span {
-    display: block; 
+    display: block;
 }
+
 .el-collapse-item__content .method:hover>div:first-child span {
-    text-shadow: 1px 1px 2px #333;    
+    text-shadow: 1px 1px 2px #333;
 }
-.el-collapse-item__content .method>div:first-child i{
+
+.el-collapse-item__content .method>div:first-child i {
     font-size: 12px;
     margin: 0px 5px;
     display: block;
@@ -137,7 +152,8 @@
     color: #999;
     text-align: right;
 }
-.el-collapse-item__content .method .intro {
+
+.el-collapse-item__content .method .intro, .el-collapse-item__content .method .intro * {
     font-size: 15px;
     color: #999;
     margin-left: 22px;

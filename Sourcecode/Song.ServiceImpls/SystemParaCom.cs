@@ -324,14 +324,7 @@ namespace Song.ServiceImpls
             }
             return dic;
         }
-        /// <summary>
-        /// 数据库链接测试
-        /// </summary>
-        /// <returns>链接正确为true，否则为false</returns>
-        public bool DatabaseLinkTest()
-        {
-            return  Gateway.Default.IsCorrect;
-        }
+       
         /// <summary>
         /// 执行sql语句
         /// </summary>
@@ -382,39 +375,7 @@ namespace Song.ServiceImpls
             if (ds.Tables.Count > 0) return ds.Tables[0];
             return null;
         }
-        #region 数据库信息
-        /// <summary>
-        /// 数据库名称，例如Sqlserver或PostgreSql
-        /// </summary>
-        /// <returns></returns>
-        public string DataBaseType()
-        {
-            return Gateway.Default.DbType.ToString();
-        }
-        /// <summary>
-        ///  数据库名称
-        /// </summary>
-        /// <returns></returns>
-        public string DataBaseName()
-        {
-            return Gateway.Default.DatabaseName();
-        }
-        /// <summary>
-        ///  数据库版本号
-        /// </summary>
-        /// <returns></returns>
-        public string DbVersion()
-        {
-            return Gateway.Default.DbVersion();
-        }
-        /// <summary>
-        /// 数据库里所有的表
-        /// </summary>
-        /// <returns></returns>
-        public List<string> DataTables()
-        {
-            return DataQuery.DbQuery.Call<List<string>>();         
-        }
+        #region 数据库信息         
         /// <summary>
         /// 仅获取下的字段的名称，不包括类型等其它属性
         /// </summary>

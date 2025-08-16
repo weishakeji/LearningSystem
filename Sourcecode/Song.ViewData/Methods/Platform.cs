@@ -171,7 +171,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public bool DbConnection()
         {
-            bool isCorrect = Business.Do<ISystemPara>().DatabaseLinkTest();
+            bool isCorrect = Business.Do<IDataBase>().CheckConnection();
             return isCorrect;
         }
         /// <summary>
@@ -180,7 +180,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public string DataBaseType()
         {
-            return Business.Do<ISystemPara>().DataBaseType();
+            return Business.Do<IDataBase>().ProductName;
         }
         /// <summary>
         /// 数据库的名称
@@ -188,7 +188,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public string DataBaseName()
         {
-            return Business.Do<ISystemPara>().DataBaseName();
+            return Business.Do<IDataBase>().DbName;
         }
         /// <summary>
         /// 数据库版本
@@ -196,7 +196,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public string DbVersion()
         {
-            return Business.Do<ISystemPara>().DbVersion();
+            return Business.Do<IDataBase>().DbVersion;
         }
         /// <summary>
         /// 数据库字段与表是否完成
@@ -204,7 +204,7 @@ namespace Song.ViewData.Methods
         /// <returns>string, string[],前者为表名，后者为字段</returns>
         public JArray DbCheck()
         {
-            bool isCorrect = Business.Do<ISystemPara>().DatabaseLinkTest();
+            bool isCorrect = Business.Do<IDataBase>().CheckConnection();
             if (!isCorrect)
                 throw new Exception("数据库链接不正常！");
             JArray jarr = new JArray();

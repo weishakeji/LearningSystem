@@ -17,24 +17,6 @@ namespace Song.DataQuery.PostgreSQL
     /// </summary>
     public class SystemParaCom
     {
-
-        /// <summary>
-        /// 数据库里所有的表
-        /// </summary>
-        /// <returns></returns>
-        public List<string> DataTables()
-        {
-            string sql = "SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = 'public'  order by tablename";
-            using (SourceReader reader = Gateway.Default.FromSql(sql).ToReader())
-            {
-                List<string> list = new List<string>();
-                while (reader.Read())
-                    list.Add(reader.GetValue<string>(0));
-                reader.Close();
-                reader.Dispose();
-                return list;
-            }
-        }
         /// <summary>
         /// 仅获取下的字段的名称，不包括类型等其它属性
         /// </summary>

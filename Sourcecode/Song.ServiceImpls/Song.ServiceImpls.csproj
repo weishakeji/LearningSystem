@@ -192,6 +192,7 @@
     <Compile Include="Exam\Results.cs" />
     <Compile Include="Exam\TestPaperHandler.cs" />
     <Compile Include="GuideCom.cs" />
+    <Compile Include="DataBaseCom.cs" />
     <Compile Include="ManageMenuCom.cs" />
     <Compile Include="RechargeCom.cs" />
     <Compile Include="OutlineCom.cs" />

@@ -117,7 +117,7 @@ Vue.component('interfaces', {
                         <span v-html="(idx+1)+'.  '+ showsearch(item.Name,search)" class="name"></span>
                         <span class="intro">{{item.Intro}}</span> 
                     </div>
-                    <div v-if='item.Intro.length>0' class="intro">摘要：
+                    <div v-if='item.Intro.length>0' class="intro"><span>摘要：</span>
                         <span v-html="showsearch(item.Intro,search)"></span>
                     </div>
                     <methods :api="item" ref="method" :search="search" @load="methodsLoaded" @selected="selected"></methods>

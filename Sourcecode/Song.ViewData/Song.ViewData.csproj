@@ -211,6 +211,7 @@
     <Compile Include="Methods\Accessory.cs" />
     <Compile Include="Methods\Admin.cs" />
     <Compile Include="Methods\Copyright.cs" />
+    <Compile Include="Methods\DataBase.cs" />
     <Compile Include="Methods\DocHelper.cs" />
     <Compile Include="Methods\Exam.cs" />
     <Compile Include="Methods\HelpDocument.cs" />

@@ -285,7 +285,7 @@ namespace Song.ViewData.Methods
         public JObject Entities()
         {
             //数据库所有的表
-            List<string> entities = Business.Do<ISystemPara>().DataTables();
+            List<string> entities = Business.Do<IDataBase>().Tables();
             //获取实体的原有记录项
             JObject details = null;
             string file = string.Format("{0}help\\datas\\entitiy\\entities.json", AppDomain.CurrentDomain.BaseDirectory);

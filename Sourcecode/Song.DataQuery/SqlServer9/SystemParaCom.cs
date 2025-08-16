@@ -18,23 +18,6 @@ namespace Song.DataQuery.SqlServer9
     public class SystemParaCom
     {
         /// <summary>
-        /// 数据库里所有的表
-        /// </summary>
-        /// <returns></returns>
-        public List<string> DataTables()
-        {
-            string sql = "select name from sysobjects where type='U' order by name asc";
-            using (SourceReader reader = Gateway.Default.FromSql(sql).ToReader())
-            {
-                List<string> list = new List<string>();
-                while (reader.Read())
-                    list.Add(reader.GetValue<string>(0));
-                reader.Close();
-                reader.Dispose();
-                return list;
-            }
-        }
-        /// <summary>
         /// 仅获取下的字段的名称，不包括类型等其它属性
         /// </summary>
         /// <param name="tablename">表</param>

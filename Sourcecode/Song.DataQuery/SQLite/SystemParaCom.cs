@@ -19,24 +19,6 @@ namespace Song.DataQuery.SQLite
     public class SystemParaCom
     {
         /// <summary>
-        /// 数据库里所有的表
-        /// </summary>
-        /// <returns></returns>
-        public List<string> DataTables()
-        {
-            string sql = "SELECT name FROM sqlite_master WHERE type = 'table' and name!= 'sqlite_sequence' order by name";
-            DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
-            using (SourceReader reader = Gateway.Default.FromSql(sql).ToReader())
-            {
-                List<string> list = new List<string>();
-                while (reader.Read())
-                    list.Add(reader.GetValue<string>(0));
-                reader.Close();
-                reader.Dispose();
-                return list;
-            }
-        }
-        /// <summary>
         /// 仅获取下的字段的名称，不包括类型等其它属性
         /// </summary>
         /// <param name="tablename">表</param>

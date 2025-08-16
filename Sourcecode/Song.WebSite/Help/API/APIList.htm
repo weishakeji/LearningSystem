@@ -95,7 +95,7 @@
                     该接口没有参数，可以直接调用。
                 </div>
                 <div class="test_btns">
-                    <el-button type="info" size="medium" plain @click="displayscript(!showscript)">
+                    <el-button type="info" size="small" plain @click="displayscript(!showscript)">
                         <template v-if="showscript">
                             <icon>&#xe85c</icon>隐藏脚本
                         </template>
@@ -103,7 +103,7 @@
                             <icon>&#xa03a</icon>查看脚本
                         </template>
                     </el-button>
-                    <el-button type="primary" size="medium" @click="testapi" :disabled="loading">
+                    <el-button type="primary" size="small" @click="testapi" :disabled="loading">
                         <loading v-if="loading" asterisk>正在加载...</loading>
                         <template v-else>
                             <icon>&#xa030</icon>测试接口

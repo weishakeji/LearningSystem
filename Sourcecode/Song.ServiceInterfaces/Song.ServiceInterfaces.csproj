@@ -157,6 +157,7 @@
   <ItemGroup>
     <Compile Include="IDepart.cs" />
     <Compile Include="IGuide.cs" />
+    <Compile Include="IDataBase.cs" />
     <Compile Include="IManageMenu.cs" />
     <Compile Include="IRecharge.cs" />
     <Compile Include="IOutline.cs" />
