@@ -4,7 +4,7 @@ $ready([
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            entity: {},      //当前实体
+            entity: null,      //当前实体
             datas: {},       //所有实体
 
             search: '',      //搜索
@@ -46,7 +46,7 @@ $ready([
         watch: {
             'entity': {
                 handler: function (nv, ov) {
-                    console.error(nv);
+                    //console.error(nv);
                 }, deep: true
             },
             //当props中的states赋值时，传递给组件内部的editstates
@@ -68,7 +68,7 @@ $ready([
             //获取详细信息
             getDetails: function () {
                 var th = this;
-                th.loading = true;
+                th.loadstate.init = true;
                 $api.bat(
                     $api.get('Helper/EntityFields', { 'tablename': th.entity.name }), //获取字段（属性）
                     $api.get('Helper/EntityDetails', { 'name': th.entity.name })  //字段说明
@@ -77,7 +77,7 @@ $ready([
                     th.details = detal.data.result;
                     Vue.set(th.states, 'update', false);
                 }).catch(err => console.error(err))
-                    .finally(() => th.loading = false);
+                    .finally(() => th.loadstate.init = false);
             },
             //实体详情的标注,attr:实体属性,state:是否编辑状态
             state: function (attr, state) {

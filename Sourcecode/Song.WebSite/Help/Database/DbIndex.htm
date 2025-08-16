@@ -14,7 +14,7 @@
         <!--左侧数据库表的列表-->
         <entities @selected="setentity"></entities>
         <!--表结构的详情-->
-        <div id="content">
+        <div id="content" v-if="entity!=null">
             <div class="entity_header">
                 <div class="name">
                     <span @dblclick="copy(entity.name)" title="双击复制"> {{entity.index+1}}. {{entity.name}}</span>
@@ -24,7 +24,8 @@
                     <span>说明：<span v-html="entity.intro"></span>
                 </div>
             </div>
-            <div class="entity_indexs">
+            <loading v-if="loading"> loading ...</loading>
+            <div v-else class="entity_indexs">
                 <p>当前表共 {{indexs.length}} 个索引</p>
 
                 <table border="0">

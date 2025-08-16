@@ -41,7 +41,7 @@ Vue.component('entities', {
         this.getlist();
     },
     methods: {
-        //获取API的列表
+        //获取实体列表
         getlist: function () {
             var th = this;
             th.loading = true;
@@ -51,11 +51,12 @@ Vue.component('entities', {
                     th.handleChange(th.index);
                 } else {
                     console.error(req.data.exception);
-                    th.error = req.data.message;
-                    throw req.config.way + ' ' + req.data.message;
+                    throw req.data.message;
                 }
-            }).catch(err => console.error(err))
-                .finally(() => th.loading = false);
+            }).catch(err => {
+                console.error(err);
+                th.error = err;
+            }).finally(() => th.loading = false);
         },
         //是否存在search，大小写不敏感
         indexOf: function (text, search) {
@@ -93,7 +94,7 @@ Vue.component('entities', {
     },
     // 
     template: `<div class="entities"> 
-        <div loading="p4" v-if="loading"></div>
+        <loading v-if="loading">loading ...</loading>
         <div v-else-if="error!=''"><alert>{{error}}</alert></div>
         <template v-else>
             <div class="bar">

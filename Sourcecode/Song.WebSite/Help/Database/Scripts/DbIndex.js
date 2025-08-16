@@ -4,7 +4,7 @@ $ready([
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            entity: {},      //当前实体
+            entity: null,      //当前实体
             indexs: [],     //索引列表
 
             loadstate: {

@@ -3,7 +3,9 @@ body {
     overflow: auto;
     box-sizing: border-box;
 }
-
+*[v-cloak] {
+    display: none;
+}
 h1 {
     margin: 0px;
     font-size: 22px;
