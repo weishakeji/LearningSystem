@@ -345,9 +345,10 @@ namespace Song.ServiceImpls
 	                         tablename, 
 	                         REPLACE(unnest(REGEXP_MATCHES(indexdef,'btree \(""(\w[^\)]+)')),'""','') as columnName,
                              indexdef
-                        FROM pg_indexes
+                        FROM pg_indexes 
                         WHERE
-                            tablename = '{{tablename}}'
+                            schemaname='public'
+                            AND tablename = '{{tablename}}'
                             AND indexname NOT IN(
                                 SELECT constraint_name
                                 FROM information_schema.table_constraints
@@ -591,14 +592,20 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public int IndexTotal()
         {
-            List<string> tables = this.Tables();
-            int total = 0;
-            foreach (string tablename in tables)
+            string sql = string.Empty;
+            switch (Gateway.Default.DbType)
             {
-                DataTable indices = this.Indexs(tables[0]);
-                total += indices.Rows.Count;
+                case DbProviderType.SQLServer:
+                    sql = @"SELECT COUNT(*) FROM sys.indexes WHERE object_id > 100 AND index_id > 0;";
+                    break;
+                case DbProviderType.PostgreSQL:
+                    sql = @"SELECT count(*) FROM pg_indexes WHERE schemaname='public';";
+                    break;
+                case DbProviderType.SQLite:
+                    sql = @"SELECT COUNT(*) FROM sqlite_master WHERE type = 'index';";
+                    break;
             }
-            return total;
+            return ScalarSql<int>(sql);
         }
         #endregion
 

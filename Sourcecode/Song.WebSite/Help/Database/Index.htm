@@ -17,7 +17,8 @@
         <el-tabs v-model="activeName">
             <el-tab-pane v-for="item in menus" :name="item.tag">
                 <span slot="label">
-                    <icon v-html="'&#x'+item.icon"></icon>
+                    <icon v-html="'&#x'+item.icon" v-bind:[item.size]="true"></icon>
+
                     <span v-html='item.name'></span>
                 </span>
             </el-tab-pane>

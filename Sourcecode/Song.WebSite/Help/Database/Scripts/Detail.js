@@ -15,7 +15,7 @@ $ready(function () {
 
 
             loadstate: {
-                init: false,        //初始化
+                def: false,        //初始化
                 get: false,         //默认
                 index: false,         //获取索引
                 table: false,      //获取表数据
