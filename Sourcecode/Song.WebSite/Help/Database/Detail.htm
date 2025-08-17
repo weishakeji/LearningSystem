@@ -25,11 +25,41 @@
                     <span v-html="verison"></span>
                 </template>
                 <warning v-else>未检测到数据库</warning>
-            </template>          
+            </template>
         </div>
         <p>点击此处 <a href="https://www.postgresql.org/download/" target="_blank">下载Postgresql数据库</a></p>
         <hr />
-        
+        <section class="datainfo">
+            <el-statistic v-loading="loading.table" group-separator="," :value="total" title="总记录数">
+            </el-statistic>
+            <el-statistic v-loading="loading.table" :value="tablecount" title="表">
+                <span slot="title">
+                    <icon slot="prefix">&#xa02c</icon>表
+                </span>
+            </el-statistic>
+            <el-statistic v-loading="loading.field" :value="fieldcount" title="字段">
+                <span slot="title">
+                    <icon slot="prefix" large>&#xe6cb</icon>字段
+                </span>
+            </el-statistic>
+            <el-statistic v-loading="loading.index" :value="indexcount">
+                <span slot="title">
+                    <icon slot="prefix" huge>&#xb006</icon>索引
+                </span>
+            </el-statistic>
+
+        </section>
+        <hr />
+        <template v-if="tablecount>0">
+            <p>以下是当前数据库中各个表的数据量：</p>
+            <section class="tabledata">
+                <el-statistic v-for="(val,key,idx) in tables" :value="val" :title="key" group-separator=","
+                    v-if="val>0">
+                    <icon slot="title">{{idx+1}} . {{key}}</icon>
+                </el-statistic>
+
+            </section>
+        </template>
     </div>
 </body>
 

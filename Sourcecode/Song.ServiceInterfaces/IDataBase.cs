@@ -77,7 +77,7 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         int TableTotal();
         /// <summary>
-        /// 数据库表的记录数
+        /// 数据库中各个表的记录数
         /// </summary>
         /// <returns>key为表名，value为记录数</returns>
         Dictionary<string,int> TableCount();
@@ -100,6 +100,11 @@ namespace Song.ServiceInterfaces
         /// 表字段数
         /// </summary>
         int FieldCount(string tablename);
+        /// <summary>
+        /// 索引总数
+        /// </summary>
+        /// <returns></returns>
+        int IndexTotal();
         #endregion
 
         #region SQL脚本执行

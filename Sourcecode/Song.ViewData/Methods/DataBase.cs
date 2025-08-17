@@ -43,7 +43,6 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <returns></returns>
         public bool CheckConn() => Business.Do<IDataBase>().CheckConnection();
-
         /// <summary>
         /// 平台所有数据
         /// </summary>
@@ -58,12 +57,23 @@ namespace Song.ViewData.Methods
         /// 数据库的初始时间
         /// </summary>
         /// <returns></returns>
-        public DateTime DataBaseInitialDate()
+        public DateTime InitDate()
         {
             DateTime? date = WeiSha.Core.Database.InitialDate;
             return (DateTime)date;
         }
+        /// <summary>
+        /// 数据库总的字段数
+        /// </summary>
+        /// <returns></returns>
+        public int FieldTotal() => Business.Do<IDataBase>().FieldTotal();
+        /// <summary>
+        /// 数据库总的索引数
+        /// </summary>
+        /// <returns></returns>
+        public int IndexTotal() => Business.Do<IDataBase>().IndexTotal();
 
+        #region 校验数据库
         /// <summary>
         /// 数据库的字段与表，相较于业务系统，是否有缺失
         /// </summary>
@@ -85,5 +95,6 @@ namespace Song.ViewData.Methods
             }
             return jarr;
         }
+        #endregion
     }
 }

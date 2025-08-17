@@ -585,6 +585,21 @@ namespace Song.ServiceImpls
             sql = sql.Replace("{{tablename}}", tablename.Trim());
             return ScalarSql<int>(sql);
         }
+        /// <summary>
+        /// 索引总数
+        /// </summary>
+        /// <returns></returns>
+        public int IndexTotal()
+        {
+            List<string> tables = this.Tables();
+            int total = 0;
+            foreach (string tablename in tables)
+            {
+                DataTable indices = this.Indexs(tables[0]);
+                total += indices.Rows.Count;
+            }
+            return total;
+        }
         #endregion
 
         #region SQL脚本执行
@@ -609,7 +624,7 @@ namespace Song.ServiceImpls
         public T ScalarSql<T>(string sql)
         {
             object obj = ScalarSql(sql);
-            return (T)obj;
+            return (T)Convert.ChangeType(obj, typeof(T));
         }
         /// <summary>
         /// 执行sql语句，返回第一行

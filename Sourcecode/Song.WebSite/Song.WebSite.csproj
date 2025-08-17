@@ -294,6 +294,7 @@
     <Content Include="Help\Database\Scripts\Query.js" />
     <Content Include="Help\Database\Scripts\Tables.js" />
     <Content Include="Help\Database\Styles\DbIndex.css" />
+    <Content Include="Help\Database\Styles\Detail.css" />
     <Content Include="Help\Database\Styles\Entity.css" />
     <Content Include="Help\Database\Styles\index.css" />
     <Content Include="Help\Database\Styles\Tables.css" />

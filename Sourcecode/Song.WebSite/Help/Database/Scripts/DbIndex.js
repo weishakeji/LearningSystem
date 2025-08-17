@@ -66,7 +66,7 @@ $ready([
                         if (req.data.success) {
                             let result = req.data.result;
                             th.indexs = th.showcolumn(result);
-                            console.error(th.indexs);
+                            //console.error(th.indexs);
                         } else {
                             console.error(req.data.exception);
                             throw req.config.way + ' ' + req.data.message;

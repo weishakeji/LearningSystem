@@ -6,17 +6,29 @@ $ready(function () {
             dbName: '',     //数据库名称
             verison: '',    //数据库版本
 
+            tables: [],      //数据库表
+            tablecount:0,    //表数量
+            total:0,        //总记录数
+
+            fieldcount:0,    //字段数量
+            indexcount:0,    //索引数量
+
+
             loadstate: {
                 init: false,        //初始化
-                def: false,         //默认
-                get: false,         //加载数据
-                update: false,      //更新数据
-                del: false          //删除数据
+                get: false,         //默认
+                index: false,         //获取索引
+                table: false,      //获取表数据
+                field: false          //获取字段数
             }
         },
         mounted: function () {
             this.getdbtype();
             this.getdbversion();
+            this.gettables();
+            this.getfield();
+            this.getindex();
+
         },
         created: function () {
 
@@ -62,6 +74,55 @@ $ready(function () {
                     }
                 }).catch(err => console.error(err))
                     .finally(() => th.loadstate.def = false);
+            },
+            //获取表数据
+            gettables: function () {
+                var th=this;
+                th.loading.table=true;
+                $api.get("DataBase/TableCount").then(req => {
+                    if (req.data.success) {
+                        th.tables = req.data.result;
+                        let total = 0;
+                        for (let key in th.tables) {
+                            total += th.tables[key];
+                            th.tablecount++;
+
+                        }
+                        th.total=total;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() =>th.loading.table=false);
+            },
+            //获取字段
+            getfield:function(){
+                var th=this;
+                th.loading.field=true;
+                $api.get("DataBase/FieldTotal").then(req => {
+                    if (req.data.success) {
+                        th.fieldcount = req.data.result;                        
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() =>th.loading.field=false);
+            },
+             //获取索引
+             getindex:function(){
+                var th=this;
+                th.loading.index=true;
+                $api.get("DataBase/IndexTotal").then(req => {
+                    if (req.data.success) {
+                        th.indexcount = req.data.result;                                          
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() =>th.loading.index=false);
             }
         },
         filters: {
