@@ -40,7 +40,7 @@ $ready(function () {
             getdbtype: function () {
                 var th = this;
                 th.loadstate.get = true;
-                $api.get('Platform/DataBaseType').then(req => {
+                $api.get('DataBase/DbType').then(req => {
                     if (req.data.success) {
                         th.dbType = req.data.result;
                     } else {
@@ -53,7 +53,7 @@ $ready(function () {
             getdbversion: function () {
                 var th = this;
                 th.loadstate.def = true;
-                $api.post('Platform/DbVersion').then(function (req) {
+                $api.post('DataBase/DbVersion').then(function (req) {
                     if (req.data.success) {
                         th.verison = req.data.result;
                     } else {

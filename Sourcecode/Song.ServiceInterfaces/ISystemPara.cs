@@ -116,11 +116,6 @@ namespace Song.ServiceInterfaces
         /// 测试是否完成授权
         /// </summary>
         bool IsLicense();
-        /// <summary>
-        /// 数据库完整性测试
-        /// </summary>
-        /// <returns>返回缺少的表与字段</returns>
-        Dictionary<string,string[]> DatabaseCompleteTest();
        
     }
 }

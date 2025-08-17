@@ -36,7 +36,8 @@ p{
 }
 /*索引*/
 .entity_indexs{
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     box-sizing: border-box;
     padding-right: 10px;
     position: relative;
@@ -76,5 +77,16 @@ table tr:not(:first-child):hover td {
 table tr td {
     text-align: center;
     font-size: 15px;
+    word-break: break-all;
 }
-
+.columns{
+    width: 200px;
+}
+.columns>div{
+    display: flex;
+    justify-content: space-between;   
+}
+td.columns>div{
+    padding: 2px 10px;
+    box-sizing: border-box;
+}

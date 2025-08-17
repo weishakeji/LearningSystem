@@ -273,59 +273,6 @@ namespace Song.ServiceImpls
              return lic.IsLicense;
         }
 
-        /// <summary>
-        /// 数据库完整性测试
-        /// </summary>
-        /// <returns> string, string[],前者为表名，后者为字段</returns>
-        public Dictionary<string, string[]> DatabaseCompleteTest()
-        {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\\bin\\";
-            string assemblyName = path + "Song.Entities.dll";
-            System.Reflection.Assembly assembly = Assembly.LoadFrom(assemblyName);
-            Type[] ts = assembly.GetTypes();
-            Dictionary<string, string[]> dic = new Dictionary<string, string[]>();
-            //List<string> classList = new List<string>();
-            foreach (Type t in ts)
-            {
-                //创建实体
-                object obj = System.Activator.CreateInstance(t);
-                if (!(obj is WeiSha.Data.Entity)) continue;
-                WeiSha.Data.Entity entity = (WeiSha.Data.Entity)obj;
-                if (entity == null) continue;
-                //对比缺少的字段
-                try
-                {
-                    QueryCreator qc = QueryCreator.NewCreator(t.Name).AddWhere("1=2");
-                    DataSet ds = Gateway.Default.From(qc).ToDataSet();
-                    List<string> fieldExist = new List<string>();
-                    PropertyInfo[] propertyinfo = t.GetProperties();
-                    foreach (PropertyInfo pi in propertyinfo)
-                    {
-                        bool isExist = false;
-                        foreach (DataColumn dc in ds.Tables[0].Columns)
-                        {
-                            if (dc.ColumnName == pi.Name)
-                            {
-                                isExist = true;
-                                break;
-                            }
-                        }
-                        if (!isExist) fieldExist.Add(pi.Name);
-
-                    }
-                    if (fieldExist.Count > 0)
-                        dic.Add(t.Name, fieldExist.ToArray());
-                }
-                catch (Exception ex)
-                {
-                    dic.Add(t.Name, new string[] { });
-                    //classList.Add(t.Name + ":（缺少整个表）");
-                }
-            }
-            return dic;
-        }
-       
-       
         #region IEnumerable 成员
 
         /// <summary>

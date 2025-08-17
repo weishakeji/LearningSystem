@@ -3,6 +3,7 @@ using System;
 using Song.Entities;
 using WeiSha.Data;
 using System.Collections.Generic;
+using System.Data;
 
 namespace UnitTest
 {
@@ -48,6 +49,9 @@ namespace UnitTest
             Organization org = Gateway.Default.From<Organization>().ToFirst<Organization>();
             Assert.IsNotNull(org);
         }
+        /// <summary>
+        /// 数据库的数据类型
+        /// </summary>
         [TestMethod]
         public void DataTypes()
         {
@@ -55,6 +59,25 @@ namespace UnitTest
             Song.ServiceImpls.DataBaseCom dbcom = new Song.ServiceImpls.DataBaseCom();
             List<string> types=dbcom.DataTypes();
             Assert.IsNotNull(types);
+        }
+        /// <summary>
+        /// 表的记录数
+        /// </summary>
+        [TestMethod]
+        public void TablesCount()
+        {
+            Helper.DbProvider.SetDbGateway();
+            Song.ServiceImpls.DataBaseCom dbcom = new Song.ServiceImpls.DataBaseCom();
+            Dictionary<string,int> dic = dbcom.TableCount();
+            Assert.IsNotNull(dic);
+        }
+        [TestMethod]
+        public void DbIndexs()
+        {
+            Helper.DbProvider.SetDbGateway();
+            Song.ServiceImpls.DataBaseCom dbcom = new Song.ServiceImpls.DataBaseCom();
+            DataTable dt = dbcom.Indexs("Accounts");
+            Assert.IsNotNull(dt);
         }
     }
 }

@@ -42,7 +42,7 @@ window.vapp = new Vue({
         checkConn: function () {
             var th = this;
             //检测数据库名称
-            $api.get('Platform/DataBaseType').then(req => {
+            $api.get('DataBase/DbType').then(req => {
                 if (req.data.success) {
                     th.dbType = req.data.result;
                 } else {
@@ -54,7 +54,7 @@ window.vapp = new Vue({
             th.error = '';
             th.loadingConn = true;
             th.connState = false;
-            $api.post('Platform/DbConnection').then(function (req) {
+            $api.post('DataBase/CheckConn').then(function (req) {
                 if (req.data.success) {
                     th.connState = req.data.result;
                     if (th.connState) {
@@ -73,7 +73,7 @@ window.vapp = new Vue({
         //获取数据库版本信息
         getversion: function () {
             var th = this;
-            $api.post('Platform/DbVersion').then(function (req) {
+            $api.post('DataBase/DbVersion').then(function (req) {
                 if (req.data.success) {
                     th.verison = req.data.result;
                 } else {
@@ -85,7 +85,7 @@ window.vapp = new Vue({
         //获取数据库名称
         getDbname: function () {
             var th = this;
-            $api.post('Platform/DataBaseName').then(function (req) {
+            $api.post('DataBase/DbName').then(function (req) {
                 if (req.data.success) {
                     th.dbName = req.data.result;
                 } else {
@@ -99,7 +99,7 @@ window.vapp = new Vue({
             var th = this;
             th.loadingComp = true;
             th.compDatas = [];
-            $api.post('Platform/DbCheck').then(function (req) {
+            $api.post('DataBase/CheckFully').then(function (req) {
                 if (req.data.success) {
                     th.compDatas = req.data.result;
                 } else {

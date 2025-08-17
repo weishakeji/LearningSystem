@@ -164,62 +164,6 @@ namespace Song.ViewData.Methods
         {
             return WeiSha.Core.Server.Port;
         }
-        #region 数据库相关
-        /// <summary>
-        /// 数据库是否链接正常
-        /// </summary>
-        /// <returns></returns>
-        public bool DbConnection()
-        {
-            bool isCorrect = Business.Do<IDataBase>().CheckConnection();
-            return isCorrect;
-        }
-        /// <summary>
-        /// 数据库类型，例如Sqlserver或PostgreSql
-        /// </summary>
-        /// <returns></returns>
-        public string DataBaseType()
-        {
-            return Business.Do<IDataBase>().ProductName;
-        }
-        /// <summary>
-        /// 数据库的名称
-        /// </summary>
-        /// <returns></returns>
-        public string DataBaseName()
-        {
-            return Business.Do<IDataBase>().DbName;
-        }
-        /// <summary>
-        /// 数据库版本
-        /// </summary>
-        /// <returns></returns>
-        public string DbVersion()
-        {
-            return Business.Do<IDataBase>().DbVersion;
-        }
-        /// <summary>
-        /// 数据库字段与表是否完成
-        /// </summary>
-        /// <returns>string, string[],前者为表名，后者为字段</returns>
-        public JArray DbCheck()
-        {
-            bool isCorrect = Business.Do<IDataBase>().CheckConnection();
-            if (!isCorrect)
-                throw new Exception("数据库链接不正常！");
-            JArray jarr = new JArray();
-            Dictionary<string, string[]> dic = Business.Do<ISystemPara>().DatabaseCompleteTest();
-            foreach (KeyValuePair<string, string[]> item in dic)
-            {
-                JObject jo = new JObject();
-                JArray jval = new JArray();
-                foreach (string s in item.Value) jval.Add(s);
-                jo.Add(item.Key, jval);
-                jarr.Add(jo);
-            }
-            return jarr;
-        }
-        #endregion
         /// <summary>
         /// 服务器端的时间，用于考试等场景，保持所有学员跨时区时间同步
         /// </summary>
@@ -574,31 +518,6 @@ namespace Song.ViewData.Methods
         public IDCardNumber IDCardNumber(string card)
         {
             return WeiSha.Core.IDCardNumber.Get(card);
-        }
-        /// <summary>
-        /// 平台所有数据
-        /// </summary>
-        /// <returns></returns>
-        public Dictionary<string,int> DataDetails()
-        {
-            return WeiSha.Data.Gateway.TablesCount;
-        }
-        /// <summary>
-        /// 数据记录的总数
-        /// </summary>
-        /// <returns></returns>
-        public int DataTotal()
-        {
-            return WeiSha.Data.Gateway.Default.Total;
-        }
-        /// <summary>
-        /// 数据库的初始时间
-        /// </summary>
-        /// <returns></returns>
-        public DateTime DataBaseInitialDate()
-        {
-            DateTime? date= WeiSha.Core.Database.InitialDate;
-            return (DateTime)date;
-        }
+        }        
     }
 }

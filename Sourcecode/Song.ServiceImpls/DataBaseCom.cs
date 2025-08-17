@@ -21,7 +21,7 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 产品名称，例如PostgreSQL、SQLite
         /// </summary>
-        public string ProductName => Gateway.Default.DatabaseName();
+        public string ProductName => Gateway.Default.DbType.ToString();
         /// <summary>
         /// 数据库产品的版本号
         /// </summary>
@@ -343,7 +343,7 @@ namespace Song.ServiceImpls
                     sql = @"SELECT
                              indexname as name,
 	                         tablename, 
-	                         unnest(REGEXP_MATCHES(indexdef,'btree \(""(\w[^\)]+)""')) as columnName,
+	                         REPLACE(unnest(REGEXP_MATCHES(indexdef,'btree \(""(\w[^\)]+)')),'""','') as columnName,
                              indexdef
                         FROM pg_indexes
                         WHERE
@@ -454,7 +454,7 @@ namespace Song.ServiceImpls
             return ScalarSql<int>(sql);
         }
         /// <summary>
-        /// 数据库表的总记录，即所有表的记录数之和
+        /// 数据库表的记录数
         /// </summary>
         /// <returns>key为表名，value为记录数</returns>
         public Dictionary<string, int> TableCount()

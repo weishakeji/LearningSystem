@@ -77,7 +77,7 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         int TableTotal();
         /// <summary>
-        /// 数据库表的总记录，即所有表的记录数之和
+        /// 数据库表的记录数
         /// </summary>
         /// <returns>key为表名，value为记录数</returns>
         Dictionary<string,int> TableCount();
@@ -88,7 +88,7 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         int TableCount(string tablename);
         /// <summary>
-        /// 数据库总记录数
+        ///  数据库表的总记录，即所有表的记录数之和
         /// </summary>
         /// <returns></returns>
         int TotalCount();       

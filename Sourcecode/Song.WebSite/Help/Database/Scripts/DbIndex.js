@@ -4,6 +4,8 @@ $ready([
     window.vapp = new Vue({
         el: '#vapp',
         data: {
+            dbType: '',     //数据库类型
+
             entity: null,      //当前实体
             indexs: [],     //索引列表
 
@@ -19,7 +21,7 @@ $ready([
 
         },
         created: function () {
-
+            this.getDbtype();
         },
         computed: {
             loading: function () {
@@ -42,6 +44,19 @@ $ready([
                 this.datas = entities;
                 this.getIndexs();
             },
+            //获取数据库类型
+            getDbtype: function () {
+                var th = this;
+                th.loading.init = true;
+                $api.get('DataBase/DbType').then(req => {
+                    if (req.data.success) {
+                        th.dbType = req.data.result;
+                    } else {
+                        throw req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading.init = false);
+            },
             //获取索引
             getIndexs: function () {
                 var th = this;
@@ -49,13 +64,32 @@ $ready([
                 $api.get("Helper/EntityIndexs", { "tablename": th.entity.name })
                     .then(req => {
                         if (req.data.success) {
-                            th.indexs = req.data.result;                           
+                            let result = req.data.result;
+                            th.indexs = th.showcolumn(result);
+                            console.error(th.indexs);
                         } else {
                             console.error(req.data.exception);
                             throw req.config.way + ' ' + req.data.message;
                         }
                     }).catch(err => console.error(err))
                     .finally(() => th.loading.get = false);
+            },
+            //将索引关联的列，转为json
+            showcolumn: function (result) {
+                for (let i = 0; i < result.length; i++) {
+                    let items = [];   //列
+                    let columns = result[i].columnname.split(",");
+                    for (let j = 0; j < columns.length; j++) {
+                        if (columns[j].replace(/\s+/g, '') == '') continue;
+                        let str = columns[j].replace(/^\s+|\s+$/g, "");
+                        const col = str.replace(/\s+/g, ' ').split(" ");
+                        if (col.length < 2)
+                            items.push({ 'column': col[0], 'sort': 'ASC' });
+                        else items.push({ 'column': col[0], 'sort': col[1] });
+                    }
+                    result[i].columnname = items;
+                }
+                return result;
             },
         },
         filters: {
