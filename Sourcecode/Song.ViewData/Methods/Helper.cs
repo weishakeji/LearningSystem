@@ -332,7 +332,7 @@ namespace Song.ViewData.Methods
         {
             if (string.IsNullOrWhiteSpace(tablename)) return null;
 
-            System.Data.DataTable dt = Business.Do<ISystemPara>().DataFields(tablename);
+            System.Data.DataTable dt = Business.Do<IDataBase>().Fields(tablename);
             JObject fields = new JObject();
             foreach (DataRow dr in dt.Rows)
             {
@@ -355,7 +355,7 @@ namespace Song.ViewData.Methods
         public DataTable EntityIndexs(string tablename)
         {
             if (string.IsNullOrWhiteSpace(tablename)) return null;
-            return Business.Do<ISystemPara>().DataIndexs(tablename);
+            return Business.Do<IDataBase>().Indexs(tablename);
             //List<string> list = new List<string>();
             //JArray jarr = new JArray();
             //foreach (DataRow row in dt.Rows)
@@ -396,7 +396,7 @@ namespace Song.ViewData.Methods
             //if (!System.IO.File.Exists(file)) System.IO.File.Create(file);
             string details = System.IO.File.Exists(file) ? System.IO.File.ReadAllText(file, Encoding.UTF8) : "";
             //获取实体和实体属性的名称
-            List<string> list = Business.Do<ISystemPara>().DataFieldNames(name);           
+            List<string> list = Business.Do<IDataBase>().FieldsName(name);           
 
             JObject jitem = (JObject)JsonConvert.DeserializeObject(details);
             jitem = jitem == null ? new JObject() : jitem;

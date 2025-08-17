@@ -121,58 +121,6 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <returns>返回缺少的表与字段</returns>
         Dictionary<string,string[]> DatabaseCompleteTest();
-        /// <summary>
-        /// 执行sql语句,返回影响的行数
-        /// </summary>
-        /// <param name="sql"></param>
-        /// <returns>返回影响的行数</returns>
-        int ExecuteSql(string sql);
-        /// <summary>
-        /// 执行sql语句，返回第一行第一列的数据
-        /// </summary>
-        /// <param name="sql"></param>
-        /// <returns>返回第一行第一列的数据</returns>
-        object ScalarSql(string sql);
-        /// <summary>
-        /// 执行sql语句，返回第一行
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="sql"></param>
-        /// <returns></returns>
-        T ScalarSql<T>(string sql) where T : WeiSha.Data.Entity;
-        /// <summary>
-        /// 执行sql语句
-        /// </summary>
-        /// <param name="sql"></param>
-        /// <returns>返回数据集</returns>
-        List<T> ForSql<T>(string sql) where T : WeiSha.Data.Entity;
-        
-        /// <summary>
-        /// 返回指定的数据集
-        /// </summary>
-        /// <param name="sql"></param>
-        /// <returns></returns>
-        DataTable ForSql(string sql);
-
-        #region 数据库信息 
-        /// <summary>
-        /// 获取数据字段
-        /// </summary>
-        /// <param name="tablename">表名称</param>
-        /// <returns>数据列包括：name,type,length,fulltype,isnullable</returns>
-        DataTable DataFields(string tablename);
-        /// <summary>
-        /// 获取表的索引
-        /// </summary>
-        /// <param name="tablename">表名称</param>
-        /// <returns>数据列包括：IndexName,TableName,ColumnName,IndexType(CLUSTERED或NONCLUSTERED),IsDescending(1表示降序排序，为0表示升序排序)</returns>
-        DataTable DataIndexs(string tablename);
-        // <summary>
-        /// 仅获取下的字段的名称，不包括类型等其它属性
-        /// </summary>
-        /// <param name="tablename">表</param>
-        /// <returns></returns>
-        List<string> DataFieldNames(string tablename);
-        #endregion
+       
     }
 }

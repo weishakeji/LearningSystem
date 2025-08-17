@@ -2,6 +2,7 @@
 using System;
 using Song.Entities;
 using WeiSha.Data;
+using System.Collections.Generic;
 
 namespace UnitTest
 {
@@ -46,6 +47,14 @@ namespace UnitTest
             Helper.DbProvider.SetDbGateway();
             Organization org = Gateway.Default.From<Organization>().ToFirst<Organization>();
             Assert.IsNotNull(org);
+        }
+        [TestMethod]
+        public void DataTypes()
+        {
+            Helper.DbProvider.SetDbGateway();
+            Song.ServiceImpls.DataBaseCom dbcom = new Song.ServiceImpls.DataBaseCom();
+            List<string> types=dbcom.DataTypes();
+            Assert.IsNotNull(types);
         }
     }
 }

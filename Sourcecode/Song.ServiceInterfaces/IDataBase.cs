@@ -38,11 +38,17 @@ namespace Song.ServiceInterfaces
         /// </summary>
         List<string> DataTypes();
         /// <summary>
-        /// 表的字段
+        /// 表的字段详情，包含字段名称、字段类型、字段长度、字段是否为空
         /// </summary>
         /// <param name="tablename">表名</param>
         /// <returns></returns>
         DataTable Fields(string tablename);
+        /// <summary>
+        /// 表的字段，仅名称
+        /// </summary>
+        /// <param name="tablename"></param>
+        /// <returns></returns>
+        List<string> FieldsName(string tablename);
         /// <summary>
         /// 指定表的索引
         /// </summary>
@@ -66,16 +72,26 @@ namespace Song.ServiceInterfaces
 
         #region 数据库信息统计
         /// <summary>
-        /// 数据库总记录数
+        /// 数据库表的数量
         /// </summary>
         /// <returns></returns>
-        int TotalCount();
+        int TableTotal();
+        /// <summary>
+        /// 数据库表的总记录，即所有表的记录数之和
+        /// </summary>
+        /// <returns>key为表名，value为记录数</returns>
+        Dictionary<string,int> TableCount();
         /// <summary>
         /// 数据库表的记录数
         /// </summary>
-        /// <param name="tablename"></param>
+        /// <param name="tablename">表的名称</param>
         /// <returns></returns>
-        int Count(string tablename);
+        int TableCount(string tablename);
+        /// <summary>
+        /// 数据库总记录数
+        /// </summary>
+        /// <returns></returns>
+        int TotalCount();       
         /// <summary>
         /// 总的字段数
         /// </summary>
@@ -86,5 +102,46 @@ namespace Song.ServiceInterfaces
         int FieldCount(string tablename);
         #endregion
 
+        #region SQL脚本执行
+        /// <summary>
+        /// 执行sql语句,返回影响的行数
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <returns>返回影响的行数</returns>
+        int ExecuteSql(string sql);
+        /// <summary>
+        /// 执行sql语句，返回第一行第一列的数据
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <returns>返回第一行第一列的数据</returns>
+        object ScalarSql(string sql);
+        /// <summary>
+        /// 执行sql语句，返回第一行第一列的数据
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        T ScalarSql<T>(string sql);
+        /// <summary>
+        /// 执行sql语句，返回第一行
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        T FirstSql<T>(string sql) where T : WeiSha.Data.Entity;
+        /// <summary>
+        /// 执行sql语句
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <returns>返回数据集</returns>
+        List<T> ForSql<T>(string sql) where T : WeiSha.Data.Entity;
+
+        /// <summary>
+        /// 返回指定的数据集
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        DataTable ForSql(string sql);
+        #endregion
     }
 }

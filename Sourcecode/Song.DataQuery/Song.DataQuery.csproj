@@ -90,16 +90,13 @@
     <Compile Include="PostgreSQL\AccountsCom.cs" />
     <Compile Include="PostgreSQL\CourseCom.cs" />
     <Compile Include="PostgreSQL\StudentCom.cs" />
-    <Compile Include="PostgreSQL\SystemParaCom.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQLite\AccountsCom.cs" />
     <Compile Include="SQLite\CourseCom.cs" />
     <Compile Include="SQLite\StudentCom.cs" />
-    <Compile Include="SQLite\SystemParaCom.cs" />
     <Compile Include="SqlServer9\AccountsCom.cs" />
     <Compile Include="SqlServer9\CourseCom.cs" />
     <Compile Include="SqlServer9\StudentCom.cs" />
-    <Compile Include="SqlServer9\SystemParaCom.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Song.Entities\Song.Entities.csproj">
