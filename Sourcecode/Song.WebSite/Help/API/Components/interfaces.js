@@ -121,7 +121,7 @@ Vue.component('interfaces', {
                     <div v-if='item.Intro.length>0' class="intro"><span>摘要：</span>
                         <span v-html="showsearch(item.Intro,search)"></span>
                     </div>
-                    <methods :api="item" ref="method" :search="search" @load="methodsLoaded" @selected="selected"></methods>
+                    <methods ref="method" :index="idx" :api="item" :search="search" @load="methodsLoaded" @selected="selected"></methods>
                 </el-collapse-item>
             </el-collapse>
            
@@ -131,7 +131,10 @@ Vue.component('interfaces', {
 
 //接口下的方法列表
 Vue.component('methods', {
-    props: ['api', 'search'],
+    //api:接口类
+    //search:搜索关键字
+    //index:接口索引
+    props: ['api', 'search','index'],
     data: function () {
         return {
             methods: [], //方法列表
@@ -203,7 +206,8 @@ Vue.component('methods', {
         <div v-for="(item,idx) in methods" class="method" :current="iscurrent(item)"
         v-show="show(item,search)" v-on:click="selected(item)">
             <div>
-                <span v-html="(idx+1)+'.  '+ showsearch(item.Name,search)"></span>   
+                <span v-html="(index+1)+'.'+(idx+1)+'.  '+ showsearch(item.Name,search)"></span>   
+
                 <i>{{item.Paramstring}}</i>
             </div>
             <div v-if='item.Intro.length>0' class="intro">

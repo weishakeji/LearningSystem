@@ -114,7 +114,7 @@
 /*接口方法样式*/
 
 .el-collapse-item__content .method {
-    padding: 5px 0px 5px 20px;
+    padding: 5px 0px 5px 30px;
     font-size: 16px;
     cursor: pointer;
     box-sizing: border-box;
@@ -157,7 +157,6 @@
 
 .el-collapse-item__content .method .intro {   
     color: #999;
-    margin-left: 22px;
     word-wrap: break-word;
     word-break: break-all;
     padding-right: 20px;
