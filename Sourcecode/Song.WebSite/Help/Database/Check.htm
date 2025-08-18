@@ -13,9 +13,9 @@
     <div id="vapp" v-cloak>
         <header>
             <div class="mainbtns">
-                <el-button type="primary" plain>检测表与字段的完整性</el-button>
-                <el-button type="success" plain>检测结构冗余</el-button>
-                <el-button type="warning" plain>校验数据类型</el-button>
+                <el-button type="primary" plain @click="checkFully">检测表与字段的完整性</el-button>
+                <el-button type="success" plain @click="checkRedundancy">检测结构冗余</el-button>
+                <el-button type="warning" plain @click="checkCorrect">校验数据类型</el-button>
             </div>
             <loading v-if="loading"></loading>
             <div class="database" v-else>

@@ -96,5 +96,30 @@ namespace Song.ViewData.Methods
             return jarr;
         }
         #endregion
+
+        #region 数据实体
+        /// <summary>
+        /// 数据实体，来自Song.Entities.dll
+        /// </summary>
+        /// <returns>key值是实体名称，value是字段（字段名、类型）</returns>
+        public JObject Entities()
+        {
+            Dictionary<string, Dictionary<string, Type>> dic = Business.Do<IDataBase>().Entities();
+            JObject joentity = new JObject();
+            foreach (KeyValuePair<string, Dictionary<string, Type>> item in dic)
+            {
+                JObject jofield = new JObject();
+                foreach (KeyValuePair<string, Type> item2 in item.Value)
+                {
+                    Type fieldtype = item2.Value;
+                    Type nullableType = System.Nullable.GetUnderlyingType(fieldtype);
+                    string typename = nullableType != null ? nullableType.Name : fieldtype.Name;
+                    jofield.Add(item2.Key, typename);
+                }
+                joentity.Add(item.Key, jofield);
+            }
+            return joentity;
+        }
+        #endregion
     }
 }

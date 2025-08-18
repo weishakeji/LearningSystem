@@ -59,10 +59,15 @@ namespace Song.ServiceInterfaces
 
         #region 校验
         /// <summary>
-        /// 检测数据库完整性，即表和字段是否与程序设计的一致
+        /// 检测数据库是否有缺失，即表和字段是否与程序设计的一致
         /// </summary>
         /// <returns>Dictionary类型，Key值为表名称，Value为缺失的字段</returns>
         Dictionary<string, string[]> CheckFully();
+        /// <summary>
+        /// 检测数据库是否冗余，即表和字段是否与程序设计的一致
+        /// </summary>
+        /// <returns>Dictionary类型，Key值为表名称，Value为缺失的字段</returns>
+        Dictionary<string, string[]> CheckRedundancy();
         /// <summary>
         /// 检测数据库正确性，即字段类型是否与程序设计一致
         /// </summary>
@@ -147,6 +152,14 @@ namespace Song.ServiceInterfaces
         /// <param name="sql"></param>
         /// <returns></returns>
         DataTable ForSql(string sql);
+        #endregion
+
+        #region 数据实体
+        /// <summary>
+        /// 数据实体，来自Song.Entities.dll
+        /// </summary>
+        /// <returns>key值是实体名称，value是字段（字段名、类型）</returns>
+        Dictionary<string, Dictionary<string, Type>> Entities();
         #endregion
     }
 }

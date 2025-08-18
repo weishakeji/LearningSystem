@@ -372,7 +372,7 @@ namespace Song.ServiceImpls
 
         #region 校验
         /// <summary>
-        /// 检测数据库完整性，即表和字段是否与程序设计的一致
+        /// 检测数据库是否有缺，即表和字段是否与程序设计的一致
         /// </summary>
         /// <returns>Dictionary类型，Key值为表名称，Value为缺失的字段</returns>
         public Dictionary<string, string[]> CheckFully()
@@ -380,10 +380,10 @@ namespace Song.ServiceImpls
             string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\\bin\\";
             string assemblyName = path + "Song.Entities.dll";
             System.Reflection.Assembly assembly = Assembly.LoadFrom(assemblyName);
-            Type[] ts = assembly.GetTypes();
+            Type[] types = assembly.GetTypes();
             Dictionary<string, string[]> dic = new Dictionary<string, string[]>();
             //List<string> classList = new List<string>();
-            foreach (Type t in ts)
+            foreach (Type t in types)
             {
                 //创建实体
                 object obj = System.Activator.CreateInstance(t);
@@ -423,13 +423,21 @@ namespace Song.ServiceImpls
             return dic;
         }
         /// <summary>
+        /// 检测数据库是否冗余，即表和字段是否与程序设计的一致
+        /// </summary>
+        /// <returns>Dictionary类型，Key值为表名称，Value为缺失的字段</returns>
+        public Dictionary<string, string[]> CheckRedundancy()
+        {
+            throw new NotImplementedException();
+        }
+        /// <summary>
         /// 检测数据库正确性，即字段类型是否与程序设计一致
         /// </summary>
         /// <returns>ictionary类型，Key值为表名称，Value为错误</returns>
         public Dictionary<string, Dictionary<string, string>> CheckCorrect()
         {
             throw new NotImplementedException();
-        }
+        }       
         #endregion
 
         #region 数据库信息统计
@@ -656,6 +664,38 @@ namespace Song.ServiceImpls
             DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
             if (ds.Tables.Count > 0) return ds.Tables[0];
             return null;
+        }
+        #endregion
+
+        #region 数据实体
+        /// <summary>
+        /// 数据实体，来自Song.Entities.dll
+        /// </summary>
+        /// <returns>key值是实体名称，value是字段（字段名、类型）</returns>
+        public Dictionary<string, Dictionary<string, Type>> Entities()
+        {
+            //反射加载ORM实体程序集
+            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\\bin\\";
+            string assemblyName = path + "Song.Entities.dll";
+            System.Reflection.Assembly assembly = Assembly.LoadFrom(assemblyName);
+            Type[] types = assembly.GetTypes();
+            //
+            Dictionary<string, Dictionary<string, Type>> dic = new Dictionary<string, Dictionary<string, Type>>();
+            foreach (Type t in types)
+            {
+                //创建实体
+                object obj = System.Activator.CreateInstance(t);
+                if (!(obj is WeiSha.Data.Entity)) continue;
+                WeiSha.Data.Entity entity = (WeiSha.Data.Entity)obj;
+                PropertyInfo[] propertyinfo = t.GetProperties();
+                Dictionary<string, Type> dicprop = new Dictionary<string, Type>();
+                foreach (PropertyInfo pi in propertyinfo)
+                {
+                    dicprop.Add(pi.Name, pi.PropertyType);
+                }
+                dic.Add(t.Name, dicprop);
+            }
+            return dic;
         }
         #endregion
     }

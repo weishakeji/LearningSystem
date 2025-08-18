@@ -9,11 +9,14 @@ $ready(function () {
             connState: false,    //数据库是否链接 
             error: '',          //提示信息   
 
+            compDatas: [],       //数据完整性信息，这里是缺失的表和字段
+
             loadstate: {
                 init: false,        //初始化
                 version: false,         //获取版本信息
                 conn: false,         //测试连接               
-                name: false          //获取数据库名称
+                name: false,          //获取数据库名称
+                check:false,        //检测数据库
             }
         },
         mounted: function () {
@@ -78,6 +81,29 @@ $ready(function () {
                     }
                 }).catch(err => console.error(err))
                     .finally(() => th.loadstate.conn = false);
+            },
+            //检测完整性
+            checkFully: function () {
+                var th = this;
+                th.loadstate.check = true;
+                th.compDatas = [];
+                $api.post('DataBase/CheckFully').then(function (req) {
+                    if (req.data.success) {
+                        th.compDatas = req.data.result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loadstate.check = false);
+            },
+            //检测冗余
+            checkRedundancy:function(){
+
+            },
+            //检测正确性，即字段与设计类型是否一致
+            checkCorrect:function(){
+
             }
         },
         filters: {

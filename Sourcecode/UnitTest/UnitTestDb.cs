@@ -79,5 +79,14 @@ namespace UnitTest
             DataTable dt = dbcom.Indexs("Accounts");
             Assert.IsNotNull(dt);
         }
+
+        [TestMethod]
+        public void Entities()
+        {
+            Helper.DbProvider.SetDbGateway();
+            Song.ServiceImpls.DataBaseCom dbcom = new Song.ServiceImpls.DataBaseCom();
+            var dt = dbcom.Entities();
+            Assert.IsNotNull(dt);
+        }
     }
 }
