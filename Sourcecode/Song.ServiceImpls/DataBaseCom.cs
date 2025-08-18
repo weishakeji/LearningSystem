@@ -377,47 +377,24 @@ namespace Song.ServiceImpls
         /// <returns>Dictionary类型，Key值为表名称，Value为缺失的字段</returns>
         public Dictionary<string, string[]> CheckFully()
         {
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\\bin\\";
-            string assemblyName = path + "Song.Entities.dll";
-            System.Reflection.Assembly assembly = Assembly.LoadFrom(assemblyName);
-            Type[] types = assembly.GetTypes();
+            //所有实体
+            Dictionary<string, Dictionary<string, Type>> entities = this.Entities();
+            List<string> tables = this.Tables();    //所有表
+            //用于记录缺失字段的对象
             Dictionary<string, string[]> dic = new Dictionary<string, string[]>();
-            //List<string> classList = new List<string>();
-            foreach (Type t in types)
+            foreach (KeyValuePair<string, Dictionary<string, Type>> item in entities)
             {
-                //创建实体
-                object obj = System.Activator.CreateInstance(t);
-                if (!(obj is WeiSha.Data.Entity)) continue;
-                WeiSha.Data.Entity entity = (WeiSha.Data.Entity)obj;
-                if (entity == null) continue;
-                //对比缺少的字段
-                try
+                bool istbExist = tables.Contains(item.Key);     //实体是否存在于表
+                if (!istbExist) dic.Add(item.Key, new string[] { });    //缺少整个表
+                else
                 {
-                    QueryCreator qc = QueryCreator.NewCreator(t.Name).AddWhere("1=2");
-                    DataSet ds = Gateway.Default.From(qc).ToDataSet();
-                    List<string> fieldExist = new List<string>();
-                    PropertyInfo[] propertyinfo = t.GetProperties();
-                    foreach (PropertyInfo pi in propertyinfo)
-                    {
-                        bool isExist = false;
-                        foreach (DataColumn dc in ds.Tables[0].Columns)
-                        {
-                            if (dc.ColumnName == pi.Name)
-                            {
-                                isExist = true;
-                                break;
-                            }
-                        }
-                        if (!isExist) fieldExist.Add(pi.Name);
-
-                    }
-                    if (fieldExist.Count > 0)
-                        dic.Add(t.Name, fieldExist.ToArray());
-                }
-                catch (Exception ex)
-                {
-                    dic.Add(t.Name, new string[] { });
-                    //classList.Add(t.Name + ":（缺少整个表）");
+                    //对比缺少的字段
+                    List<string> fields = this.FieldsName(item.Key);    //表的字段
+                    Dictionary<string, Type> props = item.Value;        //实体的属性                                                                        
+                    List<string> lack = new List<string>();         //缺少的字段
+                    foreach (KeyValuePair<string, Type> item2 in props)
+                        if (!fields.Contains(item2.Key)) lack.Add(item2.Key);
+                    if (lack.Count > 0) dic.Add(item.Key, lack.ToArray());
                 }
             }
             return dic;
@@ -428,7 +405,27 @@ namespace Song.ServiceImpls
         /// <returns>Dictionary类型，Key值为表名称，Value为缺失的字段</returns>
         public Dictionary<string, string[]> CheckRedundancy()
         {
-            throw new NotImplementedException();
+            //所有实体
+            Dictionary<string, Dictionary<string, Type>> entities = this.Entities();
+            List<string> tables = this.Tables();    //所有表
+            //用于记录冗余信息的对象
+            Dictionary<string, string[]> dic = new Dictionary<string, string[]>();
+            foreach (string table in tables)
+            {
+                bool istbExist = entities.ContainsKey(table);     //表是否存在于实体
+                if (!istbExist) dic.Add(table, new string[] { });    //冗余整个表
+                else
+                {
+                    //对比冗余的字段
+                    List<string> fields = this.FieldsName(table);    //表的字段
+                    Dictionary<string, Type> props = entities[table];        //实体的属性                                                                        
+                    List<string> redundancy = new List<string>();         //冗余的字段
+                    foreach (string field in fields)
+                        if (!props.ContainsKey(field)) redundancy.Add(field);
+                    if (redundancy.Count > 0) dic.Add(table, redundancy.ToArray());
+                }
+            }
+            return dic;
         }
         /// <summary>
         /// 检测数据库正确性，即字段类型是否与程序设计一致

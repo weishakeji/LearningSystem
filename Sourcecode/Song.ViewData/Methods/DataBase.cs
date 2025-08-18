@@ -95,6 +95,27 @@ namespace Song.ViewData.Methods
             }
             return jarr;
         }
+        /// <summary>
+        /// 数据库冗余的表或字段
+        /// </summary>
+        /// <returns></returns>
+        public JArray CheckRedundancy()
+        {
+            bool isCorrect = Business.Do<IDataBase>().CheckConnection();
+            if (!isCorrect)
+                throw new Exception("数据库链接不正常！");
+            JArray jarr = new JArray();
+            Dictionary<string, string[]> dic = Business.Do<IDataBase>().CheckRedundancy();
+            foreach (KeyValuePair<string, string[]> item in dic)
+            {
+                JObject jo = new JObject();
+                JArray jval = new JArray();
+                foreach (string s in item.Value) jval.Add(s);
+                jo.Add(item.Key, jval);
+                jarr.Add(jo);
+            }
+            return jarr;
+        }
         #endregion
 
         #region 数据实体
