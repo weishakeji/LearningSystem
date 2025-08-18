@@ -13,7 +13,7 @@ $ready(function () {
                 { name: '实体生成', tag: 'entity', icon: 'e667', size: 'medium'  },
                 { name: '导出', tag: 'export', icon: 'e73e', size: 'medium'  },
                 { name: '其它', tag: 'other', icon: 'e67e', size: 'small'  },
-                { name: '升级脚本', tag: 'upsql', icon: 'a058', size: 'huge' },
+                { name: '升级脚本', tag: 'upgradesql', icon: 'a058', size: 'huge' },
             ]
         },
         watch: {

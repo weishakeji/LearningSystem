@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta view="upgradesql" page="/Help/DataBase/upgradesql.htm" />
+    <title>升级脚本</title>
+    <script type="text/javascript" src="/Utilities/Scripts/webdom.js"></script>
+    <script type="text/javascript" src="../Scripts/core.js"></script>
+</head>
+
+<body>
+    <p>如果升级涉及数据相关，例如增删了一些表或字段，不仅要升级程序，还需要执行SQL升级脚本；相关升级脚本在云盘中“数据库升级脚本”文件夹中获取。
+        <span class="download" icon="&#xe69e">云盘地址：<a copyright="download" target="_blank"><span
+                    copyright="download"></span></a></span>
+    </p>
+    <p>或从源码库中获取 <a copyright="gitee" target="_blank"><span
+                copyright="gitee"></span></a>，打开后在“DbScripts/upgrade_v2”文件夹中可以看到按日期命名的Sql文件。根据自己程序历史版本的情况，按时间倒序（从最早的开始）逐一执行
+        。</p>
+    <p>帮助说明</p>
+    <p>1、如何查看自己程序的版本日期？</p>
+    <p>在确定升级之前，打开站点<a href="/license" target="_blank">/license</a>页面，可以看到当前版本的“发布时间”。记下这个时间，在程序升级后，按这个时间倒序逐一执行升级脚本。</p>
+    <p>2、为什么只有PostgreSQL升级脚本？</p>
+    <p>当前程序主要支持PostgreSQL数据库，虽然仍然支持MSSQL Sever，但已经在逐步放弃，预计在V3版本彻底放弃。所以不再提供对MSSQL Sever的升级脚本，建议大家尽量迁移到PostgreSQL。</p>
+    <p>SQLite仅限社区版使用，不建议用于生产环境。我们每次发布新版本会提供完整数据结构的SQLite数据库，但不提供升级脚本。</p>
+
+    <p>3、如何检测数据库完整性？</p>
+    <p>首先，帮助中心的“检测数据库”，可以检测数据库连接是否正确，以及是否有缺失的数据库结构。但无法检测数据库的数据类型与程序设计的需求一致。
+        可以通过帮助中心的“数据库->校验”，检测数据库与程序设计的一致性。例如：某个数据库字段的数据类型与程序设计的存在冲突；
+        或一些程序设计中废弃的字段，数据库未删除，但是该字段不得为空，于是导致创建信息时产生错误。</p>
+
+    <p>4、升级脚本是否值得信任？</p>
+    <p>升级脚本对数据库直接操作，影响较大。每次涉及数据库的升级，我们都会全面测试，保证其代码安全可靠。</p>
+    <p>但是，用户系统在使用中产生的业务数据与我们测试数据可能相差较大，尤其是经过过二次开发的用户，执行升级脚本尤其需要谨慎，强烈建议先备份。如果发生异常，请即时联系客服人员。</p>
+    <p id="vapp" v-cloak> </p>
+</body>
+
+</html>

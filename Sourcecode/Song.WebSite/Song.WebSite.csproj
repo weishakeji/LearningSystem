@@ -274,6 +274,7 @@
     <Content Include="Help\Contents\Styles\Deployment.css" />
     <Content Include="Help\Contents\Styles\Overview.css" />
     <Content Include="Help\Contents\Templates.html" />
+    <Content Include="Help\Database\Check.htm" />
     <Content Include="Help\Database\Components\entities.js" />
     <Content Include="Help\Database\Components\Styles\entities.css" />
     <Content Include="Help\Database\DbIndex.htm" />
@@ -285,6 +286,7 @@
     <Content Include="Help\Database\Index.htm" />
     <Content Include="Help\Database\Other.htm" />
     <Content Include="Help\Database\Query.htm" />
+    <Content Include="Help\Database\Scripts\Check.js" />
     <Content Include="Help\Database\Scripts\DbIndex.js" />
     <Content Include="Help\Database\Scripts\Detail.js" />
     <Content Include="Help\Database\Scripts\Entity.js" />
@@ -293,12 +295,16 @@
     <Content Include="Help\Database\Scripts\Other.js" />
     <Content Include="Help\Database\Scripts\Query.js" />
     <Content Include="Help\Database\Scripts\Tables.js" />
+    <Content Include="Help\Database\Scripts\UpgradeSql.js" />
+    <Content Include="Help\Database\Styles\Check.css" />
     <Content Include="Help\Database\Styles\DbIndex.css" />
     <Content Include="Help\Database\Styles\Detail.css" />
     <Content Include="Help\Database\Styles\Entity.css" />
     <Content Include="Help\Database\Styles\index.css" />
     <Content Include="Help\Database\Styles\Tables.css" />
+    <Content Include="Help\Database\Styles\UpgradeSql.css" />
     <Content Include="Help\Database\Tables.htm" />
+    <Content Include="Help\Database\UpgradeSql.htm" />
     <Content Include="Help\Datas\Entitiy\TestResults.json" />
     <Content Include="Help\Datas\Scripts\test.js" />
     <Content Include="Help\Datas\Styles\test.css" />

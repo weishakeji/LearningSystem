@@ -1,0 +1,25 @@
+section.datainfo {
+    display: flex;
+    margin: 15px 0px;
+    padding: 20px 20px 20px 20px;
+    box-sizing: border-box;
+}
+
+.el-statistic .head {
+    margin-bottom: 15px;
+}
+
+section.tabledata {
+    display: flex;
+    margin: 15px 0px;
+    padding: 20px 20px 20px 20px;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+
+}
+
+section.tabledata .el-statistic {
+    width: 25%;
+    margin-top: 0px;
+    margin-bottom: 50px;
+}
