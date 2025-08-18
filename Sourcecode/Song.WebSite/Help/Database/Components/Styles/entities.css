@@ -67,7 +67,7 @@
 }
 
 .entities .el-collapse-item__header .item_title .intro {
-    font-size: 14px;
+   
     margin-left: 15px;
     white-space: nowrap;
     overflow: hidden;
@@ -78,7 +78,9 @@
     line-height: 50px;
     text-align: right;
 }
-
+.entities .el-collapse-item__header .item_title .intro, .entities .el-collapse-item__header .item_title .intro *{ 
+    font-size: 14px;
+}
 .entities .el-collapse-item__header .name {
     color: #333;
 }

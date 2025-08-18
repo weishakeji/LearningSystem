@@ -53,7 +53,7 @@
                     <tbody>
                         <tr v-for="(v,k,i) in properties">
                             <td>{{i+1}}</td>
-                            <td v-html="$options.filters.show(k,search)+(v.primary=='1' ? ' (主键)' : '')"
+                            <td v-html="showsearch(k,search)+(v.primary=='1' ? ' (主键)' : '')"
                                 @dblclick="copy(k)" title="双击复制" class="field"></td>
                             <td>{{v.type|type(v.length)}}</td>
                             <td>{{Number(v.nullable)==0 ? '' : '✔'}}</td>
@@ -67,13 +67,13 @@
                             </td>
                             <td @dblclick="edit(k+'.mark')" mark="备注">
                                 <span v-if="!state(k+'.mark')"
-                                    v-html="$options.filters.show(text(k,'mark',true),search)"></span>
+                                    v-html="showsearch(text(k,'mark',true),search)"></span>
                                 <textarea rows="3" v-else :id="k+'.mark'" :value="text(k,'mark')"
                                     @blur="leave(k+'.mark')"></textarea>
                             </td>
                             <td @dblclick="edit(k+'.intro')" mark="说明">
                                 <span v-if="!state(k+'.intro')"
-                                    v-html="$options.filters.show(text(k,'intro',true),search)"></span>
+                                    v-html="showsearch(text(k,'intro',true),search)"></span>
                                 <textarea rows="4" v-else :id="k+'.intro'" :value="text(k,'intro')"
                                     @blur="leave(k+'.intro')"></textarea>
                             </td>

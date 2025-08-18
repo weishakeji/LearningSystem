@@ -66,8 +66,7 @@
     color: var(--api-current-color);
 }
 
-.interfaces .el-collapse-item__header .item_title .intro {
-    font-size: 14px;
+.interfaces .el-collapse-item__header .item_title .intro {  
     margin-left: 15px;
     white-space: nowrap;
     overflow: hidden;
@@ -77,6 +76,9 @@
     line-height: 50px;
     flex: 1;
     text-align: right;
+}
+.interfaces .el-collapse-item__header .item_title .intro, .interfaces .el-collapse-item__header .item_title .intro * {
+    font-size: 14px;
 }
 
 .interfaces .el-collapse-item__header .name {
@@ -153,8 +155,7 @@
     text-align: right;
 }
 
-.el-collapse-item__content .method .intro, .el-collapse-item__content .method .intro * {
-    font-size: 15px;
+.el-collapse-item__content .method .intro {   
     color: #999;
     margin-left: 22px;
     word-wrap: break-word;
@@ -162,7 +163,9 @@
     padding-right: 20px;
     line-height: 20px;
 }
-
+.el-collapse-item__content .method .intro, .el-collapse-item__content .method .intro *{
+    font-size: 15px;
+}
 .el-collapse-item__content .method[current] {
     background-color: rgb(236, 245, 255);
 }

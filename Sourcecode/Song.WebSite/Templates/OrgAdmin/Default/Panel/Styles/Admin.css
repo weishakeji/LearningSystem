@@ -219,7 +219,7 @@ panel#login iframe {
 
 #treemenu-area {
     margin-right: 2px;
-    z-index: 20;
+    z-index: 200;
 }
 
 .slot {

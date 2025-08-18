@@ -183,12 +183,6 @@ $ready([
             },
         },
         filters: {
-            //实体详情的显示
-            show: function (val, search) {
-                if (!search || search == '') return val;
-                var regExp = new RegExp(search, 'ig');
-                return val.replace(regExp, `<red>${search}</red>`);
-            },
             //字段类型的显示
             type: function (ty, length) {
                 if (ty == 'nvarchar') {

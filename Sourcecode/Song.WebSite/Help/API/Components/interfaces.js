@@ -60,6 +60,7 @@ Vue.component('interfaces', {
         },
         //是否存在search，大小写不敏感
         indexOf: function (text, search) {
+            if (text == null || text.length < 1) return false;
             var regex = new RegExp('(' + search + ')', 'ig');
             return regex.test(text);
         },
@@ -115,7 +116,7 @@ Vue.component('interfaces', {
                 <el-collapse-item  v-for="(item,idx) in list" :name="idx" v-show="show(item,search)">
                     <div slot="title" class="item_title" :current="current!=null && item.Name==current.Name">
                         <span v-html="(idx+1)+'.  '+ showsearch(item.Name,search)" class="name"></span>
-                        <span class="intro">{{item.Intro}}</span> 
+                        <span class="intro" v-html="showsearch(item.Intro,search)"></span> 
                     </div>
                     <div v-if='item.Intro.length>0' class="intro"><span>摘要：</span>
                         <span v-html="showsearch(item.Intro,search)"></span>

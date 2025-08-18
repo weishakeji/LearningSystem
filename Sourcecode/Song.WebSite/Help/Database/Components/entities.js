@@ -107,7 +107,7 @@ Vue.component('entities', {
                 <el-collapse-item  v-for="(value,key,idx) in entities" :name="idx" v-show="show(key,value,search)" :class="{'nointro':value.intro.length<1}">
                     <div slot="title" class="item_title" :current="index==idx">
                         <span v-html="(idx+1)+'.  '+ showsearch(key,search)" class="name"></span>
-                        <span class="intro">{{value.mark}}</span> 
+                        <span class="intro" v-html="showsearch(value.mark,search)"></span> 
                     </div>
                     <div v-if='value.intro.length>0' class="intro"><span>摘要：</span>
                         <span v-html="showsearch(value.intro,search)"></span>
