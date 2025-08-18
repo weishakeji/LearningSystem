@@ -35,8 +35,7 @@
             </loading>
             <template v-else>
                 <div class="database">
-
-                    <span>
+                    <span :class="dbType.toLowerCase()">
                         <icon v-if="dbType=='SQLite'">&#xa05b</icon>
                         <icon v-if="dbType=='PostgreSQL'">&#xa05d</icon>
                         <icon v-if="dbType=='SQLServer'">&#xa05a</icon>

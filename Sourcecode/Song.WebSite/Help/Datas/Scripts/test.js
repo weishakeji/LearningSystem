@@ -10,7 +10,7 @@
 window.vapp = new Vue({
     el: '#vapp',
     data: {
-        dbType: '',   //数据库类型
+        dbType: '未知',   //数据库类型
         dbName: '',     //数据库名称
         verison: '', //数据库版本
 

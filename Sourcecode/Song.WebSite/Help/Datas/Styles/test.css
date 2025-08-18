@@ -35,6 +35,15 @@ body {
     line-height: 20px;
     margin-right: 0px;
 }
+span.postgresql{
+    color: #326790;
+}
+span.sqlserver{
+    color: #cf1f21;
+}
+span.sqlite{
+    color: #00688f;
+}
 .database .el-tag{
     margin-left: 15px;
 }

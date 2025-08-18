@@ -1,15 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head resource>
     <meta charset="utf-8">
     <meta view="Check" page="/Help/DataBase/Check.htm" />
-    <title></title>
+    <title>校验数据库</title>
     <script type="text/javascript" src="/Utilities/Scripts/webdom.js"></script>
     <script type="text/javascript" src="../Scripts/core.js"></script>
 </head>
+
 <body>
-    <div id="vapp" v-cloak> 
-    
-    </div> 
+    <div id="vapp" v-cloak>
+        <header>
+            <div class="mainbtns">
+                <el-button type="primary" plain>检测表与字段的完整性</el-button>
+                <el-button type="success" plain>检测结构冗余</el-button>
+                <el-button type="warning" plain>校验数据类型</el-button>
+            </div>
+            <loading v-if="loading"></loading>
+            <div class="database" v-else>
+                <span :class="dbType.toLowerCase()">
+                    <icon v-if="dbType=='SQLite'">&#xa05b</icon>
+                    <icon v-if="dbType=='PostgreSQL'">&#xa05d</icon>
+                    <icon v-if="dbType=='SQLServer'">&#xa05a</icon>
+                    <span>{{dbType}}</span>
+                    <span v-if="dbName!=''" class="dbName"> ({{dbName}})</span>
+
+                </span>
+                <template v-if="!connState">
+                    <el-tag type="danger" class="el-icon-link connState">数据库链接失败</el-tag>
+                    <div class="error" v-if="error!=''">
+                        提示信息：{{error}}
+                    </div>
+                    <help multi>帮助<br />
+                        1、请检查db.config中的数据库链接配置项
+                        <br />
+                        2、检测数据库服务是否启用
+                    </help>
+                </template>
+            </div>
+        </header>
+    </div>
 </body>
+
 </html>

@@ -1,0 +1,22 @@
+header:first-child{
+    display: flex;
+    justify-content: space-between;
+}
+.database icon{
+    font-size: 25px;
+    line-height: 20px;
+    margin-right: 0px;
+}
+span.postgresql{
+    color: #326790;
+}
+span.sqlserver{
+    color: #cf1f21;
+}
+span.sqlite{
+    color: #00688f;
+}
+.dbName{
+    margin-left: 5px;
+    color: #999;
+}
