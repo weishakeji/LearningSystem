@@ -396,7 +396,7 @@ namespace Song.ViewData.Methods
             //if (!System.IO.File.Exists(file)) System.IO.File.Create(file);
             string details = System.IO.File.Exists(file) ? System.IO.File.ReadAllText(file, Encoding.UTF8) : "";
             //获取实体和实体属性的名称
-            List<string> list = Business.Do<IDataBase>().FieldsName(name);           
+            List<string> list = Business.Do<IDataBase>().FieldNames(name);           
 
             JObject jitem = (JObject)JsonConvert.DeserializeObject(details);
             jitem = jitem == null ? new JObject() : jitem;

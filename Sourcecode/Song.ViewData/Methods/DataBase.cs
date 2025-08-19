@@ -23,6 +23,7 @@ namespace Song.ViewData.Methods
     /// </summary>
     public class DataBase : ViewMethod, IViewAPI
     {
+        #region 基本信息
         /// <summary>
         /// 数据库类型，即数据库产品名称，例如Sqlserver或PostgreSql
         /// </summary>
@@ -43,6 +44,11 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <returns></returns>
         public bool CheckConn() => Business.Do<IDataBase>().CheckConnection();
+        /// <summary>
+        /// 数据库里所有的表，仅表的名称
+        /// </summary>
+        /// <returns></returns>
+        public List<string> Tables() => Business.Do<IDataBase>().Tables();
         /// <summary>
         /// 平台所有数据
         /// </summary>
@@ -68,10 +74,33 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public int FieldTotal() => Business.Do<IDataBase>().FieldTotal();
         /// <summary>
+        /// 数据库所有的数据类型
+        /// </summary>
+        public List<string> FieldDataTypes() => Business.Do<IDataBase>().DataTypes();
+        /// <summary>
         /// 数据库总的索引数
         /// </summary>
         /// <returns></returns>
         public int IndexTotal() => Business.Do<IDataBase>().IndexTotal();
+        /// <summary>
+        /// 查询字段
+        /// </summary>
+        /// <param name="dbtype">字段的数据类型</param>
+        /// <param name="table">表名称</param>
+        /// <param name="field">按字段模糊查询</param>
+        /// <returns></returns>
+        public JObject FieldQuery(string dbtype,string table,string field)
+        {
+            Dictionary<string, string[]> dic = Business.Do<IDataBase>().FieldQuery(dbtype, table, field);
+            JObject jobj = new JObject();
+            foreach (var item in dic)
+            {               
+                jobj.Add(item.Key,new JArray(item.Value));              
+            }
+            return jobj;
+        }
+       
+        #endregion
 
         #region 校验数据库
         /// <summary>

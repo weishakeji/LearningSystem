@@ -9,14 +9,17 @@ $ready(function () {
             connState: false,    //数据库是否链接 
             error: '',          //提示信息   
 
-            compDatas: [],       //数据完整性信息，这里是缺失的表和字段
+            missingDatas: [],       //数据完整性信息，这里是缺失的表和字段
+            redundancyDatas: [],    //数据冗余信息，这里是冗余的表和字段
 
             loadstate: {
                 init: false,        //初始化
                 version: false,         //获取版本信息
                 conn: false,         //测试连接               
                 name: false,          //获取数据库名称
-                check:false,        //检测数据库
+                checkfully: false,        //检测数据库完整性
+                redundancy: false,       //检测数据库冗余
+
             }
         },
         mounted: function () {
@@ -85,24 +88,35 @@ $ready(function () {
             //检测完整性
             checkFully: function () {
                 var th = this;
-                th.loadstate.check = true;
-                th.compDatas = [];
+                th.loadstate.checkfully = true;
+                th.missingDatas = [];
                 $api.post('DataBase/CheckFully').then(function (req) {
                     if (req.data.success) {
-                        th.compDatas = req.data.result;
+                        th.missingDatas = req.data.result;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
                 }).catch(err => console.error(err))
-                    .finally(() => th.loadstate.check = false);
+                    .finally(() => th.loadstate.checkfully = false);
             },
             //检测冗余
-            checkRedundancy:function(){
-
+            checkRedundancy: function () {
+                var th = this;
+                th.loadstate.redundancy = true;
+                th.redundancyDatas = [];
+                $api.post('DataBase/CheckRedundancy').then(function (req) {
+                    if (req.data.success) {
+                        th.redundancyDatas = req.data.result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.data.message;
+                    }
+                }).catch(err => console.error(err))
+                    .finally(() => th.loadstate.redundancy = false);
             },
             //检测正确性，即字段与设计类型是否一致
-            checkCorrect:function(){
+            checkCorrect: function () {
 
             }
         },

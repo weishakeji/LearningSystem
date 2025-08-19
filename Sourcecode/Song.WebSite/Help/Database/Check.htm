@@ -13,9 +13,10 @@
     <div id="vapp" v-cloak>
         <header>
             <div class="mainbtns">
-                <el-button type="primary" plain @click="checkFully">检测表与字段的完整性</el-button>
-                <el-button type="success" plain @click="checkRedundancy">检测结构冗余</el-button>
-                <el-button type="warning" plain @click="checkCorrect">校验数据类型</el-button>
+                <el-button type="primary" :disabled="loading" :loading="loadstate.checkfully" plain @click="checkFully">
+                    检测表与字段的完整性</el-button>
+                <el-button type="success" :disabled="loading" plain @click="checkRedundancy">检测结构冗余</el-button>
+                <el-button type="warning" :disabled="loading" plain @click="checkCorrect">校验数据类型</el-button>
             </div>
             <loading v-if="loading"></loading>
             <div class="database" v-else>
@@ -40,6 +41,56 @@
                 </template>
             </div>
         </header>
+        <!--检测完整性-->
+        <section class="checkFully">
+            <loading v-if="loadstate.checkfully"> 正在检测...</loading>
+            <template v-else-if="missingDatas.length>0">
+                <div class="data_title">
+                    <el-tag type="danger" class="el-icon-chat-line-square connState"> 缺失表或字段</el-tag>
+                    <help>查找缺失的SQL脚本，<a href="https://gitee.com/weishakeji/LearningSystem/tree/master/DbScripts"
+                            target="_blank">点这里</a></help>
+                </div>
+                <div v-for="(item,index) in missingDatas" class="data_row">
+                    {{index+1}}.
+                    <span v-for="(val,key,i) in item">
+                        {{key}}:<br />
+                        <template v-if="val.length>0">
+                            <span v-for="(field,j) in val">
+                                <el-tag type="info"> {{field}}</el-tag>
+                            </span>
+                        </template>
+                        <el-tag v-else type="warning"> 缺失整个表</el-tag>
+                    </span>
+                </div>
+            </template>
+            <el-tag v-else type="primary">
+                <icon>&#xa048</icon> 没有缺失的表或字段
+            </el-tag>
+        </section>
+        <!--检测冗余-->
+        <section class="redundancy">
+            <loading v-if="loadstate.redundancy"> 正在检测...</loading>
+            <template v-else-if="redundancyDatas.length>0">
+                <div class="data_title">
+                    <el-tag type="danger" class="el-icon-chat-line-square connState"> 冗余的表与字段</el-tag>                   
+                </div>
+                <div v-for="(item,index) in redundancyDatas" class="data_row">
+                    {{index+1}}.
+                    <span v-for="(val,key,i) in item">
+                        {{key}}:<br />
+                        <template v-if="val.length>0">
+                            <span v-for="(field,j) in val">
+                                <el-tag type="info"> {{field}}</el-tag>
+                            </span>
+                        </template>
+                        <el-tag v-else type="warning"> 整个表冗余</el-tag>
+                    </span>
+                </div>
+            </template>
+            <el-tag v-else type="success">
+                <icon>&#xa048</icon> 没有冗余的表或字段
+            </el-tag>
+        </section>
     </div>
 </body>
 

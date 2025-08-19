@@ -9,6 +9,7 @@ using Song.Entities;
 using WeiSha.Data;
 using Song.ServiceInterfaces;
 using System.Reflection;
+using System.Linq;
 
 namespace Song.ServiceImpls
 {
@@ -35,7 +36,7 @@ namespace Song.ServiceImpls
         /// </summary>
         public bool CheckConnection() => Gateway.Default.IsCorrect;
         /// <summary>
-        /// 数据库里所有的表
+        /// 数据库里所有的表，仅表的名称
         /// </summary>
         /// <returns></returns>
         public List<string> Tables()
@@ -282,7 +283,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="tablename"></param>
         /// <returns></returns>
-        public List<string> FieldsName(string tablename)
+        public List<string> FieldNames(string tablename)
         {
             string sql = string.Empty;
             switch (Gateway.Default.DbType)
@@ -307,6 +308,69 @@ namespace Song.ServiceImpls
                 reader.Dispose();
             }
             return list;
+        }
+        /// <summary>
+        /// 表的字段，类型
+        /// </summary>
+        /// <returns>key为字段名，value为数据类型</returns>
+        public Dictionary<string, string> FieldTypes(string tablename)
+        {
+            DataTable dt = this.Fields(tablename);
+            if (dt == null) return null;
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            foreach (DataRow dr in dt.Rows)
+            {
+                string name = dr["name"].ToString();
+                string type = dr["type"].ToString();
+                if (type.IndexOf("(") > -1) type = type.Substring(0, type.IndexOf("("));
+                dic.Add(name, type);
+            }
+            return dic;
+        }
+        /// <summary>
+        /// 查询字段
+        /// </summary>
+        /// <param name="dbtype">字段的数据类型</param>
+        /// <param name="table">表名称</param>
+        /// <param name="field">按字段模糊查询</param>
+        /// <returns>key为表名，value为满足条件的字段</returns>
+        public Dictionary<string, string[]> FieldQuery(string dbtype, string table, string field)
+        {
+            //按表查询
+            List<string> tables = this.Tables();
+            if (!string.IsNullOrWhiteSpace(table))
+            {
+                for(int i = 0; i < tables.Count; i++)
+                {
+                    if (!tables[i].Equals(table, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        tables.RemoveAt(i);
+                        i--;
+                    }
+                }
+            }
+            //要返回的值
+            Dictionary<string, string[]> dic = new Dictionary<string, string[]>();
+            foreach(string tb in tables)
+            {
+                Dictionary<string, string> fields = this.FieldTypes(tb);
+                //如果不在指定的数据类型，则删除
+                if (!string.IsNullOrWhiteSpace(dbtype))
+                {
+                    // 直接遍历并移除符合条件的项
+                    var keysToRemove = fields.Where(pair => !pair.Value.Equals(dbtype, StringComparison.CurrentCultureIgnoreCase)).Select(pair => pair.Key).ToList();
+                    foreach (var key in keysToRemove) fields.Remove(key);
+                }
+                //如果不包含指定字段，则删除
+                if (!string.IsNullOrWhiteSpace(field))
+                {
+                    // 直接遍历并移除符合条件的项
+                    var keysToRemove = fields.Where(pair => pair.Key.IndexOf(field, StringComparison.CurrentCultureIgnoreCase) < 0).Select(pair => pair.Key).ToList();
+                    foreach (var key in keysToRemove) fields.Remove(key);
+                }
+                if (fields.Count > 0) dic.Add(tb, fields.Keys.ToArray<string>());
+            }
+            return dic;
         }
         /// <summary>
         /// 指定表的索引
@@ -389,7 +453,7 @@ namespace Song.ServiceImpls
                 else
                 {
                     //对比缺少的字段
-                    List<string> fields = this.FieldsName(item.Key);    //表的字段
+                    List<string> fields = this.FieldNames(item.Key);    //表的字段
                     Dictionary<string, Type> props = item.Value;        //实体的属性                                                                        
                     List<string> lack = new List<string>();         //缺少的字段
                     foreach (KeyValuePair<string, Type> item2 in props)
@@ -413,11 +477,11 @@ namespace Song.ServiceImpls
             foreach (string table in tables)
             {
                 bool istbExist = entities.ContainsKey(table);     //表是否存在于实体
-                if (!istbExist) dic.Add(table, new string[] { });    //冗余整个表
+                if (!istbExist) dic.Add(table, new string[] { });    //整个表都多余
                 else
                 {
                     //对比冗余的字段
-                    List<string> fields = this.FieldsName(table);    //表的字段
+                    List<string> fields = this.FieldNames(table);    //表的字段
                     Dictionary<string, Type> props = entities[table];        //实体的属性                                                                        
                     List<string> redundancy = new List<string>();         //冗余的字段
                     foreach (string field in fields)
@@ -433,6 +497,10 @@ namespace Song.ServiceImpls
         /// <returns>ictionary类型，Key值为表名称，Value为错误</returns>
         public Dictionary<string, Dictionary<string, string>> CheckCorrect()
         {
+            //所有实体
+            Dictionary<string, Dictionary<string, Type>> entities = this.Entities();
+            List<string> tables = this.Tables();    //所有表
+
             throw new NotImplementedException();
         }       
         #endregion

@@ -29,7 +29,7 @@ namespace Song.ServiceInterfaces
         /// </summary>
         bool CheckConnection();
         /// <summary>
-        /// 数据库里所有的表
+        /// 数据库里所有的表，仅表的名称
         /// </summary>
         /// <returns></returns>
         List<string> Tables();
@@ -48,7 +48,20 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="tablename"></param>
         /// <returns></returns>
-        List<string> FieldsName(string tablename);
+        List<string> FieldNames(string tablename);
+        /// <summary>
+        /// 表的字段，类型
+        /// </summary>
+        /// <returns>key为字段名，value为数据类型</returns>
+        Dictionary<string,string> FieldTypes(string tablename);
+        /// <summary>
+        /// 查询字段
+        /// </summary>
+        /// <param name="dbtype">字段的数据类型</param>
+        /// <param name="table">表名称</param>
+        /// <param name="field">按字段模糊查询</param>
+        /// <returns>key为表名，value为满足条件的字段</returns>
+        Dictionary<string, string[]> FieldQuery(string dbtype, string table, string field);
         /// <summary>
         /// 指定表的索引
         /// </summary>

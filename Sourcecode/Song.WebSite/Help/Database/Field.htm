@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta view="Field" page="/Help/DataBase/Field.htm" />
+    <title>数据库字段检索</title>
+    <script type="text/javascript" src="/Utilities/Scripts/webdom.js"></script>
+    <script type="text/javascript" src="../Scripts/core.js"></script>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <el-form :inline="true" :model="form">
+            <el-form-item label="数据类型">
+                <el-select v-model="form.dbtype" filterable clearable placeholder="请选择">
+                    <el-option v-for="(item,idx) in datatypes" :key="item" :label="item" :value="item">
+                        {{idx+1}}. {{item}}
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="表名">
+                <el-select v-model="form.table" filterable clearable placeholder="请选择">
+                    <el-option v-for="(item,idx) in tables" :key="item" :label="item" :value="item">
+                        {{idx+1}}. {{item}}
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="字段名">
+                <el-input v-model="form.field" placeholder="请输入"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="onSubmit" :loading="loading">查询</el-button>
+            </el-form-item>
+        </el-form>
+        <section>
+            <loading v-if="loading"></loading>
+            <template v-else>
+                <div>
+                    共查询到 {{tabletotal}} 张表，{{fieldtotal}}个字段
+                </div>
+                <dl v-for="(val,key,idx) in results">
+                    <dt><span class="index">{{idx+1}}.</span> {{key}} <span>({{val.length}})</span></dt>
+
+                    <dd v-for="(val,i) in val"><span class="index">{{idx+1}}.{{i+1}} .</span> {{val}}</dd>
+                </dl>
+            </template>
+        </section>
+
+    </div>
+</body>
+
+</html>

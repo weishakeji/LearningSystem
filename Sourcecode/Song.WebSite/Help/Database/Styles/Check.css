@@ -20,3 +20,21 @@ span.sqlite{
     margin-left: 5px;
     color: #999;
 }
+
+/*校验结果*/
+section{
+    margin: 20px;
+}
+
+.data_title {
+    display: flex;
+    justify-content: space-between;
+ }
+ .data_row {
+     margin: 10px 0px;
+ }
+ 
+ .data_row span {
+     margin-right: 10px;
+     margin-top: 10px;
+ }

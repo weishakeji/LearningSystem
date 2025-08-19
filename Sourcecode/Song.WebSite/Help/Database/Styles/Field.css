@@ -1,0 +1,27 @@
+li.el-select-dropdown__item{
+    font-size: 18px;
+    margin-left: 0px;
+}
+
+section dl{
+    display: flex;
+    position: relative;
+    padding-top: 50px;
+    flex-wrap: wrap;
+    margin: 0px 0px 20px 0px;
+}
+section dl dt{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+section dl dd{
+    width: 25%;
+    word-wrap: normal;
+    box-sizing: border-box;
+    white-space: nowrap;
+}
+.index{
+    color: #999;
+    margin-right: 5px;
+}

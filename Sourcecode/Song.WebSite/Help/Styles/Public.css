@@ -137,7 +137,9 @@ help, alert, help *, alert *, warning, warning * {
     font-size: 16px !important;
     cursor: default;
 }
-
+.el-form-item__label{
+    font-size: 18px;
+}
 /*竖屏，手机端显示*/
 @media only screen and (orientation: portrait) {
     dl,dl dt,dl dd{
