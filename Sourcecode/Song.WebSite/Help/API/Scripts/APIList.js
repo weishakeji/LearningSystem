@@ -81,7 +81,7 @@
                 txt = txt.replace(/\s+/g, " ");
                 txt = txt.replace(/\r/g, " ");
                 txt = txt.replace(/\n/g, " ");
-                return txt.replace(/ /g, '<br/>');
+                return txt.replace(/ /g, '');
             },
             //复制到粘贴板
             copytext: function (val, textbox) {

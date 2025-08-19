@@ -10,6 +10,7 @@ using WeiSha.Data;
 using Song.ServiceInterfaces;
 using System.Reflection;
 using System.Linq;
+using System.IO;
 
 namespace Song.ServiceImpls
 {
@@ -494,15 +495,117 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 检测数据库正确性，即字段类型是否与程序设计一致
         /// </summary>
-        /// <returns>ictionary类型，Key值为表名称，Value为错误</returns>
+        /// <returns>Dictionary类型，Key值为表名称，Value为错误的字段; Value中的key为字段名，value为原数据类型，目标数据类型，对应的C#类型</returns>
         public Dictionary<string, Dictionary<string, string>> CheckCorrect()
         {
-            //所有实体
+            Dictionary<string, Dictionary<string, string>> dic = new Dictionary<string, Dictionary<string, string>>();
+            //Postgresql与C#对象的关联关系
+            Dictionary<string, string> pgtocsharp = this._postgresql_to_csharp();
+            //所有实体,key为表名，
             Dictionary<string, Dictionary<string, Type>> entities = this.Entities();
             List<string> tables = this.Tables();    //所有表
+            foreach(string tb in tables)
+            {
+                //表的字段与数据类型
+                Dictionary<string, string> fields = this.FieldTypes(tb);
+                //实体的属性与数据类型
+                Dictionary<string, Type> properties = entities[tb];
 
-            throw new NotImplementedException();
-        }       
+                //
+                Dictionary<string, string> dicfields = _fields_error(pgtocsharp, fields, properties);
+                if (dicfields.Count > 0) dic.Add(tb, dicfields);
+            }
+            return dic;
+        }
+        /// <summary>
+        /// Postgresql数据类型如果不对应C#类型，则返回
+        /// </summary>
+        /// <param name="pgtocsharp"></param>
+        /// <param name="fields"></param>
+        /// <param name="properties"></param>
+        /// <returns></returns>
+        private Dictionary<string, string> _fields_error(Dictionary<string, string> pgtocsharp, Dictionary<string, string> fields, Dictionary<string, Type> properties)
+        {
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            foreach (KeyValuePair<string, string> field in fields)
+            {
+                string dtype = field.Value;     //字段的数据类型
+                string dname = field.Key;
+                if (!properties.ContainsKey(dname)) continue;
+                //Postgresql数据类型，应该对应的C#对象
+                string targettype = _postgresql_to_csharp_value(pgtocsharp, dtype);               
+                Type prop = properties[dname];
+                Type nullableType = System.Nullable.GetUnderlyingType(prop);
+                string typename = nullableType != null ? nullableType.Name : prop.Name;
+                if (!typename.Equals(targettype))
+                {
+                    //应该对应的数据库类型
+                    string correcttype= _postgresql_for_csharp_value(pgtocsharp, typename);
+                    dic.Add(dname, $"{dtype},{correcttype},{typename}");
+                }
+            }
+            return dic;
+        }
+       
+        /// <summary>
+        /// 获取Postgresql与C#对象的关联关系
+        /// </summary>
+        /// <returns></returns>
+        private Dictionary<string, string> _postgresql_to_csharp()
+        {          
+            string filename = "Postgresql_to_csharp.txt";
+            string filepath = System.IO.Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "Utilities", "Database", filename);           
+            if (!File.Exists(filepath)) throw new Exception(filename + "不存在");
+            string text = File.ReadAllText(filepath);
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            foreach(string row in text.Split('\n'))
+            {
+                if (string.IsNullOrWhiteSpace(row)|| row.Trim().Length<1) continue;
+                if (row.IndexOf("->") < 0) continue;
+                string pg = row.Substring(0, row.IndexOf("->")).Trim();
+                string csharp = row.Substring(row.IndexOf("->")+2).Trim();
+                dic.Add(pg, csharp);
+            }
+            return dic;
+        }
+        /// <summary>
+        /// 通过Postgresql字段的数据类型，取对应的C#类型
+        /// </summary>
+        /// <param name="pgtocsharp"></param>
+        /// <param name="field"></param>
+        /// <returns></returns>
+        private string _postgresql_to_csharp_value(Dictionary<string, string> pgtocsharp, string field)
+        {
+            string objtype = string.Empty;
+            foreach (KeyValuePair<string, string> item in pgtocsharp)
+            {
+                if (item.Key.Equals(field, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    objtype = item.Value;
+                    break;
+                }
+            }
+            return objtype;
+        }
+        /// <summary>
+        /// 通过Postgresql字段的数据类型，C#类型取pg的数据类型
+        /// </summary>
+        /// <param name="pgtocsharp"></param>
+        /// <param name="field"></param>
+        /// <returns></returns>
+        private string _postgresql_for_csharp_value(Dictionary<string, string> pgtocsharp, string prop)
+        {
+            string fieldtype = string.Empty;
+            foreach (KeyValuePair<string, string> item in pgtocsharp)
+            {
+                if (item.Value.Equals(prop, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    fieldtype = item.Key;
+                    break;
+                }
+            }
+            return fieldtype;
+        }
         #endregion
 
         #region 数据库信息统计
@@ -740,27 +843,39 @@ namespace Song.ServiceImpls
         public Dictionary<string, Dictionary<string, Type>> Entities()
         {
             //反射加载ORM实体程序集
-            string path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + @"\\bin\\";
-            string assemblyName = path + "Song.Entities.dll";
+            string assemblyName = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "bin", "Song.Entities.dll");
             System.Reflection.Assembly assembly = Assembly.LoadFrom(assemblyName);
             Type[] types = assembly.GetTypes();
             //
             Dictionary<string, Dictionary<string, Type>> dic = new Dictionary<string, Dictionary<string, Type>>();
+            Type parent = typeof(WeiSha.Data.Entity);   //父类，必须是Entity类
             foreach (Type t in types)
             {
-                //创建实体
-                object obj = System.Activator.CreateInstance(t);
-                if (!(obj is WeiSha.Data.Entity)) continue;
-                WeiSha.Data.Entity entity = (WeiSha.Data.Entity)obj;
+                if (!t.IsSubclassOf(parent)) continue;
                 PropertyInfo[] propertyinfo = t.GetProperties();
                 Dictionary<string, Type> dicprop = new Dictionary<string, Type>();
-                foreach (PropertyInfo pi in propertyinfo)
-                {
-                    dicprop.Add(pi.Name, pi.PropertyType);
-                }
+                foreach (PropertyInfo pi in propertyinfo) dicprop.Add(pi.Name, pi.PropertyType);
                 dic.Add(t.Name, dicprop);
             }
             return dic;
+        }
+        /// <summary>
+        /// 某个实体的属性
+        /// </summary>
+        /// <param name="table">表名，与实体名称相同</param>
+        /// <returns></returns>
+        public Dictionary<string, Type> Properties(string table)
+        {
+            //反射加载ORM实体程序集
+            string assemblyName = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "bin", "Song.Entities.dll");           
+            System.Reflection.Assembly assembly = Assembly.LoadFrom(assemblyName);
+            Type[] types = assembly.GetTypes();
+            Type targetType = types.FirstOrDefault(t => t.Name.Equals(table, StringComparison.CurrentCultureIgnoreCase));
+            //
+            PropertyInfo[] propertyinfo = targetType.GetProperties();
+            Dictionary<string, Type> dicprop = new Dictionary<string, Type>();
+            foreach (PropertyInfo pi in propertyinfo) dicprop.Add(pi.Name, pi.PropertyType);            
+            return dicprop;
         }
         #endregion
     }

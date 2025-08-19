@@ -145,6 +145,40 @@ namespace Song.ViewData.Methods
             }
             return jarr;
         }
+        /// <summary>
+        /// 检测数据库正确性，即字段类型是否与程序设计一致
+        /// </summary>
+        /// <returns>数据类型的错误的字段，先是表名，下一级是字段名；如下：<br/>
+        /// <code>
+        /// "Article": {
+        ///                 "Acc_Id": {
+        ///                        "original": "double",
+        ///                        "correct": "integer",
+        ///                       "csharp": "Int32"
+        ///               }
+        ///        },
+        /// </code>
+        /// </returns>
+        public JObject CheckCorrect()
+        {
+            Dictionary<string, Dictionary<string, string>> dic = Business.Do<IDataBase>().CheckCorrect();
+            JObject jtables = new JObject();
+            foreach (KeyValuePair<string, Dictionary<string, string>> item in dic)
+            { 
+                JObject jfield = new JObject();
+                foreach (KeyValuePair<string, string> item2 in item.Value)
+                {
+                    string[] types = item2.Value.Split(',');
+                    JObject jtype= new JObject();
+                    jtype.Add("original",types[0]);     //原始类型
+                    jtype.Add("correct", types[1]);     //正确的类型
+                    jtype.Add("csharp", types[2]);      //C#的类型
+                    jfield.Add(item2.Key, jtype);
+                }
+                jtables.Add(item.Key, jfield);
+            }
+            return jtables;
+        }
         #endregion
 
         #region 数据实体

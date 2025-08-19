@@ -1729,6 +1729,7 @@
     <Content Include="Utilities\Components\Styles\upload-excel.css" />
     <Content Include="Utilities\Components\upload-chunked.js" />
     <Content Include="Utilities\Components\upload-excel.js" />
+    <Content Include="Utilities\Database\Postgresql_to_csharp.txt" />
     <Content Include="Utilities\DataTemplate\Config\学习卡的学习记录.xml" />
     <Content Include="Utilities\DataTemplate\Config\学员的学习成果.xml" />
     <Content Include="Utilities\DataTemplate\Config\学生组学习记录.xml" />

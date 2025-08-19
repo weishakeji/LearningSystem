@@ -11,7 +11,8 @@ $ready(function () {
 
             missingDatas: [],       //数据完整性信息，这里是缺失的表和字段
             redundancyDatas: [],    //数据冗余信息，这里是冗余的表和字段
-
+            errorfields:{},         //错误字段信息
+            
             loadstate: {
                 init: false,        //初始化
                 version: false,         //获取版本信息
@@ -19,7 +20,7 @@ $ready(function () {
                 name: false,          //获取数据库名称
                 checkfully: false,        //检测数据库完整性
                 redundancy: false,       //检测数据库冗余
-
+                correct: false,         //检测数据库类型的正确性
             }
         },
         mounted: function () {
@@ -117,7 +118,20 @@ $ready(function () {
             },
             //检测正确性，即字段与设计类型是否一致
             checkCorrect: function () {
-
+                var th = this;
+                th.loadstate.correct = true;
+                th.redundancyDatas = [];
+                $api.get("DataBase/CheckCorrect")
+                    .then(req => {
+                        if (req.data.success) {
+                           th.errorfields= req.data.result;   
+                           console.error(th.errorfields);                       
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(err => console.error(err))
+                    .finally(() =>  th.loadstate.correct = false);
             }
         },
         filters: {

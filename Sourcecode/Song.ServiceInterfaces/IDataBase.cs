@@ -84,7 +84,7 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 检测数据库正确性，即字段类型是否与程序设计一致
         /// </summary>
-        /// <returns>ictionary类型，Key值为表名称，Value为错误</returns>
+        /// <returns>Dictionary类型，Key值为表名称，Value为错误的字段; Value中的key为字段名，value为原数据类型，目标数据类型，对应的C#类型</returns>
         Dictionary<string, Dictionary<string,string>> CheckCorrect();
         #endregion
 
@@ -173,6 +173,12 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <returns>key值是实体名称，value是字段（字段名、类型）</returns>
         Dictionary<string, Dictionary<string, Type>> Entities();
+        /// <summary>
+        /// 某个实体的属性
+        /// </summary>
+        /// <param name="table">表名，与实体名称相同</param>
+        /// <returns></returns>
+        Dictionary<string, Type> Properties(string table);
         #endregion
     }
 }

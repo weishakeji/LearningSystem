@@ -72,7 +72,7 @@
             <loading v-if="loadstate.redundancy"> 正在检测...</loading>
             <template v-else-if="redundancyDatas.length>0">
                 <div class="data_title">
-                    <el-tag type="danger" class="el-icon-chat-line-square connState"> 冗余的表与字段</el-tag>                   
+                    <el-tag type="danger" class="el-icon-chat-line-square connState"> 冗余的表与字段</el-tag>
                 </div>
                 <div v-for="(item,index) in redundancyDatas" class="data_row">
                     {{index+1}}.
@@ -89,6 +89,27 @@
             </template>
             <el-tag v-else type="success">
                 <icon>&#xa048</icon> 没有冗余的表或字段
+            </el-tag>
+        </section>
+        <!--检测数据库字段类型的正确性-->
+        <section class="errorfields">
+            <loading v-if="loadstate.correct"> 正在检测...</loading>
+            <template v-else-if="!$api.isnull(errorfields)">
+                <div class="data_title">
+                    <el-tag type="danger" class="el-icon-chat-line-square connState"> 错误的数据字段</el-tag>
+                </div>
+                <div v-for="(fields,table,index) in errorfields" class="data_row">
+                    {{index+1}}. {{table}}
+                    <div v-for="(val,key,i) in fields">
+                        <el-tag type="info">{{key}}</el-tag> 当前类型 {{val.original}}，
+                        对应的C#类型 {{val.csharp}}，
+                         应该是 {{val.correct}}，
+                       
+                    </div>
+                </div>
+            </template>
+            <el-tag v-else type="warning">
+                <icon>&#xa048</icon> 没有错误的数据类型
             </el-tag>
         </section>
     </div>

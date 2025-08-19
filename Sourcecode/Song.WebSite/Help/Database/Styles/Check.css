@@ -38,3 +38,7 @@ section{
      margin-right: 10px;
      margin-top: 10px;
  }
+
+ .errorfields .el-tag{
+    font-size: 17px;
+ }
