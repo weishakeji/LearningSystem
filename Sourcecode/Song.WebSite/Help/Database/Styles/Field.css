@@ -25,3 +25,6 @@ section dl dd{
     color: #999;
     margin-right: 5px;
 }
+.result_info{
+    font-size: 16px;
+}

@@ -15,7 +15,7 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 产品名称，例如PostgreSQL、SQLite
         /// </summary>
-        string ProductName { get; }       
+        string DBMSName { get; }       
         /// <summary>
         /// 数据库产品的版本号
         /// </summary>

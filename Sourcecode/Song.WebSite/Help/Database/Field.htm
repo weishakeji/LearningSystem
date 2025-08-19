@@ -37,7 +37,7 @@
             <loading v-if="loading"></loading>
             <template v-else>
                 <div>
-                    共查询到 {{tabletotal}} 张表，{{fieldtotal}}个字段
+                    <el-tag type="warning" class="result_info"> 共查询到 {{tabletotal}} 张表，{{fieldtotal}}个字段</el-tag>
                 </div>
                 <dl v-for="(val,key,idx) in results">
                     <dt><span class="index">{{idx+1}}.</span> {{key}} <span>({{val.length}})</span></dt>

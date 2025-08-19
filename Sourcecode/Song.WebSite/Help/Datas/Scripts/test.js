@@ -42,7 +42,7 @@ window.vapp = new Vue({
         checkConn: function () {
             var th = this;
             //检测数据库名称
-            $api.get('DataBase/DbType').then(req => {
+            $api.get('DataBase/DBMS').then(req => {
                 if (req.data.success) {
                     th.dbType = req.data.result;
                 } else {

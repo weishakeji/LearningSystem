@@ -28,7 +28,7 @@ namespace Song.ViewData.Methods
         /// 数据库类型，即数据库产品名称，例如Sqlserver或PostgreSql
         /// </summary>
         /// <returns></returns>
-        public string DbType() => Business.Do<IDataBase>().ProductName;
+        public string DBMS() => Business.Do<IDataBase>().DBMSName;
         /// <summary>
         /// 数据库的名称
         /// </summary>

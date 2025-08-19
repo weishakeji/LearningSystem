@@ -22,7 +22,7 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 产品名称，例如PostgreSQL、SQLite
         /// </summary>
-        public string ProductName => Gateway.Default.DbType.ToString();
+        public string DBMSName => Gateway.Default.DbType.ToString();
         /// <summary>
         /// 数据库产品的版本号
         /// </summary>

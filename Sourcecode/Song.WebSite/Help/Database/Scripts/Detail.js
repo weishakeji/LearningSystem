@@ -52,7 +52,7 @@ $ready(function () {
             getdbtype: function () {
                 var th = this;
                 th.loadstate.get = true;
-                $api.get('DataBase/DbType').then(req => {
+                $api.get('DataBase/DBMS').then(req => {
                     if (req.data.success) {
                         th.dbType = req.data.result;
                     } else {
