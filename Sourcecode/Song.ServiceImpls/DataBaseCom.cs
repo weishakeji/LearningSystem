@@ -71,16 +71,33 @@ namespace Song.ServiceImpls
         public List<string> DataTypes()
         {
             string sql = string.Empty;
-            switch (Gateway.Default.DbType)
+            if (Gateway.Default.DbType == DbProviderType.SQLServer)
             {
-                case DbProviderType.SQLServer:
-                    sql = @"SELECT DISTINCT t.name AS type_name FROM sys.columns c JOIN sys.types t ON c.user_type_id = t.user_type_id ORDER BY t.name;";
-                    break;
-                case DbProviderType.PostgreSQL:
-                    sql = @"SELECT DISTINCT unnest(REGEXP_MATCHES(data_type,'^(\w[^\W]+)')) as type FROM information_schema.columns WHERE table_schema NOT IN ('pg_catalog', 'information_schema')";
-                    break;
-                case DbProviderType.SQLite:
-                    sql = @"WITH tables AS (SELECT name FROM sqlite_master WHERE type = 'table')
+                List<string> list = new List<string>();
+                List<string> tables= Tables();
+                foreach(string t in tables)
+                {
+                    DataTable dtfields=this.Fields(t);
+                    foreach(DataRow dr in dtfields.Rows)
+                    {
+                        string type = dr["type"].ToString();
+                        if (!list.Contains(type)) list.Add(type);
+                    }
+                }
+                return list;
+            }
+            else
+            {
+                switch (Gateway.Default.DbType)
+                {
+                    case DbProviderType.SQLServer:
+                        sql = @"SELECT DISTINCT t.name AS type_name FROM sys.columns c JOIN sys.types t ON c.user_type_id = t.user_type_id ORDER BY t.name;";
+                        break;
+                    case DbProviderType.PostgreSQL:
+                        sql = @"SELECT DISTINCT unnest(REGEXP_MATCHES(data_type,'^(\w[^\W]+)')) as type FROM information_schema.columns WHERE table_schema NOT IN ('pg_catalog', 'information_schema')";
+                        break;
+                    case DbProviderType.SQLite:
+                        sql = @"WITH tables AS (SELECT name FROM sqlite_master WHERE type = 'table')
                             SELECT DISTINCT 
                                  CASE 
                                     WHEN INSTR(ti.type, '(') > 0 
@@ -91,17 +108,18 @@ namespace Song.ServiceImpls
                             FROM tables t, pragma_table_info(t.name) ti
                             WHERE ti.type IS NOT NULL and ti.type!=''
                             ORDER BY ti.type;";
-                    break;
-            }
-            List<string> list = new List<string>();
-            using (SourceReader reader = Gateway.Default.FromSql(sql).ToReader())
-            {
+                        break;
+                }
+                List<string> list = new List<string>();
+                using (SourceReader reader = Gateway.Default.FromSql(sql).ToReader())
+                {
 
-                while (reader.Read()) list.Add(reader.GetValue<string>(0));
-                reader.Close();
-                reader.Dispose();
+                    while (reader.Read()) list.Add(reader.GetValue<string>(0));
+                    reader.Close();
+                    reader.Dispose();
+                }
+                return list;
             }
-            return list;
         }
         /// <summary>
         /// 表的字段详情，包含字段名称、字段类型、字段长度、字段是否为空

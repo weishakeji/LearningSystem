@@ -47,8 +47,8 @@ $ready(function () {
                 var th = this;
                 th.loadstate.init = true;
                 $api.bat(
-                    $api.get("DataBase/FieldDataTypes"),
-                    $api.get("DataBase/Tables")
+                    $api.cache("DataBase/FieldDataTypes"),
+                    $api.cache("DataBase/Tables")
                 ).then(([types, tables]) => {
                     th.datatypes = types.data.result;
                     th.tables = tables.data.result;
