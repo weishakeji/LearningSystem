@@ -11,8 +11,10 @@ $ready(function () {
 
             missingDatas: [],       //数据完整性信息，这里是缺失的表和字段
             redundancyDatas: [],    //数据冗余信息，这里是冗余的表和字段
-            errorfields:{},         //错误字段信息
-            
+            errorfields: {},         //错误字段信息
+
+            checkState: '',      //检测状态
+
             loadstate: {
                 init: false,        //初始化
                 version: false,         //获取版本信息
@@ -90,6 +92,7 @@ $ready(function () {
             checkFully: function () {
                 var th = this;
                 th.loadstate.checkfully = true;
+                th.checkState='checkFully';
                 th.missingDatas = [];
                 $api.post('DataBase/CheckFully').then(function (req) {
                     if (req.data.success) {
@@ -105,6 +108,7 @@ $ready(function () {
             checkRedundancy: function () {
                 var th = this;
                 th.loadstate.redundancy = true;
+                th.checkState='checkRedundancy';
                 th.redundancyDatas = [];
                 $api.post('DataBase/CheckRedundancy').then(function (req) {
                     if (req.data.success) {
@@ -120,18 +124,19 @@ $ready(function () {
             checkCorrect: function () {
                 var th = this;
                 th.loadstate.correct = true;
+                th.checkState='checkCorrect';
                 th.redundancyDatas = [];
                 $api.get("DataBase/CheckCorrect")
                     .then(req => {
                         if (req.data.success) {
-                           th.errorfields= req.data.result;   
-                           console.error(th.errorfields);                       
+                            th.errorfields = req.data.result;
+                            console.error(th.errorfields);
                         } else {
                             console.error(req.data.exception);
                             throw req.config.way + ' ' + req.data.message;
                         }
                     }).catch(err => console.error(err))
-                    .finally(() =>  th.loadstate.correct = false);
+                    .finally(() => th.loadstate.correct = false);
             }
         },
         filters: {

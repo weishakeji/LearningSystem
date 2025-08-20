@@ -41,12 +41,33 @@
                 </template>
             </div>
         </header>
+        <div v-if="checkState==''" class="helpbox">
+            <p>说明</p>
+            <help multi>检测表与字段的完整性<br />
+                此功能是检测数据库中所有表和字段，是否满足软件设计需求，检查缺失的表和字段。
+                <br />
+                如果有缺失，可以查阅SQL升级脚本，执行相应的脚本，升级数据库。
+
+            </help>
+            <help multi>检测结构冗余<br />
+                冗余的表或字段是指在数据库中存在，但是在软件设计中不存在。<br />
+                虽然大多数冗余字段不会影响操作，但是当某个冗余字段不可为空时，新增数据会失败。<br />
+                因此，尽可能删除冗余的表或字段。删除需要人工处理，强烈建议操作前备份数据库。
+
+            </help>
+            <help multi>校验数据类型<br />
+                此功能是检测数据库中字段的数据类型，是否满足软件设计需求。<br />
+                如果字段的数据类型与软件设计中的数据类型不一致，可能会导致数据丢失。<br />
+                因此，尽可能将数据类型修改为软件设计中的数据类型。
+            </help>
+        </div>
+
         <!--检测完整性-->
-        <section class="checkFully">
+        <section class="checkFully" v-else-if="checkState=='checkFully'">
             <loading v-if="loadstate.checkfully"> 正在检测...</loading>
             <template v-else-if="missingDatas.length>0">
                 <div class="data_title">
-                    <el-tag type="danger" class="el-icon-chat-line-square connState"> 缺失表或字段</el-tag>
+                    <span> 缺失表或字段</span>
                     <help>查找缺失的SQL脚本，<a href="https://gitee.com/weishakeji/LearningSystem/tree/master/DbScripts"
                             target="_blank">点这里</a></help>
                 </div>
@@ -68,11 +89,11 @@
             </el-tag>
         </section>
         <!--检测冗余-->
-        <section class="redundancy">
+        <section class="redundancy" v-else-if="checkState=='checkRedundancy'">
             <loading v-if="loadstate.redundancy"> 正在检测...</loading>
             <template v-else-if="redundancyDatas.length>0">
                 <div class="data_title">
-                    <el-tag type="danger" class="el-icon-chat-line-square connState"> 冗余的表与字段</el-tag>
+                    <span> 冗余的表与字段</span>
                 </div>
                 <div v-for="(item,index) in redundancyDatas" class="data_row">
                     {{index+1}}.
@@ -92,19 +113,19 @@
             </el-tag>
         </section>
         <!--检测数据库字段类型的正确性-->
-        <section class="errorfields">
+        <section class="errorfields" v-else-if="checkState=='checkCorrect'">
             <loading v-if="loadstate.correct"> 正在检测...</loading>
             <template v-else-if="!$api.isnull(errorfields)">
                 <div class="data_title">
-                    <el-tag type="danger" class="el-icon-chat-line-square connState"> 错误的数据字段</el-tag>
+                    <span> 数据类型错误的字段</span>
                 </div>
                 <div v-for="(fields,table,index) in errorfields" class="data_row">
                     {{index+1}}. {{table}}
                     <div v-for="(val,key,i) in fields">
-                        <el-tag type="info">{{key}}</el-tag> 当前类型 {{val.original}}，
-                        对应的C#类型 {{val.csharp}}，
-                         应该是 {{val.correct}}，
-                       
+                        <el-tag type="info">{{key}}</el-tag> 当前数据类型 <b>{{val.original}}</b>，
+                        对应于C#类型 <b>{{val.csharp}}</b>，
+                        应该设计为<b> {{val.correct}}</b> 类型。
+
                     </div>
                 </div>
             </template>

@@ -1,44 +1,60 @@
-header:first-child{
+header:first-child {
     display: flex;
     justify-content: space-between;
 }
-.database icon{
+
+.database icon {
     font-size: 25px;
     line-height: 20px;
     margin-right: 0px;
 }
-span.postgresql{
+
+span.postgresql {
     color: #326790;
 }
-span.sqlserver{
+
+span.sqlserver {
     color: #cf1f21;
 }
-span.sqlite{
+
+span.sqlite {
     color: #00688f;
 }
-.dbName{
+
+.dbName {
     margin-left: 5px;
     color: #999;
 }
 
+/*帮助信息*/
+.helpbox {
+    margin: 40px 20px;
+}
+.helpbox help{
+    margin-bottom: 20px;
+}
 /*校验结果*/
-section{
+section {
     margin: 20px;
 }
 
 .data_title {
     display: flex;
     justify-content: space-between;
- }
- .data_row {
-     margin: 10px 0px;
- }
- 
- .data_row span {
-     margin-right: 10px;
-     margin-top: 10px;
- }
+}
+.data_title span{
+    font-size: 18px;
+    color: #cf1f21;
+}
+.data_row {
+    margin: 10px 0px;
+}
 
- .errorfields .el-tag{
+.data_row span {
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.errorfields .el-tag {
     font-size: 17px;
- }
+}
