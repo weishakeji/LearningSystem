@@ -74,7 +74,7 @@
                 <div v-for="(item,index) in missingDatas" class="data_row">
                     {{index+1}}.
                     <span v-for="(val,key,i) in item">
-                        {{key}}:<br />
+                        {{key}}<br />
                         <template v-if="val.length>0">
                             <span v-for="(field,j) in val">
                                 <el-tag type="info"> {{field}}</el-tag>
@@ -98,7 +98,7 @@
                 <div v-for="(item,index) in redundancyDatas" class="data_row">
                     {{index+1}}.
                     <span v-for="(val,key,i) in item">
-                        {{key}}:<br />
+                        {{key}}<br />
                         <template v-if="val.length>0">
                             <span v-for="(field,j) in val">
                                 <el-tag type="info"> {{field}}</el-tag>

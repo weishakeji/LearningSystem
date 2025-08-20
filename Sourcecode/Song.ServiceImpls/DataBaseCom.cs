@@ -71,16 +71,33 @@ namespace Song.ServiceImpls
         public List<string> DataTypes()
         {
             string sql = string.Empty;
-            switch (Gateway.Default.DbType)
+            //如果是sqlserver数据库，通过遍历获取数据类型
+            if (Gateway.Default.DbType == DbProviderType.SQLServer)
             {
-                case DbProviderType.SQLServer:
-                    sql = @"SELECT DISTINCT t.name AS type_name FROM sys.columns c JOIN sys.types t ON c.user_type_id = t.user_type_id ORDER BY t.name;";
-                    break;
-                case DbProviderType.PostgreSQL:
-                    sql = @"SELECT DISTINCT unnest(REGEXP_MATCHES(data_type,'^(\w[^\W]+)')) as type FROM information_schema.columns WHERE table_schema NOT IN ('pg_catalog', 'information_schema')";
-                    break;
-                case DbProviderType.SQLite:
-                    sql = @"WITH tables AS (SELECT name FROM sqlite_master WHERE type = 'table')
+                List<string> list = new List<string>();
+                foreach(string table in this.Tables())
+                {
+                    DataTable dtfields = this.Fields(table);
+                    foreach(DataRow dr in dtfields.Rows)
+                    {
+                        string type = dr["type"].ToString();
+                        if (!list.Contains(type)) list.Add(type);
+                    }
+                }
+                return list;
+            }
+            else
+            {
+                switch (Gateway.Default.DbType)
+                {
+                    //case DbProviderType.SQLServer:
+                    //    sql = @"SELECT DISTINCT t.name AS type_name FROM sys.columns c JOIN sys.types t ON c.user_type_id = t.user_type_id ORDER BY t.name;";
+                    //    break;
+                    case DbProviderType.PostgreSQL:
+                        sql = @"SELECT DISTINCT unnest(REGEXP_MATCHES(data_type,'^(\w[^\W]+)')) as type FROM information_schema.columns WHERE table_schema NOT IN ('pg_catalog', 'information_schema')";
+                        break;
+                    case DbProviderType.SQLite:
+                        sql = @"WITH tables AS (SELECT name FROM sqlite_master WHERE type = 'table')
                             SELECT DISTINCT 
                                  CASE 
                                     WHEN INSTR(ti.type, '(') > 0 
@@ -91,17 +108,18 @@ namespace Song.ServiceImpls
                             FROM tables t, pragma_table_info(t.name) ti
                             WHERE ti.type IS NOT NULL and ti.type!=''
                             ORDER BY ti.type;";
-                    break;
-            }
-            List<string> list = new List<string>();
-            using (SourceReader reader = Gateway.Default.FromSql(sql).ToReader())
-            {
+                        break;
+                }
+                List<string> list = new List<string>();
+                using (SourceReader reader = Gateway.Default.FromSql(sql).ToReader())
+                {
 
-                while (reader.Read()) list.Add(reader.GetValue<string>(0));
-                reader.Close();
-                reader.Dispose();
+                    while (reader.Read()) list.Add(reader.GetValue<string>(0));
+                    reader.Close();
+                    reader.Dispose();
+                }
+                return list;
             }
-            return list;
         }
         /// <summary>
         /// 表的字段详情，包含字段名称、字段类型、字段长度、字段是否为空
@@ -500,19 +518,19 @@ namespace Song.ServiceImpls
         {
             Dictionary<string, Dictionary<string, string>> dic = new Dictionary<string, Dictionary<string, string>>();
             //Postgresql与C#对象的关联关系
-            Dictionary<string, string> pgtocsharp = this._postgresql_to_csharp();
+            Dictionary<string, string> dbtype_to_csharp = this._dbtype_to_csharp();
             //所有实体,key为表名，
             Dictionary<string, Dictionary<string, Type>> entities = this.Entities();
             List<string> tables = this.Tables();    //所有表
             foreach(string tb in tables)
             {
-                //表的字段与数据类型
-                Dictionary<string, string> fields = this.FieldTypes(tb);
                 //实体的属性与数据类型
+                if (!entities.ContainsKey(tb)) continue;
                 Dictionary<string, Type> properties = entities[tb];
-
+                //表的字段与数据类型
+                Dictionary<string, string> fields = this.FieldTypes(tb); 
                 //
-                Dictionary<string, string> dicfields = _fields_error(pgtocsharp, fields, properties);
+                Dictionary<string, string> dicfields = _fields_error(dbtype_to_csharp, fields, properties);
                 if (dicfields.Count > 0) dic.Add(tb, dicfields);
             }
             return dic;
@@ -533,14 +551,14 @@ namespace Song.ServiceImpls
                 string dname = field.Key;
                 if (!properties.ContainsKey(dname)) continue;
                 //Postgresql数据类型，应该对应的C#对象
-                string targettype = _postgresql_to_csharp_value(pgtocsharp, dtype);               
+                string targettype = _dbtype_to_csharp_value(pgtocsharp, dtype);               
                 Type prop = properties[dname];
                 Type nullableType = System.Nullable.GetUnderlyingType(prop);
                 string typename = nullableType != null ? nullableType.Name : prop.Name;
                 if (!typename.Equals(targettype))
                 {
                     //应该对应的数据库类型
-                    string correcttype= _postgresql_for_csharp_value(pgtocsharp, typename);
+                    string correcttype= _dbtype_for_csharp_value(pgtocsharp, typename);
                     dic.Add(dname, $"{dtype},{correcttype},{typename}");
                 }
             }
@@ -548,12 +566,13 @@ namespace Song.ServiceImpls
         }
        
         /// <summary>
-        /// 获取Postgresql与C#对象的关联关系
+        /// 获取数据库与C#对象的关联关系
         /// </summary>
         /// <returns></returns>
-        private Dictionary<string, string> _postgresql_to_csharp()
-        {          
-            string filename = "Postgresql_to_csharp.txt";
+        private Dictionary<string, string> _dbtype_to_csharp()
+        {  
+            string dbmsname = this.DBMSName;
+            string filename = $"{dbmsname}_to_csharp.txt";
             string filepath = System.IO.Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "Utilities", "Database", filename);           
             if (!File.Exists(filepath)) throw new Exception(filename + "不存在");
             string text = File.ReadAllText(filepath);
@@ -571,13 +590,13 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 通过Postgresql字段的数据类型，取对应的C#类型
         /// </summary>
-        /// <param name="pgtocsharp"></param>
+        /// <param name="dbtype_to_csharp"></param>
         /// <param name="field"></param>
         /// <returns></returns>
-        private string _postgresql_to_csharp_value(Dictionary<string, string> pgtocsharp, string field)
+        private string _dbtype_to_csharp_value(Dictionary<string, string> dbtype_to_csharp, string field)
         {
             string objtype = string.Empty;
-            foreach (KeyValuePair<string, string> item in pgtocsharp)
+            foreach (KeyValuePair<string, string> item in dbtype_to_csharp)
             {
                 if (item.Key.Equals(field, StringComparison.CurrentCultureIgnoreCase))
                 {
@@ -588,15 +607,15 @@ namespace Song.ServiceImpls
             return objtype;
         }
         /// <summary>
-        /// 通过Postgresql字段的数据类型，C#类型取pg的数据类型
+        /// 通过字段对应的C#类型，取数据库字段的数据类型
         /// </summary>
-        /// <param name="pgtocsharp"></param>
-        /// <param name="field"></param>
+        /// <param name="dbtype_to_csharp"></param>
+        /// <param name="prop"></param>
         /// <returns></returns>
-        private string _postgresql_for_csharp_value(Dictionary<string, string> pgtocsharp, string prop)
+        private string _dbtype_for_csharp_value(Dictionary<string, string> dbtype_to_csharp, string prop)
         {
             string fieldtype = string.Empty;
-            foreach (KeyValuePair<string, string> item in pgtocsharp)
+            foreach (KeyValuePair<string, string> item in dbtype_to_csharp)
             {
                 if (item.Value.Equals(prop, StringComparison.CurrentCultureIgnoreCase))
                 {

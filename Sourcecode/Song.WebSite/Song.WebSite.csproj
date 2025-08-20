@@ -247,7 +247,6 @@
     <Content Include="Help\API\Explain.htm" />
     <Content Include="Help\API\Index.htm" />
     <Content Include="Help\API\Scripts\APIList.js" />
-    <Content Include="Help\API\Scripts\core.js" />
     <Content Include="Help\API\Scripts\Explain.js" />
     <Content Include="Help\API\Scripts\Index.js" />
     <Content Include="Help\API\Styles\APIList.css" />
@@ -1730,6 +1729,7 @@
     <Content Include="Utilities\Components\upload-chunked.js" />
     <Content Include="Utilities\Components\upload-excel.js" />
     <Content Include="Utilities\Database\Postgresql_to_csharp.txt" />
+    <Content Include="Utilities\Database\SQLServer_to_csharp.txt" />
     <Content Include="Utilities\DataTemplate\Config\学习卡的学习记录.xml" />
     <Content Include="Utilities\DataTemplate\Config\学员的学习成果.xml" />
     <Content Include="Utilities\DataTemplate\Config\学生组学习记录.xml" />

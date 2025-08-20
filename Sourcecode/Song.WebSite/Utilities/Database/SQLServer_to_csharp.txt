@@ -1,0 +1,8 @@
+int-> Int32
+nvarchar-> String
+datetime-> DateTime
+bit->  Boolean
+bigint -> Int64
+decimal->  Decimal
+ntext->  String
+float->  Single
