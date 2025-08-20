@@ -71,7 +71,7 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="tablename"></param>
         /// <returns></returns>
-        DataTable Indexs(string tablename);
+        DataTable Indexs(string tablename);       
         #endregion
 
         #region 校验
@@ -127,6 +127,11 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <returns></returns>
         int IndexTotal();
+        /// <summary>
+        /// 索引空间的总大小
+        /// </summary>
+        /// <returns>单位kb</returns>
+        float IndexSize();
         #endregion
 
         #region SQL脚本执行

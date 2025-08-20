@@ -90,3 +90,18 @@ td.columns>div{
     padding: 2px 10px;
     box-sizing: border-box;
 }
+/*索引占用的空间*/
+.index_size .KB{
+    color: #777;
+}
+.index_size span:first-child{
+    display: inline-block;
+    width: 60px;
+    text-align: right;
+    padding-right: 10px;
+}
+.index_size span:last-child{
+    display: inline-block;
+    width: 40px;
+    text-align: left;
+}

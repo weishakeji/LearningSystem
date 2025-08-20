@@ -26,14 +26,15 @@
             </div>
             <loading v-if="loading"> loading ...</loading>
             <div v-else-if="dbType=='PostgreSQL'" class="entity_indexs">
-                <p>当前表共 {{indexs.length}} 个索引</p>
+                <p>当前表共 {{indexs.length}} 个索引，占用空间 {{totalsize(indexs)}}</p>
+
                 <table border="0">
                     <thead>
                         <tr>
                             <th width="50px">序号</th>
-                            <th width="200px">索引名称</th>
+                            <th >索引名称</th>
                             <th class="columns">字段</th>
-                            <th>脚本</th>
+                            <th width="130px">空间</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -47,7 +48,7 @@
                                 </div>
 
                             </td>
-                            <td>{{item.indexdef}}</td>
+                            <td v-html="showsize(item.sizekb)" class="index_size"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -85,8 +86,7 @@
                     <thead>
                         <tr>
                             <th width="50px">序号</th>
-                            <th width="200px">索引名称</th>
-                                                          
+                            <th width="200px">索引名称</th>                                                          
                         </tr>
                     </thead>
                     <tbody>

@@ -449,24 +449,29 @@ namespace Song.ServiceImpls
                     break;
                 //PostgreSQL
                 case DbProviderType.PostgreSQL:
-                    sql = @"SELECT
-                             indexname as name,
-	                         tablename, 
-	                         REPLACE(unnest(REGEXP_MATCHES(indexdef,'btree \(""(\w[^\)]+)')),'""','') as columnName,
-                             indexdef
-                        FROM pg_indexes 
-                        WHERE
-                            schemaname='public'
-                            AND tablename = '{{tablename}}'
-                            AND indexname NOT IN(
-                                SELECT constraint_name
-                                FROM information_schema.table_constraints
-                                WHERE table_name = '{{tablename}}'
-                                AND constraint_type = 'PRIMARY KEY'
-                            )
-                            --下面是，是否取聚集索引
-                           -- and indexdef NOT LIKE '%UNIQUE%'
-                            order by columnName; ";
+                    sql = @"SELECT 
+                                pi.indexname as name,
+                                pi.tablename,
+                                REPLACE(unnest(REGEXP_MATCHES(pi.indexdef,'btree \(""(\w[^\)]+)')),'""','') as columnName,
+                                pi.indexdef,
+                                COALESCE(ps.sizekb, 0) as sizekb
+                            FROM pg_indexes pi
+                            LEFT JOIN(
+                                SELECT
+                                    indexrelname as name,
+                                    pg_relation_size(indexrelid) / 1024 as sizekb
+                                FROM pg_stat_all_indexes
+                                WHERE relname = '{{tablename}}'
+                            ) ps ON pi.indexname = ps.name
+                            WHERE pi.schemaname = 'public'
+                                AND pi.tablename = '{{tablename}}'
+                                AND pi.indexname NOT IN(
+                                    SELECT constraint_name
+                                    FROM information_schema.table_constraints
+                                    WHERE table_name = '{{tablename}}'
+                                    AND constraint_type = 'PRIMARY KEY'
+                                )
+                            ORDER BY columnName; ";
                     break;
                 //SQLite
                 case DbProviderType.SQLite:
@@ -827,6 +832,40 @@ namespace Song.ServiceImpls
                     break;
             }
             return ScalarSql<int>(sql);
+        }
+
+        /// <summary>
+        /// 索引空间的总大小
+        /// </summary>
+        /// <returns>单位kb</returns>
+        public float IndexSize()
+        {
+            float size = 0;
+            if (Gateway.Default.DbType == DbProviderType.PostgreSQL)
+            {
+                string sql = "SELECT sum(pg_relation_size(indexrelid)/1024) as sizekb FROM pg_stat_all_indexes";
+                object obj = Gateway.Default.FromSql(sql).ToScalar();
+                size = obj == null ? 0 : Convert.ToSingle(obj);
+            }
+            if (Gateway.Default.DbType == DbProviderType.SQLServer)
+            {
+                string sql = @"SELECT 
+                            --SUM(ps.used_page_count) * 8 / 1024.0 AS TotalIndexSizeMB,
+                            SUM(ps.reserved_page_count) * 8 AS TotalIndexReservedKB
+                        FROM sys.dm_db_partition_stats ps
+                        INNER JOIN sys.indexes i ON ps.object_id = i.object_id AND ps.index_id = i.index_id
+                        WHERE i.index_id > 0;";
+                object obj = Gateway.Default.FromSql(sql).ToScalar();
+                size = obj == null ? 0 : Convert.ToSingle(obj);
+            }
+            if (Gateway.Default.DbType == DbProviderType.SQLite)
+            {
+                object pagecount = Gateway.Default.FromSql("PRAGMA page_count").ToScalar();
+                object pagesize = Gateway.Default.FromSql("PRAGMA page_size").ToScalar();
+                size = (pagecount == null ? 0 : Convert.ToSingle(pagecount)) * (pagesize == null ? 0 : Convert.ToSingle(pagesize));
+                size = size / 1024 / 1024;
+            }
+            return (float)Math.Floor(size * 100) / 100;
         }
         #endregion
 

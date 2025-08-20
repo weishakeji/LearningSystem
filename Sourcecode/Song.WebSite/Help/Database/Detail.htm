@@ -18,13 +18,20 @@
         <hr />
         <p>社区版采用 SQLite 数据库，初次部署默认就是 SQLite 数据库，无须安装与配置数据库连接，直接使用即可。</p>
         <p>商业版采用 Postgresql 数据库，需要安装部署，并在db.config中配置好连接信息。点击此处 <a href="https://www.postgresql.org/download/" target="_blank">下载Postgresql数据库</a></p>
-        <div class="tip">
-            当前数据库： <loading v-if="loading"></loading>
+        <div class="tip">           
+            <loading v-if="loading"></loading>
             <template v-else>
-                <template v-if="dbType!=''"><span class="dbtype" v-html="dbType"></span>
-                    <br />
+                <div v-if="dbType!=''" class="database">
+                    <span :class="dbType.toLowerCase()">
+                        <icon v-if="dbType=='SQLite'">&#xa05b</icon>
+                        <icon v-if="dbType=='PostgreSQL'">&#xa05d</icon>
+                        <icon v-if="dbType=='SQLServer'">&#xa05a</icon>                     
+                    
+                    <span class="dbtype" v-html="dbType"></span>
+                    </span><span class="dbname">({{dbName}})</span>
+                    <hr />
                     <span v-html="verison"></span>
-                </template>
+                </div>
                 <warning v-else>未检测到数据库</warning>
             </template>
         </div>
@@ -52,7 +59,11 @@
                     <icon slot="prefix" huge>&#xb006</icon>索引
                 </span>
             </el-statistic>
-
+            <el-statistic v-loading="loading.info"  group-separator="," title="索引空间" :value="indexsize">
+                <span slot="suffix">
+                    {{indexsizeunit}}
+                 </span>
+            </el-statistic>
         </section>
         <hr />
         <template v-if="tablecount>0">

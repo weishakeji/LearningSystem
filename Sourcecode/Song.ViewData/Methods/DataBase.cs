@@ -122,6 +122,11 @@ namespace Song.ViewData.Methods
             if (string.IsNullOrWhiteSpace(tablename)) return null;
             return Business.Do<IDataBase>().Indexs(tablename);  
         }
+        /// <summary>
+        /// 索引空间的总大小
+        /// </summary>
+        /// <returns>单位kb</returns>
+        public float IndexSize() => Business.Do<IDataBase>().IndexSize();
         #endregion
 
         #region 校验数据库

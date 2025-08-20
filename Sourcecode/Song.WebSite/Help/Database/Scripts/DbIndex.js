@@ -92,6 +92,23 @@ $ready([
                 }
                 return result;
             },
+            //显示占用空间
+            showsize: (size) => {
+                let unit = 'KB';
+                if (size > 1024) {
+                    size = (size / 1024).toFixed(2);
+                    unit = 'MB';
+                }
+                return '<span class="' + unit + '">' + size + '</span><span  class="' + unit + '">' + unit + '</span>';
+            },
+            //空间占用总数，仅限Postgresql
+            totalsize: function (indexs) {
+                let total = 0;
+                for (let item in indexs) total += Number(indexs[item].sizekb);
+                if (total > 1024) return  (total / 1024).toFixed(2) + ' MB';
+                return total.toFixed(0) + ' KB';
+            },
+
         },
         filters: {
 

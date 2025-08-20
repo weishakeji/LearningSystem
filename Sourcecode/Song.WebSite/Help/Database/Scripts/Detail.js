@@ -10,6 +10,9 @@ $ready(function () {
             tablecount: 0,    //表数量
             total: 0,        //总记录数
             size: 0,         //数据库大小，单位mb
+            indexsize: 0,    //索引占用的空间，单位kb
+            indexsizeunit: '',    //索引占用的空间单位
+
 
 
             fieldcount: 0,    //字段数量
@@ -19,7 +22,7 @@ $ready(function () {
             loadstate: {
                 def: false,        //初始化
                 get: false,         //默认
-                //index: false,         //获取索引
+                dbname: false,         //获取数据库名称
                 table: false,      //获取表数据
                 info: false          //获取详情
             }
@@ -56,6 +59,7 @@ $ready(function () {
                 $api.get('DataBase/DBMS').then(req => {
                     if (req.data.success) {
                         th.dbType = req.data.result;
+                        th.getDbname();
                     } else {
                         throw req.data.message;
                     }
@@ -75,6 +79,20 @@ $ready(function () {
                     }
                 }).catch(err => console.error(err))
                     .finally(() => th.loadstate.def = false);
+            },
+            //获取数据库名称
+            getDbname: function () {
+                var th = this;
+                th.loadstate.dbname = true;
+                $api.post('DataBase/DbName').then(function (req) {
+                    if (req.data.success) {
+                        th.dbName = req.data.result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.data.message;
+                    }
+                }).catch(err => th.dbName = '')
+                    .finally(() => th.loadstate.dbname = false);
             },
             //获取表数据
             gettables: function () {
@@ -103,15 +121,29 @@ $ready(function () {
                 $api.bat(
                     $api.get('DataBase/IndexTotal'),
                     $api.cache('DataBase/FieldTotal'),
-                    $api.post('DataBase/DbSize')
-                ).then(([idx, field, dbsize]) => {
+                    $api.post('DataBase/DbSize'),
+                    $api.get("DataBase/IndexSize")  //索引占用的空间，单位kb
+                ).then(([idx, field, dbsize, idxsize]) => {
                     th.indexcount = idx.data.result;
                     th.fieldcount = field.data.result;
                     let size = dbsize.data.result;
                     if (size > 1000) size = Math.floor(size);
                     th.size = size;
+                    //索引占用的空间，单位kb
+                    let indexsize = Number(idxsize.data.result);
+                    let indexvalue = th.showIndexSize(indexsize);
+                    th.indexsize = indexvalue.size;
+                    th.indexsizeunit = indexvalue.unit;
                 }).catch(err => console.error(err))
                     .finally(() => th.loading.info = false);
+            },
+            //计算显示索引空间的大小
+            showIndexSize: function (size) {
+                if (size < 1024) return { size: size, unit: 'Kb' };
+                size = Math.floor(size / 1024 * 100) / 100;
+                if (size < 1024) return { size: size, unit: 'Mb' };
+                size = Math.floor(size / 1024 * 100) / 100;
+                return { size: size, unit: 'Gb' };
             }
         },
         filters: {

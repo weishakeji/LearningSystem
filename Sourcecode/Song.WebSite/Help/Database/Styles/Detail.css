@@ -26,3 +26,27 @@ section.tabledata .el-statistic {
 .head icon, .head *{
     font-size: 18px;
 }
+/*数据库名称*/
+.database{
+    box-sizing: border-box;
+    padding: 10px 20px;
+}
+.database icon{
+    font-size: 35px;
+    line-height: 20px;
+    margin-right: 5px;
+}
+*.postgresql{
+    color: #326790;
+}
+*.sqlserver{
+    color: #cf1f21;
+}
+*.sqlite{
+    color: #00688f;
+}
+.dbname{
+    margin: 0px 10px;
+    font-size: 15px;
+    color: #777;
+}
