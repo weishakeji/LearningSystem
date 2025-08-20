@@ -67,7 +67,7 @@ $ready([
                             let result = req.data.result;
                             if (th.dbType == 'PostgreSQL') th.indexs = th.showcolumn(result);
                             else th.indexs = result;
-                            console.error(result);
+                            //console.error(result);
                         } else {
                             console.error(req.data.exception);
                             throw req.config.way + ' ' + req.data.message;

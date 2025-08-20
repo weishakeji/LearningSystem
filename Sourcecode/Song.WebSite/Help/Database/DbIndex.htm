@@ -79,8 +79,24 @@
                     </tbody>
                 </table>
             </div>
-            <div v-else>
-                <p>当前数据库不支持索引查询</p>
+            <div v-else-if="dbType=='SQLite'" class="entity_indexs">
+                <p>当前表共 {{indexs.length}} 个索引</p>
+                <table border="0">
+                    <thead>
+                        <tr>
+                            <th width="50px">序号</th>
+                            <th width="200px">索引名称</th>
+                                                          
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item,idx) in indexs">
+                            <td>{{idx+1}}</td>
+                            <td>{{item.name}}</td>
+                                            
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

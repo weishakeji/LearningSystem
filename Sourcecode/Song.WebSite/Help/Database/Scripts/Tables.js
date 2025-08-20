@@ -8,7 +8,7 @@ $ready([
             datas: {},       //所有实体
 
             search: '',      //搜索
-            properties: {},      //实体的属性
+            fields: {},      //表的字段
             details: {},         //实体的属性说明
             //编辑状态,临时数据
             states: {
@@ -70,10 +70,10 @@ $ready([
                 var th = this;
                 th.loadstate.init = true;
                 $api.bat(
-                    $api.get('Helper/EntityFields', { 'tablename': th.entity.name }), //获取字段（属性）
-                    $api.get('Helper/EntityDetails', { 'name': th.entity.name })  //字段说明
+                    $api.get('DataBase/Fields', { 'tablename': th.entity.name }), //获取字段（属性）
+                    $api.get('DataBase/FieldsDescr', { 'tablename': th.entity.name })  //字段说明
                 ).then(([field, detal]) => {
-                    th.properties = field.data.result;
+                    th.fields = field.data.result;
                     th.details = detal.data.result;
                     Vue.set(th.states, 'update', false);
                 }).catch(err => console.error(err))
@@ -121,7 +121,7 @@ $ready([
                     datas[key]['mark'] = this.datas[key]['mark'];
                     datas[key]['intro'] = this.datas[key]['intro'];
                 }
-                $api.post('Helper/EntitiesUpdate', { 'detail': datas }).then(function (req) {
+                $api.post('DataBase/TablesDescrUpdate', { 'detail': datas }).then(function (req) {
                     if (req.data.success) {
                         th.$notify({
                             title: '保存成功',
@@ -140,7 +140,7 @@ $ready([
             updateDetails: function () {
                 var th = this;
                 th.loading = true;
-                $api.post('Helper/EntityDetails', { 'name': th.entity.name, 'detail': th.details }).then(function (req) {
+                $api.post('DataBase/FieldsDescrUpdate', { 'tablename': th.entity.name, 'detail': th.details }).then(function (req) {
                     if (req.data.success) {
                         th.$notify({
                             title: '保存成功',

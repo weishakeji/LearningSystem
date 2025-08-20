@@ -55,7 +55,7 @@ window.vapp = new Vue({
         var th = this;
         th.loading = true;
         //实体信息的获取
-        $api.get("helper/Entities").then(function (req) {
+        $api.get("DataBase/TablesDescr").then(function (req) {
             if (req.data.success) {
                 th.entities = req.data.result;
                 for (var t in th.entities) {
@@ -77,7 +77,7 @@ window.vapp = new Vue({
         update: function () {
             var th = this;
             th.loading = true;
-            $api.post('Helper/EntitiesUpdate', { 'detail': this.entities }).then(function (req) {
+            $api.post('DataBase/TablesDescrUpdate', { 'detail': this.entities }).then(function (req) {
                 if (req.data.success) {
                     th.$notify({
                         title: '保存成功',
@@ -103,7 +103,7 @@ Vue.component('entity', {
     data: function () {
         return {
             search: '',
-            properties: {},      //实体的属性
+            fields: {},      //实体的属性
             details: {},         //实体的属性说明
             //编辑状态,临时数据
             states: {
@@ -145,10 +145,10 @@ Vue.component('entity', {
             this.loading = true;
             var th = this;
             $api.bat(
-                $api.get('Helper/EntityFields', { 'tablename': th.clname }), //获取字段（属性）
-                $api.get('Helper/EntityDetails', { 'name': th.clname })  //字段说明
+                $api.get('DataBase/Fields', { 'tablename': th.clname }), //获取字段（属性）
+                $api.get('DataBase/FieldsDescr', { 'tablename': th.clname })  //字段说明
             ).then(([field, detal]) => {
-                th.properties = field.data.result;
+                th.fields = field.data.result;
                 th.details = detal.data.result;
                 Vue.set(th.states, 'update', false);
             }).catch(err => console.error(err))
@@ -158,7 +158,7 @@ Vue.component('entity', {
         updateDetails: function () {
             var th = this;
             th.loading = true;
-            $api.post('Helper/EntityDetails', { 'name': this.clname, 'detail': this.details }).then(function (req) {
+            $api.post('DataBase/FieldsDescrUpdate', { 'tablename': this.clname, 'detail': this.details }).then(function (req) {
                 if (req.data.success) {
                     th.$notify({
                         title: '保存成功',
@@ -287,29 +287,29 @@ Vue.component('entity', {
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(v,k,i) in properties">
+                <tr v-for="(f,i) in fields">
                     <td>{{i+1}}</td>
-                    <td v-html="$options.filters.show(k,search)+(v.primary=='1' ? ' (主键)' : '')" @dblclick="copy(k)" title="双击复制" class="field"></td>
-                    <td>{{showtype(v.type,v.length)}}</td>
-                    <td>{{Number(v.nullable)==0 ? '' : '√'}}</td>
-                    <td @dblclick="edit(k+'.relation')" mark="关联">
-                        <span v-if="!state(k+'.relation')">{{text(k,'relation')}}</span>
-                        <select  v-if="state(k+'.relation')" :id="k+'.relation'"
-                            :value="text(k,'relation')" @blur="leave(k+'.relation')"
-                            @change="leave(k+'.relation')">
+                    <td v-html="$options.filters.show(f.name,search)+(f.primary=='1' ? ' (主键)' : '')" @dblclick="copy(f.name)" title="双击复制" class="field"></td>
+                    <td>{{showtype(f.type,f.length)}}</td>
+                    <td>{{Number(f.nullable)==0 ? '' : '√'}}</td>
+                    <td @dblclick="edit(f.name+'.relation')" mark="关联">
+                        <span v-if="!state(f.name+'.relation')">{{text(f.name,'relation')}}</span>
+                        <select  v-if="state(f.name+'.relation')" :id="f.name+'.relation'"
+                            :value="text(f.name,'relation')" @blur="leave(f.name+'.relation')"
+                            @change="leave(f.name+'.relation')">
                             <option value=""></option>
                             <option :value="key" v-for="(val,key,index) in datas">{{key}}</option>
                         </select>
                     </td >
-                    <td @dblclick="edit(k+'.mark')"  mark="备注">
-                        <span v-if="!state(k+'.mark')" v-html="$options.filters.show(text(k,'mark',true),search)"></span>
-                        <textarea rows="3" v-if="state(k+'.mark')" :id="k+'.mark'"
-                        :value="text(k,'mark')" @blur="leave(k+'.mark')"></textarea>
+                    <td @dblclick="edit(f.name+'.mark')"  mark="备注">
+                        <span v-if="!state(f.name+'.mark')" v-html="$options.filters.show(text(f.name,'mark',true),search)"></span>
+                        <textarea rows="3" v-if="state(f.name+'.mark')" :id="f.name+'.mark'"
+                        :value="text(f.name,'mark')" @blur="leave(f.name+'.mark')"></textarea>
                     </td>
-                    <td @dblclick="edit(k+'.intro')"  mark="说明">
-                        <span v-if="!state(k+'.intro')" v-html="$options.filters.show(text(k,'intro',true),search)"></span>
-                        <textarea rows="3" v-if="state(k+'.intro')" :id="k+'.intro'"
-                        :value="text(k,'intro')" @blur="leave(k+'.intro')"></textarea>
+                    <td @dblclick="edit(f.name+'.intro')"  mark="说明">
+                        <span v-if="!state(f.name+'.intro')" v-html="$options.filters.show(text(f.name,'intro',true),search)"></span>
+                        <textarea rows="3" v-if="state(f.name+'.intro')" :id="f.name+'.intro'"
+                        :value="text(f.name,'intro')" @blur="leave(f.name+'.intro')"></textarea>
                     </td>
                 </tr>
             </tbody>

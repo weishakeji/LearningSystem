@@ -51,31 +51,31 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(v,k,i) in properties">
+                        <tr v-for="(f,i) in fields">
                             <td>{{i+1}}</td>
-                            <td v-html="showsearch(k,search)+(v.primary=='1' ? ' (主键)' : '')"
-                                @dblclick="copy(k)" title="双击复制" class="field"></td>
-                            <td>{{v.type|type(v.length)}}</td>
-                            <td>{{Number(v.nullable)==0 ? '' : '✔'}}</td>
-                            <td @dblclick="edit(k+'.relation')" mark="关联">
-                                <span v-if="!state(k+'.relation')">{{text(k,'relation')}}</span>
-                                <select v-else :id="k+'.relation'" :value="text(k,'relation')"
-                                    @blur="leave(k+'.relation')" @change="leave(k+'.relation')">
+                            <td v-html="showsearch(f.name,search)+(f.primary=='1' ? ' (主键)' : '')"
+                                @dblclick="copy(f.name)" title="双击复制" class="field"></td>
+                            <td>{{f.type|type(f.length)}}</td>
+                            <td>{{Number(f.nullable)==0 ? '' : '✔'}}</td>
+                            <td @dblclick="edit(f.name+'.relation')" mark="关联">
+                                <span v-if="!state(f.name+'.relation')">{{text(f.name,'relation')}}</span>
+                                <select v-else :id="f.name+'.relation'" :value="text(f.name,'relation')"
+                                    @blur="leave(f.name+'.relation')" @change="leave(f.name+'.relation')">
                                     <option value=""></option>
                                     <option :value="key" v-for="(val,key,index) in datas">{{key}}</option>
                                 </select>
                             </td>
-                            <td @dblclick="edit(k+'.mark')" mark="备注">
-                                <span v-if="!state(k+'.mark')"
-                                    v-html="showsearch(text(k,'mark',true),search)"></span>
-                                <textarea rows="3" v-else :id="k+'.mark'" :value="text(k,'mark')"
-                                    @blur="leave(k+'.mark')"></textarea>
+                            <td @dblclick="edit(f.name+'.mark')" mark="备注">
+                                <span v-if="!state(f.name+'.mark')"
+                                    v-html="showsearch(text(f.name,'mark',true),search)"></span>
+                                <textarea rows="3" v-else :id="f.name+'.mark'" :value="text(f.name,'mark')"
+                                    @blur="leave(f.name+'.mark')"></textarea>
                             </td>
-                            <td @dblclick="edit(k+'.intro')" mark="说明">
-                                <span v-if="!state(k+'.intro')"
-                                    v-html="showsearch(text(k,'intro',true),search)"></span>
-                                <textarea rows="4" v-else :id="k+'.intro'" :value="text(k,'intro')"
-                                    @blur="leave(k+'.intro')"></textarea>
+                            <td @dblclick="edit(f.name+'.intro')" mark="说明">
+                                <span v-if="!state(f.name+'.intro')"
+                                    v-html="showsearch(text(f.name,'intro',true),search)"></span>
+                                <textarea rows="4" v-else :id="f.name+'.intro'" :value="text(f.name,'intro')"
+                                    @blur="leave(f.name+'.intro')"></textarea>
                             </td>
                         </tr>
                     </tbody>

@@ -45,7 +45,7 @@ Vue.component('entities', {
         getlist: function () {
             var th = this;
             th.loading = true;
-            $api.get('helper/Entities').then(req => {
+            $api.get('DataBase/TablesDescr').then(req => {
                 if (req.data.success) {
                     th.entities = req.data.result;
                     th.handleChange(th.index);
