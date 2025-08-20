@@ -37,6 +37,10 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public string DbName() => Business.Do<IDataBase>().DbName;
         /// <summary>
+        /// 数据库大小，单位MB
+        /// </summary>
+        public float DbSize() => Business.Do<IDataBase>().DbSize();
+        /// <summary>
         /// 数据库版本
         /// </summary>
         /// <returns></returns>

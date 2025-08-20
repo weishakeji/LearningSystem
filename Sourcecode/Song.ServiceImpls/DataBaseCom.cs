@@ -33,6 +33,32 @@ namespace Song.ServiceImpls
         /// </summary>
         public string DbName => Gateway.Default.DatabaseName();
         /// <summary>
+        /// 数据库大小，单位MB
+        /// </summary>
+        public float DbSize()
+        {
+            double size = 0;
+            if (Gateway.Default.DbType == DbProviderType.PostgreSQL)
+            {
+                string sql = $"SELECT pg_database_size('{DbName}') / (1024.0 * 1024.0) AS size_mb;";
+                object obj = Gateway.Default.FromSql(sql).ToScalar();
+                size = obj == null ? 0 : Convert.ToSingle(obj);             
+            }
+            if (Gateway.Default.DbType == DbProviderType.SQLServer)
+            {
+                string sql = $"SELECT CAST(SUM(size * 8.0 / 1024) AS DECIMAL(20,2)) FROM sys.master_files where name='{DbName}' GROUP BY name";
+                object obj = Gateway.Default.FromSql(sql).ToScalar();
+                size = obj == null ? 0 : Convert.ToSingle(obj);
+            }
+            if (Gateway.Default.DbType == DbProviderType.SQLite)
+            {
+                string dbfile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data", DbName);
+                long fileSize = new FileInfo(dbfile).Length;
+                size = fileSize / (1024.0 * 1024.0);
+            }
+            return (float)Math.Floor(size * 100) / 100;
+        }
+        /// <summary>
         /// 检查数据库连接是否正确
         /// </summary>
         public bool CheckConnection() => Gateway.Default.IsCorrect;

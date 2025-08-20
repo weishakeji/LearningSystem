@@ -25,6 +25,10 @@ namespace Song.ServiceInterfaces
         /// </summary>
         string DbName { get; }
         /// <summary>
+        /// 数据库大小，单位MB
+        /// </summary>
+        float DbSize();
+        /// <summary>
         /// 检查数据库连接是否正确
         /// </summary>
         bool CheckConnection();

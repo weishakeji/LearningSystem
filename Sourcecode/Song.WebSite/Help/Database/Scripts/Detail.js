@@ -7,27 +7,28 @@ $ready(function () {
             verison: '',    //数据库版本
 
             tables: [],      //数据库表
-            tablecount:0,    //表数量
-            total:0,        //总记录数
+            tablecount: 0,    //表数量
+            total: 0,        //总记录数
+            size: 0,         //数据库大小，单位mb
 
-            fieldcount:0,    //字段数量
-            indexcount:0,    //索引数量
+
+            fieldcount: 0,    //字段数量
+            indexcount: 0,    //索引数量
 
 
             loadstate: {
                 def: false,        //初始化
                 get: false,         //默认
-                index: false,         //获取索引
+                //index: false,         //获取索引
                 table: false,      //获取表数据
-                field: false          //获取字段数
+                info: false          //获取详情
             }
         },
         mounted: function () {
             this.getdbtype();
             this.getdbversion();
             this.gettables();
-            this.getfield();
-            this.getindex();
+            this.getdbinfo();
 
         },
         created: function () {
@@ -77,8 +78,8 @@ $ready(function () {
             },
             //获取表数据
             gettables: function () {
-                var th=this;
-                th.loading.table=true;
+                var th = this;
+                th.loading.table = true;
                 $api.get("DataBase/TableCount").then(req => {
                     if (req.data.success) {
                         th.tables = req.data.result;
@@ -86,43 +87,31 @@ $ready(function () {
                         for (let key in th.tables) {
                             total += th.tables[key];
                             th.tablecount++;
-
                         }
-                        th.total=total;
+                        th.total = total;
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(err => console.error(err))
-                    .finally(() =>th.loading.table=false);
+                    .finally(() => th.loading.table = false);
             },
-            //获取字段
-            getfield:function(){
-                var th=this;
-                th.loading.field=true;
-                $api.get("DataBase/FieldTotal").then(req => {
-                    if (req.data.success) {
-                        th.fieldcount = req.data.result;                        
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.config.way + ' ' + req.data.message;
-                    }
+            //获取数据库信息
+            getdbinfo: function () {
+                var th = this;
+                th.loading.info = true;
+                $api.bat(
+                    $api.get('DataBase/IndexTotal'),
+                    $api.cache('DataBase/FieldTotal'),
+                    $api.post('DataBase/DbSize')
+                ).then(([idx, field, dbsize]) => {
+                    th.indexcount = idx.data.result;
+                    th.fieldcount = field.data.result;
+                    let size = dbsize.data.result;
+                    if (size > 1000) size = Math.floor(size);
+                    th.size = size;
                 }).catch(err => console.error(err))
-                    .finally(() =>th.loading.field=false);
-            },
-             //获取索引
-             getindex:function(){
-                var th=this;
-                th.loading.index=true;
-                $api.get("DataBase/IndexTotal").then(req => {
-                    if (req.data.success) {
-                        th.indexcount = req.data.result;                                          
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.config.way + ' ' + req.data.message;
-                    }
-                }).catch(err => console.error(err))
-                    .finally(() =>th.loading.index=false);
+                    .finally(() => th.loading.info = false);
             }
         },
         filters: {

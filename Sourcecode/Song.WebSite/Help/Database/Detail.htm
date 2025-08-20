@@ -30,19 +30,24 @@
         </div>
         <hr />
         <section class="datainfo">
-            <el-statistic v-loading="loading.table" group-separator="," :value="total" title="总记录数">
+            <el-statistic v-loading="loading.table" group-separator="," :value="total" title="总记录数">               
+            </el-statistic>
+            <el-statistic v-loading="loading.table" group-separator="," :value="size" title="占用空间">
+                <span slot="suffix">
+                    Mb
+                 </span>
             </el-statistic>
             <el-statistic v-loading="loading.table" :value="tablecount" title="表">
                 <span slot="title">
                     <icon slot="prefix">&#xa02c</icon>表
                 </span>
             </el-statistic>
-            <el-statistic v-loading="loading.field" :value="fieldcount" title="字段">
+            <el-statistic v-loading="loading.info" :value="fieldcount" title="字段">
                 <span slot="title">
                     <icon slot="prefix" large>&#xe6cb</icon>字段
                 </span>
             </el-statistic>
-            <el-statistic v-loading="loading.index" :value="indexcount">
+            <el-statistic v-loading="loading.info" :value="indexcount">
                 <span slot="title">
                     <icon slot="prefix" huge>&#xb006</icon>索引
                 </span>
