@@ -61,12 +61,13 @@ $ready([
             getIndexs: function () {
                 var th = this;
                 th.loading.get = true;
-                $api.get("Helper/EntityIndexs", { "tablename": th.entity.name })
+                $api.get("DataBase/Indexs", { "tablename": th.entity.name })
                     .then(req => {
                         if (req.data.success) {
                             let result = req.data.result;
-                            th.indexs = th.showcolumn(result);
-                            //console.error(th.indexs);
+                            if (th.dbType == 'PostgreSQL') th.indexs = th.showcolumn(result);
+                            else th.indexs = result;
+                            console.error(result);
                         } else {
                             console.error(req.data.exception);
                             throw req.config.way + ' ' + req.data.message;

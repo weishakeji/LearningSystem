@@ -23,3 +23,6 @@ section.tabledata .el-statistic {
     margin-top: 0px;
     margin-bottom: 50px;
 }
+.head icon, .head *{
+    font-size: 18px;
+}

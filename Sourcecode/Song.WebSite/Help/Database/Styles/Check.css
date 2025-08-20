@@ -58,3 +58,7 @@ section {
 .errorfields .el-tag {
     font-size: 17px;
 }
+.btnclear{
+    margin-left: 20px;
+    font-size: 15px;
+}

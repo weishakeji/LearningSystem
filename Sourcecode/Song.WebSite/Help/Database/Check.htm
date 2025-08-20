@@ -17,6 +17,7 @@
                     检测表与字段的完整性</el-button>
                 <el-button type="success" :disabled="loading" plain @click="checkRedundancy">检测结构冗余</el-button>
                 <el-button type="warning" :disabled="loading" plain @click="checkCorrect">校验数据类型</el-button>
+                <el-link type="info" @click="checkState=''" v-if="checkState!=''" class="btnclear">清作检测结果</el-link>
             </div>
             <loading v-if="loading"></loading>
             <div class="database" v-else>

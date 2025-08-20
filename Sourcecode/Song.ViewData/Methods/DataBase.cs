@@ -99,7 +99,17 @@ namespace Song.ViewData.Methods
             }
             return jobj;
         }
-       
+        /// <summary>
+        /// 获取某个实体的数据库索引
+        /// </summary>
+        /// <param name="tablename">数据库表名，这里指对应的实体名称</param>
+        /// <returns></returns>
+        [Localhost]
+        public DataTable Indexs(string tablename)
+        {
+            if (string.IsNullOrWhiteSpace(tablename)) return null;
+            return Business.Do<IDataBase>().Indexs(tablename);  
+        }
         #endregion
 
         #region 校验数据库

@@ -24,42 +24,64 @@
                     <span>说明：<span v-html="entity.intro"></span>
                 </div>
             </div>
-            <p v-if="dbType!='PostgreSQL'">
-                <warning>
-                    仅支持PostgreSQL数据库的索引查询
-                </warning>
-            </p>
-            <template v-else>
-                <loading v-if="loading"> loading ...</loading>
-                <div v-else class="entity_indexs">
-                    <p>当前表共 {{indexs.length}} 个索引</p>
+            <loading v-if="loading"> loading ...</loading>
+            <div v-else-if="dbType=='PostgreSQL'" class="entity_indexs">
+                <p>当前表共 {{indexs.length}} 个索引</p>
+                <table border="0">
+                    <thead>
+                        <tr>
+                            <th width="50px">序号</th>
+                            <th width="200px">索引名称</th>
+                            <th class="columns">字段</th>
+                            <th>脚本</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item,idx) in indexs">
+                            <td>{{idx+1}}</td>
+                            <td>{{item.name}}</td>
+                            <td class="columns">
+                                <div v-for="(col,idx) in item.columnname">
+                                    {{col.column}} <el-tag type="danger" v-if="col.sort=='ASC'"> {{col.sort}}</el-tag>
+                                    <el-tag type="warning" v-else> {{col.sort}}</el-tag>
+                                </div>
 
-                    <table border="0" v-if="dbType=='PostgreSQL'">
-                        <thead>
-                            <tr>
-                                <th width="50px">序号</th>
-                                <th width="200px">索引名称</th>
-                                <th class="columns">字段</th>
-                                <th>脚本</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(item,idx) in indexs">
-                                <td>{{idx+1}}</td>
-                                <td>{{item.name}}</td>
-                                <td class="columns">
-                                    <div v-for="(col,idx) in item.columnname">
-                                        {{col.column}} <el-tag type="danger" v-if="col.sort=='ASC'"> {{col.sort}}</el-tag>
-                                        <el-tag type="warning" v-else> {{col.sort}}</el-tag>
-                                    </div>
-                                
-                                </td>
-                                <td>{{item.indexdef}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </template>
+                            </td>
+                            <td>{{item.indexdef}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div v-else-if="dbType=='SQLServer'" class="entity_indexs">
+                <p>当前表共 {{indexs.length}} 个索引</p>
+                <table border="0">
+                    <thead>
+                        <tr>
+                            <th width="50px">序号</th>
+                            <th width="200px">索引名称</th>
+                            <th class="columns">字段</th>  
+                            <th class="columns">索引类型</th>                                   
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item,idx) in indexs">
+                            <td>{{idx+1}}</td>
+                            <td>{{item.name}}</td>
+                            <td class="columns">
+                                <div>
+                                    {{item.columnName}} 
+                                    <el-tag type="danger" v-if="item.IsDescending">ASC</el-tag>
+                                    <el-tag type="warning" v-else>DESC</el-tag>
+                                </div>
+                            </td>     
+                            <td>{{item.IndexType}}</td>                     
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div v-else>
+                <p>当前数据库不支持索引查询</p>
+            </div>
         </div>
     </div>
 </body>

@@ -33,7 +33,7 @@ a {
     text-decoration: underline;
 }
 
-* {
+p,div {
     font-size: 18px;
 }
 

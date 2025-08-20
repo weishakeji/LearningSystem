@@ -404,7 +404,7 @@ namespace Song.ServiceImpls
                 //SQLServer
                 case DbProviderType.SQLServer:
                     sql = @"SELECT
-                        i.name AS IndexName,                --索引的名称
+                        i.name,                --索引的名称
                         OBJECT_NAME(i.object_id) AS tablename,
                         c.name AS columnName,               --索引的列
                         is_nullable as nullable,            --是否可以为空
