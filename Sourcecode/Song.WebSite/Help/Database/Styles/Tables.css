@@ -5,9 +5,11 @@ html, body, #vapp {
     margin: 0px;
     overflow: hidden;
 }
-p{
+
+p {
     text-indent: 0px;
 }
+
 #vapp[v-cloak] {
     display: none;
 }
@@ -31,22 +33,33 @@ p{
     padding: 0px 0px 10px 0px;
     box-sizing: border-box;
 }
-.entity_header .name{
+
+.entity_header .name {
     display: flex;
     justify-content: space-between;
     white-space: nowrap;
+    font-size: 18px;
+}
+.entity_header .name>*{
+    line-height: 50px;
 }
 .entity_header .mark {
     margin: 0px 10px;
     cursor: pointer;
     font-size: 16px;
     color: #777;
-    line-height: 200%;
+    line-height: 50px;
 }
-.entity_header .query{
+
+.entity_header .el-input__inner {
+    height: 30px;
+}
+
+.entity_header .query {
     width: 160px;
     margin-left: auto;
 }
+
 .entity_header textarea {
     box-sizing: border-box;
     background-color: transparent;
@@ -54,13 +67,14 @@ p{
 }
 
 /*表结构的字段详情*/
-.entity_details{
+.entity_details {
     overflow-y: auto;
     overflow-x: hidden;
     box-sizing: border-box;
     padding-right: 10px;
     position: relative;
 }
+
 table {
     width: 100%;
     background-color: #ddd;
@@ -95,6 +109,7 @@ table td textarea {
     padding: 0px;
     overflow: auto;
 }
+
 table td select {
     width: 100%;
 }
@@ -112,9 +127,11 @@ table tr td:nth-child(2), table tr th:nth-child(2) {
     text-indent: 8px;
     text-align: left;
 }
+
 table tr td:nth-child(3), table tr th:nth-child(3) {
     width: 120px;
 }
+
 table tr td:nth-child(6) {
     line-height: 1.2rem;
     padding: 0px 10px;

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head resource>
+    <meta charset="utf-8">
+    <meta view="Index" page="/Help/Iconfont/Index.htm" />
+    <title>图标</title>
+    <script type="text/javascript" src="/Utilities/Scripts/webdom.js"></script>
+    <script type="text/javascript" src="../Scripts/core.js"></script>
+</head>
+<body>
+    <div id="vapp" v-cloak>
+        <el-tabs v-model="activeName">
+            <el-tab-pane v-for="item in menus" :name="item.tag">
+                <span slot="label">
+                    <icon v-html="'&#x'+item.icon" v-bind:[item.size]="true"></icon>
+                    <span v-html='item.name'></span>
+                </span>
+            </el-tab-pane>
+        </el-tabs>
+        <iframe v-for="item in menus" :src="item.src" v-show="item.tag==activeName" frameborder="0"
+            allowtransparency="true"></iframe>
+    </div>
+</body>
+
+</html>

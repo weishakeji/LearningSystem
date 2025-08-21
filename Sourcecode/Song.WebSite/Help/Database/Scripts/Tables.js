@@ -129,7 +129,7 @@ $ready([
                             type: 'success'
                         });
                     } else {
-                        throw + req.data.message;
+                        throw req.data.message;
                     }
                 }).catch(function (err) {
                     th.$alert(err, '保存更新失败', { type: 'error' });
