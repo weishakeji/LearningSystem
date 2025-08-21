@@ -340,7 +340,7 @@ namespace Song.ServiceImpls
                     sql = @"SELECT column_name as name FROM information_schema.columns WHERE table_name = '{{tablename}}'  order by column_name";
                     break;
                 case DbProviderType.SQLite:
-                    sql = @"PRAGMA table_info('{{tablename}}')";
+                    sql = @"SELECT name FROM pragma_table_info('{{tablename}}') ORDER BY name; ";
                     break;
             }
             sql = sql.Replace("{{tablename}}", tablename.Trim());
