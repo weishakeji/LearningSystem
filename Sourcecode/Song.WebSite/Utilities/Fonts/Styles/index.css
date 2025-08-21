@@ -67,7 +67,7 @@ body {
 
 header {
     padding: 10px;
-    font-size: 25px;
+    font-size: 15px;
     display: flex;
     position: relative;
     box-sizing: border-box;
@@ -127,7 +127,6 @@ li.selected i.icon {
 }
 
 .iconfont-list {
-    border-top: solid 1px #ccc;
     margin-top: 10px;
     padding-top: 20px;
     width: 100%;
