@@ -283,7 +283,12 @@
     <Content Include="Help\Database\Field.htm" />
     <Content Include="Help\Database\Images\1.png" />
     <Content Include="Help\Database\Images\2.png" />
+    <Content Include="Help\Database\Images\Dbconvert01.jpg" />
+    <Content Include="Help\Database\Images\Dbconvert02.jpg" />
+    <Content Include="Help\Database\Images\Dbconvert03.jpg" />
+    <Content Include="Help\Database\Images\Dbconvert04.jpg" />
     <Content Include="Help\Database\Index.htm" />
+    <Content Include="Help\Database\Migration.htm" />
     <Content Include="Help\Database\Other.htm" />
     <Content Include="Help\Database\Scripts\Check.js" />
     <Content Include="Help\Database\Scripts\DbIndex.js" />
@@ -292,6 +297,7 @@
     <Content Include="Help\Database\Scripts\Export.js" />
     <Content Include="Help\Database\Scripts\Field.js" />
     <Content Include="Help\Database\Scripts\Index.js" />
+    <Content Include="Help\Database\Scripts\Migration.js" />
     <Content Include="Help\Database\Scripts\Other.js" />
     <Content Include="Help\Database\Scripts\Tables.js" />
     <Content Include="Help\Database\Scripts\UpgradeSql.js" />
@@ -301,6 +307,7 @@
     <Content Include="Help\Database\Styles\Entity.css" />
     <Content Include="Help\Database\Styles\Field.css" />
     <Content Include="Help\Database\Styles\index.css" />
+    <Content Include="Help\Database\Styles\Migration.css" />
     <Content Include="Help\Database\Styles\Tables.css" />
     <Content Include="Help\Database\Styles\UpgradeSql.css" />
     <Content Include="Help\Database\Tables.htm" />
