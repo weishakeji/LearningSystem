@@ -12,28 +12,18 @@
 
 <body>
       <h1>ViewData RESTful API 接口方法使用说明</h1>
-      <div id="vapp" v-cloak>
-            <el-tabs v-model="activeName">
-                  <el-tab-pane name="first"><span slot="label"><icon help large></icon>说明</span></el-tab-pane>
-                  <el-tab-pane name="second"><span slot="label"><icon large>&#xa01c</icon>API 接口查询</span></el-tab-pane>
-                  <el-tab-pane name="third"><span slot="label"><icon large>&#xe73e</icon>导出</span></el-tab-pane>
-
-            </el-tabs>
-           <iframe src="Explain.htm" v-show="activeName=='first'" frameborder="0" allowtransparency="true"></iframe>
-           <iframe src="APIList.htm" v-show="activeName=='second'" frameborder="0" allowtransparency="true"></iframe>
-           <div  v-show="activeName=='third'" remark="导出"> 
-            <p>
-            导出所有API为word文档
-            </p>
-            <p>
-                一般情况下无须导出接口，在线查看即可。曾经遇到甲方要求提供接口文档，用于项目验收，所以写了这个功能。
-            </p>
-           
-            <alert>导出word文件的代码已经写了，不过这里还没有实现界面操作，后续会继续实现。</alert>
-            <hr/>
-            <warning>注意：只能在本机localhost下，且管理员登录状态，才能导出。</warning>
-           </div>
-      </div>
-</body>
+      
+    <div id="vapp" v-cloak>
+      <el-tabs v-model="activeName">
+          <el-tab-pane v-for="item in menus" :name="item.tag">
+              <span slot="label">
+                  <icon v-html="'&#x'+item.icon" v-bind:[item.size]="true"></icon>
+                  <span v-html='item.name'></span>
+              </span>
+          </el-tab-pane>
+      </el-tabs>
+      <iframe v-for="item in menus" :src="item.tag+'.htm'" v-show="item.tag==activeName" frameborder="0"
+          allowtransparency="true"></iframe>
+  </div>
 
 </html>

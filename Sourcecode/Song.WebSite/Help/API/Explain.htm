@@ -14,17 +14,23 @@
 
     <card shadow="hover">
         <card-title>
-            <icon large>&#xa023</icon><b>接口的单独访问</b>
+            <icon large>&#xa023</icon>接口调用 - 前端Web页面
         </card-title>
         <card-content>
-        <p>$api封装了Axion.js的核心方法，可以直接访问接口，返回Promise对象。</p>
-        <p>常用的方法包含了$api.get、$api.post、$api.delete、$api.cache、$api.put。</p>
-        <p>一般情况下，$api.get用于读数据；$api.post用于接收数据，例如提交表单、上传文件等；$api.delete用于删除数据。
-            $api.cache用于缓存数据，采IndexedDb实现，默认缓存10分钟，有效期内直接取浏览器本地数据，不会访问网络；
-            $api.put用于强制更新缓存数据，如果有服务器端缓存，也会同步更新。
+            <p>$api.js封装了Axion.js的核心方法，可以直接访问接口，返回Promise对象。常用的方法包含了$api.get、$api.post、$api.delete、$api.cache、$api.put。
+                不过最终网络请求只有HTTP GET与HTTP
+                POST两种方法，其它方法都是基于这两种方法包装后实现的。其目的一方面是为了遵循RESTful接口规范，一方面考虑到很多云服务器禁止了除GET与POST之外的请求。
 
-        </p>
-
+            </p>
+            <dl class="intro">
+                <dt>说明如下：</dt>
+                <dd>$api.get用于读数据；</dd>
+                <dd>$api.post用于向服务器提交数据，例如提交表单、上传文件等；</dd>
+                <dd>$api.delete用于删除数据；</dd>
+                <dd>$api.cache用于缓存数据，采IndexedDb实现，默认缓存10分钟，有效期内直接取浏览器本地数据，不再访问网络；</dd>
+                <dd>$api.put用于强制更新缓存数据，如果有服务器端缓存，也会同步更新。</dd>
+            </dl>
+            <p>下面是以获取当前登录账号的代码为例，无须参数。</p>
             <pre class="line-numbers"><code class="language-javascript">
     $api.get('Account/Current').then(req=>{
         if(req.data.success){
@@ -36,17 +42,66 @@
     }).catch(err=>console.error(err))
         .finally(()=>{}); 
         </code></pre>
+            <p>以下是按账号查询账号为例，带参数调用API。</p>
+            <pre class="line-numbers"><code class="language-javascript">
+    $api.get("Account/ForAcc", {"acc":"tester"})
+    .then(req=>{
+        if(req.data.success){
+            let result=req.data.result;
+            //...业务代码
+        }else{
+            console.error(req.data.exception);
+            throw req.config.way + ' ' + req.data.message;
+        }
+    }).catch(err=>console.error(err))
+        .finally(()=>{});
+    </code></pre>
+            <p>分页数据获取，以下是以课程分页数据获取为例</p>
+
+            <pre class="line-numbers"><code class="language-javascript">
+    $api.get("Course/Pager", {...,"size":10,"index":1})
+    .then(req=>{
+        if(req.data.success){
+            //分页数据
+            let result=req.data.result;
+            //总页数
+            let totalpages = Number(d.data.totalpages);
+            //总记录数
+            let total = d.data.total;
+        }else{
+            console.error(req.data.exception);
+            throw req.config.way + ' ' + req.data.message;
+        }
+    }).catch(err=>console.error(err))
+        .finally(()=>{});
+            </code></pre>
+
+            <p>以下的接口缓存的使用。</p>
+            <pre class="line-numbers"><code class="language-javascript">   
+        //缓存20分钟，数值可以为空，默认是10分钟
+        $api.cache('News/Article:20',{ 'id': 225 }).then(req=>{
+            if(req.data.success){
+                let result=req.data.result;
+                //...
+            }else{
+                throw req.data.message;
+            }
+        }).catch(err=>console.error(err))
+            .finally(()=>{});
+        
+ </code></pre>
+
         </card-content>
     </card>
     <!--  批量访问 -->
     <card shadow="hover">
         <card-title>
-            <icon large>&#xa04d</icon><b>批量访问接口</b>
+            <icon large>&#xa04d</icon>批量访问接口
         </card-title>
         <card-content>
-        <p>$api.bat方法同样是封装自Axion.js，可以同时调用多个接口，统一返回。</p>
-        <p>在调用过程中，如果一个接口失败或异常，会导致整个批量请求队列失败。</p>
-        <pre class="line-numbers"><code class="language-javascript">   
+            <p>$api.bat方法同样是封装自Axion.js，可以同时调用多个接口，统一返回。</p>
+            <p>在调用过程中，如果一个接口失败或异常，会导致整个批量请求队列失败。</p>
+            <pre class="line-numbers"><code class="language-javascript">   
     $api.bat(
         $api.get('Account/Current'),
         $api.cache('Question/Types:9999'),
@@ -60,49 +115,10 @@
             </code></pre>
         </card-content>
     </card>
-  <!--  缓存 -->
-  <card shadow="hover">
-    <card-title>
-        <icon large>&#xa01b</icon><b>浏览器本地缓存</b>
-    </card-title>
-    <card-content>
-        <p>采用浏览器本地数据库(IndexedDB)存储接口数据，当接口与参数相同的$api.cache请求，在限定时效内将不再请求网络。</p>
-        <p>如果缓存不存在，则自动取服务器端的数据，则$api.cache等同于$api.get方法。</p>
-        <p>只有接口支持HttpGET方法时，才可以在前端使用$api.cache请求，HttpPost、HttpDelete不支持$api.cache请求。</p>
-        <pre class="line-numbers"><code class="language-javascript">   
-    //缓存20分钟，数值可以为空，默认是10分钟
-    $api.cache('News/Article:20',{ 'id': 225 }).then(req=>{
-        if(req.data.success){
-            let result=req.data.result;
-            //...
-        }else{
-            throw req.data.message;
-        }
-    }).catch(err=>console.error(err))
-        .finally(()=>{});
-            
-     </code></pre>
-          <p>缓存的更新</p>  
-            <pre class="line-numbers"><code class="language-javascript">
-    //更新缓存
-    $api.cache('News/Article:update',{'id':'1'});
-    //清除缓存
-    $api.cache('News/Article:clear',{'id':'1'});
-    //强制缓存20分钟 （当禁用缓存时，通过加号，强制使用缓存）
-    $api.cache('News/Article:+20',{'id':'1'});
-            </code></pre>
 
-            <p>缓存的清理与重置</p>  
-            <pre class="line-numbers"><code class="language-javascript">  
-    //清理过期缓存，包括被强制缓存的数据
-    $api.api_cache.clear();
-    //清除所有缓存，包括被强制缓存的数据
-    $api.api_cache.reset();
-    </code></pre>
-    </card-content>
-    </card>
+    <p>&nbsp;</p>
+
  
-    
 </body>
 
 </html>

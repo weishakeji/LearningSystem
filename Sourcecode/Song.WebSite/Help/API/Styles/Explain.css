@@ -1,3 +1,33 @@
-﻿p {
+﻿html, body, #vapp {
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+
+p {
     font-size: 18px;
+
+}
+
+card-title {
+    font-size: 20px;
+}
+
+dl.intro {
+    padding: 0px;
+    margin: 0px;
+    counter-reset: custom-counter;
+}
+dl.intro>*{
+    padding-left: 30px;
+}
+dl.intro dd {
+    counter-increment: custom-counter;
+}
+
+dl.intro dd::before {
+    content: counter(custom-counter) ".";
+    margin-right: 10px;
 }

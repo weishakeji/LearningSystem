@@ -3,6 +3,9 @@ body {
     overflow: auto;
     box-sizing: border-box;
 }
+*{
+    font-family: "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+}
 *[v-cloak] {
     display: none;
 }

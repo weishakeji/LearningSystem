@@ -93,8 +93,8 @@ $ready([
                     $dom('.' + attr).find('input,textarea').focus();
                 });
                 window.setTimeout(function () {
-                    let el=document.getElementById(attr);
-                    if(el) el.focus();
+                    let el = document.getElementById(attr);
+                    if (el) el.focus();
                 }, 200);
             },
             //退出编辑状态
@@ -129,10 +129,11 @@ $ready([
                             type: 'success'
                         });
                     } else {
-                        throw req.data.message;
+                        throw + req.data.message;
                     }
                 }).catch(function (err) {
-                    th.$alert(err);
+                    th.$alert(err, '保存更新失败', { type: 'error' });
+
                     console.error(err);
                 }).finally(() => th.loading = false);
             },
@@ -147,13 +148,14 @@ $ready([
                             message: '描述信息保存成功！',
                             type: 'success'
                         });
-                        Vue.set(th.states, 'update', false);
-
+                        th.$set(th.states, 'update', false);
                     } else {
                         throw req.data.message;
                     }
-                }).catch(err => console.error(err))
-                    .finally(() => th.loading = false);
+                }).catch(function (err) {
+                    th.$alert(err, '保存更新失败', { type: 'error' });
+                    console.error(err);
+                }).finally(() => th.loading = false);
             },
             //复制到粘贴板
             copy: function (val) {
