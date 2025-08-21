@@ -339,6 +339,9 @@
     <Content Include="Help\Documents\Scripts\Public.js" />
     <Content Include="Help\Documents\Styles\Index.css" />
     <Content Include="Help\Documents\Styles\Public.css" />
+    <Content Include="Help\Iconfont\Index.htm" />
+    <Content Include="Help\Iconfont\Scripts\Index.js" />
+    <Content Include="Help\Iconfont\Styles\Index.css" />
     <Content Include="Help\Images\help.ico" />
     <Content Include="Help\Index.html" />
     <Content Include="Help\Images\api.ico" />
