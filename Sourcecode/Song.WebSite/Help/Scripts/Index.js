@@ -8,12 +8,8 @@ window.vapp = new Vue({
         //color节点：颜色，f前景色，b背景色
         menus: [
             {
-                name: '系统简述', type: 'node', hot: false, url: 'Contents/Overview.html',
-                icon: { i: 'a051', s: 26, l: 0, t: -2 }, color: { f: '67C23A', b: '' }
-            },
-            {
-                name: '使用教程', type: 'node', hot: false, url: 'Contents/Tutorials.html',
-                icon: { i: 'a026', s: 23, l: 0, t: 0 }, color: { f: '', b: '' }
+                name: '产品介绍', type: 'node', hot: false, url: 'Contents/Overview.html',
+                icon: { i: 'a051', s: 24, l: 0, t: 2 }, color: { f: '67C23A', b: '' }
             },
             { type: 'line' },
             {
@@ -29,29 +25,36 @@ window.vapp = new Vue({
                 icon: { i: 'a030', s: 20, l: 3, t: 1 }, color: { f: 'rgba(251, 118, 118,1)', b: '' }
             },
             { type: 'line' },
+
             {
-                name: '源代码说明', type: 'node', url: 'Contents/Sourcecode.html',
-                icon: { i: 'a034', s: 22, l: 0, t: 0 }, color: { f: '', b: '' }
-            },
-            {
-                name: '视图模版', type: 'node', url: 'Contents/Templates.html',
+                name: '页面视图', type: 'node', url: 'Contents/Templates.html',
                 icon: { i: 'a033', s: 23, l: 0, t: 0 }, color: { f: '', b: '' }
             },
             {
                 name: 'RESTful API', type: 'node', url: 'api/Index.htm',
-                icon: { i: 'a01c', s: 22, l: 0, t: 0 }, color: { f: '', b: '' }
-            },           
-            {
-                name: '数据库', type: 'node', url: 'database/index.htm',
-                icon: { i: 'e6a4', s: 23, l: 0, t: 0 }, color: { f: '', b: '' }
-            },           
+                icon: { i: 'a01c', s: 22, l: 0, t: 2 }, color: { f: '', b: '' }
+            },
+
             {
                 name: '图标库', type: 'node', url: 'iconfont/index.htm',
                 icon: { i: 'a007', s: 29, l: -4, t: -2 }, color: { f: '', b: '' }
             },
             {
                 name: 'WebdeskUI', type: 'node', url: 'Webdeskui/index.html',
-                icon: { i: 'a010', s: 22, l: 0, t: 0 }, color: { f: '', b: '' }
+                icon: { i: 'a010', s: 22, l: 1, t: 1 }, color: { f: '', b: '' }
+            },
+            { type: 'line' },
+            {
+                name: '源代码说明', type: 'node', url: 'Contents/Sourcecode.html',
+                icon: { i: 'a034', s: 22, l: 0, t: 0 }, color: { f: '', b: '' }
+            },
+            {
+                name: '数据库', type: 'node', url: 'database/index.htm',
+                icon: { i: 'e6a4', s: 22, l: 0, t: 2 }, color: { f: '', b: '' }
+            },
+            {
+                name: 'ORM框架', type: 'node', url: 'Contents/Templates.html',
+                icon: { i: 'e820', s: 27, l: 2, t: 2 }, color: { f: '', b: '' }
             },
             { type: 'line' },
             {

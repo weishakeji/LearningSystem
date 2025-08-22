@@ -30,7 +30,9 @@ html, body, #vapp {
 	overflow: hidden;
 }
 
-
+*{
+    font-family: "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+}
 
 #vapp {
 	position: relative;

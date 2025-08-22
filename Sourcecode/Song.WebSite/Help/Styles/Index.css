@@ -88,7 +88,7 @@ a[href] {
 }
 
 a[href]:hover {
-    --text-decoration: underline;
+    text-decoration: underline;
 }
 
 a icon {
@@ -143,6 +143,10 @@ header *[copyright=tel] {
     color: #409EFF;
     margin-right: 10px;
     font-size: 18px;
+}
+
+header .rightbtns>* {
+    margin-left: 15px;
 }
 
 /*底部区域*/
@@ -299,7 +303,7 @@ img[copyright='weixinqr'] {
         top: 0px;
         left: 0px;
         padding: 0px !important;
-       
+
     }
 
     section {
@@ -352,7 +356,8 @@ img[copyright='weixinqr'] {
         right: 10px;
         bottom: -10px;
     }
+
     footer {
-        padding-right: 130px;      
+        padding-right: 130px;
     }
 }
