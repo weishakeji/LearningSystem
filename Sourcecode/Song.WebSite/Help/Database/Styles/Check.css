@@ -16,7 +16,9 @@ span.postgresql {
 span.sqlserver {
     color: #cf1f21;
 }
-
+span.sqlserver icon {
+    font-size: 35px;
+}
 span.sqlite {
     color: #00688f;
 }

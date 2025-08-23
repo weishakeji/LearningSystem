@@ -145,7 +145,8 @@ namespace Song.ServiceImpls
                 if (entity.Ol_ID > 0) wc.And(Questions._.Ol_ID == entity.Ol_ID);
                 if (entity.Cou_ID > 0) wc.And(Questions._.Cou_ID == entity.Cou_ID);
                 //题干是否相同
-                old = Gateway.Default.From<Questions>().Where(wc && Questions._.Qus_Title == entity.Qus_Title && Questions._.Qus_Items == entity.Qus_Items).ToFirst<Questions>();
+                QuerySection<Questions> querySection = Gateway.Default.From<Questions>().Where(wc && Questions._.Qus_Title == entity.Qus_Title && Questions._.Qus_Items == entity.Qus_Items);
+                old = querySection.ToFirst<Questions>();
             }
             if (old == null)
             {

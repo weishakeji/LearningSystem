@@ -1,9 +1,11 @@
-int-> Int32
-nvarchar-> String
-varchar-> String
-ntext->  String
+int -> Int32
+smallint -> Int32
+nvarchar -> String
+varchar -> String
+ntext ->  String
+text ->  String
 datetime-> DateTime
-bit->  Boolean
+bit ->  Boolean
 bigint -> Int64
-decimal->  Decimal
-float->  Single
+decimal ->  Decimal
+float ->  Single

@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+
+<head resource>
+    <meta charset="utf-8">
+    <meta view="Index" page="/Help/WebdeskUI/Index.htm" />
+    <link rel="shortcut icon" href="../Images/api.ico" />
+    <title>WebdeskUI</title>
+    <script type="text/javascript" src="/Utilities/Scripts/webdom.js"></script>
+    <script type="text/javascript" src="../Scripts/core.js"></script>
+</head>
+
+<body>
+    <h1>WebdeskUI</h1>
+
+    <div id="vapp" v-cloak>
+        <el-tabs v-model="activeName">
+            <el-tab-pane v-for="item in menus" :name="item.tag">
+                <span slot="label">
+                    <icon v-html="'&#x'+item.icon" v-bind:[item.size]="true"></icon>
+                    <span v-html='item.name'></span>
+                </span>
+            </el-tab-pane>
+        </el-tabs>
+        <iframe v-for="item in menus" :src="item.tag+'.htm'" v-show="item.tag==activeName" frameborder="0"
+            allowtransparency="true"></iframe>
+    </div>
+</body>
+
+</html>

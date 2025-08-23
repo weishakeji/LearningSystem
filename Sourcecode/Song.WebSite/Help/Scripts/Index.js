@@ -40,7 +40,7 @@ window.vapp = new Vue({
                 icon: { i: 'a007', s: 29, l: -4, t: -2 }, color: { f: '', b: '' }
             },
             {
-                name: 'WebdeskUI', type: 'node', url: 'Webdeskui/index.html',
+                name: 'WebdeskUI', type: 'node', url: 'Webdeskui/index.htm',
                 icon: { i: 'a010', s: 22, l: 1, t: 1 }, color: { f: '', b: '' }
             },
             { type: 'line' },
@@ -53,7 +53,7 @@ window.vapp = new Vue({
                 icon: { i: 'e6a4', s: 22, l: 0, t: 2 }, color: { f: '', b: '' }
             },
             {
-                name: 'ORM框架', type: 'node', url: 'Contents/Templates.html',
+                name: 'ORM框架', type: 'node', url: 'Orm/index.htm',
                 icon: { i: 'e820', s: 27, l: 2, t: 2 }, color: { f: '', b: '' }
             },
             { type: 'line' },
