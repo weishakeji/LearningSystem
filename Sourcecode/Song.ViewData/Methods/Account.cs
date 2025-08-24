@@ -505,50 +505,17 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="name">学员名称</param>
         /// <returns></returns>
-        public Song.Entities.Accounts[] ForName(string name)
+        public List<Accounts> ForName(string name)
         {
             if (string.IsNullOrWhiteSpace(name)) throw new Exception("学员名称不得为空");
-            Song.Entities.Accounts[] accs = Business.Do<IAccounts>().Account4Name(name);
+            List<Accounts> accs = Business.Do<IAccounts>().Account4Name(name);
             if (accs == null) return accs;
-            for (int i = 0; i < accs.Length; i++)
+            for (int i = 0; i < accs.Count; i++)
             {
                 accs[i] = _tran(accs[i]);
             }
             return accs;
-        }
-        /// <summary>
-        /// 按账号和姓名查询学员
-        /// </summary>
-        /// <param name="acc">学员账号</param>
-        /// <param name="name">姓名，可模糊查询</param>
-        /// <returns></returns>
-        public Song.Entities.Accounts[] Seach(string acc, string name)
-        {
-            List<Song.Entities.Accounts> list = new List<Accounts>();
-            Song.Entities.Accounts[] accs = Business.Do<IAccounts>().Account4Name(name);
-            foreach (Song.Entities.Accounts ac in accs)
-                list.Add(ac);
-            Song.Entities.Accounts account = Business.Do<IAccounts>().AccountsSingle(acc, -1);
-            if (account != null)
-            {
-                bool isExist = false;
-                foreach (Song.Entities.Accounts ac in accs)
-                {
-                    if (ac.Ac_ID == account.Ac_ID)
-                    {
-                        isExist = true;
-                        break;
-                    }
-                }
-                if (!isExist) list.Add(account);
-            }
-            //
-            for (int i = 0; i < list.Count; i++)
-            {
-                list[i] = _tran(list[i]);
-            }
-            return list.ToArray<Accounts>();
-        }
+        }        
         /// <summary>
         /// 分页获取学员信息
         /// </summary>

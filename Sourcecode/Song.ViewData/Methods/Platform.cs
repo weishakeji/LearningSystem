@@ -53,7 +53,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Cache(AdminDisable = true)]
+        [Cache(AdminDisable = true, Expires = 120)]
         public JObject PlatInfo()
         {
             string title = Business.Do<ISystemPara>().GetValue("SystemName");

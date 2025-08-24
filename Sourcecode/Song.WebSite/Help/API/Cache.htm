@@ -10,11 +10,17 @@
 </head>
 
 <body>
+    <card shadow="hover">
+        <card-title>
+            <icon large>&#xe609</icon>前端缓存 - 浏览器IndexedDB存储
+        </card-title>
+        <card-content>
+            <p>前端缓存采用浏览器本地数据库(IndexedDB)存储接口数据，当接口与参数相同的$api.cache请求，在限定时效内将不再请求网络。如果缓存不存在，则自动取服务器端的数据，此时$api.cache等同于$api.get方法。
+            </p>
+            <p>可以通过F12打开浏览器开发者工具，查看IndexedDB数据库，名称为“apicache_weishakeji”。</p>
 
-    <p>采用浏览器本地数据库(IndexedDB)存储接口数据，当接口与参数相同的$api.cache请求，在限定时效内将不再请求网络。</p>
-    <p>如果缓存不存在，则自动取服务器端的数据，此时$api.cache等同于$api.get方法。</p>
-    <p>只有接口支持HttpGET方法时，才可以在前端使用$api.cache请求，HttpPost、HttpDelete不支持$api.cache请求。</p>
-    <pre class="line-numbers"><code class="language-javascript">   
+            <p>只有接口支持HttpGET方法时，才可以在前端使用$api.cache请求，HttpPost、HttpDelete不支持$api.cache请求。</p>
+            <pre class="line-numbers"><code class="language-javascript">   
     //缓存20分钟，数值可以为空，默认是10分钟
     $api.cache('News/Article:20',{ 'id': 225 }).then(req=>{
         if(req.data.success){
@@ -27,8 +33,8 @@
         .finally(()=>{});
             
      </code></pre>
-    <p>缓存的更新</p>
-    <pre class="line-numbers"><code class="language-javascript">
+            <p>缓存的更新</p>
+            <pre class="line-numbers"><code class="language-javascript">
     //更新缓存
     $api.cache('News/Article:update',{'id':'1'});
     //清除缓存
@@ -37,14 +43,42 @@
     $api.cache('News/Article:+20',{'id':'1'});
             </code></pre>
 
-    <p>缓存的清理与重置</p>
-    <pre class="line-numbers"><code class="language-javascript">  
+            <p>缓存的清理与重置</p>
+            <pre class="line-numbers"><code class="language-javascript">  
     //清理过期缓存，包括被强制缓存的数据
     $api.api_cache.clear();
     //清除所有缓存，包括被强制缓存的数据
     $api.api_cache.reset();
     </code></pre>
-    <p>&nbsp;</p>
+        </card-content>
+
+        <card shadow="hover">
+        <card-title>
+            <icon large>&#xe609</icon>后端缓存 - Memory Caching
+        </card-title>
+        <card-content>
+            <P>对于一些计算量较大，而对实时性要求低的接口，后端可以开启Memory Caching，将接口数据缓存到内存中，提高接口的响应速度。</P>
+            <p>设置接口缓存，需要在接口方法上添加相应特性，编译后生效。如下示例：</p>
+            <pre class="line-numbers"><code class="language-csharp">
+            /// &lt;summary&gt;
+            /// 平台信息
+            /// &lt;/summary&gt;
+            /// &lt;returns>&lt;/returns&gt;
+            [HttpGet]
+            [Cache(AdminDisable = true, Expires = 120)]
+            public JObject PlatInfo()
+            {
+                string title = Business.Do<ISystemPara>().GetValue("SystemName");
+                string intro = Business.Do<ISystemPara>().GetValue("PlatInfo_intro");
+                JObject jo = new JObject();
+                jo.Add("title", title);
+                jo.Add("intro", intro);
+                return jo;
+            }
+                        </code></pre>
+            <p>在上述代码中，给PlatInfo接口方法添加了Cache特性，并设置缓存过期时间Expires为120分钟；且在管理员登录状态时禁用缓存，AdminDisable=false，其目的是方便调试程序。</p>
+            </card-content>
+        <p>&nbsp;</p>
 </body>
 
 </html>

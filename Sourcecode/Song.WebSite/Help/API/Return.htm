@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta view="Return" page="/Help/API/Return.htm" />
+    <title>API返回值的说明</title>
+    <script type="text/javascript" src="/Utilities/Scripts/webdom.js"></script>
+    <script type="text/javascript" src="../Scripts/core.js"></script>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+
+        <p>以下面的代码为例，为接口返回值作简要说明。</p>
+        <pre class="line-numbers"><code class="language-javascript">
+$api.get('Account/Current').then(req=>{     //接口返回的对象可以任意命名，默认用了req
+    if(req.data.success){                   //判断接口是否成功
+        let result=req.data.result;         //如果成面，这里是接口返回值
+        //...业务代码
+    }else{
+        throw req.data.message;             //如果失败，抛出接口返回的错误信息
+    }
+}).catch(err=>console.error(err))           //异常处理，这里是在浏览器的调试窗口显示错误信息
+    .finally(()=>{});                       //不管成功还是失败，但会执行此部分代码
+</code></pre>
+
+        <p>从上述代码中可以看到，返回对象名为req，则req.data.result 为接口返回值;下面将主要讲解req的一些属性和方法的说明。</p>
+        <dl>
+            <dt>req 说明</dt>
+            <dd>status:200</dd>
+            <dd>statusText:OK</dd>
+            <dd>data:接口返回的详细数据</dd>
+            <dd>config:接口配置信息，包括参数、路径、token等</dd>
+        </dl>
+        <p>下面是接口返回正常的情况下req.data 说明。</p>
+        <pre class="line-numbers"><code class="language-javascript">
+    {
+        "success": true,                        //接口调用成功
+        "message": null,                        //接口调用失败时（注意不是异常）返回的提示信息
+        "state": 1,                             //状态码，默认是1，如果调用失败，用它划分失败原因
+                                                //例如：数据库操作相关的，以9开头
+
+        "datetime": "2025-08-24T06:26:49.256Z",     //接口调用时间
+        "execspan": 25.9303,                    //接口执行时间，单位：毫秒，
+                                                //服务器端从接收到请求执行完的时间间隔
+
+        "webspan": 38,                          //接口响应时间，单位：毫秒，
+                                                //这个是从客户端请求到接收到返回的时间，这里包括了网络传输时间      
+        "timestamp": "1756016809256",           //时间戳，单位：毫秒，
+                                                //从1970年1月1日00:00:00开始按秒计算的偏移量
+
+
+        "database": "PostgreSQL",               //当前所采用的数据库类型
+        "edition": "社区版",                     //当前产品的版本
+        "exception": null,                      //异常信息，null表示没有异常
+        "datatype": "Accounts",                 //返回值，即result的数据类型
+        "result":"接口查询结果，这里不再赘述"
+    }        
+    </code></pre>
+    <p>如果接口调用失败，req.data 说明。</p>
+    <pre class="line-numbers"><code class="language-javascript">
+    {
+        "success": false,               //接口调用失败
+        "message": "接口需要登录验证，请“管理员”或“超级管理员”登录后操作 (社区版 - PostgreSQL)",
+        "state": 1100,
+        "datetime": "2025-08-24T06:37:46.682Z",
+        "execspan": 3.988,
+        "webspan": 17,
+        "timestamp": "1756017466682",
+        "database": "PostgreSQL",
+        "edition": "社区版",
+        "exception": {
+                "State": 1100,
+                "Message": "接口需要登录验证，请“管理员”或“超级管理员”登录后操作",
+                "Data": {},
+                "InnerException": null,
+                "StackTrace": "堆栈信息，不再赘述",     //调试程序时，这些信息很有用
+                "HelpLink": null,
+                "Source": "Song.ViewData",
+                "HResult": -2146233088
+        },
+        "datatype": null,               //result的值为空，数据类型自然也是空
+        "result": null                  //调用失败时返回null
+    }
+        </code></pre>
+
+        <p>&nbsp;</p>
+    </div>
+</body>
+
+</html>

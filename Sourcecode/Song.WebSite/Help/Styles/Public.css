@@ -46,7 +46,10 @@ p,div {
     display: flex;
 }
 
-
+card-title{
+    font-weight: 600;
+    font-size: 18px;
+}
 textarea {
     width: calc(100% - 50px);
     background-color: rgb(248, 252, 203);

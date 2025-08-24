@@ -474,14 +474,13 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public Accounts[] Account4Name(string name)
+        public List<Accounts> Account4Name(string name)
         {
             WhereClip wc = new WhereClip();
             if (string.IsNullOrWhiteSpace(name)) return null;
             wc.And(Accounts._.Ac_Name.Contains(name));
-            Accounts[] accs = Gateway.Default.From<Accounts>().Where(wc).OrderBy(Accounts._.Ac_RegTime.Desc).ToArray<Accounts>();
-            foreach (Song.Entities.Accounts ac in accs)
-                _acc_init(ac);
+            List<Accounts> accs = Gateway.Default.From<Accounts>().Where(wc).OrderBy(Accounts._.Ac_RegTime.Desc).ToList<Accounts>();
+            foreach (Song.Entities.Accounts ac in accs) _acc_init(ac);
             return accs;
         }
 

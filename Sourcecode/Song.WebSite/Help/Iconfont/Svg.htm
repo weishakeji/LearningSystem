@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta view="svg" page="/Help/Iconfont/svg.htm" />
+    <title>Svg图标</title>
+    <script type="text/javascript" src="/Utilities/Scripts/webdom.js"></script>
+    <script type="text/javascript" src="../Scripts/core.js"></script>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <p>如果系统自带的图标库无法满足需求，需要新增图标时，不建议重新编辑系统图标库。此时可以采用SVG图标格式，单独新增图标。SVG图标格式，是一种基于XML的矢量图形格式，它可以在任何分辨率下保持清晰的图像质量。</p>
+        <p>步聚大致如下：</p>
+        <p>1. 可以从 <a href="https://www.iconfont.cn/" target="_blank">阿里图标库</a> 等图标库中，找到需要的图标，以Svg格式下载。</p>
+
+        <p>2. 将下载的SVG图标，放到学习系统的 \Utilities\Fonts\SvgIcons 文件夹下，以合适名称命名。</p>
+        <p>
+            3. 打开同文件夹下的 svg.css 文件，添加该图标的引用，示例如下：
+        <pre class="line-numbers"><code class="language-css">
+        /*新增AI图标*/
+        icon[svg=ailogo]{
+            /*引用图标文件，ailogo.svg*/
+            mask-image: url('ailogo.svg');
+            -webkit-mask-image: url('ai2.svg');
+        }
+     </code></pre>
+        </p>
+        <p>4. 在页面中使用时，需要引用 svg.css。</p>
+        <pre class="line-numbers"><code class="language-html">   
+        &lt;head&gt;
+            &lt;meta charset="UTF-8"&gt;
+            &lt;title>Svg图标库&lt;/title&gt;
+            &lt;link type="text/css" rel="stylesheet" href="SvgIcons/svg.css"&gt;
+        &lt;/head&gt;
+     </code></pre>
+        <p>5. 使用时，在需要使用图标的位置，添加如下代码：</p>
+        <pre class="line-numbers"><code class="language-html">
+        &lt;icon svg="ai" huge&gt;&lt;/icon&gt;
+        &lt;icon svg="ai2" large&gt;&lt;/icon&gt;
+        &lt;icon svg="ai3" medium&gt;&lt;/icon&gt;
+        &lt;icon svg="ai2" small&gt;&lt;/icon&gt;
+        &lt;icon svg="ailogo" huge&gt;&lt;/icon&gt;
+     </code></pre>
+        实际显示效果如下:
+        <iframe src="/Utilities/Fonts/svg.html" class="svgframe" frameborder="0" allowtransparency="true"></iframe>
+    </div>
+</body>
+
+</html>

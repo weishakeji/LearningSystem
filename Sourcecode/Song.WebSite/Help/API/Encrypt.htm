@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head resource>
     <meta charset="utf-8">
     <meta view="Encrypt" page="/Help/API/Encrypt.htm" />
@@ -7,9 +8,30 @@
     <script type="text/javascript" src="/Utilities/Scripts/webdom.js"></script>
     <script type="text/javascript" src="../Scripts/core.js"></script>
 </head>
+
 <body>
-    <div id="vapp" v-cloak> 
-   <alert>内容有待编写</alert> 
-    </div> 
+    <div id="vapp" v-cloak>
+       <p>前端在调用接口与后端数据交互时，为了安全考虑，也为了去除非法字符的影响，对数据进行加密传输。</p>
+       <p>数据在递交与接收时，默认都采用了Base64编码。如果需要在开发中调试接口，希望能在浏览器F12调试工具中实时看到接口数据，可以修改api.js的参数。
+        在 /Utilities/Scripts/api.js 文件中，可以看到如下代码：</p>
+
+       <pre class="line-numbers"><code class="language-javascript">   
+        var config = {
+            //api的版本号
+            versions: ["", "1", "2"],
+            versionDefault: "2", //默认版本号
+            //调用地址的根路径
+            baseURL: '',
+            pathUrl: "/api/v{0}/", //url路径
+            apicache_location: false,     //本机是否缓存数据
+            timeout: 60 * 60 * 24 * 1000,        //请求过期时效    
+            //返回的结果是否加密
+            encrypt: true
+        };
+                
+         </code></pre>
+         <p>上述代码中，encrypt: true，改为false，则不再加密传输。</p>
+    </div>
 </body>
+
 </html>

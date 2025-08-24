@@ -251,6 +251,7 @@
     <Content Include="Help\API\Explain.htm" />
     <Content Include="Help\API\Export.htm" />
     <Content Include="Help\API\Index.htm" />
+    <Content Include="Help\API\Return.htm" />
     <Content Include="Help\API\Scripts\Apijsdoc.js" />
     <Content Include="Help\API\Scripts\APIList.js" />
     <Content Include="Help\API\Scripts\Cache.js" />
@@ -258,12 +259,14 @@
     <Content Include="Help\API\Scripts\Explain.js" />
     <Content Include="Help\API\Scripts\Export.js" />
     <Content Include="Help\API\Scripts\Index.js" />
+    <Content Include="Help\API\Scripts\Return.js" />
     <Content Include="Help\API\Styles\Apijsdoc.css" />
     <Content Include="Help\API\Styles\APIList.css" />
     <Content Include="Help\API\Styles\Cache.css" />
     <Content Include="Help\API\Styles\Encrypt.css" />
     <Content Include="Help\API\Styles\Explain.css" />
     <Content Include="Help\API\Styles\Index.css" />
+    <Content Include="Help\API\Styles\Return.css" />
     <Content Include="Help\Contents\DataEntity.html" />
     <Content Include="Help\Contents\Deployment.html" />
     <Content Include="Help\Contents\Images\DataEntity\1.png" />
@@ -399,7 +402,10 @@
     <Content Include="Help\Documents\Styles\Public.css" />
     <Content Include="Help\Iconfont\Index.htm" />
     <Content Include="Help\Iconfont\Scripts\Index.js" />
+    <Content Include="Help\Iconfont\Scripts\Svg.js" />
     <Content Include="Help\Iconfont\Styles\Index.css" />
+    <Content Include="Help\Iconfont\Styles\Svg.css" />
+    <Content Include="Help\Iconfont\Svg.htm" />
     <Content Include="Help\Images\api.ico" />
     <Content Include="Help\Images\datas.ico" />
     <Content Include="Help\Images\help.ico" />

@@ -40,7 +40,9 @@ icon[svg=ai3]{
     background-color:transparent;
     background-size: contain;
 }
+/*新增AI图标*/
 icon[svg=ailogo]{
+    /*引用图标文件，ailogo.svg*/
     mask-image: url('ailogo.svg');
     -webkit-mask-image: url('ai2.svg');
 }

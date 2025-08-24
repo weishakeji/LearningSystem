@@ -111,7 +111,7 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="name">账号名称</param>
         /// <returns></returns>
-        Accounts[] Account4Name(string name);
+        List<Accounts> Account4Name(string name);
         /// <summary>
         /// 查询第三方登录账号是否存在
         /// </summary>
