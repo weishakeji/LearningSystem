@@ -39,9 +39,9 @@
         <section class="datainfo">
             <el-statistic v-loading="loading.table" group-separator="," :value="total" title="总记录数">               
             </el-statistic>
-            <el-statistic v-loading="loading.table" group-separator="," :value="size" title="占用空间">
+            <el-statistic v-loading="loading.table"  title="占用空间">
                 <span slot="suffix">
-                    Mb
+                  {{size.size}} {{size.unit}}
                  </span>
             </el-statistic>
             <el-statistic v-loading="loading.table" :value="tablecount" title="表">
@@ -59,9 +59,9 @@
                     <icon slot="prefix" huge>&#xb006</icon>索引
                 </span>
             </el-statistic>
-            <el-statistic v-loading="loading.info"  group-separator="," title="索引空间" :value="indexsize">
+            <el-statistic v-loading="loading.info" title="索引空间">
                 <span slot="suffix">
-                    {{indexsizeunit}}
+                    {{indexsize.size}} {{indexsize.unit}}
                  </span>
             </el-statistic>
         </section>

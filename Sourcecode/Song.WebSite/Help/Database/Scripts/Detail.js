@@ -126,14 +126,12 @@ $ready(function () {
                 ).then(([idx, field, dbsize, idxsize]) => {
                     th.indexcount = idx.data.result;
                     th.fieldcount = field.data.result;
-                    let size = dbsize.data.result;
+                    let size = Number(dbsize.data.result);
                     if (size > 1000) size = Math.floor(size);
-                    th.size = size;
+                    th.size =  th.showIndexSize(size*1024);
                     //索引占用的空间，单位kb
-                    let indexsize = Number(idxsize.data.result);
-                    let indexvalue = th.showIndexSize(indexsize);
-                    th.indexsize = indexvalue.size;
-                    th.indexsizeunit = indexvalue.unit;
+                    let indexsize = Number(idxsize.data.result);                  
+                    th.indexsize =  th.showIndexSize(indexsize);                 
                 }).catch(err => console.error(err))
                     .finally(() => th.loading.info = false);
             },

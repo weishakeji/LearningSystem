@@ -6,7 +6,9 @@ html, body, #vapp {
     text-align: center;
     overflow: hidden;
 }
-
+*{
+    font-family: "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+}
 #vapp {
     overflow-y: auto;
 }

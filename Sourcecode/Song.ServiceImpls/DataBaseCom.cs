@@ -48,6 +48,11 @@ namespace Song.ServiceImpls
             {
                 string sql = $"SELECT CAST(SUM(size * 8.0 / 1024) AS DECIMAL(20,2)) FROM sys.master_files where name='{DbName}' GROUP BY name";
                 object obj = Gateway.Default.FromSql(sql).ToScalar();
+                if (obj == null)
+                {
+                    sql = $"SELECT CAST(SUM(size * 8.0 / 1024) AS DECIMAL(20,2)) FROM sys.master_files where physical_name like '%{DbName}.mdf' GROUP BY name";
+                    obj = Gateway.Default.FromSql(sql).ToScalar();
+                }
                 size = obj == null ? 0 : Convert.ToSingle(obj);
             }
             if (Gateway.Default.DbType == DbProviderType.SQLite)
@@ -849,14 +854,15 @@ namespace Song.ServiceImpls
             }
             if (Gateway.Default.DbType == DbProviderType.SQLServer)
             {
-                string sql = @"SELECT 
-                            --SUM(ps.used_page_count) * 8 / 1024.0 AS TotalIndexSizeMB,
-                            SUM(ps.reserved_page_count) * 8 AS TotalIndexReservedKB
-                        FROM sys.dm_db_partition_stats ps
-                        INNER JOIN sys.indexes i ON ps.object_id = i.object_id AND ps.index_id = i.index_id
-                        WHERE i.index_id > 0;";
-                object obj = Gateway.Default.FromSql(sql).ToScalar();
-                size = obj == null ? 0 : Convert.ToSingle(obj);
+                string sql = @"EXEC sp_spaceused";
+                DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
+                if(ds.Tables.Count>1)
+                {
+                    DataTable dt=ds.Tables[1];
+                    DataRow dr=dt.Rows[0];
+                    string index_size = System.Text.RegularExpressions.Regex.Match(dr["index_size"].ToString(), @"\d+").Value;
+                    size = Convert.ToSingle(index_size);
+                }
             }
             if (Gateway.Default.DbType == DbProviderType.SQLite)
             {
