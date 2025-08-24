@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta view="dropmenu" page="/Help/WebdeskUI/dropmenu.htm" />
+    <title></title>
+    <script type="text/javascript" src="/Utilities/Scripts/webdom.js"></script>
+    <script type="text/javascript" src="../Scripts/core.js"></script>
+    <link rel="stylesheet" href="Styles/Public.css" />
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <card shadow="never">
+            <card-title>
+                <icon large>&#xa005</icon>dropmenu.js 下拉菜单
+            </card-title>
+            <card-content>
+                <ul>
+                    <li>仿Windows系统下拉菜单</li>
+                    <li>支持无限级菜单分类</li>
+                    <li>可自定义节点样式，例如：粗体、斜体、颜色</li>
+                    <li>属性支持双向绑定，可监听</li>
+                    <li>节点事件自定义，支持多播，可追加、可去除</li>
+                </ul>
+            </card-content>
+        </card>
+        <p><b>示例：</b></p>
+
+        <pre class="line-numbers"><code class="language-javascript">   
+    var drop = $dropmenu.create({
+        target: '#dropmenu-area',
+        width: 120,height:30
+    });
+    drop.add(数据源);
+
+</code>
+</pre>
+        <p><b>属性:</b></p>
+        <div>
+            <p>下表中，“可监听”的属性，可以通过watch()增加监听方法，类似Vue；“双向绑定”的意思是属性更改后，直接影响窗体样式。</p>
+        </div>
+        <table width="100%" border="0" cellspacing="1" cellpadding="1">
+            <tr>
+                <th scope="col" width="200px">属性</th>
+                <th scope="col">说明</th>
+                <th scope="col" width="60px">可监听</th>
+                <th scope="col" width="80px">双向绑定</th>
+            </tr>
+            <tr>
+                <td>target</td>
+                <td>对象所在的html位置</td>
+                <td>✔</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>width</td>
+                <td>根菜单栏的宽度</td>
+                <td>✔</td>
+                <td>✔</td>
+            </tr>
+            <tr>
+                <td>height</td>
+                <td>菜单项的高度，每一项的高度</td>
+                <td>✔</td>
+                <td>✔</td>
+            </tr>
+            <tr>
+                <td>plwidth</td>
+                <td>子菜单面板panel的宽度，第一级菜单面板会跟据根菜单宽度变化，子菜单宽度为width/datas.length</td>
+                <td>✔</td>
+                <td>✔</td>
+            </tr>
+            <tr>
+                <td>bind</td>
+                <td>是否对数据源双向绑定</td>
+                <td>✔</td>
+                <td>✔</td>
+            </tr>
+        </table>
+        <div>
+            <p><b>方法：</b></p>
+
+            <div>
+                <p>下表只列出了常用公共方法，更多方法请参看源码。</p>
+            </div>
+            <table width="100%" border="0" cellspacing="1" cellpadding="1">
+                <tr>
+                    <th scope="col" width="100px">方法</th>
+                    <th scope="col">说明</th>
+                    <th scope="col">参数</th>
+                </tr>
+                <tr>
+                    <td>add()</td>
+                    <td>添加树形数据，当属于bind为true时，数据源变动会直接影响界面</td>
+                    <td>示例：{title:'',url:''}</td>
+                </tr>
+                <tr>
+                    <td>getData()</td>
+                    <td>通过id获取数据项</td>
+                    <td>树形节点的id
+                    </td>
+                </tr>
+            </table>
+            <p><b>事件：</b></p>
+
+            <div>
+                <p>事件支持多播，即同一个事件可以添加多个方法。事件返回值仅限bool型，虽然可以返回其它类型或不返回，但最终都会转为bool型返回值。</p>
+                <p>当同一个事件中的多个方法，任一个返回false，则不再继续执行后续事件方法。如果不返回，默认是true。</p>
+            </div>
+            <table id="eventTable" width="100%" border="0" cellspacing="1" cellpadding="1">
+                <tr>
+                    <th scope="col" width="80px">事件</th>
+                    <th scope="col" width="150px">说明</th>
+                    <th scope="col" width="100px">参数sender</th>
+                    <th scope="col">参数e</th>
+                </tr>
+                <tr>
+                    <td>load</td>
+                    <td>组件加载完成</td>
+                    <td>&nbsp;</td>
+                    <td>e.event：事件名称，e.action：动作</td>
+                </tr>
+                <tr>
+                    <td>data</td>
+                    <td>当数据源变更时</td>
+                    <td>同上</td>
+                    <td>e.event：事件名称<br>
+                        e.action：动作，默认与e.event同值<br>
+                        e.target：响应事件的html元素，此处为窗体的html<br>
+                        e.data：数据源</td>
+                <tr>
+                    <td>click</td>
+                    <td>节点点击</td>
+                    <td>&nbsp;</td>
+                    <td>e.data，当前节点数据项</td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+</body>
+
+</html>

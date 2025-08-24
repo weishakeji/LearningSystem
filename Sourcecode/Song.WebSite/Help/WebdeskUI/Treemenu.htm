@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta view="treemenu" page="/Help/WebdeskUI/treemenu.htm" />
+    <title></title>
+    <script type="text/javascript" src="/Utilities/Scripts/webdom.js"></script>
+    <script type="text/javascript" src="../Scripts/core.js"></script>
+    <link rel="stylesheet" href="Styles/Public.css" />
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <card shadow="never">
+            <card-title>
+                <icon large>&#xa009</icon>treemenu.js 树形菜单
+            </card-title>
+            <card-content>
+                <ul>
+                    <li>支持无限级菜单分类，建议三到四级</li>
+                    <li>可折叠收缩（左下角按钮）</li>
+                    <li>可自定义节点样式，例如：粗体、斜体、颜色</li>
+                    <li>属性支持双向绑定，可监听</li>
+                    <li>节点事件可定义，支持多播，可追加、可去除</li>
+                </ul>
+            </card-content>
+        </card>
+       <p><b>示例：</b></p> 
+       <pre class="line-numbers"><code class="language-javascript">   
+    var tree = $treemenu.create({
+        target: '#treemenu-area',
+        width: 100
+    });
+    //数据源
+    var data = {
+            title: '控件说明',
+            tit: '说明',
+            ico: 'e72f',
+            url: '',
+            type: '',
+            marker: '',
+            intro: '',
+            childs: [{
+                title: '功能简介',
+                url: 'other/treemenu-1.html',
+                intro: '基本功能简介'
+            }, {
+                title: '成员说明',
+                ico: 'a010',
+                childs: [{
+                    title: '属性',
+                    ico: 'a025'
+                }, {
+                    title: '方法',
+                    ico: 'a023'
+                }, {
+                    title: '事件',
+                    ico: 'a024'
+                }]
+            },{
+                title:'数据源'
+            }],
+            id: 0,
+            pid: 0
+    };
+    tree.add(data);
+    </code>
+</pre>
+
+<p><b>属性:</b></p>
+<div>
+    <p>下表中，“可监听”的属性，可以通过watch()增加监听方法，类似Vue；“双向绑定”的意思是属性更改后，直接影响窗体样式。</p>
+</div>
+<table width="100%" border="0" cellspacing="1" cellpadding="1">
+    <tr>
+        <th scope="col" width="200px">属性</th>
+        <th scope="col">说明</th>
+        <th scope="col" width="60px">可监听</th>
+        <th scope="col" width="80px">双向绑定</th>
+    </tr>
+    <tr>
+        <td>target</td>
+        <td>对象所在的html位置</td>
+        <td>✔</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>width</td>
+        <td>宽度</td>
+        <td>✔</td>
+        <td>✔</td>
+    </tr>
+    <tr>
+        <td>height</td>
+        <td>高度</td>
+        <td>✔</td>
+        <td>✔</td>
+    </tr>
+    <tr>
+        <td>fold</td>
+        <td>是否折叠</td>
+        <td>✔</td>
+        <td>✔</td>
+    </tr>
+</table>
+<div>
+    <p><b>方法：</b></p>
+
+    <div>
+        <p>下表只列出了常用公共方法，更多方法请参看源码。</p>
+    </div>
+    <table width="100%" border="0" cellspacing="1" cellpadding="1">
+        <tr>
+            <th scope="col" width="100px">方法</th>
+            <th scope="col">说明</th>
+            <th scope="col">参数</th>
+        </tr>
+        <tr>
+            <td>add()</td>
+            <td>添加树形数据</td>
+            <td>示例：{title:'',url:''}</td>
+        </tr>
+        <tr>
+            <td>getData()</td>
+            <td>通过id获取数据项</td>
+            <td>树形节点的id
+            </td>
+        </tr>
+    </table>
+    <p><b>事件：</b></p>
+
+    <div>
+        <p>事件支持多播，即同一个事件可以添加多个方法。事件返回值仅限bool型，虽然可以返回其它类型或不返回，但最终都会转为bool型返回值。</p>
+        <p>当同一个事件中的多个方法，任一个返回false，则不再继续执行后续事件方法。如果不返回，默认是true。</p>
+    </div>
+    <table id="eventTable" width="100%" border="0" cellspacing="1" cellpadding="1">
+        <tr>
+            <th scope="col" width="80px">事件</th>
+            <th scope="col" width="150px">说明</th>
+            <th scope="col" width="100px">参数sender</th>
+            <th scope="col">参数e</th>
+        </tr>
+        <tr>
+            <td>load</td>
+            <td>组件加载完成</td>
+            <td>&nbsp;</td>
+            <td>e.event：事件名称，e.action：动作</td>
+        </tr>
+        <tr>
+            <td>change</td>
+            <td>根节点切换时</td>
+            <td>当前对象实例</td>
+            <td>e.event：事件名称<br>
+                e.action：动作，默认与e.event同值<br>
+                e.target：响应事件的html元素，此处为窗体的html</td>
+        </tr>
+        <tr>
+            <td>fold</td>
+            <td>折叠或展开</td>
+            <td>同上</td>
+            <td>e.event：事件名称<br>
+                e.action：动作，fold或open<br>
+                e.target：响应事件的html元素，此处为窗体的html</td>
+        </tr>
+        <tr>
+            <td>add</td>
+            <td>添加数据项时</td>
+            <td>同上</td>
+            <td>同上</td>
+        </tr>
+        <tr>
+            <td>resize</td>
+            <td>控件宽高变化时</td>
+            <td>&nbsp;</td>
+            <td>同上</td>
+        </tr>
+        <tr>
+            <td>click</td>
+            <td>节点点击</td>
+            <td>&nbsp;</td>
+            <td>e.data，当前节点数据项</td>
+        </tr>
+       
+    </table>
+    <p><b>数据源示例：</b></p>
+
+    <div>
+        <p>treemenu的数据源与tabs、dropmenu数据源格式基本雷同，方便用于交换和传递。
+        例如当点击树形节点时，节点数据源可以直接传给tabs组件生成选项卡。</p>
+         <p>   主要参数有：title（标题）,url（超链接）；
+            像level（层深）、index（索引）、path（路径）等会自动计算产生。</p>
+        <p>请参看示例，如下</p>
+        <pre class="line-numbers"><code class="language-javascript">   
+        {
+            title: '控件说明',      //节点名称
+            tit: '说明',             //节点简称，如果没有会自动生成
+            ico: 'e72f',            //图标，不设置会用默认图标
+            url: '',                //超链接，
+            type: '',               //节点类型，默认是link（超链接）
+            marker: '',             //标识，暂时无用
+            intro: '',              //节点说明
+            childs: [{              //子级节点
+                title: '功能简介',
+                url: 'other/treemenu-1.html',
+                intro: '基本功能简介'
+            }, {
+                title: '成员说明',
+                ico: 'a010',
+                childs: [{
+                    title: '属性',
+                    ico: 'a025',
+                    url: 'other/treemenu-2.html'
+                }, {
+                    title: '方法',
+                    ico: 'a023',
+                    url: 'other/treemenu-2.html'
+                }, {
+                    title: '事件',
+                    ico: 'a024',
+                    url: 'other/treemenu-2.html'
+                }]
+            },{
+                title:'数据源',
+                url: 'other/treemenu-3.html'
+            }],
+            id: 0,              //节点id，如果没有，则自动生成
+            pid: 0,              //父节点，自动计算生成
+            level:0,            //节点层深，自动生成不用设置
+            path:''             //树形上溯路径
+        };
+        </code>
+        </pre>
+    </div>
+</body>
+
+</html>

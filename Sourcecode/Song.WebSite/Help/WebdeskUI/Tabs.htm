@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head resource>
+    <meta charset="utf-8">
+    <meta view="tabs" page="/Help/WebdeskUI/tabs.htm" />
+    <title></title>
+    <script type="text/javascript" src="/Utilities/Scripts/webdom.js"></script>
+    <script type="text/javascript" src="../Scripts/core.js"></script>
+    <link rel="stylesheet" href="Styles/Public.css" />
+</head>
+<body>
+    <div id="vapp" v-cloak> 
+        <card shadow="never">
+            <card-title>
+                <icon large>&#xa018</icon>tabs.js 选项卡
+            </card-title>
+            <card-content>
+                <ul>
+                    <li>仿浏览器多标签切换</li>
+                    <li>选项卡无限增加</li>
+                    <li>鼠标滚轴切换选项卡</li>
+                    <li>支持鼠标右键关闭，关闭左侧、关闭右侧</li>
+                    <li>可全屏操作</li>
+                    <li>当切换时，关联的pagebox同步最小化或还原（通过onchange触发）</li>
+                </ul>
+            </card-content>
+        </card>
+
+        
+    
+            <p><b>示例：</b></p>
+            <pre class="line-numbers"><code class="language-javascript">   
+        var tabs = $tabs.create({
+            target: '#tabs-area',
+            width: '100%',
+            height: '100%'
+        });
+        //切换选项卡的事件
+        tabs.onchange(function(s, e) {
+            console.log('当前标签：' + e.data.title + ",tagid:" + e.tabid);
+        });
+        //关闭选项卡的事件
+        tabs.onshut(function(s, e) {
+            console.log('当前关闭的标签：' + e.data.title + ",tagid:" + e.tabid);
+        });
+        //数据源
+        var pages = [{
+            title: '功能说明',
+            url: 'other/tabs-1.html',
+            path: '选项卡,功能说明'
+            }, {
+                title: '属性',
+                ico: 'a025',
+                url: 'other/tabs-2.html',
+                path: '选项卡,成员介绍,属性'
+            }, {
+                title: '方法',
+                ico: 'a023',
+                url: 'other/tabs-2.html',
+                path: '选项卡,成员介绍,方法'
+            }, {
+                title: '事件',
+                ico: 'a024',
+                url: 'other/tabs-2.html',
+                path: '选项卡,成员介绍,事件'
+            }, {
+                title: '测试页',
+                ico: 'e72f',
+                url: 'tabs-child.html',
+                path: '选项卡,演示'
+            }];
+        tabs.add(pages);
+        tabs.focus(1);
+        </code>
+    </pre>
+       
+    <p><b>属性:</b></p>
+
+    <div>
+        <p>下表中，“可监听”的属性，可以通过watch()增加监听方法，类似Vue；“双向绑定”的意思是属性更改后，直接影响窗体样式。</p>
+    </div>
+    <table width="100%" border="0" cellspacing="1" cellpadding="1">
+        <tr>
+            <th scope="col" width="200px">属性</th>
+            <th scope="col">说明</th>
+            <th scope="col" width="60px">可监听</th>
+            <th scope="col" width="80px">双向绑定</th>
+        </tr>
+        <tr>
+            <td>target</td>
+            <td>对象所在的html位置</td>
+            <td>✔</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>width</td>
+            <td>宽度</td>
+            <td>✔</td>
+            <td>✔</td>
+        </tr>
+        <tr>
+            <td>height</td>
+            <td>高度</td>
+            <td>✔</td>
+            <td>✔</td>
+        </tr>
+        <tr>
+            <td>nowheel</td>
+            <td>禁用鼠标滚轮</td>
+            <td>✔</td>
+            <td>✔</td>
+        </tr>
+        <tr>
+            <td>default</td>
+            <td>默认标签</td>
+            <td> </td>
+            <td> </td>
+        </tr>
+        <tr>
+            <td>morebox</td>
+            <td>右侧更多标签项的弹出区域</td>
+            <td> </td>
+            <td> </td>
+        </tr>
+    </table>
+
+        <p><b>方法：</b></p>
+
+        <div>
+            <p>下表只列出了常用公共方法，更多方法请参看源码。</p>
+        </div>
+        <table width="100%" border="0" cellspacing="1" cellpadding="1">
+            <tr>
+                <th scope="col" width="100px">方法</th>
+                <th scope="col">说明</th>
+                <th scope="col">参数</th>
+            </tr>
+            <tr>
+                <td>add()</td>
+                <td>添加树形数据</td>
+                <td>示例：{title:'',url:''}</td>
+            </tr>
+            <tr>
+                <td>getData()</td>
+                <td>通过id获取数据项</td>
+                <td>数据项的id
+                </td>
+            </tr>
+            <tr>
+                <td>focus()</td>
+                <td>设置某个标签为焦点</td>
+                <td>tabid:标签id；
+                    istrigger：是否触发事件
+                </td>
+            </tr>
+            <tr>
+                <td>print()</td>
+                <td>
+                    打印某个标签下的内容
+                </td>
+                <td>tabid:标签id
+                    
+                </td>
+            </tr>
+            <tr>
+                <td>remove()</td>
+                <td>移除某个标签项</td>
+                <td>tabid:标签id；
+                </td>
+            </tr>
+        </table>
+        <p><b>静态方法：</b></p>
+
+        <div>
+            <p>静态方法不用构建即可调用，例如window.$tabs.fresh('name')。</p>
+        </div>
+        <table id="eventTable" width="100%" border="0" cellspacing="1" cellpadding="1">
+            <tr>
+                <th scope="col" width="80px">方法</th>
+                <th scope="col" width="150px">说明</th>
+                <th scope="col" width="100px">参数</th>
+              
+            </tr>
+            <tr>
+                <td>fresh</td>
+                <td>刷新某个标签页的iframe内页，这个不限于某个tabs对象</td>
+                <td>name:标签的id<br/>
+                func:要调用的方法，如果为空，则调用location.reload()进行刷新</td>
+                
+            </tr>
+           
+        </table>
+        <p><b>事件：</b></p>
+        <div>
+            <p>事件支持多播，即同一个事件可以添加多个方法。事件返回值仅限bool型，虽然可以返回其它类型或不返回，但最终都会转为bool型返回值。</p>
+            <p>当同一个事件中的多个方法，任一个返回false，则不再继续执行后续事件方法。如果不返回，默认是true。</p>
+        </div>
+        <table id="eventTable" width="100%" border="0" cellspacing="1" cellpadding="1">
+            <tr>
+                <th scope="col" width="80px">事件</th>
+                <th scope="col" width="150px">说明</th>
+                <th scope="col" width="100px">参数sender</th>
+                <th scope="col">参数e</th>
+            </tr>
+            <tr>
+                <td>add</td>
+                <td>添加数据源</td>
+                <td>数据项</td>
+                <td>e.event：事件名称<br> e.action：动作，默认与e.event同值
+                    <br> e.target：响应事件的html元素，此处为窗体的html
+                    <br> e.data：数据源
+                </td>
+            </tr>
+            <tr>
+                <td>shut</td>
+                <td>关闭标签</td>
+                <td>同上</td>
+                <td>同上</td>
+            </tr>
+            <tr>
+                <td>change</td>
+                <td>切换标签项</td>
+                <td>同上</td>
+                <td>同上</td>
+            </tr>
+            <tr>
+                <td>load</td>
+                <td>加载iframe完成</td>
+                <td>同上</td>
+                <td>e.tabid,当前标签id<br/> e.data,数据源
+                    <br/> e.iframe,当前触发事件的iframe对象
+                </td>
+            </tr>
+            <tr>
+                <td>resize</td>
+                <td>控件宽高变化时</td>
+                <td>&nbsp;</td>
+                <td>同上</td>
+            </tr>
+            <tr>
+                <td>full</td>
+                <td>选项卡最大化</td>
+                <td>&nbsp;</td>
+                <td>e.data，当前节点数据项</td>
+            </tr>
+            <tr>
+                <td>help</td>
+                <td>当前选项卡的帮助按钮事件</td>
+                <td>&nbsp;</td>
+                <td>e.data，当前节点数据项</td>
+            </tr>
+        </table>
+
+    </div> 
+</body>
+</html>

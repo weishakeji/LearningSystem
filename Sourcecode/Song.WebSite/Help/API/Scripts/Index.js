@@ -2,7 +2,7 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            activeName: 'return',
+            activeName: 'explain',
             //菜单项
             menus: [
                 { name: '说明', tag: 'explain', icon: 'a026', size: 'medium'  },

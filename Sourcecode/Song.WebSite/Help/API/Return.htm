@@ -14,9 +14,9 @@
 
         <p>以下面的代码为例，为接口返回值作简要说明。</p>
         <pre class="line-numbers"><code class="language-javascript">
-$api.get('Account/Current').then(req=>{     //接口返回的对象可以任意命名，默认用了req
+$api.get('Account/Current').then(req=>{         //接口返回的对象可以任意命名，默认用了req
     if(req.data.success){                   //判断接口是否成功
-        let result=req.data.result;         //如果成面，这里是接口返回值
+        let result=req.data.result;         //如果成功，这里是接口返回值
         //...业务代码
     }else{
         throw req.data.message;             //如果失败，抛出接口返回的错误信息

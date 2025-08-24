@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head resource>
+    <meta charset="utf-8">
+    <meta view="login" page="/Help/WebdeskUI/login.htm" />
+    <title></title>
+    <script type="text/javascript" src="/Utilities/Scripts/webdom.js"></script>
+    <script type="text/javascript" src="../Scripts/core.js"></script>
+    <link rel="stylesheet" href="Styles/Public.css" />
+</head>
+<body>
+    <div id="vapp" v-cloak> 
+        <card shadow="never">
+            <card-title>
+                <icon large>&#xe808</icon>login.js 登录
+            </card-title>
+            <card-content>
+                <ul>
+                    <li>支持手式滑动验证</li>
+                    <li>支持图片验证码，需要调用服务端</li>
+                </ul>
+            </card-content>
+        </card>
+        <p><b>示例：</b></p>
+
+        <pre class="line-numbers"><code class="language-javascript">   
+    var login = $login.create({
+        target: '#login-area',
+        //width: '500px',
+        title: '管理系统登录',
+        company: '微厦科技',
+        website: 'http://www.weishakeji.net',
+        tel: '400 6015615',
+        
+        //user: 'admin',
+        //pw: '1'
+    });
+
+</code>
+</pre>
+        <p><b>属性:</b></p>
+
+        <div>
+            <p>下表中，“可监听”的属性，可以通过watch()增加监听方法，类似Vue；“双向绑定”的意思是属性更改后，直接影响窗体样式。</p>
+        </div>
+        <table width="100%" border="0" cellspacing="1" cellpadding="1">
+            <tr>
+                <th scope="col" width="200px">属性</th>
+                <th scope="col">说明</th>
+                <th scope="col" width="60px">可监听</th>
+                <th scope="col" width="80px">双向绑定</th>
+            </tr>
+            <tr>
+                <td>target</td>
+                <td>对象所在的html位置</td>
+                <td>✔</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>width</td>
+                <td>宽度</td>
+                    <td>✔</td>
+                    <td>✔</td>
+            </tr>
+            <tr>
+                <td>height</td>
+                <td>高度</td>
+                <td>✔</td>
+                <td>✔</td>
+            </tr>
+            <tr>
+                <td>title</td>
+                <td>标题</td>
+                <td>✔</td>
+                <td>✔</td>
+            </tr>
+            <tr>
+                <td>ico</td>
+                <td>iconfont图标</td>
+                <td>✔</td>
+                <td>✔</td>
+            </tr>
+            <tr>
+                <td>icoimg</td>
+                <td>图片标志，设置后覆盖ico</td>
+                <td>✔</td>
+                <td>✔</td>
+            </tr>
+            <tr>
+                <td>loading</td>
+                <td>加载中，为true时显示加载效果</td>
+                <td>✔</td>
+                <td>✔</td>
+            </tr>
+        </table>
+    
+            <p><b>方法：</b></p>
+
+            <div>
+                <p>下表只列出了常用公共方法，更多方法请参看源码。</p>
+            </div>
+            <table width="100%" border="0" cellspacing="1" cellpadding="1">
+                <tr>
+                    <th scope="col" width="100px">方法</th>
+                    <th scope="col">说明</th>
+                    <th scope="col">参数</th>
+                </tr>
+
+            </table>
+            <p><b>事件：</b></p>
+            <div>
+                <p>事件支持多播，即同一个事件可以添加多个方法。事件返回值仅限bool型，虽然可以返回其它类型或不返回，但最终都会转为bool型返回值。</p>
+                <p>当同一个事件中的多个方法，任一个返回false，则不再继续执行后续事件方法。如果不返回，默认是true。</p>
+            </div>
+            <table id="eventTable" width="100%" border="0" cellspacing="1" cellpadding="1">
+                <tr>
+                    <th scope="col" width="80px">事件</th>
+                    <th scope="col" width="150px">说明</th>
+                    <th scope="col" width="100px">参数sender</th>
+                    <th scope="col">参数e</th>
+                </tr>
+                <tr>
+                    <td>load</td>
+                    <td>当布局完成</td>
+                    <td>同上</td>
+                    <td>e.event：事件名称<br> e.action：动作，默认与e.event同值
+                        <br> e.target：响应事件的html元素，此处为窗体的html
+                        <br> e.data：数据源
+                    </td>
+                </tr>
+                <tr>
+                    <td>resize</td>
+                    <td>当宽高变动时</td>
+                    <td>&nbsp;</td>
+                    <td>e.width:当前宽高<br /> e.height:当前高度
+                    </td>
+                </tr>
+                <tr>
+                    <td>dragfinish</td>
+                    <td>滑块拖动完成</td>
+                    <td>&nbsp;</td>
+                    <td>e.data，当前节点数据项</td>
+                </tr>
+                <tr>
+                    <td>change</td>
+                    <td>输入变动</td>
+                    <td>&nbsp;</td>
+                    <td>e.action：账号user,密码pw,验证码vcode<br /> e.word:当前输入内容
+                        <br /> e.value:当前值
+                        <br /> e.target:当前输入框对象
+                    </td>
+                </tr>
+                <tr>
+                    <td>submit</td>
+                    <td>提交表单</td>
+                    <td>&nbsp;</td>
+                    <td>e.user:当前要提交的账号管<br /> e.pw:密码
+                        <br /> e.vcode:验证码</td>
+                </tr>
+            </table>
+    </div> 
+</body>
+</html>

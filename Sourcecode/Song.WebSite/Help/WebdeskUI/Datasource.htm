@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head resource>
+    <meta charset="utf-8">
+    <meta view="Datasource" page="/Help/WebdeskUI/Datasource.htm" />
+
+    <title></title>
+    <script type="text/javascript" src="/Utilities/Scripts/webdom.js"></script>
+    <script type="text/javascript" src="../Scripts/core.js"></script>
+    <link rel="stylesheet" href="Styles/Public.css" />
+</head>
+<body>
+    <div id="vapp" v-cloak> 
+    <p>在WebdeskUI中，各个控件的数据源格式基本是一样的。以下为详细说明，实际使用时，没有这么复杂，只需一些关键属性，例如id,title,type,url,childs等，其它可以省略。</p>
+
+    <pre class="line-numbers"><code class="language-javascript">   
+        [{
+            "id": "node_522",           //节点ID，注意不可以为纯数字
+            "title": "功能演示",            //节点标题
+            "tit": "演示",                  //简标题，例如树形菜单最左侧的菜单，不希望显示太多字
+            "intro": "",                    //节点的简介，当鼠标悬停时显示
+            "ico": "e72f",                  //图标,来自学习系统的图标库       
+            "help": "",                 //在tabs.js控件中，右上方是否显示帮助按钮
+            "type": "node",             //节点类型，node为节点，link为超链接,
+                                        //open为打开pagebox.js的窗口,
+                                        //event为javascript事件
+                                        //hr，为分隔线
+            "url": "",                  //节点的URL，
+                                        //如果type为node,则为弹窗的url，
+                                        //如果type为link,则为超链接的url
+                                        //如果type为event,则为javascript代码
+
+            "width": "600px",           //如果type为open,则为弹窗的宽度
+            "height": "600px",          //如果type为open,则为弹窗的高度
+            "max": false,               //如果type为open,则为弹窗是否可最大化
+			"min": false,               //弹窗是否可最小化
+			"move": false,              //弹窗是否可拖动
+			"resize": false,            //弹窗是否可改变大小
+            "print": true,              //是否允许打印        
+            "close": true,              //是否允许关闭按钮
+            "fresh": true,              //是否允许刷新
+            "full": false,              //打开后是否立即全屏，默认是false
+            "showmask":false,           //打开弹窗时，是否显示遮罩层，类似windows的模态窗口           
+
+
+            //字体样式
+            "font": {
+                "bold": false,          //是否加粗
+                "italic": false,        //是否斜体
+                "font": "",             //字体大小
+                "color": "#333"         //字体颜色
+            },
+            //图标样式
+            "icon": {
+                "size": 0,         //图标字体大小，单位px；如果为0，则采用默认大小
+                "color": "rgb(42, 130, 3)",   //图标颜色，默认是font.color颜色，即与标题颜色一致
+                "x": 0,           //图标在x轴的偏移量，主要是因为图标大小不一样，所以需要设置图标的x轴偏移量
+                "y": 0            //同上
+            },
+            "childs": [
+                    {  ...子节点1...     },
+                    {  ...子节点2...     }
+             ]      
+        }]
+        </code></pre>
+        <p>上述节点数据在不同的控件中，可能略有差别，例如type为hr时，在下拉菜单dropmenu.js中作为分隔线，在其它控件中则没有用处，会被忽略。</p>
+        <p>数据节点的属性如果有冗余，并不影响使用，且在数据传递中会完整传递该节点。例如在树形菜单treemenu.js中点击菜单项，触发选项卡tabs.js或弹窗pagebox.js，那么在选项卡控件中可以接收到完整的节点数据项。</p>
+      
+        <p>&nbsp;</p>
+
+        
+ </code></pre>
+    </div> 
+</body>
+</html>

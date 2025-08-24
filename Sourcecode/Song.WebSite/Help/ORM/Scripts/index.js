@@ -11,7 +11,7 @@
                 { name: '删改', tag: 'delete', icon: 'e800', size: 'medium'  },  
                 { name: '统计', tag: 'statistic', icon: 'e83c', size: 'medium'  },   
                 { name: '事务', tag: 'trans', icon: 'e634', size: 'medium'  },   
-                { name: '批量', tag: 'batch', icon: 'a04d', size: 'medium'  },   
+                { name: '复杂查询', tag: 'complexquery', icon: 'a04d', size: 'medium'  },   
             ]
         },
         watch: {

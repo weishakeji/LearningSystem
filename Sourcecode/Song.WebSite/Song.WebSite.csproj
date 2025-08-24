@@ -431,16 +431,22 @@
     <Content Include="Help\Styles\Index.css" />
     <Content Include="Help\Styles\License.css" />
     <Content Include="Help\Styles\Public.css" />
+    <Content Include="Help\WebdeskUI\Datasource.htm" />
     <Content Include="Help\WebdeskUI\Detail.htm" />
+    <Content Include="Help\WebdeskUI\Dropmenu.htm" />
     <Content Include="Help\WebdeskUI\Entity.htm" />
-    <Content Include="Help\WebdeskUI\Images\1.png" />
-    <Content Include="Help\WebdeskUI\Images\2.png" />
     <Content Include="Help\WebdeskUI\Index.htm" />
     <Content Include="Help\WebdeskUI\Index.html" />
+    <Content Include="Help\WebdeskUI\Login.htm" />
+    <Content Include="Help\WebdeskUI\Pagebox.htm" />
+    <Content Include="Help\WebdeskUI\Scripts\Detail.js" />
     <Content Include="Help\WebdeskUI\Scripts\Entity.js" />
     <Content Include="Help\WebdeskUI\Scripts\Index.js" />
     <Content Include="Help\WebdeskUI\Styles\Entity.css" />
     <Content Include="Help\WebdeskUI\Styles\Index.css" />
+    <Content Include="Help\WebdeskUI\Tabs.htm" />
+    <Content Include="Help\WebdeskUI\Treemenu.htm" />
+    <Content Include="Help\WebdeskUI\Verticalbar.htm" />
     <Content Include="SOURCE_LICENSE.txt" />
     <Content Include="Templates\Manage\Default\Accounts\CapitalRecords.html" />
     <Content Include="Templates\Manage\Default\Accounts\Scripts\CapitalRecords.js" />
@@ -3171,6 +3177,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Help\Documents\Files\orgadmin_start\" />
+    <Folder Include="Help\WebdeskUI\Images\" />
     <Folder Include="Templates\Manage\Default\Learningcard\Images\" />
     <Folder Include="Templates\Manage\Default\RechargeCode\Images\" />
     <Folder Include="Templates\Manage\_public\Organs\" />

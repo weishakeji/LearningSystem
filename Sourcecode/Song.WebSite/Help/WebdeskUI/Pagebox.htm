@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta view="Pagebox" page="/Help/WebdeskUI/Pagebox.htm" />
+    <title></title>
+    <script type="text/javascript" src="/Utilities/Scripts/webdom.js"></script>
+    <script type="text/javascript" src="../Scripts/core.js"></script>
+    <link rel="stylesheet" href="Styles/Public.css" />
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <card shadow="never">
+            <card-title>
+                <icon large>&#xa017</icon>Pagebox.js 页面窗体
+            </card-title>
+            <card-content>
+                <ul>
+                    <li>可拖放，可缩放，模拟windows桌面窗体</li>
+                    <li>可上溯父级，遍历下级，父子窗体可互动</li>
+                    <li>自定义事件，支持多播，可追加、可去除</li>
+                    <li>属性支持双向绑定，可监听</li>
+                </ul>
+            </card-content>
+        </card>
+        <p><b>示例：</b></p>
+        <pre class="line-numbers"><code class="language-javascript">   
+         //创建窗体
+        var box=$pagebox.create({
+            width: 400,
+            height: 300,
+            url: 'pagebox-child.html',
+            title: '可移动，可缩放；双击标题栏全屏'
+        });
+        box.onshown=function(){
+            console.log('窗体已打开');
+        }.onshut=function(){
+            console.log('窗体已关闭');
+        }.onfull=()=>console.log('窗体已全屏');
+        box.open();     //打开窗体，触发onshown事件
+        box.full=true;  //全屏,触发onfull事件
+    </code></pre>
+        <p><b>属性：</b></p>
+
+        <div>
+            <p>大部分属性支持双向绑定，可以直接设置属性改变窗体。</p>
+            <p>下表中，“可监听”的属性，可以通过watch()增加监听方法，类似Vue；“双向绑定”的意思是属性更改后，直接影响窗体样式。</p>
+        </div>
+        <table width="100%" border="0" cellspacing="1" cellpadding="1">
+            <tr>
+                <th scope="col" width="200px">属性</th>
+                <th scope="col">说明</th>
+                <th scope="col" width="60px">可监听</th>
+                <th scope="col" width="80px">双向绑定</th>
+            </tr>
+            <tr>
+                <td>title</td>
+                <td>窗体的标题栏文字</td>
+                <td>✔</td>
+                <td>✔</td>
+            </tr>
+            <tr>
+                <td>url</td>
+                <td>窗体中的内容页网址</td>
+                <td>✔</td>
+                <td>✔</td>
+            </tr>
+            <tr>
+                <td>width,height</td>
+                <td>宽高</td>
+                <td>✔</td>
+                <td>✔</td>
+            </tr>
+            <tr>
+                <td>top,left</td>
+                <td>窗体上和左的位置</td>
+                <td>✔</td>
+                <td>✔</td>
+            </tr>
+            <tr>
+                <td>right,bottom</td>
+                <td>窗体右和下的位置</td>
+                <td>✔</td>
+                <td>✔</td>
+            </tr>
+            <tr>
+                <td>ico</td>
+                <td>窗体左上角图标</td>
+                <td>✔</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>full</td>
+                <td>设置窗体最大化</td>
+                <td>✔</td>
+                <td>✔</td>
+            </tr>
+            <tr>
+                <td>mini</td>
+                <td>设置窗体最小化，注意它与min的区别</td>
+                <td>✔</td>
+                <td>✔</td>
+            </tr>
+            <tr>
+                <td>resize</td>
+                <td>是否允许缩放窗体</td>
+                <td>✔</td>
+                <td>✔</td>
+            </tr>
+            <tr>
+                <td>move</td>
+                <td>是否允许移动窗体</td>
+                <td>✔</td>
+                <td>✔</td>
+            </tr>
+            <tr>
+                <td>max</td>
+                <td>是否允许窗体最大化</td>
+                <td>✔</td>
+                <td>✔</td>
+            </tr>
+            <tr>
+                <td>min</td>
+                <td>是否允许窗体最小化</td>
+                <td>✔</td>
+                <td>✔</td>
+            </tr>
+            <tr>
+                <td>print</td>
+                <td>是否允许打印窗体内的内容</td>
+                <td>✔</td>
+                <td>✔</td>
+            </tr>
+            <tr>
+                <td>close</td>
+                <td>是否显示关闭按钮</td>
+                <td>✔</td>
+                <td>✔</td>
+            </tr>
+            <tr>
+                <td>dom</td>
+                <td>窗体的dom对象</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>parent</td>
+                <td>父窗体对象</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>childs</td>
+                <td>下级窗体对象列表</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+        <p><b>方法：</b></p>
+
+        <div>
+            <p>下表只列出了常用方法，更多请参看源码。</p>
+        </div>
+        <table width="100%" border="0" cellspacing="1" cellpadding="1">
+            <tr>
+                <th scope="col" width="100px">方法</th>
+                <th scope="col">说明</th>
+                <th scope="col">参数</th>
+            </tr>
+            <tr>
+                <td>open()</td>
+                <td>打开窗体，触发onshown事件</td>
+                <td>无</td>
+            </tr>
+            <tr>
+                <td>watch()</td>
+                <td>增加自定义属性监听</td>
+                <td> //obj:pagebox对象，val：传入的值，old:原值<br>
+                    例如：box.watch({<br />
+                    'title':function(obj,val,old){<br />
+                    console.log('通过外部监听，新的title：'+val);<br />
+                    } <br />
+                    });<br>
+                </td>
+            </tr>
+            <tr>
+                <td>focus()</td>
+                <td>当前窗体获取焦点，最前面显示</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>shut()</td>
+                <td>关闭当前窗体</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>toFull()</td>
+                <td>窗体最大化，建议直接box.full=true;将自动触发这个方法；</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>toWindow()</td>
+                <td>窗体还原，建议直接box.full=false或box.mini=false</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>document()</td>
+                <td>iframe中的文档对象</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>getChilds()</td>
+                <td>所有子级窗体，包括下级的下级</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>bind()</td>
+                <td>绑定事件</td>
+                <td>bind(事件名,方法)<br>
+                    事件名仅限 'shown', 'shut', 'load', 'fail',
+                    'click', 'drag', 'focus', 'blur',
+                    'min', 'full', 'restore', 'resize'</td>
+            </tr>
+            <tr>
+                <td>unbind()</td>
+                <td>去除事件绑定</td>
+                <td>unbind(事件名,[方法])<br>
+                    如果指定了方法，则删除某类事件的指定方法；否则将删除该类所有事件
+                </td>
+            </tr>
+            <tr>
+                <td>trigger()</td>
+                <td>触发事件</td>
+                <td>trigger(事件名,[消息])</td>
+            </tr>
+            <tr>
+                <td>events()</td>
+                <td>事件列表</td>
+                <td>events([事件名])<br>
+                    如果不指定事件名，将返回所有事件列表</td>
+            </tr>
+        </table>
+        <p><b>事件：</b></p>
+
+        <div>
+            <p>事件支持多播，即同一个事件可以添加多个方法。事件返回值仅限bool型，虽然可以返回其它类型或不返回，但最终都会转为bool型返回值。</p>
+            <p>当同一个事件中的多个方法，任一个返回false，则不再继续执行后续事件方法。如果不返回，默认是true。</p>
+        </div>
+        <pre class="line-numbers"><code class="language-javascript">   
+    var box=$pagebox.create();
+    //关闭事件
+    box.onshut(function(s,e){
+        return confirm('是否确定关闭？');
+    }).onshut(function(s,e){
+        return confirm('再次确认关闭？');
+    });
+    box.open();</code></pre>
+        <table id="eventTable" width="100%" border="0" cellspacing="1" cellpadding="1">
+            <tr>
+                <th scope="col" width="80px">事件</th>
+                <th scope="col" width="180px">说明</th>
+                <th scope="col" width="180px">参数sender</th>
+                <th scope="col">参数e</th>
+            </tr>
+            <tr>
+                <td>shown</td>
+                <td>打开</td>
+                <td>当前pagebox对象</td>
+                <td>e.event：事件名称<br>
+                    e.action：动作，默认与e.event同值<br>
+                    e.target：响应事件的html元素，此处为窗体的html</td>
+            </tr>
+            <tr>
+                <td>shut</td>
+                <td>关闭</td>
+                <td>同上</td>
+                <td>同上</td>
+            </tr>
+            <tr>
+                <td>load</td>
+                <td>加载完成，不管是否失败</td>
+                <td>&nbsp;</td>
+                <td>e.target：窗体iframe中的文档对象（document)<br>
+                    e.url：窗体iframe中的页面路径，即src的值</td>
+            </tr>
+            <tr>
+                <td>fail</td>
+                <td>加载失败</td>
+                <td>&nbsp;</td>
+                <td>同上</td>
+            </tr>
+            <tr>
+                <td>click</td>
+                <td>点击</td>
+                <td>&nbsp;</td>
+                <td>与onshown相同</td>
+            </tr>
+            <tr>
+                <td>drag</td>
+                <td>拖动位置</td>
+                <td>&nbsp;</td>
+                <td>e.target：窗体标题栏<br>
+                    e.mouse:鼠标当前坐标,{x,y}<br>
+                    e.move：移动的偏移量（相较于拖动之前）,{x,y}<br>
+                    e.offset:当前窗体的位置,{left,top}</td>
+            </tr>
+            <tr>
+                <td>focus</td>
+                <td>获取焦点</td>
+                <td>&nbsp;</td>
+                <td>与onshown相同</td>
+            </tr>
+            <tr>
+                <td>blur</td>
+                <td>失去焦点</td>
+                <td>&nbsp;</td>
+                <td>与onshown相同</td>
+            </tr>
+            <tr>
+                <td>mini</td>
+                <td>最小化</td>
+                <td></td>
+                <td>与onshown相同</td>
+            </tr>
+            <tr>
+                <td>full</td>
+                <td>最大化</td>
+                <td>&nbsp;</td>
+                <td>与onshown相同</td>
+            </tr>
+            <tr>
+                <td>restore</td>
+                <td>还原</td>
+                <td>&nbsp;</td>
+                <td>e.action:如果是全屏还原，为from-full; 最小化还原为from-min</td>
+            </tr>
+            <tr>
+                <td>resize</td>
+                <td>缩放窗体大小</td>
+                <td>&nbsp;</td>
+                <td>e.mouse:鼠标当前坐标,{x,y}<br>
+                    e.move：移动的偏移量（相较于拖动之前）,{x,y}<br>
+                    e.offset:当前窗体的位置,{left,top}<br>
+                    e.width:缩放宽度<br>
+                    e.height:缩放高度<br>
+                    e.target:缩放控件<br>
+                    e.action:缩放的方向</td>
+            </tr>
+        </table>
+
+    </div>
+</body>
+
+</html>
