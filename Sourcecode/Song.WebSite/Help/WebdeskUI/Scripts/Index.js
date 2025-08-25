@@ -2,7 +2,7 @@
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            activeName: 'login',
+            activeName: 'detail',
             //菜单项
             menus: [
                 { name: '简述', tag: 'detail', icon: 'e834', size: 'large' },
