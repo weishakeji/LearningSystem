@@ -11,7 +11,7 @@ Vue.component('modify_main', {
             course: {},          //当前试题的课程
             //当前试题
             question: {
-                Qus_ID: 0, Qus_Type: 1, Qus_IsUse: true,
+                Qus_ID: 0, Qus_Type: 0, Qus_IsUse: true,
                 Cou_ID: 0, Sbj_ID: 0, Ol_ID: 0,
                 Qus_Title: '', Ol_Name: '',
                 Qus_Diff: 3,
@@ -50,11 +50,8 @@ Vue.component('modify_main', {
         'question': {
             handler: function (nv, ov) {
                 //如果试题类型不明确（例如新增试题），类型从路径中取
-                if (!nv.Qus_Type) {
-                    let name = window.location.pathname;
-                    if (name.indexOf('.') > -1) name = name.substring(0, name.indexOf('.'));
-                    let type = name.substring(name.length - 1);
-                    nv['Qus_Type'] = Number(type);
+                if (!nv.Qus_Type || nv.Qus_Type <= 0) {                  
+                    nv['Qus_Type'] = this.getquestype();
                 }
             }, immediate: true, deep: true
         }
@@ -93,6 +90,13 @@ Vue.component('modify_main', {
         th.getEntity();
     },
     methods: {
+        //获取试题的初始类型
+        getquestype:function(){
+            let name = window.location.pathname;
+            if (name.indexOf('.') > -1) name = name.substring(0, name.indexOf('.'));
+            let type = name.substring(name.length - 1);
+            return parseInt(type);
+        },
         //获取试题信息
         getEntity: function () {
             var th = this;
