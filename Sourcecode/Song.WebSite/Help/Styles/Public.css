@@ -126,13 +126,31 @@ dl dd * {
     background-repeat: no-repeat;
     background-position: bottom;
 }
-
+/*提示信息*/
+*.tip{
+    --tip_bgcolor: #ecf8ff;
+    --tip_bordercolor: #50bfff;
+}
+*.tip[red]{
+    --tip_bgcolor: #fff5f5;
+    --tip_bordercolor: #ff5a5a;
+}
+*.tip[green]{
+    --tip_bgcolor: rgb(240, 249, 235);
+    --tip_bordercolor: #67C23A;
+}
+*.tip[yellow]{
+    --tip_bgcolor: rgb(253, 246, 236);
+    --tip_bordercolor: #E6A23C;
+}
 *.tip {
     padding: 20px 20px 20px 40px;
-    background-color: #ecf8ff;
+    box-sizing: border-box;
+    background-color: var(--tip_bgcolor);
     border-radius: 4px;
-    border-left: 5px solid #50bfff;
-    margin: 20px 0;
+    border-left: 5px solid var(--tip_bordercolor);
+    margin: 20px;
+    width: calc(100% - 40px);
     text-align: left;
     text-indent: 0px;
 }

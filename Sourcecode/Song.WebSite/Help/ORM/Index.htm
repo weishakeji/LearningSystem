@@ -22,7 +22,7 @@
                 </span>
             </el-tab-pane>
         </el-tabs>
-        <iframe v-for="item in menus" :src="item.tag+'.htm'" v-show="item.tag==activeName" frameborder="0"
+        <iframe v-for="item in menus" :src="geturl(item)" v-show="item.tag==activeName" frameborder="0"
             allowtransparency="true"></iframe>
     </div>
 </body>

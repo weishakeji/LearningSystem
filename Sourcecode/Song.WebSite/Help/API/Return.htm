@@ -14,15 +14,16 @@
 
         <p>以下面的代码为例，为接口返回值作简要说明。</p>
         <pre class="line-numbers"><code class="language-javascript">
-$api.get('Account/Current').then(req=>{         //接口返回的对象可以任意命名，默认用了req
-    if(req.data.success){                   //判断接口是否成功
-        let result=req.data.result;         //如果成功，这里是接口返回值
-        //...业务代码
-    }else{
-        throw req.data.message;             //如果失败，抛出接口返回的错误信息
-    }
-}).catch(err=>console.error(err))           //异常处理，这里是在浏览器的调试窗口显示错误信息
-    .finally(()=>{});                       //不管成功还是失败，但会执行此部分代码
+    $api.get('Account/Current').then(req=>{         //接口返回的对象可以任意命名，默认用了req
+        if(req.data.success){                   //判断接口是否成功
+            let result=req.data.result;         //如果成功，这里是接口返回值
+            //...业务代码
+        }else{
+            throw req.data.message;             //如果失败，抛出接口返回的错误信息
+        }
+    }).catch(err=>console.error(err))           //异常处理，这里是在浏览器的调试窗口显示错误信息
+        .finally(()=>{});                       //不管成功还是失败，但会执行此部分代码
+        
 </code></pre>
 
         <p>从上述代码中可以看到，返回对象名为req，则req.data.result 为接口返回值;下面将主要讲解req的一些属性和方法的说明。</p>

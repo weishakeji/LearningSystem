@@ -78,16 +78,16 @@
 
             <p>以下的接口缓存的使用。</p>
             <pre class="line-numbers"><code class="language-javascript">   
-        //缓存20分钟，数值可以为空，默认是10分钟
-        $api.cache('News/Article:20',{ 'id': 225 }).then(req=>{
-            if(req.data.success){
-                let result=req.data.result;
-                //...
-            }else{
-                throw req.data.message;
-            }
-        }).catch(err=>console.error(err))
-            .finally(()=>{});
+    //缓存20分钟，数值可以为空，默认是10分钟
+    $api.cache('News/Article:20',{ 'id': 225 }).then(req=>{
+        if(req.data.success){
+            let result=req.data.result;
+            //...
+        }else{
+            throw req.data.message;
+        }
+    }).catch(err=>console.error(err))
+        .finally(()=>{});
         
  </code></pre>
 
