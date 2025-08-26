@@ -419,6 +419,7 @@ namespace Song.ViewData.Methods
             string theme = xn.Attributes["theme"].Value.ToString();
             //提交方式，1为自动提交，2为交卷
             int patter = Convert.ToInt32(xn.Attributes["patter"].Value);
+
             //
             Song.Entities.Examination exam = Business.Do<IExamination>().ExamSingle(examid);
             //如果考试不存在
@@ -428,7 +429,7 @@ namespace Song.ViewData.Methods
             //if (DateTime.Now > ((DateTime)exam.Exam_Date).AddMinutes(span + 5)) return 0;  
 
             try
-            {
+            {               
                 Song.Entities.ExamResults exr = new ExamResults();
                 exr.Exr_IsSubmit = patter == 2;
                 exr.Exam_ID = examid;

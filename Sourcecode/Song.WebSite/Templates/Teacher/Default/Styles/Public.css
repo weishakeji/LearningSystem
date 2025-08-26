@@ -17,6 +17,7 @@ body{
 * {
 	touch-action: none;
 	touch-action: pan-y;
+    font-family: "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
 }
 /*字体大小*/
 .large {

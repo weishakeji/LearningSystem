@@ -267,10 +267,7 @@
     <Content Include="Help\API\Styles\Explain.css" />
     <Content Include="Help\API\Styles\Index.css" />
     <Content Include="Help\API\Styles\Return.css" />
-    <Content Include="Help\Contents\DataEntity.html" />
     <Content Include="Help\Contents\Deployment.html" />
-    <Content Include="Help\Contents\Images\DataEntity\1.png" />
-    <Content Include="Help\Contents\Images\DataEntity\2.png" />
     <Content Include="Help\Contents\Images\Deployment\1.png" />
     <Content Include="Help\Contents\Images\weixinMiniApp.jpg" />
     <Content Include="Help\Contents\Overview.html" />
@@ -285,7 +282,6 @@
     <Content Include="Help\Contents\Styles\Tutorials.css" />
     <Content Include="Help\Contents\Styles\Upgrade.css" />
     <Content Include="Help\Contents\Templates.html" />
-    <Content Include="Help\Contents\Tutorials.html" />
     <Content Include="Help\Contents\Upgrade.html" />
     <Content Include="Help\Copyright.html" />
     <Content Include="Help\Database\Check.htm" />

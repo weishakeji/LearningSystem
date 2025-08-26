@@ -101,6 +101,10 @@ Vue.component('setscore', {
                 }
             });
         },
+        //创建新的考试成绩
+        createResultScore:function(){
+
+        }
     },
     template: `<div v-if="exam && exresult && showpanel">
     <el-dialog :visible.sync="showpanel" width="70%">
@@ -124,13 +128,13 @@ Vue.component('setscore', {
                 <warning multi  v-else>时间区间限定在<br/> {{exam.Exam_Date|date('yyyy-MM-dd HH:mm')}} 到 {{exam.Exam_DateOver|date('yyyy-MM-dd HH:mm')}} 之间。</warning>
             </el-form-item>
             <el-form-item label="用时(分钟）">
-                <el-slider v-model="form.dura" :min="1" show-input :max="exam.Exam_Span" :marks="durmarks">
-                </el-slider>
+                <el-slider v-model="form.dura" :min="1" show-input :max="exam.Exam_Span" :marks="durmarks"></el-slider>
             </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
             <el-button @click="showpanel = false" :disabled="loading">取 消</el-button>
-            <el-button type="primary" @click="setResultScore()" :loading="loading">确 定</el-button>
+            <el-button type="success" @click="setResultScore()" :loading="loading" plain v-if="false">生成新成绩</el-button>
+            <el-button type="primary" @click="setResultScore()" :loading="loading" plain>修改成绩</el-button>
         </span>
     </el-dialog>
     </div> `

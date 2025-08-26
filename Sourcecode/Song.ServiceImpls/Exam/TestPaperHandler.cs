@@ -11,6 +11,9 @@ using WeiSha.Core;
 
 namespace Song.ServiceImpls.Exam
 {
+    /// <summary>
+    /// 试卷处理类，用于生成试卷
+    /// </summary>
     public class TestPaperHandler
     {
         private static readonly TestPaperCom tpcom = new Song.ServiceImpls.TestPaperCom();

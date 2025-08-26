@@ -1473,7 +1473,7 @@ namespace Song.ServiceImpls
             if (qus.Qus_Type == 1) return _determineQues1(qus, ans) ? num : 0;
             if (qus.Qus_Type == 2) return _determineQues2(qus, ans) ? num : 0;
             if (qus.Qus_Type == 3) return _determineQues3(qus, ans) ? num : 0;
-            if (qus.Qus_Type == 4) return _calcScoreQues4(qus, ans, num);
+            if (qus.Qus_Type == 4) _calcScoreQues4(qus, ans, num);
             if (qus.Qus_Type == 5) return _determineQues5(qus, ans) ? num : 0;
             return 0;
         }
@@ -1544,23 +1544,10 @@ namespace Song.ServiceImpls
         /// <param name="ans"></param>
         /// <returns></returns>
         private bool _determineQues4(Questions ques, string ans)
-        {        
-            try
-            {
-                //以下是用AI大语言的模型的算法
-                float score = _calcScoreQues4(ques, ans, 10);
-                return score >= 10;
-            }
-            catch
-            {
-                //简答题是否正确，这是原有用字符对比的算法
-                if (string.IsNullOrWhiteSpace(ans)) return false;
-                if (string.IsNullOrWhiteSpace(ques.Qus_Answer)) return false;
-                ans = WeiSha.Core.HTML.ClearTag(ans);
-                ques.Qus_Answer = WeiSha.Core.HTML.ClearTag(ques.Qus_Answer);
-                if (ans.Trim() == "" || ques.Qus_Answer.Trim() == "") return false;
-                return ans.Equals(ques.Qus_Answer, StringComparison.OrdinalIgnoreCase);
-            }
+        {
+            //以下是用AI大语言的模型的算法
+            float score = _calcScoreQues4(ques, ans, 10);
+            return score >= 10;
         }
         /// <summary>
         /// 计算简答题的称题得分，利用AI大语言模型
@@ -1572,30 +1559,44 @@ namespace Song.ServiceImpls
         private float _calcScoreQues4(Questions ques, string ans, float num)
         {
             if (string.IsNullOrWhiteSpace(ans)) return 0;
-            //取试题所在专业与课程
-            Subject sbj = Business.Do<ISubject>().SubjectSingle(ques.Sbj_ID);   
-            Course cou = Business.Do<ICourse>().CourseSingle(ques.Cou_ID);
-            Outline outline = Business.Do<IOutline>().OutlineSingle(ques.Ol_ID);
-            //设定AI的角色
-            string role = Song.APIHub.LLM.Gatway.TemplateRole("Questions/CalcScore");
-            role = APIHub.LLM.Gatway.TemplateHandle(role, sbj, cou, outline);
-            //生成问题的描述
-            string message = Song.APIHub.LLM.Gatway.TemplateMsg("Questions/CalcScore");
-            message = APIHub.LLM.Gatway.TemplateHandle(message, sbj, cou, outline, ques);
-            message = APIHub.LLM.Gatway.TemplateHandle(message, "answer", ans);
-
-            //向AI发送请求
-            string result = APIHub.LLM.Gatway.Consult(role, message);
-            Match match = Regex.Match(result, @"\d+");
             float score = 0;
-            if (match.Success)
+            try
             {
-                if (float.TryParse(match.Value, out score))
-                    score = score / 10 * num;         
+                //取试题所在专业与课程
+                Subject sbj = Business.Do<ISubject>().SubjectSingle(ques.Sbj_ID);
+                Course cou = Business.Do<ICourse>().CourseSingle(ques.Cou_ID);
+                Outline outline = Business.Do<IOutline>().OutlineSingle(ques.Ol_ID);
+                //设定AI的角色
+                string role = Song.APIHub.LLM.Gatway.TemplateRole("Questions/CalcScore");
+                role = APIHub.LLM.Gatway.TemplateHandle(role, sbj, cou, outline);
+                //生成问题的描述
+                string message = Song.APIHub.LLM.Gatway.TemplateMsg("Questions/CalcScore");
+                message = APIHub.LLM.Gatway.TemplateHandle(message, sbj, cou, outline, ques);
+                message = APIHub.LLM.Gatway.TemplateHandle(message, "answer", ans);
+
+                //向AI发送请求
+                string result = APIHub.LLM.Gatway.Consult(role, message);
+                Match match = Regex.Match(result, @"\d+");
+               
+                if (match.Success)
+                {
+                    if (float.TryParse(match.Value, out score))
+                        score = score / 10 * num;
+                }
+                if (score > num) score = num;
+                if (score < 0) score = 0;
+                return score;
             }
-            if (score > num) score = num;
-            if (score < 0) score = 0;
-            return score;          
+            catch
+            {
+                //简答题是否正确，这是原有用字符对比的算法
+                if (string.IsNullOrWhiteSpace(ans)||string.IsNullOrWhiteSpace(ques.Qus_Answer)) score = 0;
+                ans = WeiSha.Core.HTML.ClearTag(ans);
+                ques.Qus_Answer = WeiSha.Core.HTML.ClearTag(ques.Qus_Answer);
+                if (ans.Trim() == "" || ques.Qus_Answer.Trim() == "") score = 0;
+                if (ans.Equals(ques.Qus_Answer, StringComparison.OrdinalIgnoreCase)) score = num;
+                return score;
+            }
         }
         /// <summary>
         /// 填空题，判断答题是否正确
