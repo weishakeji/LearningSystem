@@ -27,7 +27,7 @@ window.vapp = new Vue({
             { type: 'line' },
 
             {
-                name: '页面视图', type: 'node', url: 'Contents/Templates.html',
+                name: '页面视图', type: 'node', url: 'ViewPage/Index.htm',
                 icon: { i: 'a033', s: 23, l: 0, t: 0 }, color: { f: '', b: '' }
             },
             {

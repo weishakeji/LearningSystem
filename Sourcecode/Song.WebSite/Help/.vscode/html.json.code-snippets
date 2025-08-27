@@ -7,7 +7,7 @@
 			"<html lang=\"en\">",
 			"<head resource>",
 			"    <meta charset=\"utf-8\">",	
-			"    <meta view=\"$0\" page=\"/Help/WebdeskUI/$1.htm\" />",	
+			"    <meta view=\"$0\" page=\"/Help/ViewPage/$1.htm\" />",	
 			"    <title></title>",
 			"    <script type=\"text/javascript\" src=\"/Utilities/Scripts/webdom.js\"></script>",
 			"    <script type=\"text/javascript\" src=\"../Scripts/core.js\"></script>",

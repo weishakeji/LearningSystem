@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head resource>
+    <meta charset="utf-8">
+    <meta view="Detail" page="/Help/ViewPage/Detail.htm" />
+
+    <title></title>
+    <script type="text/javascript" src="/Utilities/Scripts/webdom.js"></script>
+    <script type="text/javascript" src="../Scripts/core.js"></script>
+</head>
+<body>
+    <div id="vapp" v-cloak> 
+        <div id="head">
+            <h1>视图模板说明</h1>
+        </div>
+        <section>
+            <p>当前系统采用了MVC架构改造而来，去除了Razor模板引擎，采用自主模板引擎处理视图展现。</p>
+    
+            <dl>
+                <dt>视图文件</dt>
+            </dl>
+            <p>视图文件为*.html，全部在Song.WebSite项目的Templates文件夹。该文件夹下第一级文件夹为视图的路径，例如web、mobi等，第二级文件夹为视图的模板库名称，机构管理员可以在“界面风格”的管理菜单中选择不同的模板库作为当前界面风格；其中_Public为公共模板库，放置一些多个模板库公用的内容。一般Default是默认模板库，Default文件夹下即是视图文件，可以在这里新建html页。
+            </p>
+    
+            <p>例如，在地址栏请求url路径/web/course/detail.132，系统会自动加载它的视图文件，即/Templates/Web/Default/文件夹下的course/detail.html文件；
+                如果提示找不到，一般是应用程序池未设置成“集成模式”导致的。</p>
+    
+            <p>注：上面示例中的url的点后面的是参数（一般是id），与视图无关。在js文件中取值时，$api.dot()，可以获取到上例中的132</p>
+            </p>
+    
+    
+            <p>例如，在/Templates/Web/Default/文件夹下创建test.html文件，则通过/web/test访问；只要有视图文件，即可通过路由访问。</p>
+            <dl>
+                <dt>视图资源引用</dt>
+            </dl>
+            <p>当前系统采用“前后端分离”的开发方式，但是采用了后端路由，不是单页应用，且js等资源也是以传统的资源调用的方式，未采用Npm包的方式。</p>
+            <p>例如：加载js，则需要在html页面中编写如下代码
+                <textarea style="height: 60px;">
+                    <script type="text/javascript" src="/Utilities/Scripts/webdom.js"></script>
+                    <script type="text/javascript" src="../Scripts/Public.js"></script></textarea>
+            </p>
+            <p>为了方便管理，在模板库的scritps文件夹的public.js中编写了加载需要引用的js或css资源。</p>
+            <p>在视图文件的html的head标签增加resource属性，则视图文件会自动加载自身的Js与Css文件，例如Demo.html，会自动调用当前文件夹下的Scripts/demo.js与Style/demo.css。示例如下：
+            </p>
+            <textarea style="height: 90px;">
+                <head resource>
+                    <meta charset="utf-8">
+                    <include file="../inc/meta.inc" />                   
+                </head>
+                
+            </textarea>
+            <p>上述两个文件由webdom.js自动处理，所以一般webdom.js与public.js都需要引用。</p>
+    
+            <dl>
+                <dt>前端开发</dt>
+            </dl>
+            <p>前端框架没有限制，不过建议使用Vue，通过Axios调用后端RESTful API接口。</p>
+            <p>在源码中提供了对Axios的封装，即/Utilities/Scripts/api.js，一般在public.js中已经提供加载，不必单独再引用该js文件。</p>
+            <p>示例</p>
+            <textarea style="height: 260px;">
+                $api.get('Account/Current').then(req=>{
+                    if(req.data.success){
+                          var result=req.data.result;
+                          //...
+                    }else{
+                          throw req.data.message;
+                    }
+              }).catch(function (err) {
+                    alert(err);
+                    console.error(err);
+              }).finally(()=>{});
+                </textarea>
+                <p>示例</p>
+                <textarea style="height: 260px;">
+                    //批量访问过中会验证结果是否异常，但不会触发catch
+                    $api.bat(
+                          $api.get('Account/Current'),
+                          $api.cache('Question/Types:9999'),
+                          $api.post('Course/ForID', { 'id': 123 })
+                    ).then(([acc, type, cou]) => {
+                        var result1=acc.data.result;
+                        var result2=type.data.result;
+                        var result3=cou.data.result;                   
+                    }).catch(err => alert(err))
+                    .finally(() => {
+                          console.log('finally');
+                    });
+                    </textarea>
+        </section>
+    </div> 
+</body>
+</html>
