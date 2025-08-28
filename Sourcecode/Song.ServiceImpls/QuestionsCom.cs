@@ -1140,8 +1140,10 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public string[] QuestionTypes()
         {
-            string types = WeiSha.Core.App.Get["QuesType"].String; 
-            return types.Split(',');
+            string str = WeiSha.Core.App.Get["QuesType"].String;
+            string[] types = string.IsNullOrWhiteSpace(str) ? new string[] { } : str.Split(',');
+            for (int i = 0; i < types.Length; i++) types[i] = types[i].Trim();
+            return types;
         }
         /// <summary>
         /// 添加试题类型

@@ -38,7 +38,7 @@
                 <el-table-column label="启用" width="80" align="center">
                     <template slot-scope="scope">
                         <span class="el-icon-loading" v-show="loadingid==scope.row.Posi_Id"></span>
-                        <el-switch v-model="scope.row.Posi_IsUse" @change="changeUse(scope.row)"
+                        <el-switch v-model="scope.row.Posi_IsUse" @change="changeUse(scope.row)"  :disabled='scope.row.Posi_IsAdmin'
                             v-show="loadingid!=scope.row.Posi_Id">
                         </el-switch>
                     </template>
