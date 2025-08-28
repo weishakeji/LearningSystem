@@ -56,6 +56,12 @@ html, body, #vapp {
         bottom: 1px !important;
     }
 }
+/* 额外效果：高度小于500px时调整布局 */
+        @media (max-height: 800px) {
+             nav>div, nav>a {
+       padding: 5px 6px 5px 55px !important;
+    }
+        }
 
 *::-webkit-scrollbar {
     /*滚动条整体样式*/
