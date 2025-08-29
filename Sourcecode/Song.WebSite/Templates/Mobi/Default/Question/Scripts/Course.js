@@ -74,12 +74,14 @@ $ready(function () {
                 var couid = th.course.Cou_ID;
                 //课程章节，价格，购买人数,通知，教师，是否购买,课程访问数
                 $api.bat(
-                    $api.cache('Outline/Tree', { 'couid': couid, 'isuse': true }),
+                    $api.get('Outline/Tree', { 'couid': couid, 'isuse': true }),
                     $api.get('Course/Owned', { 'couid': couid, 'acid': th.account.Ac_ID }),
                     $api.get('Course/Purchaselog', { 'couid': couid, 'stid': th.account.Ac_ID }),
-                ).then(([outlines, owned, purchase]) => {
-                    //章节                   
-                    th.outlines = th.calcSerial(outlines.data.result, '');
+                ).then(([tree, owned, purchase]) => {
+                    //章节       
+                    let outlines = tree.data.result;
+                    outlines = th.calcSerial(outlines, '');                   
+                    th.outlines = outlines;                 
                     th.owned = owned.data.result;
                     //购买记录
                     th.purchase = purchase.data.result;
@@ -111,15 +113,15 @@ $ready(function () {
                     node.serial = lvl + (i + 1) + '.';
                     this.total++;
                     this.count.sum += node.Ol_QuesCount;
-                    node.Ol_QuesCount = this.calcQuescount(node);
+                    node.Ol_QuesCount += this.calcQuescount(node);                             
                     if (node.children && node.children.length > 0)
                         node.children = this.calcSerial(node.children, node.serial);
                 }
                 return list;
             },
-            //计算某个章节的试题总数
+            //计算某个章节所有下级单的试题总数（不包括自身章节）
             calcQuescount: function (outline) {
-                let total = outline.Ol_QuesCount;
+                let total = 0;
                 var childarr = outline.children ? outline.children : null;
                 if (childarr == null) return total;
                 for (const node of childarr) {

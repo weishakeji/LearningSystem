@@ -134,7 +134,7 @@ $ready(function () {
                     node.serial = lvl + (i + 1) + '.';
                     this.total++;
                     this.count.sum += node.Ol_QuesCount;
-                    node.Ol_QuesCount = this.calcQuescount(node);
+                    node.Ol_QuesCount += this.calcQuescount(node);
                     if (node.children && node.children.length > 0)
                         node.children = this.calcSerial(node.children, node.serial);
                 }
@@ -142,7 +142,7 @@ $ready(function () {
             },
             //计算某个章节的试题总数
             calcQuescount: function (outline) {
-                let total = outline.Ol_QuesCount;
+                let total = 0;
                 var childarr = outline.children ? outline.children : null;
                 if (childarr == null) return total;
                 for (const node of childarr) {
