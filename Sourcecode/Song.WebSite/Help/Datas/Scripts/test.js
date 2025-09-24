@@ -10,57 +10,74 @@
 window.vapp = new Vue({
     el: '#vapp',
     data: {
-        dbType: '未知',   //数据库类型
-        dbName: '',     //数据库名称
-        verison: '', //数据库版本
+        dbmsName: '未知',   //数据库类型（即数据库产品名称）
+        dbName: '',         //数据库名称
+        dbverison: '',        //数据库版本
 
         connState: false,    //数据库是否链接       
         compDatas: [],       //数据完整性信息，这里是缺失的表和字段
         error: '',          //提示信息
 
-        editon:{},      //版本信息
+        editon: {},         //当前学习系统的产品版本信息
 
-        loadingConn: false,     //
-        loadingComp: false,     //比较字段是否完整的预载状态
-
+        loadstate: {
+            init: false,        //初始化
+            conn: false,         //数据库连接
+            info: false,         //数据库信息，名称与版本
+            check: false,      //检测数据库完整性
+            editon: false          //产品版本
+        },
     },
     computed: {
-
+        loading: function () {
+            if (!this.loadstate) return false;
+            for (let key in this.loadstate) {
+                if (this.loadstate.hasOwnProperty(key)
+                    && this.loadstate[key])
+                    return true;
+            }
+            return false;
+        }
     },
     watch: {
 
     },
     created: function () {
         //检测数据库链接
-        this.checkConn();
-        
+        this.getDbms();
         //获取产品商业版本的信息
         this.getEditon();
     },
     methods: {
-        //检测链接
-        checkConn: function () {
+        //检测数据库的类型（即数据库产品名称）
+        getDbms: function () {
             var th = this;
-            //检测数据库名称
+            th.loadstate.init = true;
             $api.get('DataBase/DBMS').then(req => {
                 if (req.data.success) {
-                    th.dbType = req.data.result;
+                    th.dbmsName = req.data.result;
+                    th.checkConn();
                 } else {
                     throw req.data.message;
                 }
-            }).catch(err => console.error(err))
-                .finally(() => { });
+            }).catch(err => {
+                console.error(err);
+                alert(err);
+            }).finally(() => th.loadstate.init = false);
+        },
+        //检测链接
+        checkConn: function () {
+            var th = this;
             //检测链接是否正常
             th.error = '';
-            th.loadingConn = true;
+            th.loadstate.conn = true;
             th.connState = false;
             $api.post('DataBase/CheckConn').then(function (req) {
                 if (req.data.success) {
                     th.connState = req.data.result;
                     if (th.connState) {
-                        th.getDbname();
-                        th.getversion();
-                        th.checkComplete();
+                        th.getdbinfo();     //获取数据库信息 
+                        th.checkComplete(); //检查字段是否完整
                     }
                 } else {
                     th.error = req.data.message;
@@ -68,36 +85,25 @@ window.vapp = new Vue({
                     throw req.data.message;
                 }
             }).catch(err => console.error(err))
-                .finally(() => th.loadingConn = false);
+                .finally(() => th.loadstate.conn = false);
         },
-        //获取数据库版本信息
-        getversion: function () {
+        //获取数据库信息，如版本，数据库名称
+        getdbinfo: function () {
             var th = this;
-            $api.post('DataBase/DbVersion').then(function (req) {
-                if (req.data.success) {
-                    th.verison = req.data.result;
-                } else {
-                    console.error(req.data.exception);
-                    throw req.data.message;
-                }
-            }).catch(err => console.error(err));
-        },
-        //获取数据库名称
-        getDbname: function () {
-            var th = this;
-            $api.post('DataBase/DbName').then(function (req) {
-                if (req.data.success) {
-                    th.dbName = req.data.result;
-                } else {
-                    console.error(req.data.exception);
-                    throw req.data.message;
-                }
-            }).catch(err => th.dbName = '');
+            th.loadstate.info = true;
+            $api.bat(
+                $api.post('DataBase/DbVersion'),
+                $api.post('DataBase/DbName'),
+            ).then(([ver, name]) => {
+                th.dbverison = ver.data.result;
+                th.dbName = name.data.result;
+            }).catch(err => console.error(err))
+                .finally(() => th.loadstate.info = false);
         },
         //检测完整性
         checkComplete: function () {
             var th = this;
-            th.loadingComp = true;
+            th.loadstate.check = true;
             th.compDatas = [];
             $api.post('DataBase/CheckFully').then(function (req) {
                 if (req.data.success) {
@@ -107,21 +113,21 @@ window.vapp = new Vue({
                     throw req.data.message;
                 }
             }).catch(err => console.error(err))
-                .finally(() => th.loadingComp = false);
+                .finally(() => th.loadstate.check = false);
         },
-        //获取版本信息
+        //获取当前学习系统的产品版本信息
         getEditon: function () {
             var th = this;
-            th.loading = true;
+            th.loadstate.editon = true;
             $api.post('Platform/edition').then(function (req) {
                 if (req.data.success) {
                     th.editon = req.data.result;
-                    console.log(th.editon);
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-            }).catch(err=> console.error(err));
+            }).catch(err => console.error(err))
+                .finally(() => th.loadstate.editon = false);
         }
     }
 });

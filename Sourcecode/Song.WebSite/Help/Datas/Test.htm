@@ -28,18 +28,18 @@
                     </span>
                 </span>
                 <el-button style="float: right; padding: 3px 0" type="text" class="el-icon-refresh"
-                    :loading="loadingConn" @click="checkConn">重新测试</el-button>
+                    :loading="loadstate.conn" @click="checkConn">重新测试</el-button>
             </div>
-            <loading asterisk v-if="loadingConn">
+            <loading asterisk v-if="loadstate.conn">
                 detecting ...
             </loading>
             <template v-else>
                 <div class="database">
-                    <span :class="dbType.toLowerCase()">
-                        <icon v-if="dbType=='SQLite'">&#xa05b</icon>
-                        <icon v-if="dbType=='PostgreSQL'">&#xa05d</icon>
-                        <icon v-if="dbType=='SQLServer'">&#xa05a</icon>
-                        {{dbType}}
+                    <span :class="dbmsName.toLowerCase()">
+                        <icon v-if="dbmsName=='SQLite'">&#xa05b</icon>
+                        <icon v-if="dbmsName=='PostgreSQL'">&#xa05d</icon>
+                        <icon v-if="dbmsName=='SQLServer'">&#xa05a</icon>
+                        {{dbmsName}}
                         <span class="dbName" v-if="dbName!=''" v-html="dbName"></span>
                     </span>
 
@@ -61,19 +61,19 @@
                 </div>
                 <div v-if="connState" class="version">
                     数据库版本信息：<br />
-                    <span>{{verison}}</span>
+                    <span>{{dbverison}}</span>
                 </div>
             </template>
         </el-card>
         <el-card class="box-card" v-if="connState" shadow="hover">
             <div slot="header" class="clearfix">
                 <span icon="&#xe6a4">表与字段的完整性</span>
-                <el-button style="float: right; padding: 3px 0" type="text" :loading="loadingComp"
+                <el-button style="float: right; padding: 3px 0" type="text" :loading="loadstate.check"
                     @click="checkComplete">
                     <icon>&#xe6d8</icon>检测
                 </el-button>
             </div>
-            <div v-if="loadingComp">
+            <div v-if="loadstate.check">
                 <span class="el-icon-loading"></span> 正在检测...
             </div>
             <div v-else-if="connState" class="list">

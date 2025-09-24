@@ -23,10 +23,7 @@ namespace Song.ViewData
         /// 返回实例
         /// </summary>
         /// <returns></returns>
-        public static ExecuteMethod GetInstance()
-        {
-            return _instance;
-        }
+        public static ExecuteMethod GetInstance() => _instance;
         #endregion
 
 
