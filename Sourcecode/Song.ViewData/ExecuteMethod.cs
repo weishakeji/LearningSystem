@@ -82,18 +82,25 @@ namespace Song.ViewData
                 throw VExcept.System("The request mark is incorrect", 102);
             //是否验证调用接口的js所在页面host，是否与地址栏一致
             WeiSha.Core.RESTfulAPI apicheck = WeiSha.Core.RESTfulAPI.Get;
-            if (apicheck.HostCheck && "v2".Equals(letter.Version, StringComparison.CurrentCulture))
+            try
             {
-                //如果不在白名单内，如果API与所在页面host相同也会通过
-                if (!(apicheck.EnableWhite && apicheck.WhitePassed(letter.HTTP_HOST)))
+                if (apicheck.HostCheck && "v2".Equals(letter.Version, StringComparison.CurrentCulture))
                 {
-                    //验证黑名单
-                    if (apicheck.EnableBlack && apicheck.BlackPassed(letter.HTTP_HOST))
-                        throw VExcept.System("The API requests are restricted", 102);
-                    else if (!letter.HTTP_HOST.Equals(letter.WEB_HOST, StringComparison.OrdinalIgnoreCase))
-                        throw VExcept.System("The API is inconsistent with the weburi, so the request is restricted", 101);
+                    if (!string.IsNullOrWhiteSpace(letter.HTTP_HOST))
+                    {
+                        //如果不在白名单内，如果API与所在页面host相同也会通过
+                        if (!(apicheck.EnableWhite && apicheck.WhitePassed(letter.HTTP_HOST)))
+                        {
+                            //验证黑名单
+                            if (apicheck.EnableBlack && apicheck.BlackPassed(letter.HTTP_HOST))
+                                throw VExcept.System("The API requests are restricted", 102);
+                            else if (!letter.HTTP_HOST.Equals(letter.WEB_HOST, StringComparison.OrdinalIgnoreCase))
+                                throw VExcept.System("The API is inconsistent with the weburi, so the request is restricted", 101);
+                        }
+                    }
                 }
             }
+            catch { }
             //
             //1.创建对象,即$api.get("account/single")中的account
             IViewAPI execObj = ExecuteMethod.CreateInstance(letter);
