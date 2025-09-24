@@ -26,6 +26,8 @@ body {
 /*数据库相关*/
 .database{
     margin-bottom: 20px;
+    display: flex;
+    align-items: flex-end;
 }
 .database>span{
     white-space: nowrap;
@@ -75,9 +77,7 @@ span.sqlite{
     line-height: 30px;
     font-size: 15px;
 }
-.error{
-    margin: 15px 0px;
-}
+
 .data_title {
    display: flex;
    justify-content: space-between;
@@ -95,6 +95,7 @@ span.sqlite{
     .database{
         display: flex;
         flex-direction: column;
+        align-items: center;
     }
     .database .el-tag{
         margin-left: 0px;

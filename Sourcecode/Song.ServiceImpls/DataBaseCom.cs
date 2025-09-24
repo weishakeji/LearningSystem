@@ -66,7 +66,7 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 检查数据库连接是否正确
         /// </summary>
-        public bool CheckConnection() => Gateway.Default.IsCorrect;
+        public bool CheckConnection() => Gateway.Default.CheckConnCorrect();
         /// <summary>
         /// 数据库里所有的表，仅表的名称
         /// </summary>

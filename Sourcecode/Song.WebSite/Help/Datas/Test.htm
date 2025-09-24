@@ -23,48 +23,45 @@
         <el-card class="box-card" shadow="hover">
             <div slot="header" class="clearfix">
                 <span icon="&#xe6d8">数据库链接测试
-                    <span v-if="!editon.IsLicense" class="editon">
-                        <span v-html="editon.Edition"></span>                       
+                    <span v-if="editon && !editon.IsLicense" class="editon">
+                        <span v-html="editon.Edition"></span>
                     </span>
                 </span>
                 <el-button style="float: right; padding: 3px 0" type="text" class="el-icon-refresh"
                     :loading="loadstate.conn" @click="checkConn">重新测试</el-button>
             </div>
-            <loading asterisk v-if="loadstate.conn">
-                detecting ...
-            </loading>
+            <loading asterisk v-if="loadstate.init"> detecting ... </loading>
+            <alert v-else-if="errorstate.init" multi remark="接口调试问题">
+                {{errorstate.init}} <br />
+                请联系运维人员，调试相关接口，以获取更多帮助。
+            </alert>
             <template v-else>
+
                 <div class="database">
                     <span :class="dbmsName.toLowerCase()">
                         <icon v-if="dbmsName=='SQLite'">&#xa05b</icon>
                         <icon v-if="dbmsName=='PostgreSQL'">&#xa05d</icon>
                         <icon v-if="dbmsName=='SQLServer'">&#xa05a</icon>
-                        {{dbmsName}}
-                        <span class="dbName" v-if="dbName!=''" v-html="dbName"></span>
+                        {{dbmsName}}<span class="dbName" v-if="dbName!=''" v-html="dbName"></span>
                     </span>
-
-                    <template v-if="connState">
-                        <el-tag type="success" class="el-icon-connection connState"> 链接正常</el-tag>
-
-                    </template>
-                    <template v-else>
-                        <el-tag type="danger" class="el-icon-link connState">数据库链接失败</el-tag>
-                        <div class="error" v-if="error!=''">
-                            提示信息：{{error}}
-                        </div>
-                        <help multi>帮助<br />
-                            1、请检查db.config中的数据库链接配置项
-                            <br />
-                            2、检测数据库服务是否启用
-                        </help>
-                    </template>
+                    <el-tag v-if="connState" type="success" class="el-icon-connection connState"> 链接正常</el-tag>
+                    <el-tag v-else type="info" class="el-icon-link connState">数据库链接失败</el-tag>
                 </div>
-                <div v-if="connState" class="version">
+                <loading asterisk v-if="loadstate.conn"> connection ... </loading>
+                <div v-else-if="connState" class="version">
                     数据库版本信息：<br />
                     <span>{{dbverison}}</span>
                 </div>
+                <template v-else>
+                    <alert multi v-if="errorstate.conn!=''">
+                        提示信息：{{errorstate.conn}}
+                        <br /> 1、请检查db.config中的数据库链接配置项
+                        <br /> 2、检测数据库服务是否启用
+                    </alert>
+                </template>
             </template>
         </el-card>
+
         <el-card class="box-card" v-if="connState" shadow="hover">
             <div slot="header" class="clearfix">
                 <span icon="&#xe6a4">表与字段的完整性</span>
@@ -73,9 +70,7 @@
                     <icon>&#xe6d8</icon>检测
                 </el-button>
             </div>
-            <div v-if="loadstate.check">
-                <span class="el-icon-loading"></span> 正在检测...
-            </div>
+            <loading asterisk v-if="loadstate.check">正在检测...</loading>
             <div v-else-if="connState" class="list">
                 <template v-if="compDatas.length>0">
                     <div class="data_title">
@@ -96,7 +91,9 @@
                         </span>
                     </div>
                 </template>
-                <el-tag v-else type="success"><icon>&#xa048</icon> 没有缺失的表或字段</el-tag>
+                <el-tag v-else type="success">
+                    <icon>&#xa048</icon> 没有缺失的表或字段
+                </el-tag>
             </div>
         </el-card>
     </div>
