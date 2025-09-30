@@ -17,8 +17,7 @@ BEGIN
 OPEN cur_name;
 	LOOP
 	    FETCH cur_name INTO tbname;
-	   	EXIT WHEN NOT FOUND; -- 如果没有数据了，退出循环
-		--获取当前表的最大自增字段的值
+	   	EXIT WHEN NOT FOUND; -- 如果没有数据了，退出循环		
 	    tmsql:='DROP TABLE IF EXISTS  "' || tbname || '" CASCADE;';
 		EXECUTE tmsql; 	
 		RAISE NOTICE 'tmsql: %', tmsql;		
