@@ -186,6 +186,7 @@ namespace Song.ViewData.Methods
         /// <param name="type">试题类型</param>
         /// <param name="couid">试题所属课程的id</param>
         /// <returns>success:成功数;error:失败数</returns>
+        [HttpPost]
         public JObject ExcelImport(string xls, int sheet, string config, JArray matching, int type, long couid)
         {
             //获取Excel中的数据

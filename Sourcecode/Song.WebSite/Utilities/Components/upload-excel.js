@@ -1,4 +1,5 @@
 ﻿// excel导入数据的组件
+$dom.load.css(['/Utilities/Components/Styles/upload-excel.css']);
 Vue.component('upload-excel', {
     //template: 模板文件的地址
     //config: 配置文件的地址
@@ -38,7 +39,6 @@ Vue.component('upload-excel', {
         }
     },
     created: function () {
-        $dom.load.css(['/Utilities/Components/Styles/upload-excel.css']);
         this.getconfig();
     },
     methods: {
@@ -65,7 +65,6 @@ Vue.component('upload-excel', {
             th.filename = file.name;
             th.loading = true;
             $api.post('Platform/ExcelUpload', { "file": file }).then(function (req) {
-                th.loading = false;
                 if (req.data.success) {
                     th.book = req.data.result;
                     th.step = 1;
@@ -75,10 +74,9 @@ Vue.component('upload-excel', {
                     throw req.config.way + ' ' + req.data.message;
                 }
             }).catch(function (err) {
-                th.loading = false;
                 Vue.prototype.$alert(err);
                 console.error(err);
-            });
+            }).finally(() => th.loading = false);
         },
         //处理工作簿，获取工作簿上的列名
         handleSheet: function (sheet, index) {
@@ -86,7 +84,6 @@ Vue.component('upload-excel', {
             th.loading = true;
             $api.get('Platform/ExcelSheetColumn', { 'xlsUrl': this.book.url, 'sheetIndex': index })
                 .then(function (req) {
-                    th.loading = false;
                     if (req.data.success) {
                         th.sheet = req.data.result;
                         console.log(th.sheet);
@@ -96,10 +93,9 @@ Vue.component('upload-excel', {
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
-                    th.loading = false;
                     Vue.prototype.$alert(err);
                     console.error(err);
-                });
+                }).finally(() => th.loading = false);
         },
         //匹配excel列名和数据库字段
         marry: function (column, field) {
@@ -130,9 +126,8 @@ Vue.component('upload-excel', {
             if (th.params != null) {
                 for (var k in th.params)
                     params[k] = th.params[k];
-            }          
-            $api.get(th.apiurl, params).then(function (req) {
-                th.loading = false;
+            }
+            $api.post(th.apiurl, params).then(function (req) {
                 if (req.data.success) {
                     th.finish = req.data.result;
                     th.step = 3;
@@ -143,10 +138,9 @@ Vue.component('upload-excel', {
                     throw req.config.way + ' ' + req.data.message;
                 }
             }).catch(function (err) {
-                th.loading = false;
                 Vue.prototype.$alert(err);
                 console.error(err);
-            });
+            }).finally(() => th.loading = false);
         }
     },
     template: `<div class="upload_excel_area">   

@@ -1387,6 +1387,7 @@ namespace Song.ViewData.Methods
         /// <param name="config">配置文件</param>
         /// <param name="matching">excel列与字段的匹配关联</param>
         /// <returns>success:成功数;error:失败数</returns>
+        [HttpPost]
         public JObject ExcelImport(string xls, int sheet, string config, JArray matching)
         {
             //获取Excel中的数据
