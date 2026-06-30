@@ -1,13 +1,12 @@
-﻿
-/*答题卡*/
+﻿/*答题卡*/
 
 .quesCard {
 	width: 100%;
-	height: calc(100% - 130px);	
+	height: calc(100% - 130px);
 }
 
 .quesCard .cardTit {
-	height: 50px;	
+	height: 50px;
 	font-size: 16px;
 	line-height: 50px;
 	box-sizing: border-box;
@@ -70,6 +69,7 @@
 	float: left;
 	position: relative;
 	cursor: pointer;
+	box-shadow: inset 0 0 10px rgba(255, 255, 255, 1);
 }
 
 .quesCard dd[ans] {
@@ -79,21 +79,22 @@
 }
 
 .quesCard dd[current] {
-	border: solid 1px #67C23A;
-	color: #67C23A;
-	background-color: rgb(193, 253, 132) !important;
+	border: solid 1px rgb(92, 180, 3) !important;
+	color: rgb(255, 255, 255);
+	background-color: rgba(92, 180, 3, .6) !important;
 }
+
 .quesCard dl dd[current]::after {
 	content: '\e777';
-    font-family: "webdesk_icon" !important;
-    font-size: 22px;
-    display: block;
-    position: absolute;
-    bottom: -1px;
-    right: -14px;
-    width: 20px;
-    height: 20px;
-    text-align: right;
-    overflow: hidden;
-    color: #67C23A;
+	font-family: "webdesk_icon" !important;
+	font-size: 22px;
+	display: block;
+	position: absolute;
+	bottom: -1px;
+	right: -14px;
+	width: 20px;
+	height: 20px;
+	text-align: right;
+	overflow: hidden;
+	color: #67C23A;
 }

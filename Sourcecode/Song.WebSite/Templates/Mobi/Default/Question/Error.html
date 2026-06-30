@@ -32,7 +32,8 @@
             <a icon="&#xe813" @click="showCourse=true"></a>
           </div>
           <div :noques="!isques">
-            <span icon="&#xe800" @click="deleteQues"> 删除错题 </span>
+            <loading v-if="loading_delete">正在删除...</loading>
+            <span v-else icon="&#xe800" @click="deleteQues"> 删除错题 </span>
           </div>
           <div>
             <learnmode @change="v=>learnmode=v"></learnmode>
@@ -59,7 +60,7 @@
         :fontsize="fontsize" @swipe="swipe"></quesarea>
       <!--答题卡-->
       <answersheet ref='answersheet' :questions="queslist" :types="types" :ansstate="state" :data="data"
-        @click="(qid,index)=>$refs['quesarea'].setindex(qid,index)"></answersheet>
+        @click="(qid,index)=>$refs['quesarea'].setindex(index,false)"></answersheet>
       <!--底部按钮区 -->
       <footer>
         <div>正确率：{{data.rate}} %</div>

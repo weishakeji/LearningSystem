@@ -53,7 +53,7 @@ window.vapp = new Vue({
             //是否登录
             'islogin': t => JSON.stringify(t.account) != '{}' && t.account != null,
             //试题练习的通过率
-            'rate': t => t.purchase ? t.purchase.Stc_QuesScore : 0,
+            'rate': t => t.purchase ? Math.round(t.purchase.Stc_QuesScore * 100)/100 : 0,
         },
         created: function () {
             var th = this;

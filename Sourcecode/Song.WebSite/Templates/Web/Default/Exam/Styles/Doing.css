@@ -13,10 +13,13 @@ html, body {
 
 body {
 	background-image: linear-gradient(to bottom right, #999, #ccc, #666);
+	padding: 0px 10px;
+    width: calc(100% - 20px);
 }
 
 #vapp {
-	width: 800px;
+	max-width: 1200px;
+	min-width: 600px;
 	height: calc(100% - 20px);
 	margin: 10px auto;
 	position: relative;
@@ -24,6 +27,7 @@ body {
 	background-color: #fff;
 	box-sizing: border-box;
 	border-radius: 5px;
+	overflow: hidden;
 }
 
 /*头部*/
@@ -93,97 +97,7 @@ content {
 	justify-content: space-between;
 }
 
-/*右侧答题卡*/
 
-.quesCard {
-	width: 320px;
-	position: relative;
-	box-sizing: border-box;
-	padding: 15px 15px 65px 15px;
-	border-left: 1px solid #e4e7f1;
-}
-
-.quesCard .cardTit {
-	height: 30px;
-	font-size: 18px;
-	line-height: 25px;
-	display: flex;
-	justify-content: space-between;
-}
-
-.quesCard .cardTit>span:last-child {
-	font-size: 14px;
-	color: #999;
-}
-
-.quesCard .cardBox {
-	height: calc(100% - 30px);
-	overflow-y: auto;
-}
-
-.quesCard dl, .quesCard dt, .quesCard dd {
-	padding: 0px;
-	margin: 0px;
-}
-
-.quesCard dl {
-	width: 100%;
-	display: table;
-	margin-bottom: 10px;
-}
-
-.quesCard dt {
-	padding: 10px 10px 10px 15px;
-	box-sizing: border-box;
-}
-
-.quesCard dt span {
-	float: right;
-	font-size: 14px;
-	color: #999;
-}
-
-.quesCard dd {
-	width: 30px;
-	height: 30px;
-	text-align: center;
-	line-height: 30px;
-	margin: 4px;
-	border-radius: 50%;
-	border: solid 1px #666;
-	float: left;
-	font-size: 13px;
-	cursor: pointer;
-	position: relative;
-	box-shadow: inset 0 0 10px rgba(255, 255, 255, 1);
-}
-
-.quesCard dd[ans] {
-	border: solid 1px rgb(102, 177, 255);
-	background-color: rgb(102, 177, 255);
-	color: #fff;
-
-}
-
-.quesCard dd[current] {
-	border: solid 1px rgb(92, 180, 3);
-	color: #fff;
-	background-color: rgba(92, 180, 3, .6) !important;
-}
-
-.quesCard dd[current]::after {
-	content: '\e777';
-	font-family: "webdesk_icon" !important;
-	font-size: 22px;
-	display: block;
-	position: absolute;
-	bottom: 1px;
-	right: -15px;
-	width: 20px;
-	height: 20px;
-	text-align: right;
-	color: #67C23A;
-}
 
 /*右侧页面底部*/
 
@@ -220,21 +134,27 @@ div.body {
 	flex: 1;
 	overflow: hidden;
 }
-div.body div[loading]{
+
+div.body div[loading] {
 	margin: 60px auto;
 }
+
 /*上一题，下一题*/
 .move_btn {
 	position: absolute;
 	right: 20px;
-	top: 15px;
+	top: 12px;
 	z-index: 10;
-	background-color: #f2f2f2;
 }
 
 .move_btn span {
 	font-size: 13px;
 	cursor: pointer;
+}
+
+.move_btn span[disabled] {
+	color: #999;
+	cursor: not-allowed;
 }
 
 .move_btn icon {
@@ -244,19 +164,6 @@ div.body div[loading]{
 
 .move_btn span:first-child {
 	margin-right: 15px;
-}
-
-section {
-	height: 100%;
-	background-color: #f2f2f2;
-	font-size: 16px;
-	z-index: 4;
-	position: relative;
-	transition: left 0.5s;
-}
-
-section dd {
-	width: 880px !important;
 }
 
 row {

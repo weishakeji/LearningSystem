@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head resource>
+    <meta charset="UTF-8">
+    <include file="../inc/meta.inc" />
+    <title>测试</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <header>
+            <div class="title">测试:{{index+1}}</div>
+        </header>
+        <section :style="'width:'+(100*total)+'vw;height:100vh;'">
+            <div class="content" v-for="i in total" v-swipe="swipe">
+                <div class="item">{{i}}</div>
+                <p v-for="m in 26">第 {{i}} 页 . 第 {{m}} 行 . {{String.fromCharCode(m+64)}}</p>
+            </div>
+        </section>
+    </div>
+</body>
+
+</html>

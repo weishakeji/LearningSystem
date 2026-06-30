@@ -1,15 +1,19 @@
-﻿//试题的展示
+﻿//考试中的试题的展示
+//answer:当答题时
+//current:当前试题
 Vue.component('question', {
-    //exam:当前考试
+    //exam:当前考试对象
     //account:当前登录的学员账号
     //ques:试题
-    //group:题型的分组，例如单选题
-    //index:索引号
-    //groupindex:试题题型的分组，用于排序号
-    //total: 试题总数
-    props: ['exam', 'account', 'ques', 'group', 'index', 'groupindex', 'types', 'total'],
+    //groups:试题按题型分类的试题组 
+    //groupindex:当前试题分类中的索引
+    //quesindex:当前试题在试题分类中的索引    
+    //currindex:当前试题在所有试题中的索引
+    props: ['exam', 'ques', 'account', 'groups', 'groupindex', 'quesindex', , 'currindex'],
     data: function () {
         return {
+            init: false,         //初始化完成    
+
             ext_limit: "png,jpg,gif,heif,heic,zip,rar,pdf,ppt,pptx,doc,docx,xls,xlsx",
             accessory: {},           //试题附件
             loading_upload: false,        //上传的状态
@@ -33,7 +37,18 @@ Vue.component('question', {
             }, immediate: true
         }
     },
-    computed: {},
+    computed: {
+        //当前试题在所有试题中的索引
+        globalindex: function () {
+            if (this.groups == null) return 0;
+            let gindex = this.groupindex - 1;
+            let initIndex = 0;
+            while (gindex >= 0) initIndex += this.groups[gindex--].count;
+            return initIndex + this.quesindex;
+        },
+        //是否是当前试题
+        current: t => t.currindex == t.globalindex,
+    },
     updated: function () { },
     mounted: function () { },
     methods: {
@@ -46,12 +61,6 @@ Vue.component('question', {
                 gindex--;
             };
             return initIndex + index;
-        },
-        //题型
-        typename: function (type) {        
-            if (this.group.byname && this.group.byname != '' && this.group.byname != 'null') return this.group.byname;
-            let defname = this.types[this.ques.Qus_Type - 1] + '题';   //默认题型名称
-            return defname;
         },
         //选项的序号转字母
         showIndex: function (index) {
@@ -190,14 +199,9 @@ Vue.component('question', {
             return false;
         }
     },
-    template: `<dd :qid="ques.Qus_ID">
-        <info>
-            {{calcIndex(index+1)}}/{{total}}        
-            {{typename()}}
-            <span>（{{ques.Qus_Number}} 分）</span>
-        </info>
+    template: `<dd :qid="ques.Qus_ID" :render="init" :current="current" :index="globalindex">        
         <card shadow="hover">   
-            <card-title v-html="ques.Qus_Title"></card-title>
+            <card-title v-html="ques.Qus_Title"  :index="globalindex+1" :number="ques.Qus_Number"></card-title>
             <card-content>
                 <div class="ans_area type1" v-if="ques.Qus_Type==1"  remark="单选题">
                     <div v-for="(ans,i) in ques.Qus_Items" :ansid="ans.Ans_ID" 

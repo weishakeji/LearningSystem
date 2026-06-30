@@ -107,7 +107,7 @@ window.vapp = new Vue({
                             th.$nextTick(function () {
                                 let last = th.state.last();
                                 let index = last != null ? last.index : 0;
-                                th.$refs['quesarea'].setindex(null, index);
+                                th.$refs['quesarea'].setindex(index,false);
                                 if (th.data.num > 0) {
                                     let span = new Date().getTime() - th.starttime.getTime();
                                     span = span / 1000;
@@ -120,7 +120,7 @@ window.vapp = new Vue({
                                 th.$nextTick(function () {
                                     let last = th.state.last();
                                     let index = last != null ? last.index : 0;
-                                    th.$refs['quesarea'].setindex(null, index);
+                                    th.$refs['quesarea'].setindex(index, false);
                                 });
                             }).catch(function (d) {
                                 th.data = d.count;

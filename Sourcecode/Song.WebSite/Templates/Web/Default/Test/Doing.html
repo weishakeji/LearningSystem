@@ -42,7 +42,7 @@
                     <div class="remaining" @click="showExam=true">
                         <icon>&#xe81a</icon> {{surplustime|surplus}}
                     </div>
-                    <answercard ref='answercard' :questions="paperAnswer.ques" :types="types" :index="swipeIndex">
+                    <answercard ref='answercard' :questions="paperAnswer.ques" :types="types" :index="index"  @click="shiftques">
                     </answercard>
                     <loading asterisk class="loading_paper" v-if="loading.paper">试题加载中...</loading>
                     <div id="btnSubmit" icon="&#xe6cf" @click="submitManual" v-show="!loading.paper">
@@ -51,22 +51,16 @@
             </div>
             <div class="exam">
                 <div class="move_btn">
-                    <span @click="swiperight()">
+                    <span @click="swiperight()" :disabled="index<=0">
                         <icon>&#xe803</icon>上一题
                     </span>
-                    <span @click="swipeleft()">
+                    <span @click="swipeleft()" :disabled="index>=questotal-1">
                         <icon>&#xe802</icon>下一题
                     </span>
                 </div>
                 <loading asterisk class="loading_paper" v-if="loading.paper">试题加载中...</loading>
-                <section :style="'width:'+questotal*800+'px'" v-swiperight="swiperight" v-swipeleft="swipeleft"
-                    remark="试题区域" v-show="!loading.paper">
-                    <dl v-for="(group,i) in paperQues" :style="'width:'+group.count*800+'px'">
-                        <question v-for="(q,n) in group.ques" :ques="q" :index="n" :groupindex="i" :types="types"
-                            :swipeindex="swipeIndex" :total="questotal" :groups="paperQues">
-                        </question>
-                    </dl>
-                </section>
+                <quesarea ref='quesarea' :paperques="paperQues" :types="types" :account="account" :fontsize="1"
+                    @swipe="idx=>index=idx"></quesarea>
             </div>
         </context>
         <el-dialog :visible.sync="submitState.show" class="submitState" :append-to-body="true"

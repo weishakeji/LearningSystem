@@ -120,6 +120,19 @@ namespace Song.ViewData.Methods
             return i;
         }
         /// <summary>
+        /// 判断章节是否存在
+        /// </summary>
+        /// <param name="couid">课程id</param>
+        /// <param name="pid">章节的上级id，用于判断同级章节是否重名</param>
+        /// <param name="name">章节名称</param>
+        /// <param name="olid">章节id，主要用于判断是不是自身</param>
+        /// <returns></returns>
+        public bool IsExist(long couid, long pid, string name,long olid)
+        {
+            Song.Entities.Outline tm = Business.Do<IOutline>().OutlineIsExist(-1, -1, couid, pid, name);
+            return tm != null && tm.Ol_ID != olid;
+        }
+        /// <summary>
         /// 获取章节
         /// </summary>
         /// <param name="id"></param>

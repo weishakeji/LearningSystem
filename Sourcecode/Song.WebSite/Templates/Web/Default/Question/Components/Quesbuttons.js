@@ -1,58 +1,49 @@
 ﻿//试题右侧的按钮组
+//事件：
+//collect:收藏状态改变事件，参数为当前试题的收藏状态
 Vue.component('quesbuttons', {
-    //current:当前显示的试题，即滑动到这个试题
-    props: ['question', 'account', 'couid', 'current'],
+    //question:当前显示的试题，即滑动到这个试题
+    props: ['question', 'account', 'index'],
     data: function () {
         return {
             //试题中的按钮，当used为true时，启用icon2图标
             buttons: [
-                { id: 'error', name: '报错', icon1: '&#xe70e', icon2: '&#xe72c', used: false, evt: this.errorshow },
-                { id: 'notes', name: '笔记', icon1: '&#xa02e', icon2: '&#xa02e', used: false, evt: this.noteeditshow },
+                { id: 'error', name: '报错', icon1: '&#xe70e', icon2: '&#xe72c', used: false, evt: t => t.isShowError = true },
+                { id: 'notes', name: '笔记', icon1: '&#xa02e', icon2: '&#xa02e', used: false, evt: t => t.isShowNote = true },
                 { id: 'collect', name: '收藏', icon1: '&#xe747', icon2: '&#xe679', used: false, evt: this.addcollect }],
             //供选择的错误项
-            errorItems: ['试题没有答案', '试题图片不显示', '试题或答案有错别字',
-                '试题不属于本学科', '解题思路与题干不符', '解题思路与答案矛盾',
+            errorItems: [
+                '试题没有答案',
+                '试题图片不显示',
+                '试题或答案有错别字',
+                '试题不属于本学科',
+                '解题思路与题干不符',
+                '解题思路与答案矛盾',
                 '与其他试题有重复'],
             errorSelect: [],     //选中的错误项
             errorInfo: '',       //填写的错误内容
             //笔记内容
-            note: null,
+            note: '',
             //是否显示笔记编辑的面板
             isShowNote: false,
             //是否显示报错界面
             isShowError: false,
-            //初始化
-            init: false
+            //更新 
+            loading: false
         }
     },
     watch: {
         'question': {
-            handler(nv, ov) {
-                if (nv.Qus_IsWrong) {
-                    var btn = this.getbtn('error');
-                    if (btn != null) btn.used = true;
-                }
-                if (this.current) {
-                    this.collectState();
-                    this.noteState();
-                }
-            },
-            immediate: true
+            handler: function (nv, ov) {
+                if (nv == null) return;
+                //试题是否已经报错
+                const btn = this.getbtn('error');
+                if (btn != null) btn.used = nv.Qus_IsWrong;
+                //获了试题的收藏与笔记状态
+                this.collectState();
+                this.noteState();
+            }, immediate: true
         },
-        'errorSelect': function (nv, ov) {
-            console.log(nv);
-        },
-        //是否是当前显示的试题
-        'current': {
-            handler(nv, ov) {
-                if (!ov && nv && !this.init) {
-                    this.init = true;
-                    this.collectState();
-                    this.noteState();
-                }
-            },
-            immediate: true
-        }
     },
     mounted: function () {
 
@@ -60,97 +51,60 @@ Vue.component('quesbuttons', {
     methods: {
         //获取按钮
         getbtn: function (id) {
-            for (let i = 0; i < this.buttons.length; i++) {
-                if (this.buttons[i].id === id)
-                    return this.buttons[i];
-            }
-            return null;
+            return this.buttons.find(btn => btn.id === id) || null;
+        },
+        //按钮点击事件
+        btnevent: function (btn) {
+            btn.evt(this, btn);
         },
         //收藏的状态
         collectState: function () {
+            if ($api.isnull(this.account) || $api.isnull(this.question)) return;
+            const btn = this.getbtn('collect');
+            $api.get('Question/CollectExist', { acid: this.account.Ac_ID, qid: this.question.Qus_ID })
+                .then(req => req.data.success && (btn.used = req.data.result))
+                .catch(err => console.error(err));
+        },
+        //笔记的状态，及内容
+        noteState: function () {
+            if ($api.isnull(this.account) || $api.isnull(this.question)) return;
             var th = this;
-            //试题是否被收藏
-            var query = { 'acid': this.account.Ac_ID, 'qid': this.question.Qus_ID };
-            $api.get('Question/CollectExist', query).then(function (req) {
+            const btn = this.getbtn('notes');
+            btn.used = false;
+            th.note = '';
+            $api.get('Question/NotesSingle', { acid: this.account.Ac_ID, qid: this.question.Qus_ID })
+                .then(req => {
+                    if (req.data.success) {
+                        const result = req.data.result;
+                        th.note = result ? result.Stn_Context : '';
+                        btn.used = $api.trim(th.note) != '';
+                    }
+                }).catch(err => console.error(err));
+        },
+        //设置收藏
+        addcollect: function (th, btn) {
+            if ($api.isnull(this.account) || $api.isnull(this.question)) return;
+            const query = { 'acid': this.account.Ac_ID, 'qid': this.question.Qus_ID };
+            th.loading = true;
+            $api.post(btn.used ? 'Question/CollectDelete' : 'Question/CollectAdd', query).then(function (req) {
                 if (req.data.success) {
-                    var result = req.data.result;
-                    var btn = th.getbtn('collect');
-                    if (btn != null) btn.used = result;
+                     th.$message({
+                            message:  (btn.used ? '删除收藏成功' : '试题收藏成功') ,
+                            type: 'success'
+                        });                    
+                    btn.used = !btn.used;
+                    th.$emit('collect', btn.used, th.index, th.question);
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                alert(err);
-                console.error(err);
-            });
-        },
-        //笔记的状态，及内容
-        noteState: function () {
-            var th = this;
-            var query = { 'acid': this.account.Ac_ID, 'qid': this.question.Qus_ID };
-            $api.get('Question/NotesSingle', query).then(function (req) {
-                if (req.data.success) {
-                    var result = req.data.result;
-                    th.note = result ? result.Stn_Context : '';
-                    if (th.note != '') {
-                        var btn = th.getbtn('notes');
-                        if (btn != null) btn.used = true;
-                    }
-                } else {
-                    throw req.data.message;
-                }
-            }).catch(function (err) {
-                //console.error(err);
-            });
-        },
-        //设置收藏
-        addcollect: function (btn) {
-            var th = this;
-            if (!btn.used) {
-                var query = { 'acid': this.account.Ac_ID, 'qid': this.question.Qus_ID, 'couid': this.couid };
-                $api.post('Question/CollectAdd', query).then(function (req) {
-                    if (req.data.success) {
-                        btn.used = true;
-                        th.$message({
-                            message: '试题收藏成功',
-                            type: 'success'
-                        });
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
-                    }
-                }).catch(function (err) {
-                    console.error(err);
-                });
-            } else {
-                //删除收藏
-                var query = { 'acid': this.account.Ac_ID, 'qid': this.question.Qus_ID };
-                $api.get('Question/CollectDelete', query).then(function (req) {
-                    if (req.data.success) {
-                        btn.used = false;
-                        th.$message({
-                            message: '删除收藏成功',
-                            type: 'success'
-                        });                     
-                        vapp.deleteQues();
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
-                    }
-                }).catch(function (err) {
-                    console.error(err);
-                });
-            }
-            console.log(btn);
-        },
-        //笔记编辑面板的显示
-        noteeditshow: function (th) {
-            this.isShowNote = true;
+            }).catch(err => console.error(err)).finally(() => th.loading = false);
         },
         //更改笔记内容
         noteUpdate: function (note) {
+            if ($api.isnull(this.account) || $api.isnull(this.question)) return;
             var th = this;
+            th.loading = true;
             th.isShowNote = false;
             var query = { 'acid': this.account.Ac_ID, 'qid': this.question.Qus_ID, 'note': note };
             $api.post('Question/NotesModify', query).then(function (req) {
@@ -163,25 +117,18 @@ Vue.component('quesbuttons', {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                alert(err);
-                console.error(err);
-            });
-        },
-        //试题报错的编辑面板显示
-        errorshow: function (th) {
-            this.isShowError = true;
+            }).catch(err => console.error(err)).finally(() => th.loading = false);
         },
         //提交错误信息
         errorUpdate: function () {
             var th = this;
+            th.loading = true;
             th.isShowError = false;
             var error = th.errorSelect.join(',') + "；" + this.errorInfo;
             $api.get('Question/WrongModify', { 'qid': this.question.Qus_ID, 'error': error }).then(function (req) {
                 if (req.data.success) {
                     var result = req.data.result;
                     th.$notify({ type: 'success', message: '提交成功' });
-                    //th.question.Qus_IsWrong=true;
                     $api.put('Question/ForID', { 'id': th.question.Qus_ID }).then(function (req) {
                         if (req.data.success) {
                             th.question = req.data.result;
@@ -192,19 +139,16 @@ Vue.component('quesbuttons', {
                     }).catch(function (err) {
                         alert(err);
                         console.error(err);
-                    });                 
+                    });
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
-            }).catch(function (err) {
-                alert(err);
-                console.error(err);
-            });
+            }).catch(err => console.error(err)).finally(() => th.loading = false);
         }
     },
     template: `<buttons no-font-size>        
-        <btn v-for="btn in buttons" @click="btn.evt(btn)" :class="{used:btn.used}">
+        <btn v-for="btn in buttons"  @click="btnevent(btn)" :class="{used:btn.used}">
         <i v-html="btn.icon1" v-if="!btn.used"></i>
         <i v-html="btn.icon2" v-else></i>
         {{btn.name}}

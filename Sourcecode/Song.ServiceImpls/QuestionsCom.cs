@@ -802,7 +802,7 @@ namespace Song.ServiceImpls
         /// <param name="isError">是否包括错误的试题，如果为空，则不作判断</param>
         /// <param name="isWrong">是否包括学员反馈的试题，如果为空，则不作判断</param>
         /// <returns></returns>
-        public HSSFWorkbook QuestionsExport(string folder, int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong)
+        public HSSFWorkbook QuestionsExport(string folder, int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong,bool? isUse,bool? isDelete)
         {
             HSSFWorkbook hssfworkbook = new HSSFWorkbook();
             WhereClip wc = new WhereClip();
@@ -812,6 +812,8 @@ namespace Song.ServiceImpls
             if (olid > 0) wc.And(Questions._.Ol_ID == olid);
             if (isError != null) wc.And(Questions._.Qus_IsError == (bool)isError);
             if (isWrong != null) wc.And(Questions._.Qus_IsWrong == (bool)isWrong);
+            if (isUse != null) wc.And(Questions._.Qus_IsUse == (bool)isUse);
+            if (isDelete != null) wc.And(Questions._.Qus_IsDeleted == (bool)isDelete);
             //难度等级
             if (!string.IsNullOrWhiteSpace(diff))
             {
@@ -865,9 +867,11 @@ namespace Song.ServiceImpls
         /// <param name="olid"></param>
         /// <param name="diff"></param>
         /// <param name="isError"></param>
-        /// <param name="isWrong"></param>       
+        /// <param name="isWrong"></param>
+        /// <param name="isUse"></param>
+        /// <param name="isDelete"></param>       
         /// <returns></returns>
-        public JObject QuestionsExportExcel(string subpath, string folder, int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong)
+        public JObject QuestionsExportExcel(string subpath, string folder, int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong,bool? isUse, bool? isDelete)
         {
             long snowid = WeiSha.Core.Request.SnowID();
             DateTime date = DateTime.Now;
@@ -877,7 +881,7 @@ namespace Song.ServiceImpls
             string filename = string.Format("试题导出.({0}).{1}.xls", date.ToString("yyyy-MM-dd hh-mm-ss"), couid.ToString());
 
             //导出Excel
-            HSSFWorkbook hssfworkbook = this.QuestionsExport(path, orgid, type, sbjid, couid, olid, diff, isError, isWrong);
+            HSSFWorkbook hssfworkbook = this.QuestionsExport(path, orgid, type, sbjid, couid, olid, diff, isError, isWrong, isUse, isDelete);
             if (!Directory.Exists(path)) Directory.CreateDirectory(path);
             FileStream file = new FileStream(Path.Combine(path, filename), FileMode.Create);
             hssfworkbook.Write(file);
@@ -1823,15 +1827,14 @@ namespace Song.ServiceImpls
         public bool ExerciseLogDel(int acid, long couid, long olid)
         {
             if (acid <= 0 || olid <= 0) return false;
-            new Task(() =>
-            {               
-                WhereClip wc = new WhereClip();
-                wc.And(LogForStudentExercise._.Ac_ID == acid);
-                wc.And(LogForStudentExercise._.Ol_ID == olid);
-                if (couid > 0)
-                    wc.And(LogForStudentExercise._.Cou_ID == couid);              
-                Gateway.Default.Delete<LogForStudentExercise>(wc);
-            }).Start();          
+            WhereClip wc = new WhereClip();
+            wc.And(LogForStudentExercise._.Ac_ID == acid);
+            wc.And(LogForStudentExercise._.Ol_ID == olid);
+            if (couid > 0) wc.And(LogForStudentExercise._.Cou_ID == couid);
+            Gateway.Default.Delete<LogForStudentExercise>(wc);
+            double rate = this.CalcPassRate(acid, couid);
+            Student_Course sc = Business.Do<ICourse>().StudentCourse(acid, couid);
+            Business.Do<ICourse>().StudentScoreSave(sc, -1, (float)rate, -1);
             return true;
         }
         /// <summary>
@@ -1844,7 +1847,8 @@ namespace Song.ServiceImpls
         {
             if (acid <= 0 || couid <= 0) return 0;
             //试题的ID列表
-            DataSet ds = Gateway.Default.From<Questions>().Where(Questions._.Cou_ID == couid && Questions._.Qus_IsUse == true).Select(Questions._.Qus_ID).ToDataSet();
+            DataSet ds = Gateway.Default.From<Questions>().Where(Questions._.Cou_ID == couid && Questions._.Qus_IsUse == true && Questions._.Qus_IsDeleted == false)
+                .Select(Questions._.Qus_ID).ToDataSet();
             if (ds == null || ds.Tables[0].Rows.Count <= 0) return 0;
             Dictionary<long, bool> qusids = new Dictionary<long, bool>();
             foreach (DataRow dr in ds.Tables[0].Rows) qusids.Add(Convert.ToInt64(dr["Qus_ID"]), false);

@@ -1,4 +1,4 @@
--- to PostgreSQL  --  2026-6-21 15:57:37  --
+-- to PostgreSQL  --  2026-6-27 11:02:42  --
 
 -- 创建表 Accessory --
 DROP TABLE IF EXISTS "Accessory" CASCADE;

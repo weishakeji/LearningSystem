@@ -1,0 +1,7 @@
+VARCHAR -> String
+boolean -> Boolean
+DATETIME-> DateTime
+REAL ->  Decimal,Single
+text -> String
+integer ->  Int32,Int16,Int64
+smallint -> Int16

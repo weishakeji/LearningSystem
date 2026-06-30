@@ -312,19 +312,19 @@ icon[weixin]::before {
 
 /*帮助、提示*/
 help, help * {
-    color: #777;
+    color: #777 !important;
 }
 
 alert, alert * {
-    color: #F56C6C;
+    color: #F56C6C !important;
 }
 
 warning, warning * {
-    color: #E6A23C;
+    color: #E6A23C !important;
 }
 
 empty, empty * {
-    color: #777;
+    color: #777 !important;
 }
 
 help, alert, help *, alert *, warning, warning *, empty, empty * {

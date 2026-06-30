@@ -1,6 +1,6 @@
 
 $ready([], function () {
-window.vapp = new Vue({
+    window.vapp = new Vue({
         el: '#vapp',
         data: {
             couid: $api.querystring('couid'),       //课程id
@@ -12,6 +12,7 @@ window.vapp = new Vue({
             //当前章节对象，下面是一些新增时的默认值
             outline: {
                 Cou_ID: $api.querystring('couid'),
+                Ol_ID: '', Ol_PID: '',
                 Ol_IsUse: true,
                 Ol_IsFinish: true,
                 Ol_IsChecked: true,
@@ -22,7 +23,17 @@ window.vapp = new Vue({
             datas: [],       //所有章节，用于选择上级章节
             olSelects: [],      //选择中的章节项
 
-            rules: { 'Ol_Name': [{ required: true, message: '不得为空', trigger: 'blur' }] },
+            rules: {
+                'Ol_Name': [{ required: true, message: '不得为空', trigger: 'blur' },
+                {
+                    validator: async function (rule, value, callback) {
+                        await vapp.isExist(value).then(res => {
+                            if (res) callback(new Error('当前章节层级下，已经存在该章节!'));
+                        });
+                    }, trigger: 'blur'
+                }
+                ]
+            },
             loading: false
         },
         watch: {
@@ -45,6 +56,24 @@ window.vapp = new Vue({
             islive: t => { return t.outline.Ol_IsLive && !$api.isnull(t.livestream); },
         },
         methods: {
+            //判断是否已经存在
+            isExist: function (val) {
+                var th = this;
+                return new Promise(function (resolve, reject) {
+                    $api.get('Outline/IsExist',
+                        { "couid": th.outline.Cou_ID, "pid": th.outline.Ol_PID, "name": val, "olid": th.outline.Ol_ID })
+                        .then(function (req) {
+                            if (req.data.success) {
+                                return resolve(req.data.result);
+                            } else {
+                                console.error(req.data.exception);
+                                throw req.config.way + ' ' + req.data.message;
+                            }
+                        }).catch(function (err) {
+                            return reject(err);
+                        });
+                });
+            },
             //所取所有章节数据，为树形数据
             getTreeData: function () {
                 var th = this;

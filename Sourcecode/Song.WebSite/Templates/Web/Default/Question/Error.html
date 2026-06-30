@@ -28,7 +28,8 @@
         <div class="topBox">
           <div class="navbox" v-if="back">
             <a icon="&#xe748" @click="window.history.back();"></a>
-            <span icon="&#xe800" @click="deleteQues" :noques="!isques"> 删除错题 </span>
+            <loading v-if="loading_delete">正在删除...</loading>
+            <span v-else icon="&#xe800" @click="deleteQues" :noques="!isques"> 删除错题 </span>
           </div>
           <!--答题统计数据 -->
           <div class="asnwerdata">
@@ -65,7 +66,7 @@
         :fontsize="fontsize" @swipe="swipe"></quesarea>
       <!--答题卡-->
       <answersheet ref='answersheet' :questions="queslist" :types="types" :ansstate="state" :data="data"
-        @click="(qid,index)=>$refs['quesarea'].setindex(qid,index)"></answersheet>
+        @click="(qid,index)=>$refs['quesarea'].setindex(index,false)"></answersheet>
     </template>
   </div>
 

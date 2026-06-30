@@ -10,7 +10,7 @@ $ready(['/Utilities/Components/question/function.js',
     'Components/Quesbuttons.js',        //试题右上角的按钮，报错、笔记、收藏
     'Components/ExerciseState.js'       //记录学习状态
 ], function () {
-window.vapp = new Vue({
+    window.vapp = new Vue({
         el: '#vapp',
         data: {
             couid: $api.querystring("couid", 0),
@@ -111,7 +111,7 @@ window.vapp = new Vue({
                             th.$nextTick(function () {
                                 let last = th.state.last();
                                 let index = last != null ? last.index : 0;
-                                th.$refs['quesarea'].setindex(null, index);
+                                th.$refs['quesarea'].setindex(index, false);
                                 if (th.data.num > 0) {
                                     let span = new Date().getTime() - th.starttime.getTime();
                                     span = span / 1000;
@@ -127,7 +127,7 @@ window.vapp = new Vue({
                                 th.$nextTick(function () {
                                     let last = th.state.last();
                                     let index = last != null ? last.index : 0;
-                                    th.$refs['quesarea'].setindex(null, index);
+                                    th.$refs['quesarea'].setindex(index, false);
                                 });
                             }).catch(function (d) {
                                 th.data = d.count;

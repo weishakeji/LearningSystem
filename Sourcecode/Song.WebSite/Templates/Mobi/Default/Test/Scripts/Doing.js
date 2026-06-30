@@ -2,6 +2,7 @@
 $ready(['/Utilities/Components/question/test.js',
     '/Utilities/Components/question/function.js',
     'Components/Quesbuttons.js',
+    'Components/QuesArea.js',
     'Components/AnswerCard.js'], function () {
         window.vapp = new Vue({
             el: '#vapp',
@@ -17,9 +18,10 @@ $ready(['/Utilities/Components/question/test.js',
                 paperQues: [],           //试卷内容（即试题信息）
                 paperAnswer: {},          //答题信息
                 paperAnswerXml: '',          //答题信息的xml格式数据
-                //++一些状态信息
-                swipeIndex: 0,           //试题滑动时的索引，用于记录当前显示的试题索引号
+                //++一些状态信息           
                 showCard: false,          //是否显示答题卡           
+                fontsize: 0,         //字体增减值
+                index: 0,            //当前试题的全局索引
 
                 submitState: {
                     show: false,       //成绩提交的面板提示
@@ -64,9 +66,7 @@ $ready(['/Utilities/Components/question/test.js',
             created: function () { },
             computed: {
                 //学员是否登录
-                islogin: t => !$api.isnull(t.account),
-                //屏幕宽度
-                screenWidth: t => $dom(t.$el).width(),
+                islogin: t => !$api.isnull(t.account),             
                 //试题总数
                 questotal: function () {
                     var total = 0;
@@ -117,18 +117,15 @@ $ready(['/Utilities/Components/question/test.js',
                 'surplustime': function (nv, ov) {
                     if (nv <= 0) this.submit(1);
                 },
-                'swipeIndex': function (nv, ov) {
-                    //console.log(nv);
-                }
             },
             methods: {
                 //生成试卷内容
                 generatePaper: function () {
-                    if (JSON.stringify(this.paper) == '{}' && this.paper == null) return;
+                    if ($api.isnull(this.paper)) return;
                     if (this.paperQues.length > 0) return;
                     var th = this;
                     th.loading.paper = true;
-                    $api.get('TestPaper/GenerateRandom', { 'tpid': this.tpid }).then(function (req) {                      
+                    $api.get('TestPaper/GenerateRandom', { 'tpid': th.tpid }).then(function (req) {
                         if (req.data.success) {
                             var paper = req.data.result;
                             th.paperQues = paper;
@@ -150,7 +147,7 @@ $ready(['/Utilities/Components/question/test.js',
                         console.error(err);
                     }).finally(() => {
                         window.setTimeout(function () {
-                            th.loading.paper = false;                          
+                            th.loading.paper = false;
                         }, 1000);
                     });
                 },
@@ -226,22 +223,9 @@ $ready(['/Utilities/Components/question/test.js',
                     total = Math.round(total * 100) / 100;
                     return Number.isInteger(total) ? total : total.toFixed(2);
                 },
-                //试题向右滑动 
-                swiperight: function (e) {
-                    if (e && e.preventDefault) e.preventDefault();
-                    if (this.swipeIndex > 0) this.swipeIndex--;
-                    this.swipe(this.swipeIndex);
-                },
-                //试题向左滑动
-                swipeleft: function (e) {
-                    if (e && e.preventDefault) e.preventDefault();
-                    if (this.swipeIndex < this.questotal - 1) this.swipeIndex++;
-                    this.swipe(this.swipeIndex);
-                },
-                //滑动试题，滑动到指定试题索引
-                swipe: function (index) {
-                    this.swipeIndex = index;
-                    $dom("section").css('left', -(this.screenWidth * this.swipeIndex) + 'px');
+                //切换试题，滑动到指定试题索引
+                shiftques: function (index) {
+                    this.$refs.quesarea.setindex(index, true, 300);
                     this.showCard = false;
                 },
                 //生成答题信息

@@ -311,8 +311,10 @@ namespace Song.ServiceInterfaces
         /// <param name="diff">难度等级，如1,2这样的字符串</param>
         /// <param name="isError">是否包括错误的试题，如果为空，则不作判断</param>
         /// <param name="isWrong">是否包括学员反馈的试题，如果为空，则不作判断</param>
+        /// <param name="isUse"></param>
+        /// <param name="isDelete"></param>
         /// <returns></returns>
-        HSSFWorkbook QuestionsExport(string folder, int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong);
+        HSSFWorkbook QuestionsExport(string folder, int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong, bool? isUse, bool? isDelete);
         /// <summary>
         /// 导出试题,生成文件
         /// </summary>
@@ -325,9 +327,11 @@ namespace Song.ServiceInterfaces
         /// <param name="olid"></param>
         /// <param name="diff"></param>
         /// <param name="isError"></param>
-        /// <param name="isWrong"></param>       
+        /// <param name="isWrong"></param>
+        /// <param name="isUse"></param>
+        /// <param name="isDelete"></param>       
         /// <returns></returns>
-        JObject QuestionsExportExcel(string subpath, string folder, int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong);
+        JObject QuestionsExportExcel(string subpath, string folder, int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong, bool? isUse, bool? isDelete);
         #endregion
 
         #region 题型管理（试题分类）

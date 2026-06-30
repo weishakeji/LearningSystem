@@ -4,7 +4,15 @@ function vueTouch(el, type, binding) {
   this.el = el;
   this.type = type;
   this.binding = binding;
-  var hammertime = new Hammer(this.el);
+  // 复用已有实例，避免重复 new
+  let hammertime = el._hammerManager;
+  if (!hammertime) {
+    hammertime = new Hammer(el, {
+      cssProps: false,
+    });
+    hammertime.get('pinch').set({ enable: true });
+    el._hammerManager = hammertime;
+  }
   hammertime.get('pinch').set({ enable: true });
   hammertime.on(this.type, this.binding.value);
 

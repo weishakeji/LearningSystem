@@ -12,11 +12,9 @@ Vue.component('quesarea', {
             currid: '',         //当前试题id            
             index: 0,            //当前试题索引 
 
-            //异步加载的试题id,为了加快试题显示，
-            //在练习中，异步加载当前试题的前后试题
-            asynclist: [],
-            asynccount: 6,       //异步加载多少道试题
-            asyncloading: false      //异步加载中
+            currques: {},          //当前试题
+
+            hoverState: false,      // 鼠标悬停状态
         }
     },
     watch: {
@@ -27,9 +25,7 @@ Vue.component('quesarea', {
                 this.list = Object.values(nv).flat();
             }, immediate: true
         },
-        'mode': function (nv, ov) {
-            console.log(nv);
-        },
+
         //滑动试题，滑动到指定试题索引
         'index': {
             handler: function (nv, ov) {
@@ -39,13 +35,6 @@ Vue.component('quesarea', {
                     this.state.last(this.list[nv], nv);
                 //更新答题状态（不推送到服务器）
                 this.state.update(false);
-                this.$nextTick(function () {
-                    window.setTimeout(function () {
-                        $dom("dl.quesArea").css('left', -100 * nv + 'vw');
-                    }, 50);
-                });
-                //计算当前试题的前后试题
-                this.asyncload_list(nv);
             }, immediate: true
         }
     },
@@ -53,16 +42,33 @@ Vue.component('quesarea', {
         //是否处于第一道题
         isfirst: t => t.index == 0,
         //是否处于最后一道题
-        islast: t => t.index == t.list.length - 1
+        islast: t => t.index == t.list.length - 1,
     },
-    mounted: function () { },
+    mounted: function () {
+        window.addEventListener('keydown', this.handleKeyDown)
+    },
     methods: {
         //设置当前试题的id与索引
-        setindex: function (qid, index) {
-            if (qid != null || qid >= 0) this.currid = qid;
-            if (index != null && (index >= 0 || index < this.list.length)) this.index = index;
+        //index:试题索引
+        //effects:是否有滑动特效
+        //speed:滑动速度，单位px/ms
+        setindex: function (index, effects, speed) {          
+            if (index == null || (index <0 || index >= this.list.length))return;
+            this.index = index;
+            let qid = this.getid(index);
+            if (qid != null || qid >= 0) this.currid = qid;          
             //触发滑动事件,返回当前索引
             this.$emit('swipe', index);
+
+            //设置试题的滑动位置
+            var dl = $dom("div.quesArea dl");
+            speed = speed == null || isNaN(speed) ? 0.5 : 0.7 - speed / 10;
+            if (effects == null || effects == true) dl.css('transition', 'left ' + speed + 's ease-in-out');
+            else dl.css('transition', 'none');
+            var left = -100 * this.index;
+            this.$nextTick(function () {
+                window.setTimeout(() => dl.css('left', left + '%'), 50);
+            });
         },
         //试题滑动 
         swipe: function (e) {
@@ -75,8 +81,24 @@ Vue.component('quesarea', {
             if (e.direction == 2 && this.index < this.list.length - 1) this.index++;
             //向右滑动
             if (e.direction == 4 && this.index > 0) this.index--;
-            //触发滑动事件,返回当前索引
-            this.$emit('swipe', this.index);
+            this.setindex(this.index, true, Math.abs(e.velocityX));
+        },
+        //键盘事件，实现上下键切换试题
+        handleKeyDown: function (e) {
+            if (!this.hoverState) return
+
+            switch (e.key) {
+                case 'ArrowUp':
+                case 'ArrowLeft':
+                    e.preventDefault()
+                    this.setindex(this.index - 1);
+                    break
+                case 'ArrowDown':
+                case 'ArrowRight':
+                    e.preventDefault()
+                    this.setindex(this.index + 1);
+                    break
+            }
         },
         //试题答题状态变更时
         answer: function (state, ques) {
@@ -86,45 +108,6 @@ Vue.component('quesarea', {
             this.state.data.items[index] = state;
             //更新数据到服务器
             this.state.update(true);
-        },
-        //计算要异步加载的试题id
-        asyncload_list: function (index) {
-            //获取当前试题的前后试题的id，           
-            let arr = [];
-            let half = Math.floor(this.asynccount / 3);
-            let init = index - half <= 0 ? 0 : index - half;       //取值的起始索引   
-            let max = init + this.asynccount >= this.list.length ? this.list.length : init + this.asynccount;   //最大索引
-            for (let i = init; i <= max && i < this.list.length; i++) {
-                if (i == index) continue;
-                arr.push(this.list[i]);
-            }
-            //要加载的试题放到列表中，（等待后续异步加载）
-            let n = 0;
-            for (let i = 0; i < arr.length; i++) {
-                if (this.asynclist.indexOf(arr[i]) !== -1)
-                    continue;
-                if (i < half) this.asynclist.push(arr[i]);
-                else
-                    this.asynclist.splice(n++, 0, arr[i]);
-            }
-            //console.log(this.asynclist);
-            if (!this.asyncloading) this.asyncload();
-        },
-        //异步加载当前试题临近的试题
-        asyncload: function () {
-            var th = this;
-            th.asyncloading = th.asynclist.length > 0;
-            if (!th.asyncloading) return;
-            $api.cache('Question/ForID:43200', { 'id': th.asynclist[0] }).then(function (req) {
-                if (req.data.success) {
-                    if (th.asynclist.length > 0)
-                        th.asynclist.splice(0, 1);
-                    th.asyncload();
-                } else {
-                    throw req;
-                }
-            }).catch(err => console.error(err))
-                .finally(() => { });
         },
         //通过索引获取试题id
         getid: function (index) {
@@ -151,24 +134,25 @@ Vue.component('quesarea', {
                 if (idx >= 0) arr.splice(idx, 1);
             }
             this.$parent.state.del(qid);
-            this.setindex(qid, index);
-            return;
-            var th = this;
-            this.$nextTick(function () {
-                th.index = index;
-            });
-            //this.$parent.data = this.$parent.state.data.count;
-            console.log(index);
+            this.setindex(index);
         }
     },
-    template: `<dl :class="{'quesArea':true}" :style="'width:'+(list.length<=1 ? 1 : list.length)*100+'vw'" v-swipe="swipe">
-           <div v-if="!$parent.loading && list.length<1" class="noques"><icon>&#xe849</icon>没有试题</div>
-           <question v-else v-for="(qid,i) in list" :qid="qid" :state="state.getitem(qid,i)" :index="i" :curindex="index"
-            :total="list.length" :types="types" :account="account" :fontsize="fontsize"
-            :mode="mode" :iscurrent="i==index" @answer="answer">
-                <template v-slot:buttons="btn">
-                    <quesbuttons :question="btn.ques" :account="account" :couid="0" :current="i==index"></quesbuttons>
-                </template>
-            </question>
-        </dl>`
+    template: `<div :class="{'quesArea':true}">
+        <div v-if="!$parent.loading && list.length<1" class="noques"><icon>&#xe849</icon>没有试题</div> 
+         <template v-else>
+            <info no-font-size>
+                <span>
+                    <i>{{index+1}}/{{list.length}}</i>
+                    [ {{types[currques.Qus_Type - 1]}}题 ] 
+                </span>
+                <quesbuttons :question="currques" :account="account" :index="index"></quesbuttons> 
+            </info>   
+            <dl :style="'width:'+(list.length<=1 ? 1 : list.length)*100+'%'"  @mouseenter="hoverState = true" @mouseleave="hoverState = false">             
+                <question ref="questions"  v-for="(qid,i) in list" :qid="qid" :state="state.getitem(qid,i)" :index="i" :curindex="index"
+                    :total="list.length" :types="types" :account="account" :fontsize="fontsize" v-swipe="swipe"
+                    :mode="mode" :iscurrent="i==index" @answer="answer" @current="q=>currques=q">                       
+                </question>           
+            </dl>
+        </template>       
+    </div>`
 });

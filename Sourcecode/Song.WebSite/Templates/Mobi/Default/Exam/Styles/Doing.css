@@ -1,4 +1,5 @@
 ﻿@charset "utf-8";
+
 html, body, #vapp {
 	width: 100%;
 	height: 100%;
@@ -7,9 +8,11 @@ html, body, #vapp {
 	overflow: hidden;
 	position: relative;
 }
-div[loading]{
+
+div[loading] {
 	margin: 30% auto 10px auto;
 }
+
 /*不能考试的区域*/
 
 .context {
@@ -24,9 +27,10 @@ div[loading]{
 }
 
 /*未登录*/
-.nologin card-content{
-	display: flex;	
+.nologin card-content {
+	display: flex;
 }
+
 .nologin .acc_photo {
 	width: 58px;
 	height: 58px;
@@ -79,7 +83,7 @@ div[loading]{
 
 header {
 	height: 44px;
-	
+
 	font-size: 14px;
 	position: fixed;
 	width: 100%;
@@ -123,24 +127,12 @@ header>div.title {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
-/*试题区*/
 
-section {
-	height: calc(100% - 88px);
-	background-color: #f2f2f2;
-	font-size: 14px;
-	width: 100%;
-	top: 44px;
-	left: 0px;
-	z-index: 4;
-	position: relative;
-	transition: left 0.5s;
-}
 
 /*页面底部*/
 
 footer {
-	height: 44px;	
+	height: 44px;
 	font-size: 14px;
 	position: fixed;
 	width: 100%;
@@ -178,113 +170,6 @@ footer div#btnSubmit {
 footer div#btnSubmit::before {
 	font-size: 20px;
 	margin-right: 15px;
-}
-
-attended {
-	display: block;
-	height: calc(100% - 88px);
-	background-color: #f2f2f2;
-	position: fixed;
-	width: 100%;
-	top: 44px;
-	left: 0px;
-	z-index: 4;
-	position: relative;
-	transition: left 0.5s;
-}
-
-/*答题卡*/
-
-.quesCard {
-	width: 100%;
-}
-
-.quesCard .cardTit {
-	height: 50px;
-	
-	font-size: 16px;
-	line-height: 50px;
-}
-
-.quesCard .cardTit>span:first-child {
-	padding: 0px 20px;
-}
-
-.quesCard .cardTit>span:first-child::before {
-	font-size: 22px;
-	margin-right: 10px;
-}
-
-.quesCard .cardTit>span:last-child {
-	font-size: 14px;
-	color: #999;
-}
-
-.quesCard .cardBox {
-	height: calc(100vh - 50px - 15px);
-	overflow-y: auto;
-	padding: 0px 15px 15px 15px;
-}
-
-.quesCard dl, .quesCard dt, .quesCard dd {
-	padding: 0px;
-	margin: 0px;
-}
-
-.quesCard dl {
-	width: 100%;
-	display: table;
-	margin-bottom: 10px;
-}
-
-.quesCard dt {
-	padding: 10px 15px;
-	width: calc(100% - 30px);
-}
-
-.quesCard dt span {
-	float: right;
-	font-size: 14px;
-	color: #999;
-}
-
-.quesCard dd {
-	width: 30px;
-	height: 30px;
-	text-align: center;
-	line-height: 30px;
-	margin: 5px;
-	border-radius: 50%;
-	border: solid 1px #666;
-	float: left;
-	position: relative;
-	box-shadow: inset 0 0 10px rgba(255, 255, 255, 1);
-}
-
-.quesCard dd[ans] {
-	border: solid 1px rgb(102, 177, 255);
-	background-color: rgb(102, 177, 255);
-	color: #fff;
-}
-
-.quesCard dd[current] {
-	border: solid 1px rgb(92, 180, 3);
-	color: #fff;
-	background-color: rgba(92, 180, 3, .6)  !important;
-}
-
-.quesCard dd[current]::after {
-	content: '\e777';
-	font-family: "webdesk_icon" !important;
-	font-size: 22px;
-	display: block;
-	position: absolute;
-	bottom: 1px;
-	right: -15px;
-	width: 20px;
-	height: 20px;
-	text-align: right;
-	color: #67C23A;
 }
 
 /*一些面板*/
@@ -366,4 +251,6 @@ score.praise::before {
 .loading_paper {
 	padding: 20px;
 	width: 100vw;
+	display: block;
+	text-align: center;
 }

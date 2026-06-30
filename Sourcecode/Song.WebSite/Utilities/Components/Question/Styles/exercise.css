@@ -51,100 +51,53 @@ body[view=cosy] {
 
 *:not([noview], .el-drawer__open, .van-overlay, .answerSheet dd,
 	.van-toast, .van-dialog, .van-icon, .van-toast__text,
+	.van-button, .van-button__content, .van-button__text,
 	.ws_prompt_panel,
 	.el-dialog__wrapper, *[role=dialog]) {
 	background-color: var(--bg-color) !important;
 	color: var(--fg-color)
 }
 
-dl.quesArea {
-	display: flex;
-}
 
-dl.quesArea dd {
+
+.quesArea dd {
 	height: 100%;
 	line-height: 150%;
 	flex: 1;
 	position: relative;
 	text-align: left;
+	width: 100vw;
 }
 
-/*试题加载错误*/
-dl.quesArea dd .error {
-	margin: 20px;
-}
 
-dl.quesArea dd alert {
-	margin-top: 20px;
-	display: inline-block;
-	font-size: 16px;
-}
-
-dl.quesArea dd info {
-	display: flex;
-	justify-content: space-between;
-	padding: 15px 10px 0px 10px;
-	margin: 0px 0px 0px 10px;
-	font-size: 15px;
-}
-
-dl.quesArea dd info span i {
-	font-size: 14px;
-	font-style: normal;
-}
-
-dl.quesArea dd info buttons {
-	display: flex;
-	max-width: 50%;
-	min-width: 160px;
-}
-
-dl.quesArea dd info buttons>* {
-	flex: 1;
-	text-align: center;
-	font-size: 13px;
-	color: #666;
-}
-
-dl.quesArea dd info buttons>btn i {
-	font-family: "webdesk_icon" !important;
-	margin-right: 1px;
-	font-style: normal;
-}
-
-dl.quesArea dd info buttons>btn.used {
-	color: #000;
-	font-weight: bold;
-}
-
-dl.quesArea dd card-title, dl.quesArea dd card-title p, card-title span, card-title font {
+.quesArea dd card-title, .quesArea dd card-title p, card-title span, card-title font {
 	line-height: 150%;
 	font-size: 18px;
 }
 
-dl.quesArea dd card-title {
+.quesArea dd card-title {
 	word-break: normal;
 }
 
-dl.quesArea dd card-title a{
+.quesArea dd card-title a {
 	word-break: break-all;
 }
 
 /*未答题的样式*/
-dl.quesArea dd card[correct="null"], card[correct="null"] * {
+.quesArea dd card[correct="null"], card[correct="null"] * {
 	background-color: var(--card-bgcolor) !important;
 }
 
-dl.quesArea dd card[correct="null"] {
+.quesArea dd card[correct="null"] {
 	border: 1px solid var(--card-border) !important;
 }
 
-dl.quesArea dd card card-title {
+.quesArea dd card card-title {
 	border-bottom: 1px solid var(--card-border) !important;
 }
 
 /*试题解析*/
-dl.quesArea dd card.explain card-title {
+.quesArea dd card.explain card-title {
 	display: flex;
 	justify-content: space-between;
 }
@@ -162,9 +115,11 @@ dl.quesArea dd card.explain card-title {
 	font-weight: bold;
 	cursor: pointer;
 }
-.ai_btn:hover{
+
+.ai_btn:hover {
 	text-shadow: 1px 1px 2px #666;
 }
+
 .ai_btn::before {
 	content: '';
 	display: block;
@@ -178,38 +133,38 @@ dl.quesArea dd card.explain card-title {
 }
 
 /*答对的样式*/
-dl.quesArea dd card[correct="succ"], card[correct="succ"] * {
+.quesArea dd card[correct="succ"], card[correct="succ"] * {
 	color: var(--fg-color) !important;
 }
 
-dl.quesArea dd card[correct="succ"] {
+.quesArea dd card[correct="succ"] {
 	border: 1px solid var(--succ-border) !important;
 	box-shadow: 0 2px 12px 0 var(--succ-shadow) !important;
 }
 
-dl.quesArea dd card[correct="succ"], card[correct="succ"] * {
+.quesArea dd card[correct="succ"], card[correct="succ"] * {
 	background: var(--succ-bgcolor) !important;
 }
 
-dl.quesArea dd card[correct="succ"] card-title {
+.quesArea dd card[correct="succ"] card-title {
 	border-bottom: solid 1px var(--succ-border) !important;
 }
 
 /*答错的样式*/
-dl.quesArea dd card[correct="error"] {
+.quesArea dd card[correct="error"] {
 	border: 1px solid var(--error-border) !important;
 	box-shadow: 0 2px 12px 0 var(--error-shadow) !important;
 }
 
-dl.quesArea dd card[correct="error"], card[correct="error"] * {
+.quesArea dd card[correct="error"], card[correct="error"] * {
 	background-color: var(--error-bgcolor) !important;
 }
 
-dl.quesArea dd card[correct="error"] card-title {
+.quesArea dd card[correct="error"] card-title {
 	border-bottom: solid 1px var(--error-border) !important;
 }
 
-dl.quesArea dd img {
+.quesArea dd img {
 	max-width: 100% !important;
 	height: auto;
 }
@@ -218,11 +173,15 @@ dl.quesArea dd img {
 
 .ans_area {
 	font-size: 18px;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	align-content: flex-start;
 }
 
 .ans_area>div {
 	position: relative;
-	margin: 15px 15px 15px 10px;
+	padding: 5px 10px;
 }
 
 .ans_area i {
@@ -242,6 +201,9 @@ dl.quesArea dd img {
 	font-style: normal;
 	font-size: 20px;
 	margin-right: 5px;
+}
+dd[qid] card .type1>div {
+	cursor: pointer;
 }
 
 .type1>div[ansid] i::before {
@@ -264,6 +226,9 @@ dl.quesArea dd img {
 .ans_area>div[correct]::before {
 	content: '\a048';
 }
+dd[qid] card .type2>div {
+	cursor: pointer;
+}
 
 .type2>div i::before {
 	content: '\e603';
@@ -276,8 +241,11 @@ dl.quesArea dd img {
 /*判断题*/
 .type3 {
 	display: flex;
+	flex-direction: row;
 }
-
+dd[qid] card .type3>div {
+	cursor: pointer;
+}
 .type3>div:first-child {
 	margin-right: 40px;
 }
@@ -297,7 +265,7 @@ dl.quesArea dd img {
 /*填空题*/
 
 .type5 {
-	counter-reset: section;
+	counter-reset: dd;
 }
 
 .type5>div {
@@ -306,8 +274,8 @@ dl.quesArea dd img {
 }
 
 .type5>div::before {
-	counter-increment: section;
-	content: counter(section) ". ";
+	counter-increment: dd;
+	content: counter(dd) ". ";
 	display: block;
 	position: absolute;
 	top: 5px;
@@ -321,7 +289,7 @@ dl.quesArea dd img {
 	padding: 5px 15px;
 }
 
-dl.quesArea textarea {
+.quesArea textarea {
 	width: calc(100% - 22px);
 	padding: 10px;
 }
@@ -363,25 +331,23 @@ dl.quesArea textarea {
 
 /*竖屏，手机端显示*/
 @media only screen and (orientation: portrait) {
-	dl.quesArea {
+	.quesArea {
 		overflow: hidden;
 	}
 
-	dl.quesArea dd {
-		height: 100%;
-		z-index: 0;
+	.quesArea dl {
+		/* 禁止iOS浏览器默认双击缩放、滚动回弹，交给Hammer接管 */
+		touch-action: manipulation;
+		/* 允许触摸事件穿透子元素冒泡 */
+		pointer-events: auto;
 	}
 
-	dl.quesArea dd section {		
-		margin-bottom: 50px;
-		padding-bottom: 50px;
-		box-sizing: border-box;
-		height: calc(100% - 40px);
-		-webkit-overflow-scrolling: touch;
-		touch-action: auto;
-		overflow-y: auto;	
-		z-index: 0;
+	.quesArea dl dd {
+		height: 100%;
+		overflow-y: auto;
+		touch-action: pan-y !important;
 	}
+
 
 	table {
 		overflow: auto;

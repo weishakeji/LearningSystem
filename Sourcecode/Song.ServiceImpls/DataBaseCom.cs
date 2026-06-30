@@ -656,7 +656,7 @@ namespace Song.ServiceImpls
                 if (item.Value.Length < 1) continue;
                 int index = Array.IndexOf(item.Value, prop);
                 if (index < 0) continue;
-                fieldtype = item.Value[index];
+                fieldtype = item.Key;
                 break;
             }
             return fieldtype;

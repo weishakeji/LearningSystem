@@ -24,7 +24,7 @@
                     <span class="acc-money"> ... </span>
                 </div>
             </card-content>
-        </card> 
+        </card>
         <card v-else-if="!examstate.exist">
             <card-title>{{examstate.exist}}
                 <span icon="&#xe748" @click="navigateTo('index')"></span>
@@ -67,8 +67,9 @@
                     <row>总分：{{exam.Exam_Total}}分（{{exam.Exam_PassScore}}分及格）</row>
                     <row>专业：{{subject.Sbj_Name}} </row>
                     <row>课程：{{paper.Cou_Name}}</row>
+                    <row>考试主题：{{exam.Exam_Title}}</row>
                 </card-content>
-            </card>           
+            </card>
             <card v-if="examstate.issubmit">
                 <card-title> <span icon="&#xe6bd"></span>您已经交过卷了
                 </card-title>
@@ -111,11 +112,17 @@
             <header>
                 <div icon="&#xe748" @click="window.history.go(-1);"></div>
                 <div class="title" @click="showExam=true">{{exam.Exam_Name}}</div>
-                <div icon="&#xe81a" @click="showTime=true"  v-if="examstate.record">
+                <div icon="&#xe81a" @click="showTime=true" v-if="examstate.record">
                     {{surplustime|surplus}}
                 </div>
-            
             </header>
+            <div loading="p4" v-if="!examstate.record && questotal<=0"></div>
+            <div class="loading_paper" v-if="loading.ques">
+                <van-loading type="spinner" size="24px">试题加载中...</van-loading>
+            </div>
+            <quesarea ref='quesarea' remark="试题区域" :paperques="paperQues" :types="types" :account="account"
+                :fontsize="1" @swipe="idx=>swipeIndex=idx"></quesarea>
+            <!--底部按钮栏-->
             <footer v-show="examstate.record">
                 <div id="btnCard" icon="&#xe75e" @click="showCard=true">
                     <span>{{answertotal}}</span>/<span>{{questotal}}</span>
@@ -123,37 +130,11 @@
                 <div id="btnSubmit" icon="&#xe6cf" @click="submitManual">
                     交&nbsp;卷</div>
             </footer>
-          
-            
-            <div loading="p4" v-if="!examstate.record && questotal<=0"></div>
-            <section :style="'width:'+questotal*screenWidth+'px'" v-swiperight="swipe" v-swipeleft="swipe" remark="试题区域">
-                <dl v-for="(group,i) in paperQues" :style="'width:'+group.count*screenWidth+'px'" v-show="!loading.ques">
-                    <question v-for="(q,n) in group.ques" :ques="q" :index="n" :groupindex="i" :account="account"  :group="group"
-                        :total="questotal" :types="types" :exam="exam">
-                    </question>
-                </dl>
-                <div class="loading_paper" v-if="loading.ques">
-                    <van-loading type="spinner" size="24px">试题加载中...</van-loading>
-                </div>
-            </section>
-            <!--各种弹出消息-->
+            <!--各种弹出消息-->      
             <van-popup v-model="showCard" position="left" closeable class="quesCard" :overlay="false" remark="答题卡">
-                <div class="cardTit">
-                    <span icon="&#xe75e">答题卡</span>
-                    <span>完成<b>{{answertotal}}</b>道 / 共<b>{{questotal}}</b>道</span>
-                </div>
-                <div class="cardBox">
-                    <dl v-for="(group,i) in paperAnswer.ques">
-                        <dt icon="&#xe6bd"> [ {{types[group.type - 1]}}题 ]
-                            <span>每题{{Math.floor(group.number/group.count*100)/100}}分/共{{group.number}}分</span>
-                        </dt>
-                        <dd v-for="(q,n) in group.q" @click="swipe(calcIndex(n,i))"
-                            :ans="q.ans!=''  || !(q.file==null || q.file=='' )" :current="calcIndex(n,i)==swipeIndex">
-                            {{calcIndex(n,i)+1}}
-                        </dd>
-                    </dl>
-                </div>
-            </van-popup>
+                <answercard ref='answercard' :questions="paperAnswer.ques" :types="types" :index="swipeIndex" @click="shiftques">
+                </answercard>
+            </van-popup>     
             <van-popup v-model="showTime" class="showTime" ramark="时间信息">
                 <row>当前时间： {{nowtime|date("yyyy-MM-dd HH:mm:ss")}}</row>
                 <row>开始时间： {{time.begin|date("yyyy-MM-dd HH:mm:ss")}}</row>
@@ -184,6 +165,7 @@
                             <row>专业：{{subject.Sbj_Name}} </row>
                             <row>课程：{{paper.Cou_Name}}</row>
                         </template>
+                         <row>考试主题：{{exam.Exam_Title}}</row>
                     </card-content>
                 </card>
             </van-popup>
