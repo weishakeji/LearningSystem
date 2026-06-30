@@ -1,0 +1,33 @@
+html, body, #vapp {
+    overflow: hidden;
+
+}
+
+header {
+    background-color: #fafafa;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+}
+
+section {
+    display: flex;
+    flex-wrap: wrap;
+    overflow: hidden;
+    left: 0;
+    position: relative;
+    transition: left 0.5s ease-out;
+
+    /* 禁止iOS浏览器默认双击缩放、滚动回弹，交给Hammer接管 */
+    touch-action: manipulation;
+    /* 允许触摸事件穿透子元素冒泡 */
+    pointer-events: auto;
+}
+
+section div.content {
+    width: 100vw;
+    height: calc(100% - 40px);
+    overflow-y: auto;
+    text-align: center;
+    touch-action: pan-y !important;
+}
