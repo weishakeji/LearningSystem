@@ -1,37 +1,98 @@
 /*试题区*/
 
-dl.quesArea {
-    height: calc(100% - 40px);
+div.quesArea {
+    height: calc(100% - 90px);
     background-color: #f2f2f2;
     width: 100%;
     z-index: 4;
+
+
+}
+
+.quesArea dl {
+    height: calc(100% - 40px);
+    margin: 0px;
+    display: flex;
     left: 0px;
     position: relative;
-    transition: left 0.5s;
+     transition: left 0.5s ease-out;
     overflow: hidden;
     /* 禁止iOS浏览器默认双击缩放、滚动回弹，交给Hammer接管 */
     touch-action: manipulation;
     /* 允许触摸事件穿透子元素冒泡 */
-    pointer-events: auto;  
-
+    pointer-events: auto;
 }
-
-dl.quesArea,
+.quesArea dl dd {
+    width: 100vw;
+    height: calc(100% - 40px);
+    overflow-y: auto;
+    touch-action: pan-y !important;
+}
+div.quesArea,
 .quesArea dd {
     padding: 0px;
     margin: 0px;
 }
 
+/*试题加载错误*/
+div.quesArea dd .error {
+    margin: 20px;
+}
+
+div.quesArea dd alert {
+    margin-top: 20px;
+    display: inline-block;
+    font-size: 16px;
+}
+
+div.quesArea info {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 10px 0px 10px;
+    margin: 0px 0px 0px 10px;
+    font-size: 15px;
+}
+
+div.quesArea info span i {
+    font-size: 14px;
+    font-style: normal;
+}
+
+div.quesArea info buttons {
+    display: flex;
+    max-width: 50%;
+    min-width: 160px;
+}
+
+div.quesArea info buttons>* {
+    flex: 1;
+    text-align: center;
+    font-size: 13px;
+    color: #666;
+}
+
+div.quesArea info buttons>btn i {
+    font-family: "webdesk_icon" !important;
+    margin-right: 1px;
+    font-style: normal;
+}
+
+div.quesArea info buttons>btn.used {
+    color: #000;
+    font-weight: bold;
+}
+
 .quesArea dd {
     touch-action: pan-y;
 }
+
 .quesArea * {
-    touch-action:none;     
+    touch-action: none;
 }
 
 
 /*没有试题的提示*/
-dl.quesArea .noques {
+div.quesArea .noques {
     font-size: 18px;
     text-align: center;
     color: #999;
@@ -43,7 +104,7 @@ dl.quesArea .noques {
     flex-direction: column;
 }
 
-dl.quesArea .noques icon {
+div.quesArea .noques icon {
     display: block;
     margin: 10px 0px !important;
     font-size: 80px;

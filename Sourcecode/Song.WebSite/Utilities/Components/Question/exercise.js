@@ -123,7 +123,7 @@ Vue.component('question', {
         setfontsize: function (num) {
             //var num = this.fontsize;
             var size = 16, min_size = 12, max_size = 30;
-            ergodic($dom("dl.quesArea dd[qid='" + this.qid + "']"), num);
+            ergodic($dom(".quesArea dd[qid='" + this.qid + "']"), num);
             function ergodic(dom, num) {
                 //如果是公式，则不处理
                 let domname = dom[0].tagName.toLowerCase();
@@ -402,94 +402,84 @@ Vue.component('question', {
         <div v-else-if="error!=''" class="error"> 
             <div>{{index+1}}/{{total}} 试题加载错误！</div>
             <alert v-html="error"></alert>
-        </div>
-        <template v-else-if="init">
-            <info no-font-size>
-                <span>
-                    <i>{{index+1}}/{{total}}</i>
-                    [ {{types[ques.Qus_Type - 1]}}题 ] 
-                </span>
-                <slot name="buttons" :ques="ques"></slot>          
-            </info>
-            <section>
-                <card :correct="state ? state.correct : ''" :ans="state.ans" :forced_rendering="forced_rendering">   
-                    <card-title v-html="ques.Qus_Title"></card-title>          
+        </div>       
+        <section v-else-if="init">
+            <card :correct="state ? state.correct : ''" :ans="state.ans" :forced_rendering="forced_rendering">   
+                <card-title v-html="ques.Qus_Title"></card-title>          
+                <card-content>
+                    <div class="ans_area type1" v-if="ques.Qus_Type==1"  remark="单选题">
+                        <div v-for="(ans,i) in ques.Qus_Items" :ansid="ans.Ans_ID" 
+                        :selected="ans.selected" @click="ques_doing(ans,ques)">
+                            <i>{{toletter(i)}} .</i>
+                            <span v-html="ans.Ans_Context"></span>
+                        </div>
+                    </div>
+                    <div  class="ans_area type2" v-if="ques.Qus_Type==2"  remark="多选题">
+                        <div v-for="(ans,i) in ques.Qus_Items" :ansid="ans.Ans_ID" :selected="ans.selected" @click="ques_doing(ans,ques,false)">
+                            <i>{{toletter(i)}} .</i>
+                            <span v-html="ans.Ans_Context"></span>
+                        </div>
+                        <button type="primary" @click="ques_doing(null,ques,true)">提交答案</button>
+                    </div>
+                    <div  class="ans_area type3" v-if="ques.Qus_Type==3" remark="判断题">
+                        <div :selected="state.ans=='true'"  @click="ques_doing(true,ques)">
+                            <i>正确</i> 
+                        </div>
+                        <div :selected="state.ans=='false'" @click="ques_doing(false,ques)">
+                            <i>错误</i> 
+                        </div>
+                    </div>
+                    <div v-if="ques.Qus_Type==4" class="type4" remark="简答题">
+                        <textarea rows="5" placeholder="这里输入文字" v-model.trim="state.ans"></textarea>
+                        <button type="primary" @click="ques_doing(state.ans,ques)" :disabled="loading_score">
+                            <loading star v-if="loading_score">提交中...</loading>
+                            <span v-else>提交答案</span>
+                        </button>
+                        <span v-if="state.score!=null" class="aiscore">AI评判：{{state.score}} 分</span>
+                    </div>
+                    <div class="ans_area type5" v-if="ques.Qus_Type==5" remark="填空题">
+                        <div v-for="(ans,i) in ques.Qus_Items">                   
+                            <input type="text" v-model="ans.answer"></input>                
+                        </div>
+                        <button type="primary" @click="ques_doing(null,ques)">提交答案</button>
+                    </div>    
+                </card-content>
+            </card>
+            <div v-show="mode==1 || (mode==0 && (state.ans && state.ans!=''))">
+                <card class="answer">   
+                    <card-title><icon>&#xe816</icon> 正确答案</card-title>
+                    <card-content v-html="sucessAnswer(ques)"></card-content>
+                </card>
+                <card class="explain">   
+                    <card-title>
+                        <span><icon>&#xe85a</icon> 试题解析</span>                      
+                        <div class="ai_btn" v-if="ques.Qus_Explain=='' && !loading_ai" @click="getAiexplain">
+                        AI解析
+                        </div>
+                    </card-title>
                     <card-content>
-                        <div class="ans_area type1" v-if="ques.Qus_Type==1"  remark="单选题">
-                            <div v-for="(ans,i) in ques.Qus_Items" :ansid="ans.Ans_ID" 
-                            :selected="ans.selected" @click="ques_doing(ans,ques)">
-                                <i>{{toletter(i)}} .</i>
-                                <span v-html="ans.Ans_Context"></span>
-                            </div>
+                        <span v-if="ques.Qus_Explain!=''" v-html="ques.Qus_Explain"></span>
+                        <span v-else-if="ai_show==false">（无解析），请尝试“AI解析”</span> 
+                        <div class="ai_panel" v-if="ai_show">
+                            <template  v-if="loading_ai">
+                                <loading star>正在加载中...</loading>
+                            </template>
+                            <template v-else> 
+                                <h1>以下是AI解析:</h1>
+                                <div v-html="ques.AI_Explain"></div>
+                            </template>
                         </div>
-                        <div  class="ans_area type2" v-if="ques.Qus_Type==2"  remark="多选题">
-                            <div v-for="(ans,i) in ques.Qus_Items" :ansid="ans.Ans_ID" :selected="ans.selected" @click="ques_doing(ans,ques,false)">
-                                <i>{{toletter(i)}} .</i>
-                                <span v-html="ans.Ans_Context"></span>
-                            </div>
-                            <button type="primary" @click="ques_doing(null,ques,true)">提交答案</button>
-                        </div>
-                        <div  class="ans_area type3" v-if="ques.Qus_Type==3" remark="判断题">
-                            <div :selected="state.ans=='true'"  @click="ques_doing(true,ques)">
-                                <i>正确</i> 
-                            </div>
-                            <div :selected="state.ans=='false'" @click="ques_doing(false,ques)">
-                                <i>错误</i> 
-                            </div>
-                        </div>
-                        <div v-if="ques.Qus_Type==4" class="type4" remark="简答题">
-                            <textarea rows="5" placeholder="这里输入文字" v-model.trim="state.ans"></textarea>
-                            <button type="primary" @click="ques_doing(state.ans,ques)" :disabled="loading_score">
-                                <loading star v-if="loading_score">提交中...</loading>
-                                <span v-else>提交答案</span>
-                            </button>
-                            <span v-if="state.score!=null" class="aiscore">AI评判：{{state.score}} 分</span>
-                        </div>
-                        <div class="ans_area type5" v-if="ques.Qus_Type==5" remark="填空题">
-                            <div v-for="(ans,i) in ques.Qus_Items">                   
-                                <input type="text" v-model="ans.answer"></input>                
-                            </div>
-                            <button type="primary" @click="ques_doing(null,ques)">提交答案</button>
-                        </div>    
                     </card-content>
                 </card>
-                <div v-show="mode==1 || (mode==0 && (state.ans && state.ans!=''))">
-                    <card class="answer">   
-                        <card-title><icon>&#xe816</icon> 正确答案</card-title>
-                        <card-content v-html="sucessAnswer(ques)"></card-content>
-                    </card>
-                    <card class="explain">   
-                        <card-title>
-                            <span><icon>&#xe85a</icon> 试题解析</span>                      
-                            <div class="ai_btn" v-if="ques.Qus_Explain=='' && !loading_ai" @click="getAiexplain">
-                            AI解析
-                            </div>
-                        </card-title>
-                        <card-content>
-                            <span v-if="ques.Qus_Explain!=''" v-html="ques.Qus_Explain"></span>
-                            <span v-else-if="ai_show==false">（无解析），请尝试“AI解析”</span> 
-                            <div class="ai_panel" v-if="ai_show">
-                                <template  v-if="loading_ai">
-                                    <loading star>正在加载中...</loading>
-                                </template>
-                                <template v-else> 
-                                    <h1>以下是AI解析:</h1>
-                                    <div v-html="ques.AI_Explain"></div>
-                                </template>
-                            </div>
-                        </card-content>
-                    </card>
-                    <card class="knowledge" v-if="existknl" >   
-                        <card-title><icon>&#xe6b0</icon> 相关知识点</card-title>
-                        <card-content>
-                            <div>{{knowledge.Kn_Title}}</div>
-                            <div v-html="knowledge.Kn_Details"></div>
-                        </card-content>
-                    </card>
-                </div>
-            </section>
-        
-        </template>
+                <card class="knowledge" v-if="existknl" >   
+                    <card-title><icon>&#xe6b0</icon> 相关知识点</card-title>
+                    <card-content>
+                        <div>{{knowledge.Kn_Title}}</div>
+                        <div v-html="knowledge.Kn_Details"></div>
+                    </card-content>
+                </card>
+            </div>
+        </section> 
      </template>
 </dd>`
 });

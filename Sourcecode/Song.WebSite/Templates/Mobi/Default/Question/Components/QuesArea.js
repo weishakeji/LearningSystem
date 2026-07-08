@@ -10,7 +10,9 @@ Vue.component('quesarea', {
         return {
             list: [],         //所有试题，与ques不同，它是一维数组，方便后续计算            
             currid: '',         //当前试题id            
-            index: 0,            //当前试题索引 
+            index: 0,            //当前试题索引    
+
+            currques: {},          //当前试题
 
             //异步加载的试题id,为了加快试题显示，
             //在练习中，异步加载当前试题的前后试题
@@ -49,7 +51,7 @@ Vue.component('quesarea', {
                 var th = this;
                 this.$nextTick(function () {
                     window.setTimeout(function () {
-                        $dom("dl.quesArea").css('left', -th.screenWidth * nv + 'px');
+                        $dom("div.quesArea dl").css('left', -th.screenWidth * nv + 'px');
                     }, 50);
                 });
                 //计算当前试题的前后试题
@@ -62,7 +64,7 @@ Vue.component('quesarea', {
         screenWidth: function () {
             let el = this.$parent.$el;
             return $dom(el).width();
-        }
+        },
     },
     mounted: function () { },
     methods: {
@@ -70,6 +72,12 @@ Vue.component('quesarea', {
         setindex: function (qid, index) {
             if (qid != null || qid >= 0) this.currid = qid;
             if (index != null && (index >= 0 || index < this.list.length)) this.index = index;
+
+            let getques = this.getques(this.index);
+            //console.error(index);
+            let queel = this.$refs['questions'][this.index];
+            this.currques = queel.ques;
+            console.error(this.currques);
             //触发滑动事件,返回当前索引
             this.$emit('swipe', index);
         },
@@ -84,16 +92,20 @@ Vue.component('quesarea', {
             if (e.direction == 2 && this.index < this.list.length - 1) this.index++;
             //向右滑动
             if (e.direction == 4 && this.index > 0) this.index--;
+            let queid=this.getid(this.index);
+            this.answer(queid, this.index);
+
+
             //触发滑动事件,返回当前索引
-            this.$emit('swipe', this.index);           
+            //this.$emit('swipe', this.index);
         },
         //试题答题状态变更时
         answer: function (state, ques) {
             this.state.data.current = state;
-             //更新答题状态
-             let index = this.state.data.items.findIndex(item => item.qid === state.qid);
-             this.state.data.items[index] = state;
-              //更新数据到服务器
+            //更新答题状态
+            let index = this.state.data.items.findIndex(item => item.qid === state.qid);
+            this.state.data.items[index] = state;
+            //更新数据到服务器
             this.state.update(true);
         },
         //计算要异步加载的试题id
@@ -135,11 +147,15 @@ Vue.component('quesarea', {
             }).catch(err => console.error(err))
                 .finally(() => { });
         },
-        //通过索引获取试题id
+        //通过索引获取试题的id
         getid: function (index) {
             if (index < 0) return null;
             if (index > this.list.length - 1) return null;
             return this.list[index];
+        },
+        //通过索引获取试题
+        getques: function (index) {
+
         },
         //清除指定的试题
         cleanup: function (index) {
@@ -170,14 +186,22 @@ Vue.component('quesarea', {
             //console.log(index);
         }
     },
-    template: `<dl :class="{'quesArea':true}" :style="'width:'+(list.length<=1 ? 1 : list.length)*screenWidth+'px'">   
-           <div v-if="!$parent.loading && list.length<1" class="noques"><icon>&#xe849</icon>没有试题</div>
-           <question v-else v-for="(qid,i) in list" :qid="qid" :state="state.getitem(qid,i)" :index="i" :curindex="index"
-            :total="list.length" :types="types" :account="account" :fontsize="fontsize" v-swipe="swipe"
-            :mode="mode" :iscurrent="i==index" @answer="answer">
-                <template v-slot:buttons="btn">
-                    <quesbuttons :question="btn.ques" :account="account" :couid="0" :current="i==index"></quesbuttons>
-                </template>
-            </question>
-        </dl>`
+    template: `<div :class="{'quesArea':true}" >
+        <div v-if="!$parent.loading && list.length<1" class="noques"><icon>&#xe849</icon>没有试题</div>
+        <template v-else>
+            <info no-font-size>
+                <span>
+                    <i>{{index+1}}/{{list.length}}</i>
+                    [ {{types[currques.Qus_Type - 1]}}题 ] 
+                </span>
+                <quesbuttons :question="{}" :account="account" :couid="0" :current="index"></quesbuttons>                      
+            </info>   
+            <dl :style="'width:'+(list.length<=1 ? 1 : list.length)*screenWidth+'px'">             
+                <question ref="questions"  v-for="(qid,i) in list" :qid="qid" :state="state.getitem(qid,i)" :index="i" :curindex="index"
+                    :total="list.length" :types="types" :account="account" :fontsize="fontsize" v-swipe="swipe"
+                    :mode="mode" :iscurrent="i==index" @answer="answer">                       
+                </question>           
+            </dl>
+        </template>
+    </div>`
 });
