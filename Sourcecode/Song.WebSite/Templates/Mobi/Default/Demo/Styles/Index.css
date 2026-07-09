@@ -27,7 +27,7 @@ section {
 section div.content {
     width: 100vw;
     height: calc(100% - 40px);
-    overflow-y: auto;
     text-align: center;
+    overflow-y: auto;    
     touch-action: pan-y !important;
 }

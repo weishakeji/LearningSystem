@@ -26,6 +26,7 @@ div.quesArea {
     width: 100vw;
     height: calc(100% - 40px);
     overflow-y: auto;
+    overflow-x: hidden;
     touch-action: pan-y !important;
 }
 div.quesArea,
@@ -82,13 +83,7 @@ div.quesArea info buttons>btn.used {
     font-weight: bold;
 }
 
-.quesArea dd {
-    touch-action: pan-y;
-}
 
-.quesArea * {
-    touch-action: none;
-}
 
 
 /*没有试题的提示*/

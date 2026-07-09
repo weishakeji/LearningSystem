@@ -45,7 +45,7 @@
                     </el-link>
                 </template>
             </el-table-column>
-            <el-table-column label="注册/充值" width="120" align="center" v-if="false">
+            <el-table-column label="注册/充值" width="120" align="center" v-if="true">
                 <template slot-scope="scope">
                     <el-link type="primary" :disabled="scope.row.RegisterUrl ==''"
                         :href="ishyperlink(scope.row.RegisterUrl) ? scope.row.RegisterUrl : ''"

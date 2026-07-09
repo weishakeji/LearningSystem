@@ -46,21 +46,23 @@ Vue.component('question', {
                 if (this.index < nv - this.render_maxcount
                     || this.index > nv + this.render_maxcount)
                     this.init = false;
-                else
-                    this.initialization();
+                else this.initialization();
             },
             immediate: true
         },
         //是否是当前显示的试题
         'iscurrent': {
-            handler: function (nv, ov) {
-                if (!ov && nv && !this.init) {
-                    this.initialization();
-                }
+            handler: async function (nv, ov) {
+                if (!ov && nv && !this.init) this.initialization();
+                //如果不是当前显示的试题，且超出指定区间，则不再渲染
                 if (!nv) {
                     if (this.index < this.curindex - this.render_maxcount
                         || this.index > this.curindex + this.render_maxcount)
                         this.init = false;
+                } else {
+                    //如果是当前显示的试题，则初始化
+                    if ($api.isnull(this.ques)) await this.initialization();
+                    this.$emit('current', this.ques);
                 }
             },
             immediate: true
@@ -85,39 +87,37 @@ Vue.component('question', {
     mounted: function () { },
     methods: {
         //始始化的方法
-        initialization: function () {
+        initialization: async function () {
             if (this.qid == null) return;
             var th = this;
+            if ($api.isnull(th.ques)) th.ques = await this.getques();
+            th.$nextTick(function () {
+                var dom = $dom("dd[qid='" + th.ques.Qus_ID + "']");
+                let title = dom.find('card-title');
+                //清理空元素                
+                window.ques.clearempty(dom.find('card-title'));
+                window.ques.clearempty(dom.find('.ans_area'));
+                //公式渲染
+                th.$mathjax([dom[0]]);
+                window.setTimeout(function () {
+                    th.setfontsize(th.fontsize);
+                    th.$mathjax([dom[0]]);
+                }, 200);
+            });
+            th.init = true;
+        },
+        //获取试题的方法
+        getques: async function () {
+            var th = this;
             th.loading = true;
-            //缓存一个月
-            $api.cache('Question/ForID:43200', { 'id': th.qid }).then(function (req) {
-                if (req.data.success) {
-                    th.ques = req.data.result;
-                    th.getKnowledge(th.ques);
-                    th.ques = th.parseAnswer(th.ques);
-                    //console.error(th.ques)
-                    th.$nextTick(function () {
-                        var dom = $dom("dd[qid='" + th.ques.Qus_ID + "']");
-                        let title = dom.find('card-title');
-                        //清理空元素                
-                        window.ques.clearempty(dom.find('card-title'));
-                        window.ques.clearempty(dom.find('.ans_area'));
-                        //公式渲染
-                        th.$mathjax([dom[0]]);
-                        window.setTimeout(function () {
-                            th.setfontsize(th.fontsize);
-                            th.$mathjax([dom[0]]);
-                        }, 200);
-                    });
-                } else {
-                    console.error(req);
-                    throw req.data.message;
-                }
-            }).catch(err => th.error = err)
-                .finally(() => {
-                    th.loading = false;
-                    th.init = true;
-                });
+            let ques = {};
+            let get = await $api.cache('Question/ForID:43200', { 'id': th.qid });
+            if (get.data.success) {
+                ques = th.parseAnswer(get.data.result);
+                th.getKnowledge(ques);
+            }
+            th.loading = false;
+            return ques;
         },
         //设置字体大小
         setfontsize: function (num) {
@@ -403,7 +403,7 @@ Vue.component('question', {
             <div>{{index+1}}/{{total}} 试题加载错误！</div>
             <alert v-html="error"></alert>
         </div>       
-        <section v-else-if="init">
+        <template v-else-if="init">
             <card :correct="state ? state.correct : ''" :ans="state.ans" :forced_rendering="forced_rendering">   
                 <card-title v-html="ques.Qus_Title"></card-title>          
                 <card-content>
@@ -479,7 +479,7 @@ Vue.component('question', {
                     </card-content>
                 </card>
             </div>
-        </section> 
+        </template> 
      </template>
 </dd>`
 });

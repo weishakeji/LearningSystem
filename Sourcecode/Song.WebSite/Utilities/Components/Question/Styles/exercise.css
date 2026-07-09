@@ -251,7 +251,7 @@ body[view=cosy] {
 /*填空题*/
 
 .type5 {
-	counter-reset: section;
+	counter-reset: dd;
 }
 
 .type5>div {
@@ -260,8 +260,8 @@ body[view=cosy] {
 }
 
 .type5>div::before {
-	counter-increment: section;
-	content: counter(section) ". ";
+	counter-increment: dd;
+	content: counter(dd) ". ";
 	display: block;
 	position: absolute;
 	top: 5px;
@@ -321,19 +321,19 @@ body[view=cosy] {
 		overflow: hidden;
 	}
 
-	.quesArea dd {
-		height: 100%;
-		overflow-y: auto;
-		touch-action: auto;
-		-webkit-overflow-scrolling: touch;
+	.quesArea dl {
+		/* 禁止iOS浏览器默认双击缩放、滚动回弹，交给Hammer接管 */
+		touch-action: manipulation;
+		/* 允许触摸事件穿透子元素冒泡 */
+		pointer-events: auto;
 	}
 
-	.quesArea dd section {
-		margin-bottom: 50px;
-		padding-bottom: 50px;
-		box-sizing: border-box;
-		height: calc(100% - 40px);
+	.quesArea dl dd {
+		height: 100%;
+		overflow-y: auto;		
+		touch-action: pan-y !important;
 	}
+
 
 	table {
 		overflow: auto;

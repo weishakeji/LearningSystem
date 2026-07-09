@@ -55,7 +55,7 @@ Vue.component('quesarea', {
                     }, 50);
                 });
                 //计算当前试题的前后试题
-                this.asyncload_list(nv);
+                //this.asyncload_list(nv);
             }, immediate: true
         }
     },
@@ -71,13 +71,7 @@ Vue.component('quesarea', {
         //设置当前试题的id与索引
         setindex: function (qid, index) {
             if (qid != null || qid >= 0) this.currid = qid;
-            if (index != null && (index >= 0 || index < this.list.length)) this.index = index;
-
-            let getques = this.getques(this.index);
-            //console.error(index);
-            let queel = this.$refs['questions'][this.index];
-            this.currques = queel.ques;
-            console.error(this.currques);
+            if (index != null && (index >= 0 || index < this.list.length)) this.index = index;          
             //触发滑动事件,返回当前索引
             this.$emit('swipe', index);
         },
@@ -93,8 +87,7 @@ Vue.component('quesarea', {
             //向右滑动
             if (e.direction == 4 && this.index > 0) this.index--;
             let queid=this.getid(this.index);
-            this.answer(queid, this.index);
-
+            this.setindex(queid, this.index);
 
             //触发滑动事件,返回当前索引
             //this.$emit('swipe', this.index);
@@ -127,35 +120,13 @@ Vue.component('quesarea', {
                 if (i < half) this.asynclist.push(arr[i]);
                 else
                     this.asynclist.splice(n++, 0, arr[i]);
-            }
-            //console.log(this.asynclist);
-            if (!this.asyncloading) this.asyncload();
-        },
-        //异步加载当前试题临近的试题
-        asyncload: function () {
-            var th = this;
-            th.asyncloading = th.asynclist.length > 0;
-            if (!th.asyncloading) return;
-            $api.cache('Question/ForID:43200', { 'id': th.asynclist[0] }).then(function (req) {
-                if (req.data.success) {
-                    if (th.asynclist.length > 0)
-                        th.asynclist.splice(0, 1);
-                    th.asyncload();
-                } else {
-                    throw req;
-                }
-            }).catch(err => console.error(err))
-                .finally(() => { });
+            }          
         },
         //通过索引获取试题的id
         getid: function (index) {
             if (index < 0) return null;
             if (index > this.list.length - 1) return null;
             return this.list[index];
-        },
-        //通过索引获取试题
-        getques: function (index) {
-
         },
         //清除指定的试题
         cleanup: function (index) {
@@ -199,7 +170,7 @@ Vue.component('quesarea', {
             <dl :style="'width:'+(list.length<=1 ? 1 : list.length)*screenWidth+'px'">             
                 <question ref="questions"  v-for="(qid,i) in list" :qid="qid" :state="state.getitem(qid,i)" :index="i" :curindex="index"
                     :total="list.length" :types="types" :account="account" :fontsize="fontsize" v-swipe="swipe"
-                    :mode="mode" :iscurrent="i==index" @answer="answer">                       
+                    :mode="mode" :iscurrent="i==index" @answer="answer" @current="q=>currques=q">                       
                 </question>           
             </dl>
         </template>
