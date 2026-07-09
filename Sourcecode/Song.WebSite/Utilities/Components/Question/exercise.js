@@ -110,14 +110,25 @@ Vue.component('question', {
         getques: async function () {
             var th = this;
             th.loading = true;
-            let ques = {};
-            let get = await $api.cache('Question/ForID:43200', { 'id': th.qid });
-            if (get.data.success) {
-                ques = th.parseAnswer(get.data.result);
-                th.getKnowledge(ques);
+            try {
+                let ques = {};
+                let get = await $api.cache('Question/ForID:43200', { 'id': th.qid });
+                if (!get || !get.data) {
+                    throw new Error('请求无返回或返回格式不正确');
+                }
+                if (get.data.success) {
+                    ques = th.parseAnswer(get.data.result);
+                    th.getKnowledge(ques);
+                    return ques;
+                } else {
+                    throw new Error(get.data.message || '请求失败');
+                }
+            } catch (err) {
+                th.error = err && err.message ? err.message : err;
+                throw err;
+            } finally {
+                th.loading = false;
             }
-            th.loading = false;
-            return ques;
         },
         //设置字体大小
         setfontsize: function (num) {
@@ -396,14 +407,13 @@ Vue.component('question', {
             return correct;
         }
     },
-    template: `<dd :qid="qid" :current="iscurrent" :render="init">
-    <template v-if="init">     
+    template: `<dd :qid="qid" :current="iscurrent" :render="init">   
         <div loading="p1" v-if="loading"></div>  
         <div v-else-if="error!=''" class="error"> 
-            <div>{{index+1}}/{{total}} 试题加载错误！</div>
+            <warning>试题加载错误！</warning>
             <alert v-html="error"></alert>
         </div>       
-        <template v-else-if="init">
+        <template v-else>
             <card :correct="state ? state.correct : ''" :ans="state.ans" :forced_rendering="forced_rendering">   
                 <card-title v-html="ques.Qus_Title"></card-title>          
                 <card-content>
@@ -480,6 +490,6 @@ Vue.component('question', {
                 </card>
             </div>
         </template> 
-     </template>
+  
 </dd>`
 });
