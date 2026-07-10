@@ -99,7 +99,7 @@ Vue.component('quesbuttons', {
         },
         //更改笔记内容
         noteUpdate: function (note) {
-            if ($api.isnull(this.account)) return;
+            if ($api.isnull(this.account) || $api.isnull(this.question)) return;
             var th = this;
             th.loading = true;
             th.isShowNote = false;
