@@ -63,6 +63,8 @@ div.quesArea info buttons {
     display: flex;
     max-width: 50%;
     min-width: 160px;
+    height: 20px;
+    overflow: hidden;
 }
 
 div.quesArea info buttons>* {

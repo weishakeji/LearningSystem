@@ -51,6 +51,7 @@ body[view=cosy] {
 
 *:not([noview], .el-drawer__open, .van-overlay, .answerSheet dd,
 	.van-toast, .van-dialog, .van-icon, .van-toast__text,
+	.van-button, .van-button__content, .van-button__text,
 	.ws_prompt_panel,
 	.el-dialog__wrapper, *[role=dialog]) {
 	background-color: var(--bg-color) !important;
@@ -330,7 +331,7 @@ body[view=cosy] {
 
 	.quesArea dl dd {
 		height: 100%;
-		overflow-y: auto;		
+		overflow-y: auto;
 		touch-action: pan-y !important;
 	}
 
