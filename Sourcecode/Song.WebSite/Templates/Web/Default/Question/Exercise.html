@@ -64,7 +64,7 @@
         :fontsize="fontsize" @swipe="swipe"></quesarea>
       <!--答题卡-->
       <answersheet ref='answersheet' :questions="queslist" :types="types" :ansstate="state" :data="data"
-        @click="(qid,index)=>$refs['quesarea'].setindex(qid,index)"></answersheet>
+        @click="(qid,index)=>$refs['quesarea'].setindex(index,false)"></answersheet>
 
     </template>
   </div>

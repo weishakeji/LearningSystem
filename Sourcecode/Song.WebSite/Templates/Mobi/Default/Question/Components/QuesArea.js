@@ -13,12 +13,6 @@ Vue.component('quesarea', {
             index: 0,            //当前试题索引    
 
             currques: {},          //当前试题
-
-            //异步加载的试题id,为了加快试题显示，
-            //在练习中，异步加载当前试题的前后试题
-            asynclist: [],
-            asynccount: 6,       //异步加载多少道试题
-            asyncloading: false      //异步加载中
         }
     },
     watch: {
@@ -31,13 +25,9 @@ Vue.component('quesarea', {
                     for (let i = 0; i < nv[k].length; i++)
                         list.push(nv[k][i]);
                 }
-                this.list = list;
-                //console.log(list);
+                this.list = list;             
             },
             immediate: true
-        },
-        'mode': function (nv, ov) {
-            console.log(nv);
         },
         //滑动试题，滑动到指定试题索引
         'index': {
