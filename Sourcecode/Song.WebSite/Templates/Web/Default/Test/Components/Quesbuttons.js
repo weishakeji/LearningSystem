@@ -93,7 +93,7 @@ Vue.component('quesbuttons', {
         //设置收藏
         addcollect: function (btn) {
             if (!btn.used) {
-                var query = { 'acid': this.account.Ac_ID, 'qid': this.question.Qus_ID, 'couid': this.couid };
+                var query = { 'acid': this.account.Ac_ID, 'qid': this.question.Qus_ID };
                 $api.post('Question/CollectAdd', query).then(function (req) {
                     if (req.data.success) {
                         btn.used = true;

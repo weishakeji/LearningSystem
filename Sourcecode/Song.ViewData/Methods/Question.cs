@@ -544,7 +544,7 @@ namespace Song.ViewData.Methods
         /// <param name="couid">课程id</param>
         /// <returns></returns>
         [HttpPost]
-        public bool CollectAdd(int acid, long qid, long couid)
+        public bool CollectAdd(int acid, long qid)
         {
 
             Student_Collect stc = Business.Do<IStudent>().CollectSingle(acid, qid);
@@ -553,7 +553,6 @@ namespace Song.ViewData.Methods
                 stc = new Entities.Student_Collect();
                 stc.Ac_ID = acid;
                 stc.Qus_ID = qid;
-                stc.Cou_ID = couid;
                 Business.Do<IStudent>().CollectAdd(stc);
             }
             return true;
@@ -564,7 +563,7 @@ namespace Song.ViewData.Methods
         /// <param name="acid">学员id</param>
         /// <param name="qid">试题id</param>
         /// <returns></returns>
-        [HttpDelete]
+        [HttpDelete,HttpPost]
         public bool CollectDelete(int acid, long qid)
         {
             Business.Do<IStudent>().CollectDelete(qid, acid);

@@ -1813,6 +1813,7 @@ namespace Song.ServiceImpls
             entity.Qus_Diff = qus.Qus_Diff;
             entity.Cou_ID = qus.Cou_ID;
             entity.Sbj_ID = qus.Sbj_ID;
+            entity.Cou_ID = qus.Cou_ID;
             //
             WhereClip wc = Student_Collect._.Qus_ID == entity.Qus_ID && Student_Collect._.Ac_ID == entity.Ac_ID;
             Student_Collect sc = Gateway.Default.From<Student_Collect>().Where(wc).ToFirst<Student_Collect>();

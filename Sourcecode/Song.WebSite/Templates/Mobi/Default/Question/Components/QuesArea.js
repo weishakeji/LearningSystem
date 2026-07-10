@@ -109,15 +109,14 @@ Vue.component('quesarea', {
             if (index > this.list.length - 1) return null;
             return this.list[index];
         },
-        //清除指定的试题
+        //清除指定的试题,用于收藏试题、错题练习的功能模块
         cleanup: function (index) {
             if (index == null) index = this.index;
             //当前试题id
             let qid = this.getid(index);
             if (qid == null) return;
             //清除页面中的试题
-            this.list.splice(index, 1);
-            //index += this.list.length > index ? 1 : -1;
+            this.list.splice(index, 1);         
             if (index >= this.list.length) index = this.list.length - 1;
             if (index < 0) index = 0;
 
@@ -129,13 +128,6 @@ Vue.component('quesarea', {
             }
             this.$parent.state.del(qid);
             this.setindex(index);
-            return;
-            var th = this;
-            this.$nextTick(function () {
-                th.index = index;
-            });
-            //this.$parent.data = this.$parent.state.data.count;
-            //console.log(index);
         }
     },
     template: `<div :class="{'quesArea':true}" >
@@ -146,7 +138,7 @@ Vue.component('quesarea', {
                     <i>{{index+1}}/{{list.length}}</i>
                     [ {{types[currques.Qus_Type - 1]}}题 ] 
                 </span>
-                <quesbuttons :question="currques" :account="account" :couid="0" :current="index"></quesbuttons>                      
+                <quesbuttons :question="currques" :account="account" :index="index"></quesbuttons>                      
             </info>   
             <dl :style="'width:'+(list.length<=1 ? 1 : list.length)*screenWidth+'px'">             
                 <question ref="questions"  v-for="(qid,i) in list" :qid="qid" :state="state.getitem(qid,i)" :index="i" :curindex="index"
