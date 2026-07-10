@@ -1,6 +1,7 @@
 ﻿//试题的练习
 //事件：
 //answer:当答题状态变化时触发，返回答题状态与试题
+//current:当前显示的试题变化时触发，返回当前显示的试题
 Vue.component('question', {
     //qid:当前试题的id
     //state:答题状态
@@ -156,7 +157,7 @@ Vue.component('question', {
         },
         //获取知识点
         getKnowledge: function (ques) {
-            if (ques == null || ques.Kn_Uid == '') return;
+            if (ques == null || ques.Kn_Uid == '' || ques.Kn_Uid == '0') return;
             var th = this
             $api.get('Knowledge/ForUID', { 'uid': ques.Kn_Uid }).then(function (req) {
                 if (req.data.success) {
@@ -164,8 +165,7 @@ Vue.component('question', {
                 } else {
                     throw req.config.way + ' ' + req.data.message;
                 }
-            }).catch(function (err) {
-            });
+            }).catch(function (err) { });
         },
         //AI解析答案
         getAiexplain: function () {

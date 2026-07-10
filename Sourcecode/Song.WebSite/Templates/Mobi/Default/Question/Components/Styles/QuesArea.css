@@ -15,7 +15,7 @@ div.quesArea {
     display: flex;
     left: 0px;
     position: relative;
-     transition: left 0.5s ease-out;
+    transition: left 0.5s ease-out;
     overflow: hidden;
     /* 禁止iOS浏览器默认双击缩放、滚动回弹，交给Hammer接管 */
     touch-action: manipulation;

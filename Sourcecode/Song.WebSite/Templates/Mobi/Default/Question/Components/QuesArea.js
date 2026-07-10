@@ -48,14 +48,6 @@ Vue.component('quesarea', {
                     this.state.last(this.list[nv], nv);
                 //更新答题状态（不推送到服务器）
                 this.state.update(false);
-                var th = this;
-                this.$nextTick(function () {
-                    window.setTimeout(function () {
-                        $dom("div.quesArea dl").css('left', -th.screenWidth * nv + 'px');
-                    }, 50);
-                });
-                //计算当前试题的前后试题
-                //this.asyncload_list(nv);
             }, immediate: true
         }
     },
@@ -69,11 +61,22 @@ Vue.component('quesarea', {
     mounted: function () { },
     methods: {
         //设置当前试题的id与索引
-        setindex: function (qid, index) {
+        //index:试题索引
+        //effects:是否有滑动特效
+        setindex: function (index, effects) {
+            let qid = this.getid(index);
             if (qid != null || qid >= 0) this.currid = qid;
-            if (index != null && (index >= 0 || index < this.list.length)) this.index = index;          
+            if (index != null && (index >= 0 || index < this.list.length)) this.index = index;
             //触发滑动事件,返回当前索引
             this.$emit('swipe', index);
+            //设置试题的滑动位置
+            var th = this;
+            var dl = $dom("div.quesArea dl");
+            if (effects == null || effects == true) dl.css('transition', 'left 0.5s ease-in-out');
+            else dl.css('transition', 'none');
+            this.$nextTick(function () {
+                window.setTimeout(() => dl.css('left', -th.screenWidth * th.index + 'px'), 50);
+            });
         },
         //试题滑动 
         swipe: function (e) {
@@ -86,11 +89,7 @@ Vue.component('quesarea', {
             if (e.direction == 2 && this.index < this.list.length - 1) this.index++;
             //向右滑动
             if (e.direction == 4 && this.index > 0) this.index--;
-            let queid=this.getid(this.index);
-            this.setindex(queid, this.index);
-
-            //触发滑动事件,返回当前索引
-            //this.$emit('swipe', this.index);
+            this.setindex(this.index);
         },
         //试题答题状态变更时
         answer: function (state, ques) {
@@ -100,27 +99,6 @@ Vue.component('quesarea', {
             this.state.data.items[index] = state;
             //更新数据到服务器
             this.state.update(true);
-        },
-        //计算要异步加载的试题id
-        asyncload_list: function (index) {
-            //获取当前试题的前后试题的id，           
-            let arr = [];
-            let half = Math.floor(this.asynccount / 3);
-            let init = index - half <= 0 ? 0 : index - half;       //取值的起始索引   
-            let max = init + this.asynccount >= this.list.length ? this.list.length : init + this.asynccount;   //最大索引
-            for (let i = init; i <= max && i < this.list.length; i++) {
-                if (i == index) continue;
-                arr.push(this.list[i]);
-            }
-            //要加载的试题放到列表中，（等待后续异步加载）
-            let n = 0;
-            for (let i = 0; i < arr.length; i++) {
-                if (this.asynclist.indexOf(arr[i]) !== -1)
-                    continue;
-                if (i < half) this.asynclist.push(arr[i]);
-                else
-                    this.asynclist.splice(n++, 0, arr[i]);
-            }          
         },
         //通过索引获取试题的id
         getid: function (index) {
@@ -147,7 +125,7 @@ Vue.component('quesarea', {
                 if (idx >= 0) arr.splice(idx, 1);
             }
             this.$parent.state.del(qid);
-            this.setindex(qid, index);
+            this.setindex(index);
             return;
             var th = this;
             this.$nextTick(function () {

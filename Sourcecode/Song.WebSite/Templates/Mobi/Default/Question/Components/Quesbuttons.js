@@ -70,6 +70,7 @@ Vue.component('quesbuttons', {
         //收藏的状态
         collectState: function () {
             if ($api.isnull(this.account)) return;
+            if ($api.isnull(this.question)) return;
             var th = this;
             //试题是否被收藏
             var query = { 'acid': this.account.Ac_ID, 'qid': this.question.Qus_ID };
@@ -90,6 +91,7 @@ Vue.component('quesbuttons', {
         //笔记的状态，及内容
         noteState: function () {
             if ($api.isnull(this.account)) return;
+             if ($api.isnull(this.question)) return;
             var th = this;
             var query = { 'acid': this.account.Ac_ID, 'qid': this.question.Qus_ID };
             $api.get('Question/NotesSingle', query).then(function (req) {
