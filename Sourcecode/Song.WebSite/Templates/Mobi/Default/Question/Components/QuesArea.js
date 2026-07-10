@@ -63,19 +63,22 @@ Vue.component('quesarea', {
         //设置当前试题的id与索引
         //index:试题索引
         //effects:是否有滑动特效
-        setindex: function (index, effects) {
+        //speed:滑动速度，单位px/ms
+        setindex: function (index, effects, speed) {
             let qid = this.getid(index);
             if (qid != null || qid >= 0) this.currid = qid;
             if (index != null && (index >= 0 || index < this.list.length)) this.index = index;
             //触发滑动事件,返回当前索引
             this.$emit('swipe', index);
+
             //设置试题的滑动位置
-            var th = this;
             var dl = $dom("div.quesArea dl");
-            if (effects == null || effects == true) dl.css('transition', 'left 0.5s ease-in-out');
+            speed = speed == null ? 0.5 : 0.7 - speed / 10;
+            if (effects == null || effects == true) dl.css('transition', 'left ' + speed + 's ease-in-out');
             else dl.css('transition', 'none');
+            var left = -this.screenWidth * this.index;
             this.$nextTick(function () {
-                window.setTimeout(() => dl.css('left', -th.screenWidth * th.index + 'px'), 50);
+                window.setTimeout(() => dl.css('left', left + 'px'), 50);
             });
         },
         //试题滑动 
@@ -89,7 +92,7 @@ Vue.component('quesarea', {
             if (e.direction == 2 && this.index < this.list.length - 1) this.index++;
             //向右滑动
             if (e.direction == 4 && this.index > 0) this.index--;
-            this.setindex(this.index);
+            this.setindex(this.index, true, Math.abs(e.velocityX));
         },
         //试题答题状态变更时
         answer: function (state, ques) {
