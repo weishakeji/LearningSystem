@@ -37,7 +37,7 @@ Vue.component('question', {
         //试题总数变化时（例如删除错题），重新处理当前试题
         'total': function (nv, ov) {
             if (nv && this.iscurrent) {
-                this.initialization();
+                this.initialization(true);
             }
         },
         //当前显示的试题索引变化时
@@ -47,22 +47,22 @@ Vue.component('question', {
                 if (this.index < nv - this.render_maxcount
                     || this.index > nv + this.render_maxcount)
                     this.init = false;
-                else this.initialization();
+                else this.initialization(false);
             },
             immediate: true
         },
         //是否是当前显示的试题
         'iscurrent': {
             handler: async function (nv, ov) {
-                if (!ov && nv && !this.init) this.initialization();
+                if (!ov && nv && !this.init) this.initialization(false);
                 //如果不是当前显示的试题，且超出指定区间，则不再渲染
                 if (!nv) {
                     if (this.index < this.curindex - this.render_maxcount
                         || this.index > this.curindex + this.render_maxcount)
                         this.init = false;
                 } else {
-                    //如果是当前显示的试题，则初始化
-                    if ($api.isnull(this.ques)) await this.initialization();
+                    //如果是当前显示的试题为空，则初始化
+                    await this.initialization(false);
                     this.$emit('current', this.ques);
                 }
             },
@@ -88,10 +88,12 @@ Vue.component('question', {
     mounted: function () { },
     methods: {
         //始始化的方法
-        initialization: async function () {
+        //fresh:是否强制刷新，true为强制刷新
+        initialization: async function (fresh) {
             if (this.qid == null) return;
             var th = this;
-            if ($api.isnull(th.ques)) th.ques = await this.getques();
+            if ($api.isnull(th.ques) || fresh) 
+                th.ques = await this.getques();
             th.$nextTick(function () {
                 var dom = $dom("dd[qid='" + th.ques.Qus_ID + "']");
                 let title = dom.find('card-title');

@@ -28,6 +28,7 @@ window.vapp = new Vue({
             queslist: [],      //试题简要信息，只有题型与id,按题型分为多个数组
             loading: false,
             loading_init: false,         //初始信息加载
+            loading_delete: false,       //删除试题时的加载状态
 
             fontsize: 0,         //字体增减值
 
@@ -184,6 +185,7 @@ window.vapp = new Vue({
                 var index = area.index;
                 let qid = area.getid(index);
                 if (qid == null) return;
+                th.loading_delete = true;
                 $api.get('Question/ErrorDelete', { 'acid': th.account.Ac_ID, 'qid': qid }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
@@ -193,10 +195,8 @@ window.vapp = new Vue({
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                });
+                }).catch(err => console.error(err))
+                    .finally(() => th.loading_delete = false);
             }
         }
     });

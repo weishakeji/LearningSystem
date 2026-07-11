@@ -32,7 +32,8 @@
             <a icon="&#xe813" @click="showCourse=true"></a>
           </div>
           <div :noques="!isques">
-            <span icon="&#xe800" @click="deleteQues"> 删除错题 </span>
+            <loading v-if="loading_delete">正在删除...</loading>
+            <span v-else icon="&#xe800" @click="deleteQues"> 删除错题 </span>
           </div>
           <div>
             <learnmode @change="v=>learnmode=v"></learnmode>

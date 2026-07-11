@@ -25,7 +25,7 @@ Vue.component('quesarea', {
                     for (let i = 0; i < nv[k].length; i++)
                         list.push(nv[k][i]);
                 }
-                this.list = list;             
+                this.list = list;
             },
             immediate: true
         },
@@ -106,7 +106,8 @@ Vue.component('quesarea', {
             let qid = this.getid(index);
             if (qid == null) return;
             //清除页面中的试题
-            this.list.splice(index, 1);         
+            //this.list.splice(index, 1);
+            this.$delete(this.list, index);
             if (index >= this.list.length) index = this.list.length - 1;
             if (index < 0) index = 0;
 
@@ -116,6 +117,9 @@ Vue.component('quesarea', {
                 let idx = arr.indexOf(qid);
                 if (idx >= 0) arr.splice(idx, 1);
             }
+            //let el = $dom(this.$el).find('dd[qid="' + qid + '"]');
+            //if (el.length > 0) el.remove();
+            //删除答题记录
             this.$parent.state.del(qid);
             this.setindex(index);
         }

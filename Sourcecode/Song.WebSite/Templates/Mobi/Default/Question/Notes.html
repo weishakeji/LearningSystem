@@ -32,7 +32,8 @@
             <a icon="&#xe813" @click="showCourse=true"></a>
           </div>
           <div :noques="!isques">
-            <span icon="&#xe800" @click="deleteQues"> 删除笔记 </span>
+            <loading v-if="loading_delete">正在删除...</loading>
+            <span v-else icon="&#xe800" @click="deleteQues"> 删除笔记 </span>
           </div>
           <div>
             <learnmode @change="v=>learnmode=v"></learnmode>
@@ -42,7 +43,7 @@
         <setupmenu ref="setupmenu" :account="account"></setupmenu>
         <van-popup v-model="showCourse" class="showCourse" ramark="课程信息">
           <template v-if="iscourse">
-            <row>《 {{course.Cou_Name}} 》</row>         
+            <row>《 {{course.Cou_Name}} 》</row>
             <div>
               <van-button type="default" @click="showCourse=false">取消</van-button>
               <van-button type="primary" :url="'../course/Detail.'+couid">
