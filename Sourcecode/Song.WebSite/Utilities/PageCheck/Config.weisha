@@ -31,4 +31,9 @@
         <item value="/help/.*" />
         <item value="/Copyright/info" />
     </allow>
+    <ignoreapi remark="忽略的api">
+        <item value="Question/Types" />
+        <item value="Organization/Current" />
+        <item value="Platform/PlatInfo" />
+    </ignoreapi>
 </config>

@@ -7,6 +7,12 @@ section{
  }
  section dl dd{
 	flex: 1;
+	overflow-y: auto;
+	overflow-x: hidden;
+	/* 禁止iOS浏览器默认双击缩放、滚动回弹，交给Hammer接管 */
+	touch-action: manipulation;
+	/* 允许触摸事件穿透子元素冒泡 */
+	pointer-events: auto;
  }
 section dl, section dd {
 	margin: 0px;
@@ -34,6 +40,7 @@ section dd info span {
 }
 section dd card {  
     overflow: auto;
+	touch-action: pan-y !important;
 }
 section dd card-title p, card-title span, card-title font {
 	line-height: 150%;

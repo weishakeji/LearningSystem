@@ -4,16 +4,32 @@
 	width: 10px;
 	/*高宽分别对应横竖滚动条的尺寸*/
 	height: 0px;
- }
- section{
+}
+
+section {
 	display: flex;
- }
- section dl{
+}
+
+section dl {
 	display: flex;
- }
- section dl dd{
+
+}
+
+section dl dd {
+	overflow-y: auto;
+	overflow-x: hidden;
 	flex: 1;
- }
+	touch-action: pan-y !important;
+	/* 禁止iOS浏览器默认双击缩放、滚动回弹，交给Hammer接管 */
+	touch-action: manipulation;
+	/* 允许触摸事件穿透子元素冒泡 */
+	pointer-events: auto;
+}
+
+section dl dd card {
+	touch-action: pan-y !important;
+}
+
 section dl, section dd {
 	margin: 0px;
 	padding: 0px;
@@ -21,8 +37,7 @@ section dl, section dd {
 }
 
 section dd {
-	overflow-y: auto;
-	line-height:2em !important;
+	line-height: 2em !important;
 	font-size: 20px;
 }
 
@@ -38,8 +53,6 @@ section dd info span {
 	font-size: 14px;
 	color: #999;
 }
-
-
 
 section dd card {
 	min-height: calc(100% - 30px - 30px);
@@ -162,13 +175,14 @@ card[qid] .type3>div[selected] i::before {
 }
 
 /*填空题*/
-.type5 input[type='text'] {	
+.type5 input[type='text'] {
 	font-size: 16px;
 	padding: 5px 10px;
 	margin-top: 5px;
 }
+
 /*简答题*/
-.type4 textarea{
+.type4 textarea {
 	width: calc(100% - 20px);
 	font-size: 16px;
 	padding: 5px 10px;
@@ -180,15 +194,17 @@ card[qid] .type3>div[selected] i::before {
 		overflow: hidden;
 	}
 
-	section dl dd {		
+	section dl dd {
 		flex: 1;
 		overflow: auto;
 	}
-	table{
+
+	table {
 		overflow: auto;
 		width: 100% !important;
 	}
-	td{
+
+	td {
 		word-break: break-all;
 	}
 }
