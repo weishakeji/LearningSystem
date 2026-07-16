@@ -301,6 +301,15 @@ card-content {
 .el-menu--horizontal .el-menu .el-menu-item, .el-menu--horizontal .el-menu .el-submenu__title {
     color: #555;
 }
+.el-dropdown-menu__item{
+	width: 100%;
+	box-sizing: border-box;
+}
+.el-dropdown-menu__item a{
+	width: 100%;
+	box-sizing: border-box;
+	display: block;
+}
 
 /*表格背景透明*/
 

@@ -17,7 +17,7 @@ $ready(function () {
                     }
                 ]
             },
-            organ: {},       //当前机构
+            org: {},       //当前机构
             sorts: [],      //学员组             
 
             accounts: [], //账号列表
@@ -45,19 +45,10 @@ $ready(function () {
         },
         created: function () {
             var th = this;
-            $api.get('Organization/Current').then(function (req) {
-                if (req.data.success) {
-                    th.organ = req.data.result;
-                    th.form.orgid = th.organ.Org_ID;
-                    th.getsorts();
-                    th.handleCurrentChange(1);
-                } else {
-                    console.error(req.data.exception);
-                    throw req.data.message;
-                }
-            }).catch(err => alert(err))
-                .finally(() => { });
-
+            th.org = window.org;
+            th.form.orgid = th.org.Org_ID;
+            th.getsorts();
+            th.handleCurrentChange(1);
         },
 
         methods: {
@@ -89,10 +80,7 @@ $ready(function () {
                         th.accounts = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
                         th.total = d.data.total;
-                    } else {
-                        console.error(d.data.exception);
-                        throw d.data.message;
-                    }
+                    } else throw req.config.way + ' ' + req.data.message;
                 }).catch(err => console.error(err))
                     .finally(() => th.loading = false);
             },
@@ -168,10 +156,6 @@ $ready(function () {
                 //if (time.format('yyyy-MM-dd') == '1970-01-01') return true;
                 return false;
             },
-            //双击事件
-            rowdblclick: function (row, column, event) {
-                this.$refs.btngroup.modifyrow(row);
-            },
             //复制到粘贴板
             copytext: function (val, textbox) {
                 this.copy(val, textbox).then(function (th) {
@@ -201,6 +185,12 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err, '错误');
                 }).finally(() => th.loadingid = 0);
+            },
+            //菜单命令
+            rowDropCommand: function (command, row) {
+                if (command == null || row == null) return;
+                let func=eval('this.'+command);
+                console.log(command, row);
             },
             //导出
             output: function (btn) {

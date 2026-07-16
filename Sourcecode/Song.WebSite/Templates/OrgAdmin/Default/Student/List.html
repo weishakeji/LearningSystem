@@ -44,7 +44,7 @@
                         <el-input v-model="form.idcard" placeholder="身份证" clearable style="width:250px"></el-input>
                     </el-form-item>
                     <el-form-item label="年龄段">
-                       
+
                     </el-form-item>
                     <el-form-item label="性别">
                         <el-radio-group v-model="form.gender">
@@ -111,8 +111,8 @@
                         <template
                             v-if="(!timeisnull(scope.row.Ac_Birthday) || scope.row.Ac_Age>0 ) && scope.row.Ac_Birthday<new Date() ">
                             <div title="年龄" v-if="scope.row.Ac_Age>=0">
-                                <icon>&#xe84d</icon>                               
-                                 {{scope.row.Ac_Age}} 岁                                
+                                <icon>&#xe84d</icon>
+                                {{scope.row.Ac_Age}} 岁
                             </div>
                             <div title="生日" v-if="!timeisnull(scope.row.Ac_Birthday)">
                                 <icon>&#xe82c</icon>
@@ -214,15 +214,11 @@
                                 </el-dropdown-item>
                                 <el-dropdown-item divided
                                     @click.native="openSubpage('capitalRecords',scope.row,'资金流水',800,600,'e749')">
-
                                     <span icon="&#xe749">资金流水</span>
-
                                 </el-dropdown-item>
                                 <el-dropdown-item
                                     @click.native="openSubpage('Outcomes',scope.row,'学习成果',1000,600,'e749')">
-
                                     <span icon="&#xe6f1">学习成果</span>
-
                                 </el-dropdown-item>
                                 <el-dropdown-item>
                                     <el-link type="success" plain icon="el-icon-unlock"
@@ -248,8 +244,8 @@
             </el-table>
         </template>
         <div id="pager-box">
-            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" 
-                :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-size="form.size"
+                :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
             </el-pagination>
         </div>
     </div>
