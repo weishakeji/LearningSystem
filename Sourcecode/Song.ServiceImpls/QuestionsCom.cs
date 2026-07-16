@@ -1823,15 +1823,14 @@ namespace Song.ServiceImpls
         public bool ExerciseLogDel(int acid, long couid, long olid)
         {
             if (acid <= 0 || olid <= 0) return false;
-            new Task(() =>
-            {               
-                WhereClip wc = new WhereClip();
-                wc.And(LogForStudentExercise._.Ac_ID == acid);
-                wc.And(LogForStudentExercise._.Ol_ID == olid);
-                if (couid > 0)
-                    wc.And(LogForStudentExercise._.Cou_ID == couid);              
-                Gateway.Default.Delete<LogForStudentExercise>(wc);
-            }).Start();          
+            WhereClip wc = new WhereClip();
+            wc.And(LogForStudentExercise._.Ac_ID == acid);
+            wc.And(LogForStudentExercise._.Ol_ID == olid);
+            if (couid > 0) wc.And(LogForStudentExercise._.Cou_ID == couid);
+            Gateway.Default.Delete<LogForStudentExercise>(wc);
+            double rate = this.CalcPassRate(acid, couid);
+            Student_Course sc = Business.Do<ICourse>().StudentCourse(acid, couid);
+            Business.Do<ICourse>().StudentScoreSave(sc, -1, (float)rate, -1);
             return true;
         }
         /// <summary>
