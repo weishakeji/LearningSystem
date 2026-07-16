@@ -174,11 +174,11 @@
                 </div>
                 <div v-show="activeName=='detail'" remark="详细信息" tab="detail">
                     <el-form-item label="出生年月">
-                        <el-date-picker v-model="account.Ac_Birthday" type="date" placeholder="选择日期">
+                        <el-date-picker v-model="account.Ac_Birthday" type="date" @change="birthdaychange" placeholder="选择日期">
                         </el-date-picker>
                     </el-form-item>
                     <el-form-item label="年龄" prop="Ac_Age">
-                        <el-input-number v-model="account.Ac_Age"></el-input-number>
+                        <el-input-number v-model="account.Ac_Age" @input="agechange"></el-input-number>
                     </el-form-item>
                     <el-form-item label="学历" prop="Ac_Education">
                         <education :value="account.Ac_Education" @change="val=>account.Ac_Education=val"></education>
