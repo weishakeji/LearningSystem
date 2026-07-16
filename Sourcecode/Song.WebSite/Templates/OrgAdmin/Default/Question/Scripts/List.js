@@ -324,9 +324,7 @@ $ready([
                     $api.cache('Course/ForID', { 'id': th.couid }).then(function (req) {
                         if (req.data.success) {
                             th.course = req.data.result;
-                        } else {
-                            th.loading = false;
-                            console.error(req.data.exception);
+                        } else {                                    
                             throw req.config.way + ' ' + req.data.message;
                         }
                     }).catch(err => console.error(err))

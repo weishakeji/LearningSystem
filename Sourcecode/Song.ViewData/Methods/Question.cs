@@ -258,18 +258,20 @@ namespace Song.ViewData.Methods
         /// <param name="sbjid">专业id</param>
         /// <param name="couid">课程id</param>
         /// <param name="olid">章节id</param>
+        /// <param name="use"></param>
+        /// <param name="del"></param>
         /// <returns></returns>
-        public JObject ExcelExport(string subpath, string folder, string types, string diffs, int part, int orgid, long sbjid, long couid, long olid, bool? del)
+        public JObject ExcelExport(string subpath, string folder, string types, string diffs, int part, int orgid, long sbjid, long couid, long olid, bool? use, bool? del)
         {
             JObject jo = null;
             //导出所有
-            if (part == 1) jo = Business.Do<IQuestions>().QuestionsExportExcel(subpath, folder, orgid, types, sbjid, couid, olid, diffs, null, null);
+            if (part == 1) jo = Business.Do<IQuestions>().QuestionsExportExcel(subpath, folder, orgid, types, sbjid, couid, olid, diffs, null, null, use, del);
             //导出正常的试题，没有错误，没有用户反馈说错误的
-            if (part == 2) jo = Business.Do<IQuestions>().QuestionsExportExcel(subpath, folder, orgid, types, sbjid, couid, olid, diffs, false, false);
+            if (part == 2) jo = Business.Do<IQuestions>().QuestionsExportExcel(subpath, folder, orgid, types, sbjid, couid, olid, diffs, false, false, use, del);
             //导出状态为错误的试题
-            if (part == 3) jo = Business.Do<IQuestions>().QuestionsExportExcel(subpath, folder, orgid, types, sbjid, couid, olid, diffs, true, null);
+            if (part == 3) jo = Business.Do<IQuestions>().QuestionsExportExcel(subpath, folder, orgid, types, sbjid, couid, olid, diffs, true, null, use, del);
             //导出用户反馈说错误的试题
-            if (part == 4) jo = Business.Do<IQuestions>().QuestionsExportExcel(subpath, folder, orgid, types, sbjid, couid, olid, diffs, null, true);
+            if (part == 4) jo = Business.Do<IQuestions>().QuestionsExportExcel(subpath, folder, orgid, types, sbjid, couid, olid, diffs, null, true, use, del);
             return jo;
         }
         /// <summary>

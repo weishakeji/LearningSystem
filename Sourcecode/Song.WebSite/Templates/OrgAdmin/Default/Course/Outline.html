@@ -16,7 +16,7 @@
             <query_panel :loading="loading">
                 <el-form-item label="">
                     <el-tag type="success">
-                        <icon>&#xe750</icon>当前课程有 {{total}} 个章节
+                        <icon>&#xe750</icon>当前课程有 <strong v-html="total">-</strong> 个章节
                     </el-tag>
                 </el-form-item>
                 <el-form-item label="">
@@ -31,7 +31,6 @@
                 :expand-on-click-node="false" draggable @node-expand="nodeexpand" @node-collapse="nodecollapse"
                 :default-expanded-keys="expanded" v-loading="loading || loading_sumbit">
                 <span class="custom-node" slot-scope="{ node, data }">
-
                     <div class="node_name draghandle">
                         <span>{{data.serial}}</span>
                         <span v-html="showsearch(data.Ol_Name,filterText)" class="large"></span>

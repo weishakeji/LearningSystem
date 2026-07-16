@@ -131,9 +131,7 @@ namespace Song.ServiceImpls
                     current.Ol_PID = pid;
                     current.Ol_IsFinish = true;     //默认为完结
                     current.Ol_ModifyTime = DateTime.Now;
-                    new Task(() => {
-                        this.OutlineAdd(current);
-                    }).Start();
+                    this.OutlineAdd(current);                   
                 }
                 last = current;
                 pid = current.Ol_ID;
