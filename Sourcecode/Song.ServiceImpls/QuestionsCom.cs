@@ -1843,7 +1843,8 @@ namespace Song.ServiceImpls
         {
             if (acid <= 0 || couid <= 0) return 0;
             //试题的ID列表
-            DataSet ds = Gateway.Default.From<Questions>().Where(Questions._.Cou_ID == couid && Questions._.Qus_IsUse == true).Select(Questions._.Qus_ID).ToDataSet();
+            DataSet ds = Gateway.Default.From<Questions>().Where(Questions._.Cou_ID == couid && Questions._.Qus_IsUse == true && Questions._.Qus_IsDeleted == false)
+                .Select(Questions._.Qus_ID).ToDataSet();
             if (ds == null || ds.Tables[0].Rows.Count <= 0) return 0;
             Dictionary<long, bool> qusids = new Dictionary<long, bool>();
             foreach (DataRow dr in ds.Tables[0].Rows) qusids.Add(Convert.ToInt64(dr["Qus_ID"]), false);
