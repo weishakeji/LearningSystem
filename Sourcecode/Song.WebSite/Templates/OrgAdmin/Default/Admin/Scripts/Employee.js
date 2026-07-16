@@ -49,6 +49,7 @@
             handleCurrentChange: function (index) {
                 if (index != null) this.form.index = index;
                 var th = this;
+                th.loading = true;
                 //每页多少条，通过界面高度自动计算
                 let area = $dom.height() - 100;
                 th.form.size = Math.floor(area / 41);
@@ -82,7 +83,7 @@
                 }).catch(function (err) {
                     alert(err);
                     console.error(err);
-                }).finally(() => { });
+                }).finally(() => th.loading = false);
             },
             //刷新行数据，
             freshrow: function (id) {
@@ -145,7 +146,7 @@
                 props: ['account'],
                 data: function () {
                     return {
-                        posi:{},
+                        posi: {},
                         loading: false,
                     }
                 },
@@ -154,17 +155,14 @@
                         handler: function (val) {
                             var th = this;
                             this.loading = true;
-                            $api.get("Position/ForID", { "posid": val.Posi_Id,"orgid": val.Org_ID})
+                            $api.get("Position/ForID", { "posid": val.Posi_Id, "orgid": val.Org_ID })
                                 .then(req => {
-                                    if (req.data.success) {
-                                        th.posi = req.data.result;                                      
-                                    } else {
-                                        console.error(req.data.exception);
-                                        throw req.config.way + ' ' + req.data.message;
-                                    }
+                                    if (req.data.success)
+                                        th.posi = req.data.result;
+                                    else throw req.config.way + ' ' + req.data.message;
                                 }).catch(err => console.error(err))
                                 .finally(() => th.loading = false);
-                        }, immediate: true,deep:true
+                        }, immediate: true, deep: true
                     }
                 },
                 methods: {},
