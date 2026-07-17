@@ -42,7 +42,7 @@
  * 技能培训鉴定平台-人人持证上岗 ： [ jnpx.weisha100.net ]( http://jnpx.weisha100.net) 
 
 ### Web首页
-![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/webhome.jpg)
+![image](LearningSystem/raw/master/Document/Images/webhome.jpg)
 
 ### 手机端
 ![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/mobi_home.jpg)
