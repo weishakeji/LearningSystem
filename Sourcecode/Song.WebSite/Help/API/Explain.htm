@@ -32,11 +32,18 @@
             </dl>
             <p>下面是以获取当前登录账号的代码为例，无须参数。</p>
             <pre class="line-numbers"><code class="language-javascript">
+    //异步
     $api.get('Account/Current').then(req=>{
         if(req.data.success){
             let result=req.data.result;
         }else throw req.data.message;        
     }).catch(err=>alert(err)).finally(()=>{}); 
+</code></pre>
+        <pre class="line-numbers"><code class="language-javascript">
+    //同步
+    let req=await $api.get('Account/Current');
+    if (req.data.success) let result=req.data.result;
+    else throw new Error(req.data.message || '请求失败');                
         </code></pre>
             <p>以下是按账号查询账号为例，带参数调用API。</p>
             <pre class="line-numbers"><code class="language-javascript">
@@ -98,6 +105,7 @@
             <p>$api.bat方法同样是封装自Axion.js，可以同时调用多个接口，统一返回。</p>
             <p>在调用过程中，如果一个接口失败或异常，会导致整个批量请求队列失败。</p>
             <pre class="line-numbers"><code class="language-javascript">   
+    //批量异步访问接口
     $api.bat(
         $api.get('Account/Current'),
         $api.cache('Question/Types:9999'),
@@ -109,12 +117,23 @@
     }).catch(err => console.error(err))
         .finally(() => {});
             </code></pre>
+            <pre class="line-numbers"><code class="language-javascript">  
+    //批量同步访问接口
+    const [acc, type, cou] = await $api.bat(
+      $api.get('Account/Current'),
+      $api.cache('Question/Types:9999'),
+      $api.post('Course/ForID', { id: 123 })
+    );
+    let result1 = acc.data.result;
+    let result2 = type.data.result;
+    let result3 = cou.data.result;
+            </code></pre>
         </card-content>
     </card>
 
     <p>&nbsp;</p>
 
- 
+
 </body>
 
 </html>

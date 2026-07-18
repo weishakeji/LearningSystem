@@ -28,6 +28,9 @@
 
             <loading asterisk class="loading_paper" v-if="loading.paper">试题加载中...</loading>
 
+             <quesarea ref='quesarea' :ques="paperQues" :types="types" :account="account"
+        :fontsize="fontsize" @swipe="swipe"></quesarea>
+
             <section :style="'width:'+questotal*screenWidth+'px'" remark="试题区域" v-show="!loading.paper">
                 <dl v-for="(group,i) in paperQues" :style="'width:'+group.count*screenWidth+'px'">
                     <question v-for="(q,n) in group.ques" :ques="q" :index="n" :groupindex="i" :types="types"

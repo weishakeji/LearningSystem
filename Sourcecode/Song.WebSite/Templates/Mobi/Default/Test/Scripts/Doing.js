@@ -2,6 +2,7 @@
 $ready(['/Utilities/Components/question/test.js',
     '/Utilities/Components/question/function.js',
     'Components/Quesbuttons.js',
+    'Components/QuesArea.js',
     'Components/AnswerCard.js'], function () {
         window.vapp = new Vue({
             el: '#vapp',
@@ -20,6 +21,7 @@ $ready(['/Utilities/Components/question/test.js',
                 //++一些状态信息
                 swipeIndex: 0,           //试题滑动时的索引，用于记录当前显示的试题索引号
                 showCard: false,          //是否显示答题卡           
+                fontsize: 0,         //字体增减值
 
                 submitState: {
                     show: false,       //成绩提交的面板提示
@@ -48,7 +50,7 @@ $ready(['/Utilities/Components/question/test.js',
                 resultTotal: 0
             },
             mounted: function () {
-                var th = this;
+                var th = this;               
                 $api.bat(
                     $api.cache('Question/Types:9999'),
                     $api.get('TestPaper/ForID', { 'id': this.tpid })
@@ -124,11 +126,11 @@ $ready(['/Utilities/Components/question/test.js',
             methods: {
                 //生成试卷内容
                 generatePaper: function () {
-                    if (JSON.stringify(this.paper) == '{}' && this.paper == null) return;
+                    if ($api.isnull(this.paper)) return;
                     if (this.paperQues.length > 0) return;
                     var th = this;
                     th.loading.paper = true;
-                    $api.get('TestPaper/GenerateRandom', { 'tpid': this.tpid }).then(function (req) {                      
+                    $api.get('TestPaper/GenerateRandom', { 'tpid': th.tpid }).then(function (req) {
                         if (req.data.success) {
                             var paper = req.data.result;
                             th.paperQues = paper;
@@ -150,7 +152,7 @@ $ready(['/Utilities/Components/question/test.js',
                         console.error(err);
                     }).finally(() => {
                         window.setTimeout(function () {
-                            th.loading.paper = false;                          
+                            th.loading.paper = false;
                         }, 1000);
                     });
                 },

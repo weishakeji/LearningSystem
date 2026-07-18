@@ -56,8 +56,7 @@ Vue.component('question', {
 
     },
     template: `<div :qid="ques.Qus_ID" class="preview">        
-        <header :index="calcIndex(index+1)" :num="ques.Qus_Number" v-html="ques.Qus_Title">   
-          
+        <header :index="calcIndex(index+1)" :num="ques.Qus_Number" v-html="ques.Qus_Title">          
             <span v-html="ques.Qus_Title"></span>
             <span>（{{ques.Qus_Number}} 分）</span>   
         </header>      
