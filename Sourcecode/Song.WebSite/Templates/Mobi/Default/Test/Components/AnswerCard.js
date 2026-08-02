@@ -1,6 +1,6 @@
 ﻿//答题卡
 Vue.component('answercard', {
-    props: ['questions', 'types'],
+    props: ['questions', 'types', 'index'],
     data: function () {
         return {
         }
@@ -50,7 +50,16 @@ Vue.component('answercard', {
         },
     },
     mounted: function () { },
-    methods: {},
+    methods: {
+         //显示题型名称
+        showtype: function (group,idx) {          
+            if (group == null) return '';
+            const map = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
+            let index = map[idx] + '、';
+            if (group.byname && group.byname != '') return index + group.byname;
+            return index + this.types[group.type - 1] + '题';
+        },
+    },
     template: `<div>
         <div class="cardTit">
             <icon>&#xe75e</icon>答题卡</span>
@@ -59,12 +68,11 @@ Vue.component('answercard', {
         <div class="cardBox">
             <dl v-for="(group,i) in questions">
                 <dt>
-                    <icon>&#xe6bd</icon>
-                    [ {{types[group.type - 1]}}题 ]
+                    {{showtype(group,i)}}
                     <span>每题{{Math.floor(group.number/group.count*100)/100}}分/共{{group.number}}分</span>
                 </dt>
-                <dd v-for="q in group.q" @click="vapp.swipe(q.index)" :ans="q.ans!=''"
-                :current="q.index==vapp.swipeIndex" :index="q.index"
+                <dd v-for="q in group.q" @click="$emit('click', q.index)" :ans="q.ans!=''"
+                :current="q.index==index" :index="q.index"
                 :correct="q.state ? q.state.correct : false">
                     {{q.index+1}}
                 </dd>

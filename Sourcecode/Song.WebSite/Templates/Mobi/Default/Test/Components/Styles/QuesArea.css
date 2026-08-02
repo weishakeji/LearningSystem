@@ -1,0 +1,47 @@
+*::-webkit-scrollbar {
+	/*滚动条整体样式*/
+	width: 10px;
+	/*高宽分别对应横竖滚动条的尺寸*/
+	height: 0px;
+}
+
+div.quesArea {
+	height: calc(100% - 90px);
+    background-color: #f2f2f2;
+    width: 100%;
+    z-index: 4;
+}
+.quesArea dl {
+    height: calc(100% - 40px);
+    margin: 0px;
+    display: flex;
+    left: 0px;
+    position: relative;
+    transition: left 0.5s ease-out;
+    overflow: hidden;
+    /* 禁止iOS浏览器默认双击缩放、滚动回弹，交给Hammer接管 */
+    touch-action: manipulation;
+    /* 允许触摸事件穿透子元素冒泡 */
+    pointer-events: auto;
+}
+.quesArea dl dd {
+    width: 100vw;
+    height: calc(100% - 40px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    touch-action: pan-y !important;
+}
+div.quesArea,
+.quesArea dd {
+    padding: 0px;
+    margin: 0px;
+}
+/*试题顶部的题型、序号*/
+div.quesArea info {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 10px 0px 10px;
+    margin: 0px 0px 0px 10px;
+    font-size: 15px;
+}
+

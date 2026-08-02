@@ -179,7 +179,7 @@ attended {
 
 /*试题区*/
 
-section {
+div.quesArea {
 	height: calc(100% - 88px);
 	font-size: 14px;
 	width: 100%;

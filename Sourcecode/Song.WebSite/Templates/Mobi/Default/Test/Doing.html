@@ -27,21 +27,13 @@
             </footer>
 
             <loading asterisk class="loading_paper" v-if="loading.paper">试题加载中...</loading>
+            <quesarea ref='quesarea' :paperques="paperQues" :types="types" :account="account" :fontsize="fontsize"
+                @swipe="idx=>index=idx"></quesarea>
 
-             <quesarea ref='quesarea' :ques="paperQues" :types="types" :account="account"
-        :fontsize="fontsize" @swipe="swipe"></quesarea>
-
-            <section :style="'width:'+questotal*screenWidth+'px'" remark="试题区域" v-show="!loading.paper">
-                <dl v-for="(group,i) in paperQues" :style="'width:'+group.count*screenWidth+'px'">
-                    <question v-for="(q,n) in group.ques" :ques="q" :index="n" :groupindex="i" :types="types"
-                        :swipeindex="swipeIndex" :total="questotal" :groups="paperQues" v-swiperight="swiperight"
-                        v-swipeleft="swipeleft">
-                    </question>
-                </dl>
-            </section>
             <!--答题卡 -->
             <van-popup v-model="showCard" position="left" closeable class="quesCard" :overlay="false" remark="答题卡">
-                <answercard ref='answercard' :questions="paperAnswer.ques" :types="types"></answercard>
+                <answercard ref='answercard' :questions="paperAnswer.ques" :types="types" :index="index" @click="shiftques">
+                </answercard>
             </van-popup>
 
             <van-popup v-model="submitState.show" class="submitState" :close-on-click-overlay="false">

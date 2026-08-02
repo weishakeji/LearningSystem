@@ -16,6 +16,7 @@ Vue.component('question', {
         'ques': {
             handler(nv, ov) {
                 this.ques = window.ques.parseAnswer(this.ques);
+                //console.error(nv);
                 //记录答题状态
                 if (!this.ques.state) {
                     this.$set(this.ques, 'state', {
@@ -95,6 +96,8 @@ Vue.component('question', {
             var correct = func(ans, ques);
             ques.state['sucess'] = correct;
             ques.state['score'] = correct ? Number(ques.Qus_Number) : 0;
+             //触发答题事件
+            this.$emit('answer', this.ques);
         },
         //单选题的解答
         //ans:某个选项
@@ -110,7 +113,7 @@ Vue.component('question', {
             ques.state['ans'] = ans.Ans_ID;
             ques.state['correct'] = ans.selected ? (ans.Ans_IsCorrect ? "succ" : "error") : "null";
             ques.state['time'] = new Date();
-            this.$parent.swipeleft();
+            //this.$parent.swipeleft();
             return ques.state['correct'] == 'succ';
         },
         //多选题的选择
@@ -158,7 +161,7 @@ Vue.component('question', {
             ques.state['ans'] = String(logic);
             ques.state['correct'] = ques.state.ans != '' ? (correct ? "succ" : "error") : "null";
             ques.state['time'] = new Date();
-            this.$parent.swipeleft();
+            // this.$parent.swipeleft();
             return ques.state['correct'] == 'succ';
         },
         //简答题
@@ -186,15 +189,9 @@ Vue.component('question', {
             return ques.state['correct'] == 'succ';
         }
     },
-    template: `<dd :qid="ques.Qus_ID" :render="init" :index="index" :swipeindex="swipeindex" :quesindex="quesindex">
-    <template v-if="init">
-        <info>
-            {{quesindex+1}}/{{total}}
-            [ {{this.types[ques.Qus_Type - 1]}}题 ] 
-            <span>（{{ques.Qus_Number}} 分）</span>       
-        </info>
-        <card  shadow="hover" :qid="ques.Qus_ID" :correct="ques.state ? ques.state.correct : ''" :ans="ques.state.ans">   
-            <card-title v-html="ques.Qus_Title"></card-title>          
+    template: `<dd :qid="ques.Qus_ID" :render="init" :swipeindex="swipeindex" :quesindex="quesindex">       
+        <card  v-if="!init" shadow="hover" :qid="ques.Qus_ID" :correct="ques.state ? ques.state.correct : ''" :ans="ques.state.ans">   
+            <card-title v-html="ques.Qus_Title"  :index="index+1" :number="ques.Qus_Number"></card-title>          
             <card-content>
                 <div class="ans_area type1" v-if="ques.Qus_Type==1"  remark="单选题">               
                     <div v-for="(ans,i) in ques.Qus_Items" :ansid="ans.Ans_ID" 
@@ -228,6 +225,5 @@ Vue.component('question', {
                 </div>    
             </card-content>
         </card>
-    </template>
 </dd>`
 });

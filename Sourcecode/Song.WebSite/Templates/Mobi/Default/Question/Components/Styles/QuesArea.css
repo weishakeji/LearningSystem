@@ -43,7 +43,7 @@ div.quesArea dd alert {
     display: inline-block;
     font-size: 16px;
 }
-
+/*试题顶部的题型、序号*/
 div.quesArea info {
     display: flex;
     justify-content: space-between;

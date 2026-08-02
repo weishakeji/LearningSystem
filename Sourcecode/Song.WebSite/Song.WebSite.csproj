@@ -656,8 +656,16 @@
     <Content Include="Templates\Mobi\Default\Sign\Weixin.html" />
     <Content Include="Templates\Mobi\Default\Sign\ZzGongshang.html" />
     <Content Include="Templates\Mobi\Default\Styles\AccessDenied.css" />
+    <Content Include="Templates\Mobi\Default\Test\Components\AnswerCard.js" />
+    <Content Include="Templates\Mobi\Default\Test\Components\final_condition.js" />
     <Content Include="Templates\Mobi\Default\Test\Components\group.js" />
+    <Content Include="Templates\Mobi\Default\Test\Components\QuesArea.js" />
+    <Content Include="Templates\Mobi\Default\Test\Components\Quesbuttons.js" />
+    <Content Include="Templates\Mobi\Default\Test\Components\Styles\final_condition.css" />
     <Content Include="Templates\Mobi\Default\Test\Components\Styles\group.css" />
+    <Content Include="Templates\Mobi\Default\Test\Components\Styles\QuesArea.css" />
+    <Content Include="Templates\Mobi\Default\Test\Components\Styles\TestHeader.css" />
+    <Content Include="Templates\Mobi\Default\Test\Components\TestHeader.js" />
     <Content Include="Templates\Mobi\_Public\500.html" />
     <Content Include="Templates\Mobi\_Public\Scripts\500.js" />
     <Content Include="Templates\Mobi\_Public\Scripts\Public.js" />
@@ -1244,8 +1252,6 @@
     <Content Include="Templates\Mobi\Default\Recharge\Styles\Index.css" />
     <Content Include="Templates\Mobi\Default\Reference\Cache_Clear.html" />
     <Content Include="Templates\Mobi\Default\Reference\Scripts\Cache_Clear.js" />
-    <Content Include="Templates\Mobi\Default\Test\Components\final_condition.js" />
-    <Content Include="Templates\Mobi\Default\Test\Components\Styles\final_condition.css" />
     <Content Include="Templates\Mobi\_Public\404.html" />
     <Content Include="Templates\Mobi\_Public\Inc\meta.inc" />
     <Content Include="Templates\Mobi\_Public\Scripts\404.js" />
@@ -2281,9 +2287,6 @@
     <Content Include="Templates\Mobi\Default\Styles\Index.css" />
     <Content Include="Templates\Mobi\Default\Styles\Public.css" />
     <Content Include="Templates\Mobi\Default\Styles\treemenu.css" />
-    <Content Include="Templates\Mobi\Default\Test\Components\AnswerCard.js" />
-    <Content Include="Templates\Mobi\Default\Test\Components\Quesbuttons.js" />
-    <Content Include="Templates\Mobi\Default\Test\Components\TestHeader.js" />
     <Content Include="Templates\Mobi\Default\Test\Doing.html" />
     <Content Include="Templates\Mobi\Default\Test\Finality.html" />
     <Content Include="Templates\Mobi\Default\Test\Paper.html" />
@@ -2299,7 +2302,6 @@
     <Content Include="Templates\Mobi\Default\Test\Styles\Paper.css" />
     <Content Include="Templates\Mobi\Default\Test\Styles\Index.css" />
     <Content Include="Templates\Mobi\Default\Test\Styles\Review.css" />
-    <Content Include="Templates\Mobi\Default\Test\Components\Styles\TestHeader.css" />
     <Content Include="Templates\Mobi\Default\_self.xml" />
     <Content Include="Templates\Student\Default\Coupon\Index.html" />
     <Content Include="Templates\Student\Default\Coupon\Scripts\Index.js" />

@@ -3,23 +3,29 @@
 //answer:答题状态变更时触发，返回答题状态与试题信息
 //swipe:试题滑动时触发，返回当前试题索引
 Vue.component('quesarea', {
-    //ques:试题列表
+    //paperques:所有试题列表，按题型划分
     //state:答对记录，它不是一个记录项，而是管理记录的对象
-    props: ['ques', 'types', 'account', 'state', 'fontsize'],
+    props: ['paperques', 'types', 'account', 'state', 'fontsize'],
     data: function () {
         return {
             list: [],         //所有试题，与ques不同，它是一维数组，方便后续计算            
-            currid: '',         //当前试题id            
-            index: 0,            //当前试题索引    
+            currid: '',         //当前试题id      
+            currgroup: null,    //当前试题组
+            index: 0,            //当前试题的全局索引    
 
             currques: {},          //当前试题
         }
     },
     watch: {
         //初始加载的简要试题信息，只有试题类型与id
-        'ques': {
-            handler(nv, ov) {
-console.log("ques:", nv);
+        'paperques': {
+            handler: function (nv, ov) {
+                if (nv != null && nv.length > 0) {
+                    for (let i = 0; i < this.paperques.length; i++) {
+                        this.$set(this.paperques[i], 'index', i);
+                    }
+                    this.setindex(0, false);
+                }
             },
             immediate: true
         },
@@ -37,7 +43,7 @@ console.log("ques:", nv);
             return $dom(el).width();
         },
         //试题总数
-        questotal: t => t.ques.reduce((total, item) => total + (item.count || 0), 0),
+        questotal: t => t.paperques.reduce((total, item) => total + (item.count || 0), 0),
     },
     mounted: function () { },
     methods: {
@@ -48,7 +54,10 @@ console.log("ques:", nv);
         setindex: function (index, effects, speed) {
             let qid = this.getid(index);
             if (qid != null || qid >= 0) this.currid = qid;
-            if (index != null && (index >= 0 || index < this.list.length)) this.index = index;
+            //获取当前试题组
+            let group = this.getgroup(index);
+            if (group) this.currgroup = group;
+            if (index != null && (index >= 0 || index < this.questotal)) this.index = index;
             //触发滑动事件,返回当前索引
             this.$emit('swipe', index);
 
@@ -70,35 +79,64 @@ console.log("ques:", nv);
                 if (node.length > 0 && (node.hasClass("van-overlay") || node.hasClass("van-popup"))) return;
             }
             //向左滑动
-            if (e.direction == 2 && this.index < this.list.length - 1) this.index++;
+            if (e.direction == 2 && this.index < this.questotal - 1) this.index++;
             //向右滑动
             if (e.direction == 4 && this.index > 0) this.index--;
             this.setindex(this.index, true, Math.abs(e.velocityX));
         },
+        //答题事件
+        answer: function (ques) {
+            if (ques.Qus_Type == 1 || ques.Qus_Type == 3) this.setindex(this.index + 1);
+            this.$emit('answer', ques);
+        },
         //通过索引获取试题的id
         getid: function (index) {
             if (index < 0) return null;
-            if (index > this.list.length - 1) return null;
-            return this.list[index];
+            for (let i = 0; i < this.paperques.length; i++) {
+                let group = this.paperques[i];
+                if (index < group.count) return group.ques[index].Qus_ID;
+                index -= group.count;
+            }
+            return null;
+        },
+        //获取试题组
+        getgroup: function (index) {
+            for (let i = 0; i < this.paperques.length; i++) {
+                let group = this.paperques[i];
+                if (index < group.count) return group;
+                index -= group.count;
+            }
+            return null;
+        },
+        //显示题型名称
+        showtype: function () {
+            let group = this.currgroup;
+            if (group == null) return '';
+            const map = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
+            let index = map[group.index] + '、';
+            if (group.byname && group.byname != '') return index + group.byname;
+            return index + this.types[group.type - 1] + '题';
         },
     },
     template: `<div :class="{'quesArea':true}" remark="试题区域">
-        <div v-if="!$parent.loading && ques.length<1" class="noques"><icon>&#xe849</icon>没有试题</div>
+        <div v-if="!$parent.loading && questotal<1" class="noques"><icon>&#xe849</icon>没有试题</div>
         <template v-else>
-            <info no-font-size>
+            <info no-font-size v-if="currgroup">
                 <span>
-                    <i>{{index+1}}/{{questotal}}</i>
-                    [ {{types[currques.Qus_Type - 1]}}题 ] 
-                </span>             
+                    {{showtype()}} 
+                    <span>（{{currgroup.count}} 道题, {{currgroup.number}} 分）</span>
+                </span>
+                <span>
+                    {{index+1 }} / {{questotal}}      
+                </span> 
             </info>   
             <dl :style="'width:'+(questotal<=1 ? 1 : questotal)*screenWidth+'px'">
-            <template v-for="(group,gindex) in ques">
-                <question ref="questions"  v-for="(q,i) in group.ques" :ques="q" :index="i" :curindex="index"
-                    :total="questotal" :types="types" :account="account" :fontsize="fontsize" v-swipe="swipe"
-                    :iscurrent="i==index" @current="q=>currques=q">                       
-                </question>   
-            </template>
-                       
+                <template v-for="(group,gindex) in paperques">
+                    <question ref="questions"  v-for="(q,i) in group.ques" :ques="q" :index="i" @answer="answer"
+                        :total="questotal" :types="types" :fontsize="fontsize" v-swipe="swipe"
+                        :iscurrent="i==index" @current="q=>currques=q">                       
+                    </question>   
+                </template>                       
             </dl>
         </template>
     </div>`

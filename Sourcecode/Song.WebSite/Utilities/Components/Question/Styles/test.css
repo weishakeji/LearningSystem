@@ -1,21 +1,6 @@
 /*试题区*/
-*::-webkit-scrollbar {
-	/*滚动条整体样式*/
-	width: 10px;
-	/*高宽分别对应横竖滚动条的尺寸*/
-	height: 0px;
-}
 
-section {
-	display: flex;
-}
-
-section dl {
-	display: flex;
-
-}
-
-section dl dd {
+div.quesArea dl dd {
 	overflow-y: auto;
 	overflow-x: hidden;
 	flex: 1;
@@ -26,50 +11,51 @@ section dl dd {
 	pointer-events: auto;
 }
 
-section dl dd card {
+div.quesArea dl dd card {
 	touch-action: pan-y !important;
 }
 
-section dl, section dd {
+div.quesArea dl, div.quesArea dd {
 	margin: 0px;
 	padding: 0px;
 	height: 100%;
 }
 
-section dd {
+div.quesArea dd {
 	line-height: 2em !important;
 	font-size: 20px;
 }
 
-section dd info {
-	display: block;
-	padding: 0px 15px 0px 15px;
-	height: 30px;
-	margin: 0px 10px;
-	font-size: 15px;
-}
-
-section dd info span {
-	font-size: 14px;
-	color: #999;
-}
-
-section dd card {
+div.quesArea dd card {
 	min-height: calc(100% - 30px - 30px);
 	overflow: auto;
 	margin: 15px 15px;
 }
-
-section dd img {
+div.quesArea dd card card-title::before{
+	content: "" attr(index) " .";
+	display: inline-block;
+	transform: scale(.8);
+	color: #333;
+}
+div.quesArea dd card card-title::after{
+	content: "（" attr(number) "分）";
+	display: inline-block;
+	transform: scale(.8);
+	color: #999;
+}
+div.quesArea dd card card-title>*:first-child{
+	display: inline-block;
+}
+div.quesArea dd img {
 	max-width: 100% !important;
 }
 
-section dd table {
+div.quesArea dd table {
 	overflow: auto;
 	width: 100% !important;
 }
 
-section dd td {
+div.quesArea dd td {
 	word-break: break-all;
 }
 
@@ -190,11 +176,11 @@ card[qid] .type3>div[selected] i::before {
 
 /*竖屏，手机端显示*/
 @media only screen and (orientation: portrait) {
-	section {
+	div.quesArea {
 		overflow: hidden;
 	}
 
-	section dl dd {
+	div.quesArea dl dd {
 		flex: 1;
 		overflow: auto;
 	}
