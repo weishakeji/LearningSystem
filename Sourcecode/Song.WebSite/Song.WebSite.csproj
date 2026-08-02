@@ -661,6 +661,7 @@
     <Content Include="Templates\Mobi\Default\Test\Components\group.js" />
     <Content Include="Templates\Mobi\Default\Test\Components\QuesArea.js" />
     <Content Include="Templates\Mobi\Default\Test\Components\Quesbuttons.js" />
+    <Content Include="Templates\Mobi\Default\Test\Components\Styles\AnswerCard.css" />
     <Content Include="Templates\Mobi\Default\Test\Components\Styles\final_condition.css" />
     <Content Include="Templates\Mobi\Default\Test\Components\Styles\group.css" />
     <Content Include="Templates\Mobi\Default\Test\Components\Styles\QuesArea.css" />
