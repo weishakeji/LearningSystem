@@ -27,7 +27,7 @@ div.quesArea dd {
 }
 
 div.quesArea dd card {
-	min-height: calc(100% - 30px - 30px);
+	min-height: calc(100% - 30px);
 	overflow: auto;
 	margin: 15px 15px;
 }
