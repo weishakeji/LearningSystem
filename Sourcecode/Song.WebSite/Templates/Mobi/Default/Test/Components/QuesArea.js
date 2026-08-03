@@ -21,9 +21,8 @@ Vue.component('quesarea', {
         'paperques': {
             handler: function (nv, ov) {
                 if (nv != null && nv.length > 0) {
-                    for (let i = 0; i < this.paperques.length; i++) {
+                    for (let i = 0; i < this.paperques.length; i++)
                         this.$set(this.paperques[i], 'index', i);
-                    }
                     this.setindex(0, false);
                 }
             },
@@ -90,8 +89,9 @@ Vue.component('quesarea', {
             this.$emit('answer', ques);
         },
         //通过索引获取试题的id
-        getid: function (index) {
-            if (index < 0) return null;
+        getid: function (idx) {
+            if (idx < 0) return null;
+            let index = idx;
             for (let i = 0; i < this.paperques.length; i++) {
                 let group = this.paperques[i];
                 if (index < group.count) return group.ques[index].Qus_ID;
@@ -100,7 +100,8 @@ Vue.component('quesarea', {
             return null;
         },
         //获取试题组
-        getgroup: function (index) {
+        getgroup: function (idx) {
+            let index = idx;
             for (let i = 0; i < this.paperques.length; i++) {
                 let group = this.paperques[i];
                 if (index < group.count) return group;
@@ -131,10 +132,9 @@ Vue.component('quesarea', {
                 </span> 
             </info>   
             <dl :style="'width:'+(questotal<=1 ? 1 : questotal)*screenWidth+'px'">
-                <template v-for="(group,gindex) in paperques">
-                    <question ref="questions"  v-for="(q,i) in group.ques" :ques="q" :index="i" @answer="answer"
-                        :total="questotal" :types="types" :fontsize="fontsize" v-swipe="swipe"
-                        :iscurrent="i==index" @current="q=>currques=q">                       
+                <template v-for="(group,gindex) in paperques"> 
+                    <question ref="question" v-for="(q,i) in group.ques" :ques="q" :groups="paperques" :groupindex="gindex" :quesindex="i" :currindex="index" 
+                        :fontsize="fontsize" v-swipe="swipe" @answer="answer"  @current="q=>currques=q">
                     </question>   
                 </template>                       
             </dl>

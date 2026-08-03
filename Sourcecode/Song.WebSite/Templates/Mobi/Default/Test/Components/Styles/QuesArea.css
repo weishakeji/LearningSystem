@@ -25,10 +25,7 @@ div.quesArea {
     pointer-events: auto;
 }
 .quesArea dl dd {
-    width: 100vw;
     height: calc(100% - 40px);
-    overflow-y: auto;
-    overflow-x: hidden;
     touch-action: pan-y !important;
 }
 div.quesArea,

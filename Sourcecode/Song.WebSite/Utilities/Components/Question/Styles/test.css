@@ -31,6 +31,10 @@ div.quesArea dd card {
 	overflow: auto;
 	margin: 15px 15px;
 }
+div.quesArea dd card card-title{
+	word-wrap: break-word;      /* 允许长单词换行 */
+  overflow-wrap: break-word;  /* 标准属性，同上 */
+}
 div.quesArea dd card card-title::before{
 	content: "" attr(index) " .";
 	display: inline-block;
@@ -179,12 +183,6 @@ card[qid] .type3>div[selected] i::before {
 	div.quesArea {
 		overflow: hidden;
 	}
-
-	div.quesArea dl dd {
-		flex: 1;
-		overflow: auto;
-	}
-
 	table {
 		overflow: auto;
 		width: 100% !important;

@@ -1,22 +1,24 @@
 ﻿//试题的在测试与结课考试中的展现
+//answer:当答题时
+//current:当前试题
 Vue.component('question', {
     //ques:当前试题
-    //groups:试题按题型分类的试题组
-    //index:当前试题在试题分类中的索引
-    //swipeindex:滑动到当前展示的试题的索引
-    //groupindex:试题题型的分组，用于排序号
-    props: ['ques', 'groups', 'index', 'swipeindex', 'groupindex', 'total', 'types'],
+    //groups:试题按题型分类的试题组 
+    //groupindex:当前试题分类中的索引
+    //quesindex:当前试题在试题分类中的索引    
+    //currindex:当前试题在所有试题中的索引
+    props: ['ques', 'groups', 'groupindex', 'quesindex', 'currindex'],
     data: function () {
         return {
             init: false,         //初始化完成    
-            current: false       //是否是当前试题，即滑动到当前
+            //current: false       //是否是当前试题，即滑动到当前
         }
     },
     watch: {
         'ques': {
-            handler(nv, ov) {
+            handler: function (nv, ov) {
+                if ($api.isnull(nv)) return;
                 this.ques = window.ques.parseAnswer(this.ques);
-                //console.error(nv);
                 //记录答题状态
                 if (!this.ques.state) {
                     this.$set(this.ques, 'state', {
@@ -32,24 +34,12 @@ Vue.component('question', {
             },
             immediate: true
         },
-        //滑动到哪个试题的索引
-        'swipeindex': {
-            handler: function (nv, ov) {
-                if (nv == null) return;
-                //是否为当前显示的试题
-                this.current = this.quesindex == nv;
-                //仅渲染当前试题的临近几个试题
-                if (this.quesindex < nv - this.render_maxcount
-                    || this.quesindex > nv + this.render_maxcount)
-                    this.init = false;
-            }, immediate: true
-        },
         //是否是当前显示的试题
         'current': {
-            handler(nv, ov) {
+            handler: function (nv, ov) {
                 if (!ov && nv && !this.init) {
                     this.ques = window.ques.parseAnswer(this.ques);
-                    this.init = true;
+                    //this.init = true;
                     this.$nextTick(function () {
                         var dom = $dom("card[qid='" + this.ques.Qus_ID + "']");
                         //清理空元素                
@@ -62,26 +52,39 @@ Vue.component('question', {
                 //console.log('当前试题:' + nv);
             },
             immediate: true
-        }
+        },
+        //当前索引变化时
+        currindex: {
+            handler: function (nv, ov) {
+                //超出指定区间的试题，不再渲染
+                if (this.globalindex < nv - this.render_maxcount
+                    || this.globalindex > nv + this.render_maxcount)
+                    this.init = false;
+                else this.init = true;
+            },
+            immediate: true
+        },
+
+
     },
     computed: {
         //是否试题加载完成
         existques: t => !$api.isnull(t.ques),
-        //试题在试卷中的索引,整个试卷采用一个序号，跨题型排序
-        quesindex: function () {
-            let gindex = this.groupindex - 1;
-            let initIndex = 0;
-            while (gindex >= 0) {
-                initIndex += this.groups[gindex].ques.length;
-                gindex--;
-            };
-            return initIndex + this.index;
-        },
         //渲染的数量，当前索引之前或之后的数量
         render_maxcount: t => {
             let count = 3;
             return Math.floor(count / 2);
-        }
+        },
+        //当前试题在所有试题中的索引
+        globalindex: function () {
+            if (this.groups == null) return 0;
+            let gindex = this.groupindex - 1;
+            let initIndex = 0;
+            while (gindex >= 0) initIndex += this.groups[gindex--].count;
+            return initIndex + this.quesindex;
+        },
+        //是否是当前试题
+        current: t => t.currindex == t.globalindex,
     },
     mounted: function () { },
     methods: {
@@ -96,7 +99,7 @@ Vue.component('question', {
             var correct = func(ans, ques);
             ques.state['sucess'] = correct;
             ques.state['score'] = correct ? Number(ques.Qus_Number) : 0;
-             //触发答题事件
+            //触发答题事件
             this.$emit('answer', this.ques);
         },
         //单选题的解答
@@ -189,9 +192,9 @@ Vue.component('question', {
             return ques.state['correct'] == 'succ';
         }
     },
-    template: `<dd :qid="ques.Qus_ID" :render="init" :swipeindex="swipeindex" :quesindex="quesindex">       
-        <card  v-if="!init" shadow="hover" :qid="ques.Qus_ID" :correct="ques.state ? ques.state.correct : ''" :ans="ques.state.ans">   
-            <card-title v-html="ques.Qus_Title"  :index="index+1" :number="ques.Qus_Number"></card-title>          
+    template: `<dd :qid="ques.Qus_ID" :render="init" :current="current" :index="globalindex">
+        <card  v-if="init" shadow="hover" :qid="ques.Qus_ID" :correct="ques.state ? ques.state.correct : ''" :ans="ques.state.ans">   
+            <card-title v-html="ques.Qus_Title"  :index="quesindex+1" :number="ques.Qus_Number"></card-title>          
             <card-content>
                 <div class="ans_area type1" v-if="ques.Qus_Type==1"  remark="单选题">               
                     <div v-for="(ans,i) in ques.Qus_Items" :ansid="ans.Ans_ID" 
@@ -225,5 +228,6 @@ Vue.component('question', {
                 </div>    
             </card-content>
         </card>
+        <slot></slot>
 </dd>`
 });
