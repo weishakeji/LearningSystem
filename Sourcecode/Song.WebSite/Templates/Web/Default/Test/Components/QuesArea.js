@@ -14,6 +14,8 @@ Vue.component('quesarea', {
             index: 0,            //当前试题的全局索引    
 
             currques: {},          //当前试题
+
+            hoverState: false,      // 鼠标悬停状态
         }
     },
     watch: {
@@ -45,7 +47,9 @@ Vue.component('quesarea', {
         //试题总数
         questotal: t => t.paperques.reduce((total, item) => total + (item.count || 0), 0),
     },
-    mounted: function () { },
+    mounted: function () {
+        window.addEventListener('keydown', this.handleKeyDown)
+    },
     methods: {
         //设置当前试题的id与索引
         //index:试题索引
@@ -83,6 +87,22 @@ Vue.component('quesarea', {
             //向右滑动
             if (e.direction == 4 && this.index > 0) this.index--;
             this.setindex(this.index, true, Math.abs(e.velocityX));
+        },
+        handleKeyDown: function (e) {
+            if (!this.hoverState) return
+
+            switch (e.key) {
+                case 'ArrowUp':
+                case 'ArrowLeft':
+                    e.preventDefault()
+                    this.setindex(this.index - 1);
+                    break
+                case 'ArrowDown':
+                case 'ArrowRight':
+                    e.preventDefault()
+                    this.setindex(this.index + 1);
+                    break
+            }
         },
         //答题事件
         answer: function (ques) {
@@ -132,7 +152,8 @@ Vue.component('quesarea', {
                     {{index+1 }} / {{questotal}}      
                 </span> 
             </info>   
-            <dl :style="'width:'+(questotal<=1 ? 1 : questotal)*100+'%;'">
+            <dl :style="'width:'+(questotal<=1 ? 1 : questotal)*100+'%;'" 
+             @mouseenter="hoverState = true" @mouseleave="hoverState = false">
                 <template v-for="(group,gindex) in paperques"> 
                     <question ref="question" v-for="(q,i) in group.ques" :ques="q" :groups="paperques" :groupindex="gindex" :quesindex="i" :currindex="index" 
                         :fontsize="fontsize" v-swipe="swipe" @answer="answer"  @current="q=>currques=q">
