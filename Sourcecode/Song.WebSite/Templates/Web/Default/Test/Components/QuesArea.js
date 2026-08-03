@@ -36,6 +36,12 @@ Vue.component('quesarea', {
         }
     },
     computed: {
+        //屏幕宽度
+        screenWidth: function () {
+            let el = this.$parent.$el;
+            console.error($dom(this.$el).width());
+            return $dom(el).width();
+        },
         //试题总数
         questotal: t => t.paperques.reduce((total, item) => total + (item.count || 0), 0),
     },
@@ -126,7 +132,7 @@ Vue.component('quesarea', {
                     {{index+1 }} / {{questotal}}      
                 </span> 
             </info>   
-            <dl :style="'width:'+(questotal<=1 ? 1 : questotal)*100+'%'">
+            <dl :style="'width:'+(questotal<=1 ? 1 : questotal)*100+'%;'">
                 <template v-for="(group,gindex) in paperques"> 
                     <question ref="question" v-for="(q,i) in group.ques" :ques="q" :groups="paperques" :groupindex="gindex" :quesindex="i" :currindex="index" 
                         :fontsize="fontsize" v-swipe="swipe" @answer="answer"  @current="q=>currques=q">

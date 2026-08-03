@@ -194,7 +194,7 @@ Vue.component('question', {
     },
     template: `<dd :qid="ques.Qus_ID" :render="init" :current="current" :index="globalindex">
         <card  v-if="init" shadow="hover" :qid="ques.Qus_ID" :correct="ques.state ? ques.state.correct : ''" :ans="ques.state.ans">   
-            <card-title v-html="ques.Qus_Title"  :index="quesindex+1" :number="ques.Qus_Number"></card-title>          
+            <card-title v-html="ques.Qus_Title"  :index="globalindex+1" :number="ques.Qus_Number"></card-title>          
             <card-content>
                 <div class="ans_area type1" v-if="ques.Qus_Type==1"  remark="单选题">               
                     <div v-for="(ans,i) in ques.Qus_Items" :ansid="ans.Ans_ID" 

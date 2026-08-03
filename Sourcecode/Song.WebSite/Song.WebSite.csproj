@@ -1900,6 +1900,8 @@
     <Content Include="Templates\Web\Default\LLM\Index.html" />
     <Content Include="Templates\Web\Default\LLM\Scripts\Index.js" />
     <Content Include="Templates\Web\Default\LLM\Styles\Index.css" />
+    <Content Include="Templates\Web\Default\Test\Components\QuesArea.js" />
+    <Content Include="Templates\Web\Default\Test\Components\Styles\QuesArea.css" />
     <Content Include="Templates\Web\Default\Viewport\Login.html" />
     <Content Include="Templates\Web\Default\Viewport\Scripts\Login.js" />
     <Content Include="Templates\Web\Default\Viewport\Styles\Login.css" />

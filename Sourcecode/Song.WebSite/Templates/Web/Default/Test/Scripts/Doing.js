@@ -3,6 +3,7 @@ $ready(['/Utilities/Components/question/test.js',
     '/Utilities/Components/question/function.js',
     'Components/Quesbuttons.js',
     'Components/AnswerCard.js',
+    'Components/QuesArea.js',
     "Components/final_condition.js"], function () {
         window.vapp = new Vue({
             el: '#vapp',
@@ -25,9 +26,9 @@ $ready(['/Utilities/Components/question/test.js',
                 paperQues: [],           //试卷内容（即试题信息）
                 paperAnswer: {},          //答题信息
                 paperAnswerXml: '',          //答题信息的xml格式数据
-                //++一些状态信息
-                swipeIndex: 0,           //试题滑动时的索引，用于记录当前显示的试题索引号
+                //++一些状态信息             
                 showCard: false,          //是否显示答题卡           
+                index: 0,            //当前试题的全局索引
 
                 submitState: {
                     show: false,       //成绩提交的面板提示
@@ -63,7 +64,7 @@ $ready(['/Utilities/Components/question/test.js',
                 //学员是否登录
                 islogin: t => !$api.isnull(t.account) && t.account.Ac_ID > 0,
                 //是否过期，过期返回true
-                isoverdue: function () {                  
+                isoverdue: function () {
                     if ($api.isnull(this.purchase)) return true;
                     if (this.purchase.Stc_IsFree) return false;
                     if (this.purchase.Stc_EndTime > new Date()) return false;
@@ -113,7 +114,7 @@ $ready(['/Utilities/Components/question/test.js',
                 },
                 //试卷内容，试题列表，按题型分开
                 'paperQues': {
-                    handler(nv, ov) {                                    
+                    handler(nv, ov) {
                         //生成答题信息（Json格式）
                         this.paperAnswer = this.generateAnswerJson(nv);
                     },
@@ -134,18 +135,6 @@ $ready(['/Utilities/Components/question/test.js',
                 'surplustime': function (nv, ov) {
                     if (nv <= 0) this.submit(1);
                 },
-                //滑动试题，滑动到指定试题索引
-                'swipeIndex': {
-                    handler: function (nv, ov) {
-                        console.log(nv);
-                        if (nv > this.questotal || nv < 0) return;
-                        var qeus_width = 800;
-                        window.setTimeout(function () {
-                            $dom("section[remark]").css('left', -(qeus_width * nv) + 'px');
-                        }, 100);
-
-                    }, immediate: true
-                }
             },
             methods: {
                 //初始化
@@ -265,7 +254,7 @@ $ready(['/Utilities/Components/question/test.js',
                         console.error(err);
                     }).finally(() => {
                         window.setTimeout(function () {
-                            th.loading.paper = false;                           
+                            th.loading.paper = false;
                         }, 1000);
                     });
                 },
@@ -358,13 +347,16 @@ $ready(['/Utilities/Components/question/test.js',
                 },
                 //试题向右滑动 
                 swiperight: function (e) {
-                    if (e && e.preventDefault) e.preventDefault();
-                    if (this.swipeIndex > 0) this.swipeIndex--;
+                    this.$refs.quesarea.setindex(--this.index);
                 },
                 //试题向左滑动
                 swipeleft: function (e) {
-                    if (e && e.preventDefault) e.preventDefault();
-                    if (this.swipeIndex < this.questotal - 1) this.swipeIndex++;
+                    this.$refs.quesarea.setindex(++this.index);
+                },
+                //切换试题，滑动到指定试题索引
+                shiftques: function (index) {
+                    this.$refs.quesarea.setindex(index, true, 300);
+                    this.showCard = false;
                 },
                 //生成答题信息
                 generateAnswerJson: function (paper) {
