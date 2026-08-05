@@ -43,11 +43,6 @@ Vue.component('quesarea', {
         }
     },
     computed: {
-        //屏幕宽度
-        screenWidth: function () {
-            let el = this.$parent.$el;
-            return $dom(el).width();
-        },
     },
     mounted: function () { },
     methods: {
@@ -67,9 +62,9 @@ Vue.component('quesarea', {
             speed = speed == null ? 0.5 : 0.7 - speed / 10;
             if (effects == null || effects == true) dl.css('transition', 'left ' + speed + 's ease-in-out');
             else dl.css('transition', 'none');
-            var left = -this.screenWidth * this.index;
+            var left = -100 * this.index;
             this.$nextTick(function () {
-                window.setTimeout(() => dl.css('left', left + 'px'), 50);
+                window.setTimeout(() => dl.css('left', left + '%'), 50);
             });
         },
         //试题滑动 
@@ -133,7 +128,7 @@ Vue.component('quesarea', {
                 </span>
                 <quesbuttons :question="currques" :account="account" :index="index"></quesbuttons> 
             </info>   
-            <dl :style="'width:'+(list.length<=1 ? 1 : list.length)*screenWidth+'px'">             
+            <dl :style="'width:'+(list.length<=1 ? 1 : list.length)*100+'%'">             
                 <question ref="questions"  v-for="(qid,i) in list" :qid="qid" :state="state.getitem(qid,i)" :index="i" :curindex="index"
                     :total="list.length" :types="types" :account="account" :fontsize="fontsize" v-swipe="swipe"
                     :mode="mode" :iscurrent="i==index" @answer="answer" @current="q=>currques=q">                       
