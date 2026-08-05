@@ -38,12 +38,6 @@ Vue.component('quesarea', {
         }
     },
     computed: {
-        //屏幕宽度
-        screenWidth: function () {
-            let el = this.$parent.$el;
-            console.error($dom(this.$el).width());
-            return $dom(el).width();
-        },
         //试题总数
         questotal: t => t.paperques.reduce((total, item) => total + (item.count || 0), 0),
     },
@@ -56,12 +50,13 @@ Vue.component('quesarea', {
         //effects:是否有滑动特效
         //speed:滑动速度，单位px/ms
         setindex: function (index, effects, speed) {
+             if (index == null || (index <0 || index >= this.questotal))return;
+             this.index = index;
             let qid = this.getid(index);
             if (qid != null || qid >= 0) this.currid = qid;
             //获取当前试题组
             let group = this.getgroup(index);
-            if (group) this.currgroup = group;
-            if (index != null && (index >= 0 || index < this.questotal)) this.index = index;
+            if (group) this.currgroup = group;          
             //触发滑动事件,返回当前索引
             this.$emit('swipe', index);
 
@@ -88,6 +83,7 @@ Vue.component('quesarea', {
             if (e.direction == 4 && this.index > 0) this.index--;
             this.setindex(this.index, true, Math.abs(e.velocityX));
         },
+        //键盘事件，实现上下键切换试题
         handleKeyDown: function (e) {
             if (!this.hoverState) return
 
