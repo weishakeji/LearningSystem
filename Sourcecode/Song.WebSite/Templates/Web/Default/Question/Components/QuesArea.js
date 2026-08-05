@@ -13,6 +13,8 @@ Vue.component('quesarea', {
             index: 0,            //当前试题索引 
 
             currques: {},          //当前试题
+
+            hoverState: false,      // 鼠标悬停状态
         }
     },
     watch: {
@@ -23,7 +25,7 @@ Vue.component('quesarea', {
                 this.list = Object.values(nv).flat();
             }, immediate: true
         },
-       
+
         //滑动试题，滑动到指定试题索引
         'index': {
             handler: function (nv, ov) {
@@ -32,7 +34,7 @@ Vue.component('quesarea', {
                 if (nv != null && this.list.length > 0)
                     this.state.last(this.list[nv], nv);
                 //更新答题状态（不推送到服务器）
-                this.state.update(false);              
+                this.state.update(false);
             }, immediate: true
         }
     },
@@ -47,7 +49,9 @@ Vue.component('quesarea', {
             return $dom(el).width();
         },
     },
-    mounted: function () { },
+    mounted: function () {
+        window.addEventListener('keydown', this.handleKeyDown)
+    },
     methods: {
         //设置当前试题的id与索引
         //index:试题索引
@@ -82,6 +86,23 @@ Vue.component('quesarea', {
             //向右滑动
             if (e.direction == 4 && this.index > 0) this.index--;
             this.setindex(this.index, true, Math.abs(e.velocityX));
+        },
+        //键盘事件，实现上下键切换试题
+        handleKeyDown: function (e) {
+            if (!this.hoverState) return
+
+            switch (e.key) {
+                case 'ArrowUp':
+                case 'ArrowLeft':
+                    e.preventDefault()
+                    this.setindex(this.index - 1);
+                    break
+                case 'ArrowDown':
+                case 'ArrowRight':
+                    e.preventDefault()
+                    this.setindex(this.index + 1);
+                    break
+            }
         },
         //试题答题状态变更时
         answer: function (state, ques) {
@@ -130,7 +151,7 @@ Vue.component('quesarea', {
                 </span>
                 <quesbuttons :question="currques" :account="account" :index="index"></quesbuttons> 
             </info>   
-            <dl :style="'width:'+(list.length<=1 ? 1 : list.length)*screenWidth+'px'">             
+            <dl :style="'width:'+(list.length<=1 ? 1 : list.length)*screenWidth+'px'"  @mouseenter="hoverState = true" @mouseleave="hoverState = false">             
                 <question ref="questions"  v-for="(qid,i) in list" :qid="qid" :state="state.getitem(qid,i)" :index="i" :curindex="index"
                     :total="list.length" :types="types" :account="account" :fontsize="fontsize" v-swipe="swipe"
                     :mode="mode" :iscurrent="i==index" @answer="answer" @current="q=>currques=q">                       
