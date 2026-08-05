@@ -834,12 +834,14 @@
     <Content Include="Templates\OrgAdmin\Default\Exam\Components\createbatchscore.js" />
     <Content Include="Templates\OrgAdmin\Default\Exam\Components\createscore.js" />
     <Content Include="Templates\OrgAdmin\Default\Exam\Components\exam_items.js" />
+    <Content Include="Templates\OrgAdmin\Default\Exam\Components\group.js" />
     <Content Include="Templates\OrgAdmin\Default\Exam\Components\group_select.js" />
     <Content Include="Templates\OrgAdmin\Default\Exam\Components\setscore.js" />
     <Content Include="Templates\OrgAdmin\Default\Exam\Components\student_select.js" />
     <Content Include="Templates\OrgAdmin\Default\Exam\Components\Styles\accountselect.css" />
     <Content Include="Templates\OrgAdmin\Default\Exam\Components\Styles\createbatchscore.css" />
     <Content Include="Templates\OrgAdmin\Default\Exam\Components\Styles\exam_items.css" />
+    <Content Include="Templates\OrgAdmin\Default\Exam\Components\Styles\group.css" />
     <Content Include="Templates\OrgAdmin\Default\Exam\Components\Styles\group_select.css" />
     <Content Include="Templates\OrgAdmin\Default\Exam\Components\Styles\student_select.css" />
     <Content Include="Templates\OrgAdmin\Default\Exam\List.html" />

@@ -51,7 +51,7 @@
             <card>
                 <card-title><span icon="&#xe748" @click="window.history.go(-1);"></span>《{{exam.Exam_Name}}》
                 </card-title>
-                <card-content>
+                <card-content>                   
                     <row>时间：
                         <span v-if="exam.Exam_DateType==1">
                             <!--准时开始-->
@@ -67,6 +67,7 @@
                     <row>总分：{{exam.Exam_Total}}分（{{exam.Exam_PassScore}}分及格）</row>
                     <row>专业：{{subject.Sbj_Name}} </row>
                     <row>课程：{{paper.Cou_Name}}</row>
+                     <row>考试主题：{{exam.Exam_Title}}</row>
                 </card-content>
             </card>           
             <card v-if="examstate.issubmit">
