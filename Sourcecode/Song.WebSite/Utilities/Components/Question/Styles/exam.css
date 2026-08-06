@@ -30,22 +30,28 @@ div.quesArea dd card {
 	overflow: auto;
 	touch-action: pan-y !important;
 }
-div.quesArea dd card card-title{
-	word-wrap: break-word;      /* 允许长单词换行 */
-  overflow-wrap: break-word;  /* 标准属性，同上 */
+
+div.quesArea dd card card-title {
+	word-wrap: break-word;
+	/* 允许长单词换行 */
+	overflow-wrap: break-word;
+	/* 标准属性，同上 */
 }
-div.quesArea dd card card-title::before{
-	content: "" attr(index) " .";
+
+div.quesArea dd card card-title::before {
+	content: ""attr(index) " .";
 	display: inline-block;
 	transform: scale(.8);
 	color: #333;
 }
-div.quesArea dd card card-title::after{
-	content: "（" attr(number) "分）";
+
+div.quesArea dd card card-title::after {
+	content: "（"attr(number) "分）";
 	display: inline-block;
 	transform: scale(.8);
 	color: #999;
 }
+
 div.quesArea dd card-title p, card-title span, card-title font {
 	line-height: 150%;
 	font-size: 20px;
@@ -73,6 +79,10 @@ div.quesArea dd td {
 
 .ans_area {
 	margin-left: 5px;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	align-content: flex-start;
 }
 
 .ans_area>div {
@@ -97,9 +107,11 @@ div.quesArea dd td {
 	font-size: 25px;
 	margin-right: 10px;
 }
+
 dd[qid] card .type1>div {
 	cursor: pointer;
 }
+
 .type1>div[ansid] i::before {
 	content: '\e85c';
 }
@@ -120,6 +132,7 @@ dd[qid] card .type1>div {
 .ans_area>div[correct]::before {
 	content: '\a048';
 }
+
 dd[qid] card .type2>div {
 	cursor: pointer;
 }
@@ -135,6 +148,7 @@ dd[qid] card .type2>div {
 /*判断题*/
 dd[qid] card .type3 {
 	display: flex;
+	flex-direction: row;
 }
 
 dd[qid] card .type3>div:first-child {
@@ -144,7 +158,8 @@ dd[qid] card .type3>div:first-child {
 dd[qid] card .type3 i {
 	font-size: 18px;
 }
-dd[qid] card .type3>div{
+
+dd[qid] card .type3>div {
 	cursor: pointer;
 }
 

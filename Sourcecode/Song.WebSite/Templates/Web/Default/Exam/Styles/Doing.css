@@ -163,19 +163,6 @@ div.body div[loading] {
 	margin-right: 15px;
 }
 
-section {
-	height: 100%;
-	background-color: #f2f2f2;
-	font-size: 16px;
-	z-index: 4;
-	position: relative;
-	transition: left 0.5s;
-}
-
-section dd {
-	width: 880px !important;
-}
-
 row {
 	display: block;
 	position: relative;

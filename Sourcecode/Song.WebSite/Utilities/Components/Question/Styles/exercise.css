@@ -173,11 +173,15 @@ body[view=cosy] {
 
 .ans_area {
 	font-size: 18px;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	align-content: flex-start;
 }
 
 .ans_area>div {
 	position: relative;
-	margin: 15px 15px 15px 10px;
+	padding: 5px 10px;
 }
 
 .ans_area i {
@@ -197,6 +201,9 @@ body[view=cosy] {
 	font-style: normal;
 	font-size: 20px;
 	margin-right: 5px;
+}
+dd[qid] card .type1>div {
+	cursor: pointer;
 }
 
 .type1>div[ansid] i::before {
@@ -219,6 +226,9 @@ body[view=cosy] {
 .ans_area>div[correct]::before {
 	content: '\a048';
 }
+dd[qid] card .type2>div {
+	cursor: pointer;
+}
 
 .type2>div i::before {
 	content: '\e603';
@@ -231,8 +241,11 @@ body[view=cosy] {
 /*判断题*/
 .type3 {
 	display: flex;
+	flex-direction: row;
 }
-
+dd[qid] card .type3>div {
+	cursor: pointer;
+}
 .type3>div:first-child {
 	margin-right: 40px;
 }
