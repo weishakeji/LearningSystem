@@ -13,10 +13,13 @@ html, body {
 
 body {
 	background-image: linear-gradient(to bottom right, #999, #ccc, #666);
+	padding: 0px 10px;
+    width: calc(100% - 20px);
 }
 
 #vapp {
-	width: 1000px;
+	max-width: 1200px;
+	min-width: 600px;
 	height: calc(100% - 20px);
 	margin: 10px auto;
 	position: relative;
