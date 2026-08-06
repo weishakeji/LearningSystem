@@ -592,10 +592,14 @@
     <Content Include="Templates\Mobi\Default\Demo\Index.html" />
     <Content Include="Templates\Mobi\Default\Demo\Scripts\Index.js" />
     <Content Include="Templates\Mobi\Default\Demo\Styles\Index.css" />
+    <Content Include="Templates\Mobi\Default\Exam\Components\AnswerCard.js" />
     <Content Include="Templates\Mobi\Default\Exam\Components\exam_tabs.js" />
     <Content Include="Templates\Mobi\Default\Exam\Components\group.js" />
+    <Content Include="Templates\Mobi\Default\Exam\Components\QuesArea.js" />
     <Content Include="Templates\Mobi\Default\Exam\Components\result.js" />
+    <Content Include="Templates\Mobi\Default\Exam\Components\Styles\AnswerCard.css" />
     <Content Include="Templates\Mobi\Default\Exam\Components\Styles\group.css" />
+    <Content Include="Templates\Mobi\Default\Exam\Components\Styles\QuesArea.css" />
     <Content Include="Templates\Mobi\Default\Exam\Doing.html" />
     <Content Include="Templates\Mobi\Default\Exam\Index.html" />
     <Content Include="Templates\Mobi\Default\Exam\Review.html" />

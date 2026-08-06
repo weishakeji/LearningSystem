@@ -3,7 +3,8 @@ $ready([
     '/Utilities/Components/question/function.js',
     '/Utilities/Components/question/exam.js',
     '/Utilities/Components/upload-file.js',
-    'Components/QuesArea.js',           //试题区域
+    'Components/QuesArea.js',           //试题区域    
+    'Components/AnswerCard.js',
     'Components/result.js'], function () {
         window.vapp = new Vue({
             el: '#vapp',
@@ -15,7 +16,8 @@ $ready([
                 exam: {},                //考试场次对象 
                 //考试状态
                 examstate: {
-                    islogin: true, loading: true,
+                    islogin: true,
+                    loading: true,
                     record: false,       //是否还原答题数据
                     issubmit: false,     //是否交卷
                     iserror: false           //是否存在错误
@@ -91,9 +93,7 @@ $ready([
             computed: {
                 islogin: t => !$api.isnull(t.account),      //学员是否登录
                 isexam: t => !$api.isnull(t.exam),          //是否存在考试
-                isgenerate: t => t.paperQues.length > 0,     //是否已经出卷
-                //屏幕宽度
-                screenWidth: t => $dom(t.$el).width(),
+                isgenerate: t => t.paperQues.length > 0,     //是否已经出卷               
                 //试题总数
                 questotal: function () {
                     let total = 0;
@@ -426,23 +426,10 @@ $ready([
                         th.submit(2);
                     });
                 },
-                //滑动试题，滑动到指定试题索引
-                swipe: function (e) {
-                    if ($api.getType(e) == 'Number') {
-                        this.swipeIndex = e;
-                        $dom("section").css('left', -(this.screenWidth * this.swipeIndex) + 'px');
-                        this.showCard = false;
-                    }
-                    if (e && $api.getType(e) == 'Object') {
-                        if (e.preventDefault) e.preventDefault();
-                        let node = $dom(e.target ? e.target : e.srcElement);
-                        if (node.length > 0 && (node.hasClass("van-overlay") || node.hasClass("van-popup"))) return;
-                        //向左滑动
-                        if (e.direction == 2 && this.swipeIndex < this.questotal - 1) this.swipeIndex++;
-                        //向右滑动
-                        if (e.direction == 4 && this.swipeIndex > 0) this.swipeIndex--;
-                        this.swipe(this.swipeIndex);
-                    }
+                //切换试题
+                shiftques: function (index) {
+                     this.$refs.quesarea.setindex(index, true, 300);
+                    this.showCard = false;
                 },
                 //生成答题信息
                 generateAnswerJson: function (paper) {
@@ -651,7 +638,7 @@ $ready([
                     this.$nextTick(function () {
                         var th = this;
                         window.setTimeout(function () {
-                            if (record.index >= 0) th.swipe(record.index);
+                            if (record.index >= 0) th.shiftques(record.index);
                             th.examstate.record = true;
                         }, 1000);
 

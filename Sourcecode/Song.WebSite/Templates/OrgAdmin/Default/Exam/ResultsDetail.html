@@ -104,7 +104,7 @@
                 </template>
             </el-table-column>
             <el-table-column label="成绩" width="110" align="right" class-name="scope_column">
-                <template slot="header" slot-scope="scope">
+                <template slot="header" slot-scope="scope">                  
                     <el-dropdown @command="batcalcResultScore">
                         <span class="el-dropdown-link">
                             成绩<i class="el-icon-arrow-down el-icon--right"></i>
@@ -117,7 +117,8 @@
                     </el-dropdown>
                 </template>
                 <template slot-scope="scope">
-                    <el-dropdown  @command="handleCommand" :exrid="scope.row.Exr_ID">
+                    <loading v-if="scope.row.inprocess!=null && scope.row.inprocess"></loading>
+                    <el-dropdown v-else @command="handleCommand" :exrid="scope.row.Exr_ID">
                         <span class="el-dropdown-link">
                             <score :value="scope.row.Exr_ScoreFinal" :passscore="entity.Exam_PassScore"></score> 
                             <i class="el-icon-arrow-down el-icon--right"></i>

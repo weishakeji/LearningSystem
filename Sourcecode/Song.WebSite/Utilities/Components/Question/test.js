@@ -1,6 +1,5 @@
-﻿//试题的在测试与结课考试中的展现
+﻿//测试与结课考试中的试题的展现
 //answer:当答题时
-//current:当前试题
 Vue.component('question', {
     //ques:当前试题
     //groups:试题按题型分类的试题组 
@@ -48,8 +47,7 @@ Vue.component('question', {
                         //公式渲染
                         this.$mathjax([dom[0]]);
                     });
-                }
-                //console.log('当前试题:' + nv);
+                }              
             },
             immediate: true
         },

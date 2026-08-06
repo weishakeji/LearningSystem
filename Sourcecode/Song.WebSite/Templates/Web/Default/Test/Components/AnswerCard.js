@@ -57,7 +57,7 @@ Vue.component('answercard', {
             if (group == null) return '';
             const map = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
             let index = map[idx] + '、';
-            if (group.byname && group.byname != '') return index + group.byname;
+            if (group.byname && group.byname != '' && group.byname != 'null') return index + group.byname;
             return index + this.types[group.type - 1] + '题';
         },
     },

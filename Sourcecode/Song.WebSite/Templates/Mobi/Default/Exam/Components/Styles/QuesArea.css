@@ -9,6 +9,9 @@ div.quesArea {
 	height: calc(100% - 90px);
     width: 100%;
     z-index: 4;
+    top: 44px;
+    left: 0px;
+    position: relative;
 }
 .quesArea dl {
     height: calc(100% - 40px);
@@ -24,7 +27,6 @@ div.quesArea {
     pointer-events: auto;
 }
 .quesArea dl dd {
-    height: calc(100% - 40px);
     touch-action: pan-y !important;
 }
 div.quesArea,

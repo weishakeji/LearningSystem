@@ -10,9 +10,10 @@ Vue.component('quesarea', {
         return {
             list: [],         //所有试题，与ques不同，它是一维数组，方便后续计算            
             currid: '',         //当前试题id      
-            currgroup: null,    //当前试题组
+            currgroup: {},    //当前试题组
             index: 0,            //当前试题的全局索引    
 
+            isinit: false,      //是否初始化完成
             currques: {},          //当前试题
         }
     },
@@ -24,6 +25,7 @@ Vue.component('quesarea', {
                     for (let i = 0; i < this.paperques.length; i++)
                         this.$set(this.paperques[i], 'index', i);
                     this.setindex(0, false);
+                    this.isinit = true;
                 }
             },
             immediate: true
@@ -37,7 +39,8 @@ Vue.component('quesarea', {
     },
     computed: {
         //试题总数
-        questotal: t => t.paperques.reduce((total, item) => total + (item.count || 0), 0),
+        questotal: t => $api.isnull(t.paperques) ? 0 : t.paperques.reduce((total, item) => total + (item.count || 0), 0),
+
     },
     mounted: function () { },
     methods: {
@@ -46,18 +49,19 @@ Vue.component('quesarea', {
         //effects:是否有滑动特效
         //speed:滑动速度，单位px/ms
         setindex: function (index, effects, speed) {
+            if (index == null || (index < 0 || index >= this.questotal)) return;
+            this.index = index;
             let qid = this.getid(index);
             if (qid != null || qid >= 0) this.currid = qid;
             //获取当前试题组
             let group = this.getgroup(index);
             if (group) this.currgroup = group;
-            if (index != null && (index >= 0 || index < this.questotal)) this.index = index;
             //触发滑动事件,返回当前索引
             this.$emit('swipe', index);
 
             //设置试题的滑动位置
             var dl = $dom("div.quesArea dl");
-            speed = speed == null ? 0.5 : 0.7 - speed / 10;
+            speed = speed == null || isNaN(speed) ? 0.5 : 0.7 - speed / 10;
             if (effects == null || effects == true) dl.css('transition', 'left ' + speed + 's ease-in-out');
             else dl.css('transition', 'none');
             var left = -100 * this.index;
@@ -107,16 +111,16 @@ Vue.component('quesarea', {
         //显示题型名称
         showtype: function () {
             let group = this.currgroup;
-            if (group == null) return '';
+            if ($api.isnull(group)) return '';
             const map = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
             let index = map[group.index] + '、';
-            if (group.byname && group.byname != '') return index + group.byname;
+            if (group.byname && group.byname != '' && group.byname != 'null') return index + group.byname;
             return index + this.types[group.type - 1] + '题';
         },
     },
     template: `<div :class="{'quesArea':true}" remark="试题区域">
-        <div v-if="!$parent.loading && questotal<1" class="noques"><icon>&#xe849</icon>没有试题</div>
-        <template v-else>
+        <div v-if="isinit && questotal<1" class="noques"><icon>&#xe849</icon>没有试题</div>  
+        <template v-else-if="isinit">
             <info no-font-size v-if="currgroup">
                 <span>
                     {{showtype()}} 

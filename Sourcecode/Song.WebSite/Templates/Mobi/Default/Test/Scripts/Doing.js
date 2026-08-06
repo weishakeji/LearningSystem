@@ -66,9 +66,7 @@ $ready(['/Utilities/Components/question/test.js',
             created: function () { },
             computed: {
                 //学员是否登录
-                islogin: t => !$api.isnull(t.account),
-                //屏幕宽度
-                screenWidth: t => $dom(t.$el).width(),
+                islogin: t => !$api.isnull(t.account),             
                 //试题总数
                 questotal: function () {
                     var total = 0;

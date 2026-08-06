@@ -365,16 +365,16 @@ namespace Song.ServiceImpls
             foreach (XmlNode quesnode in rootnode.SelectNodes("questions/ques"))
             {
                 TestPaperItem item = new TestPaperItem();
-                item.TPI_Type = quesnode.Attributes["type"].Value.Convert<int>();       //试题类型，数值
-                item.TPI_TypeName = quesnode.Attributes["byname"].Value;        //试题类型的别名，中文
+                item.TPI_Type = quesnode.GetAttr<int>("type");        //试题类型，数值
+                item.TPI_TypeName = quesnode.GetAttr("byname");        //试题类型的别名，中文
                 //item.TPI_Count = quesnode.Attributes["count"].Value.Convert<int>();     //试题数量，这是xml中记录的数量，不是实际数量
-                item.TPI_Percent = quesnode.Attributes["percent"].Value.Convert<int>();     //当前题型的分数占比
-                item.TPI_Number = quesnode.Attributes["number"].Value.Convert<int>();              
+                item.TPI_Percent = quesnode.GetAttr<int>("percent");     //当前题型的分数占比
+                item.TPI_Number = quesnode.GetAttr<int>("number");              
                 //
                 List<Questions> queslist=new List<Questions>();
                 foreach (XmlNode qnode in quesnode.SelectNodes("q"))
                 { 
-                    long qid = qnode.Attributes["id"].Value.Convert<long>();
+                    long qid = qnode.GetAttr<long>("qid");
                     Questions ques = Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == qid).ToFirst<Questions>();
                     if (ques != null)queslist.Add(ques);
                 }
@@ -423,11 +423,11 @@ namespace Song.ServiceImpls
             foreach (XmlNode quesnode in rootnode.SelectNodes("questions/ques"))
             {
                 TestPaperItem item = new TestPaperItem();
-                item.TPI_Type = quesnode.Attributes["type"].Value.Convert<int>();       //试题类型，数值
-                item.TPI_TypeName = quesnode.Attributes["byname"].Value;        //试题类型的别名，中文
-                item.TPI_Count = quesnode.Attributes["count"].Value.Convert<int>();     //试题数量，这是xml中记录的数量，不是实际数量
-                item.TPI_Percent = quesnode.Attributes["percent"].Value.Convert<int>();     //当前题型的分数占比
-                item.TPI_Number = quesnode.Attributes["number"].Value.Convert<int>();
+                item.TPI_Type = quesnode.GetAttr<int>("type");       //试题类型，数值
+                item.TPI_TypeName = quesnode.GetAttr("byname");        //试题类型的别名，中文
+                item.TPI_Count = quesnode.GetAttr<int>("count");     //试题数量，这是xml中记录的数量，不是实际数量
+                item.TPI_Percent = quesnode.GetAttr<int>("percent");     //当前题型的分数占比
+                item.TPI_Number = quesnode.GetAttr<int>("number");
                 List<Questions> queslist = new List<Questions>();
                 if (item.TPI_Count > 0)
                 {

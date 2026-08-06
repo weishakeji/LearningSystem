@@ -1,67 +1,71 @@
 /*试题区*/
-section{
-	display: flex;
- }
- section dl{
-	display: flex;
- }
- section dl dd{
-	flex: 1;
+
+div.quesArea dl dd {
 	overflow-y: auto;
 	overflow-x: hidden;
+	flex: 1;
+	touch-action: pan-y !important;
 	/* 禁止iOS浏览器默认双击缩放、滚动回弹，交给Hammer接管 */
 	touch-action: manipulation;
 	/* 允许触摸事件穿透子元素冒泡 */
 	pointer-events: auto;
- }
-section dl, section dd {
+}
+
+div.quesArea dl dd card {
+	touch-action: pan-y !important;
+}
+
+div.quesArea dl, div.quesArea dd {
 	margin: 0px;
 	padding: 0px;
 	height: 100%;
 }
 
-section dd {
-	overflow-y: auto;
-	line-height: 150%;
-	font-size: 18px;
+div.quesArea dd {
+	line-height: 2em !important;
+	font-size: 20px;
 }
 
-section dd info {
-	display: block;
-	padding: 15px 15px 0px 15px;
-	height: 20px;
-	margin: 0px 10px;
-	font-size: 1rem;
-}
-
-section dd info span {
-	font-size: 18px;
-	color: #999;
-}
-section dd card {  
-    overflow: auto;
+div.quesArea dd card {
+	overflow: auto;
 	touch-action: pan-y !important;
 }
-section dd card-title p, card-title span, card-title font {
+div.quesArea dd card card-title{
+	word-wrap: break-word;      /* 允许长单词换行 */
+  overflow-wrap: break-word;  /* 标准属性，同上 */
+}
+div.quesArea dd card card-title::before{
+	content: "" attr(index) " .";
+	display: inline-block;
+	transform: scale(.8);
+	color: #333;
+}
+div.quesArea dd card card-title::after{
+	content: "（" attr(number) "分）";
+	display: inline-block;
+	transform: scale(.8);
+	color: #999;
+}
+div.quesArea dd card-title p, card-title span, card-title font {
 	line-height: 150%;
 	font-size: 20px;
 }
 
-section dd card-title>*, section dd card-title p {
+div.quesArea dd card-title>*, div.quesArea dd card-title p {
 	line-height: 150% !important;
 	font-size: 20px !important;
 }
 
-section dd img {
+div.quesArea dd img {
 	max-width: 100% !important;
 }
 
-section dd table {
+div.quesArea dd table {
 	overflow: auto;
 	width: 100% !important;
 }
 
-section dd td {
+div.quesArea dd td {
 	word-break: break-all;
 }
 
@@ -157,21 +161,24 @@ dd[qid] card .type3>div[selected] i::before {
 .type5>div {
 	position: relative;
 	margin-left: 30px;
-	display: flex;	
+	display: flex;
 }
-.type5>div i{
+
+.type5>div i {
 	position: absolute;
 	top: 8px;
 	left: 12px;
 }
-.type5>div i::before{
+
+.type5>div i::before {
 	font-family: "webdesk_icon" !important;
 	content: '\a02e';
 	font-style: normal;
 	margin-right: 5px;
-	font-size: 22px;	
+	font-size: 22px;
 	color: #999;
 }
+
 .type5>div::before {
 	counter-increment: section;
 	content: counter(section) ". ";
@@ -189,8 +196,9 @@ dd[qid] card .type3>div[selected] i::before {
 	height: 30px;
 	font-size: 20px;
 }
+
 /*简答题*/
-section textarea {
+div.quesArea textarea {
 	width: calc(100% - 22px);
 	height: 300px;
 	padding: 10px;
@@ -223,14 +231,14 @@ section textarea {
 
 /*竖屏，手机端显示*/
 @media only screen and (orientation: portrait) {
-	section dd {		
+	div.quesArea dd {
 		height: calc(100% + 50px);
 		padding-bottom: 50px;
 		box-sizing: border-box;
 		overflow: hidden;
 	}
 
-	section dd card {
+	div.quesArea dd card {
 		height: calc(100% - 20px - 45px);
 	}
 
@@ -238,7 +246,7 @@ section textarea {
 
 /*横屏，web端显示*/
 @media only screen and (orientation: landscape) {
-	section dd card {
+	div.quesArea dd card {
 		height: calc(100% - 32px - 35px);
 	}
 }

@@ -1,4 +1,5 @@
 ﻿@charset "utf-8";
+
 html, body, #vapp {
 	width: 100%;
 	height: 100%;
@@ -7,9 +8,11 @@ html, body, #vapp {
 	overflow: hidden;
 	position: relative;
 }
-div[loading]{
+
+div[loading] {
 	margin: 30% auto 10px auto;
 }
+
 /*不能考试的区域*/
 
 .context {
@@ -24,9 +27,10 @@ div[loading]{
 }
 
 /*未登录*/
-.nologin card-content{
-	display: flex;	
+.nologin card-content {
+	display: flex;
 }
+
 .nologin .acc_photo {
 	width: 58px;
 	height: 58px;
@@ -79,7 +83,7 @@ div[loading]{
 
 header {
 	height: 44px;
-	
+
 	font-size: 14px;
 	position: fixed;
 	width: 100%;
@@ -123,24 +127,12 @@ header>div.title {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
-/*试题区*/
 
-section {
-	height: calc(100% - 88px);
-	background-color: #f2f2f2;
-	font-size: 14px;
-	width: 100%;
-	top: 44px;
-	left: 0px;
-	z-index: 4;
-	position: relative;
-	transition: left 0.5s;
-}
 
 /*页面底部*/
 
 footer {
-	height: 44px;	
+	height: 44px;
 	font-size: 14px;
 	position: fixed;
 	width: 100%;
@@ -201,7 +193,7 @@ attended {
 
 .quesCard .cardTit {
 	height: 50px;
-	
+
 	font-size: 16px;
 	line-height: 50px;
 }
@@ -270,7 +262,7 @@ attended {
 .quesCard dd[current] {
 	border: solid 1px rgb(92, 180, 3);
 	color: #fff;
-	background-color: rgba(92, 180, 3, .6)  !important;
+	background-color: rgba(92, 180, 3, .6) !important;
 }
 
 .quesCard dd[current]::after {
@@ -366,4 +358,6 @@ score.praise::before {
 .loading_paper {
 	padding: 20px;
 	width: 100vw;
+	display: block;
+	text-align: center;
 }

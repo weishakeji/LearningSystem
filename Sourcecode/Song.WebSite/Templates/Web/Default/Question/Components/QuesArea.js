@@ -62,7 +62,7 @@ Vue.component('quesarea', {
 
             //设置试题的滑动位置
             var dl = $dom("div.quesArea dl");
-            speed = speed == null ? 0.5 : 0.7 - speed / 10;
+            speed = speed == null || isNaN(speed) ? 0.5 : 0.7 - speed / 10;
             if (effects == null || effects == true) dl.css('transition', 'left ' + speed + 's ease-in-out');
             else dl.css('transition', 'none');
             var left = -100 * this.index;

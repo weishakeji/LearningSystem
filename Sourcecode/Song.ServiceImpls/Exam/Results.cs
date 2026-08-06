@@ -174,7 +174,7 @@ namespace Song.ServiceImpls.Exam
             if (isbase64) xn.AttrDecryptForBase64();
 
             //考试id，考试主题的uid，考试主题的标题
-            this.Examid = xn.GetAttr<int>("examid");
+            this.Examid = xn.GetAttr<long>("examid");
             this.ExamUid = xn.GetAttr("uid");
             this.ExamTheme = xn.GetAttr("theme");
 
