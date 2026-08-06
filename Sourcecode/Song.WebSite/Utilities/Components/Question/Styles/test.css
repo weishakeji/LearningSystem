@@ -31,25 +31,32 @@ div.quesArea dd card {
 	overflow: auto;
 	margin: 15px 15px;
 }
-div.quesArea dd card card-title{
-	word-wrap: break-word;      /* 允许长单词换行 */
-  overflow-wrap: break-word;  /* 标准属性，同上 */
+
+div.quesArea dd card card-title {
+	word-wrap: break-word;
+	/* 允许长单词换行 */
+	overflow-wrap: break-word;
+	/* 标准属性，同上 */
 }
-div.quesArea dd card card-title::before{
-	content: "" attr(index) " .";
+
+div.quesArea dd card card-title::before {
+	content: ""attr(index) " .";
 	display: inline-block;
 	transform: scale(.8);
 	color: #333;
 }
-div.quesArea dd card card-title::after{
-	content: "（" attr(number) "分）";
+
+div.quesArea dd card card-title::after {
+	content: "（"attr(number) "分）";
 	display: inline-block;
 	transform: scale(.8);
 	color: #999;
 }
-div.quesArea dd card card-title>*:first-child{
+
+div.quesArea dd card card-title>*:first-child {
 	display: inline-block;
 }
+
 div.quesArea dd img {
 	max-width: 100% !important;
 }
@@ -96,7 +103,9 @@ card[qid] .ans_area i {
 	font-size: 20px;
 	margin-right: 5px;
 }
-
+dd[qid] card .type1>div {
+	cursor: pointer;
+}
 .type1>div[ansid] i::before {
 	content: '\e85c';
 }
@@ -123,6 +132,10 @@ card[qid] .ans_area i {
 	content: '\a048';
 }
 
+dd[qid] card .type2>div {
+	cursor: pointer;
+}
+
 .type2>div i::before {
 	content: '\e603';
 }
@@ -135,6 +148,10 @@ card[qid] .ans_area i {
 card[qid] .type3 {
 	display: flex;
 
+}
+
+dd[qid] card .type3>div {
+	cursor: pointer;
 }
 
 card[qid] .type3>div:first-child {
@@ -183,6 +200,7 @@ card[qid] .type3>div[selected] i::before {
 	div.quesArea {
 		overflow: hidden;
 	}
+
 	table {
 		overflow: auto;
 		width: 100% !important;

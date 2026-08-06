@@ -132,7 +132,10 @@ section {
 	flex: 1;
 	margin-right: 15px;
 }
-
+.move_btn span[disabled] {
+	color: #999;
+	cursor: not-allowed;
+}
 
 /*一些面板*/
 

@@ -51,10 +51,10 @@
             </div>
             <div class="exam">
                 <div class="move_btn">
-                    <span @click="swiperight()">
+                    <span @click="swiperight()" :disabled="index<=0">
                         <icon>&#xe803</icon>上一题
                     </span>
-                    <span @click="swipeleft()">
+                    <span @click="swipeleft()" :disabled="index>=questotal-1">
                         <icon>&#xe802</icon>下一题
                     </span>
                 </div>

@@ -177,45 +177,23 @@
                     <template v-if="!loading.init && examstate.doing" mark="允许考试时，才输出">
                         <div loading="p4" v-if="questotal<=0"></div>
                         <div class="move_btn" v-else>
-                            <span @click="swipe({ 'direction': 4 })">
+                            <span @click="swiperight()" :disabled="swipeIndex<=0">
                                 <icon>&#xe803</icon>上一题
                             </span>
-                            <span @click="swipe({ 'direction': 2 })">
+                            <span @click="swipeleft()" :disabled="swipeIndex>=questotal-1">
                                 <icon>&#xe802</icon>下一题
                             </span>
                         </div>
+                        <quesarea ref='quesarea' remark="试题区域" :paperques="paperQues" :types="types" :account="account"
+                            :fontsize="1" @swipe="idx=>swipeIndex=idx"></quesarea>
 
-                        <section :style="'width:'+questotal*100+'%'" v-swiperight="swipe" v-swipeleft="swipe"
-                            remark="试题区域">
-                            <dl v-for="(group,i) in paperQues" v-show="!loading.ques"
-                                :style="'width:'+group.count*parseInt($dom('section').parent().width())+'px'">
-                                <question v-for="(q,n) in group.ques" :ques="q" :index="n" :groupindex="i"
-                                    :group="group" :account="account" :total="questotal" :types="types" :exam="exam">
-                                </question>
-                            </dl>
-                            <loading class="loading_paper" v-if="loading.ques">试题加载中...</loading>
-                        </section>
                     </template>
                 </div>
 
                 <div class="quesCard" remark="答题卡" v-if="!loading.init && examstate.doing && questotal>0">
-                    <div class="cardTit">
-                        <span icon="&#xe75e">答题卡</span>
-                        <span>完成<b>{{answertotal}}</b>道 / 共<b>{{questotal}}</b>道</span>
-                    </div>
-                    <div class="cardBox" v-if="examstate.doing">
-                        <loading v-if="!paperAnswer.ques || paperAnswer.ques.length<1"></loading>
-                        <dl v-for="(group,i) in paperAnswer.ques">
-                            <dt icon="&#xe6bd"> [ {{types[group.type - 1]}}题 ]
-                                <span>每题{{Math.floor(group.number/group.count*100)/100}}分/共{{group.number}}分</span>
-                            </dt>
-                            <dd v-for="(q,n) in group.q" @click="swipe(calcIndex(n,i))"
-                                :ans="q.ans!='' || !(q.file==null || q.file=='' )"
-                                :current="calcIndex(n,i)==swipeIndex">
-                                {{calcIndex(n,i)+1}}
-                            </dd>
-                        </dl>
-                    </div>
+                    <answercard ref='answercard' :questions="paperAnswer.ques" :types="types" :index="swipeIndex"
+                        @click="shiftques">
+                    </answercard>
                     <footer v-show="examstate.record">
                         <div icon="&#xe81a" @click="showTime=true"> {{surplustime|surplus}} </div>
                         <div icon="&#xe6cf" @click="submitManual"> 交&nbsp;卷</div>

@@ -164,18 +164,6 @@ footer div#btnSubmit::before {
 	margin-right: 15px;
 }
 
-attended {
-	display: block;
-	height: calc(100% - 88px);
-	background-color: #f2f2f2;
-	position: fixed;
-	width: 100%;
-	top: 44px;
-	left: 0px;
-	z-index: 4;
-	position: relative;
-	transition: left 0.5s;
-}
 
 /*试题区*/
 

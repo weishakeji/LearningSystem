@@ -10,8 +10,11 @@ Vue.component('quesarea', {
         return {
             list: [],         //所有试题，与ques不同，它是一维数组，方便后续计算            
             currid: '',         //当前试题id      
-            currgroup: null,    //当前试题组
-            index: 0,            //当前试题的全局索引  
+            currgroup: {},    //当前试题组
+            index: 0,            //当前试题的全局索引    
+
+            isinit: false,      //是否初始化完成            
+            currques: {},          //当前试题
 
             hoverState: false,      // 鼠标悬停状态
         }
@@ -24,6 +27,7 @@ Vue.component('quesarea', {
                     for (let i = 0; i < this.paperques.length; i++)
                         this.$set(this.paperques[i], 'index', i);
                     this.setindex(0, false);
+                    this.isinit = true;
                 }
             },
             immediate: true
@@ -38,6 +42,7 @@ Vue.component('quesarea', {
     computed: {
         //试题总数
         questotal: t => $api.isnull(t.paperques) ? 0 : t.paperques.reduce((total, item) => total + (item.count || 0), 0),
+
     },
     mounted: function () {
         window.addEventListener('keydown', this.handleKeyDown)
@@ -134,8 +139,8 @@ Vue.component('quesarea', {
         },
     },
     template: `<div :class="{'quesArea':true}" remark="试题区域">
-        <div v-if="questotal<1" class="noques"><icon>&#xe849</icon>没有试题</div>
-        <template v-else>
+        <div v-if="isinit && questotal<1" class="noques"><icon>&#xe849</icon>没有试题</div>  
+        <template v-else-if="isinit">
             <info no-font-size v-if="currgroup">
                 <span>
                     {{showtype()}} 
@@ -145,11 +150,11 @@ Vue.component('quesarea', {
                     {{index+1 }} / {{questotal}}      
                 </span> 
             </info>   
-            <dl :style="'width:'+(questotal<=1 ? 1 : questotal)*100+'%;'" 
+            <dl :style="'width:'+(questotal<=1 ? 1 : questotal)*100+'%'" 
              @mouseenter="hoverState = true" @mouseleave="hoverState = false">
                 <template v-for="(group,gindex) in paperques"> 
                     <question ref="question" v-for="(q,i) in group.ques" :ques="q" :groups="paperques" :groupindex="gindex" :quesindex="i" :currindex="index" 
-                        :fontsize="fontsize" v-swipe="swipe" @answer="answer">
+                        :fontsize="fontsize" v-swipe="swipe" @answer="answer"  @current="q=>currques=q">
                     </question>   
                 </template>                       
             </dl>

@@ -97,7 +97,9 @@ div.quesArea dd td {
 	font-size: 25px;
 	margin-right: 10px;
 }
-
+dd[qid] card .type1>div {
+	cursor: pointer;
+}
 .type1>div[ansid] i::before {
 	content: '\e85c';
 }
@@ -117,6 +119,9 @@ div.quesArea dd td {
 
 .ans_area>div[correct]::before {
 	content: '\a048';
+}
+dd[qid] card .type2>div {
+	cursor: pointer;
 }
 
 .type2>div i::before {
@@ -138,6 +143,9 @@ dd[qid] card .type3>div:first-child {
 
 dd[qid] card .type3 i {
 	font-size: 18px;
+}
+dd[qid] card .type3>div{
+	cursor: pointer;
 }
 
 dd[qid] card .type3>div i::before {
