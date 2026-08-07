@@ -9,6 +9,7 @@ Vue.component('answercard', {
         'questions': {
             handler(nv, ov) {
                 if (!(this.types && this.types.length > 0)) return;
+                if (!(this.questions && this.questions.length > 0)) return;
                 //生成试题的序号
                 for (var i = 0; i < this.questions.length; i++) {
                     var gindex = i - 1;

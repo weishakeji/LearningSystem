@@ -9,6 +9,7 @@ Vue.component('answercard', {
         'questions': {
             handler(nv, ov) {
                 if (!(this.types && this.types.length > 0)) return;
+                if (!(this.questions && this.questions.length > 0)) return;
                 //生成试题的序号
                 for (var i = 0; i < this.questions.length; i++) {
                     var gindex = i - 1;
@@ -51,8 +52,8 @@ Vue.component('answercard', {
     },
     mounted: function () { },
     methods: {
-         //显示题型名称
-        showtype: function (group,idx) {          
+        //显示题型名称
+        showtype: function (group, idx) {
             if (group == null) return '';
             const map = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
             let index = map[idx] + '、';
