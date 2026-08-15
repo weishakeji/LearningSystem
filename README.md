@@ -37,42 +37,42 @@
 ![](https://img.shields.io/badge/demo-%E6%9B%B4%E5%A4%9A%E6%BC%94%E7%A4%BA-red)
  * 融课云学院： [ gxmk.weisha100.net]( http://gxmk.weisha100.net)
   <br/>手机端下载 [ 安卓APP](http://fir.weishakeji.net/u42b )   [ 苹果APP](http://gxmk.weisha100.net/app.html) 
-  <br/>微信小程序 <img src="https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/weixinMiniApp.jpg" width="150px" height="150px"/>
+  <br/>微信小程序 <img src="https://github.com/weishakeji/LearningSystem/blob/master/Document/Images/weixinMiniApp.jpg" width="150px" height="150px"/>
  * 企培云学院-打造学习型组织 ： [ jkdz.weisha100.net ]( http://jkdz.weisha100.net) 
  * 技能培训鉴定平台-人人持证上岗 ： [ jnpx.weisha100.net ]( http://jnpx.weisha100.net) 
 
 ### Web首页
-![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/webhome.jpg)
+![image](https://github.com/weishakeji/LearningSystem/blob/master/Document/Images/webhome.jpg)
 
 ### 手机端
-![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/mobi_home.jpg)
-![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/%E5%AD%A6%E5%91%98%E4%B8%AD%E5%BF%83-mobi.png)
+![image](https://github.com/weishakeji/LearningSystem/blob/master/Document/Images/mobi_home.jpg)
+![image](https://github.com/weishakeji/LearningSystem/blob/master/Document/Images/%E5%AD%A6%E5%91%98%E4%B8%AD%E5%BF%83-mobi.png)
 ### 课程学习（手机端）
-![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/手机端课程页.png)
-![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/%E6%89%8B%E6%9C%BA%E7%AB%AF-%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0.png)
+![image](https://github.com/weishakeji/LearningSystem/blob/master/Document/Images/手机端课程页.png)
+![image](https://github.com/weishakeji/LearningSystem/blob/master/Document/Images/%E6%89%8B%E6%9C%BA%E7%AB%AF-%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0.png)
 ### 学习与考试（手机端）
-![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/%E8%AF%95%E9%A2%98%E7%BB%83%E4%B9%A0(mobi).png)
-![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/%E6%89%8B%E6%9C%BA%E7%AB%AF-%E8%80%83%E8%AF%95.png)
+![image](https://github.com/weishakeji/LearningSystem/blob/master/Document/Images/%E8%AF%95%E9%A2%98%E7%BB%83%E4%B9%A0(mobi).png)
+![image](https://github.com/weishakeji/LearningSystem/blob/master/Document/Images/%E6%89%8B%E6%9C%BA%E7%AB%AF-%E8%80%83%E8%AF%95.png)
 ### 其它功能
-![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/资金明细.png)
-![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/学习卡.png)
+![image](https://github.com/weishakeji/LearningSystem/blob/master/Document/Images/资金明细.png)
+![image](https://github.com/weishakeji/LearningSystem/blob/master/Document/Images/学习卡.png)
 ### 学员中心（web端）
-![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/%E5%AD%A6%E5%91%98%E4%B8%AD%E5%BF%83-web.png)
+![image](https://github.com/weishakeji/LearningSystem/blob/master/Document/Images/%E5%AD%A6%E5%91%98%E4%B8%AD%E5%BF%83-web.png)
 ### 后台管理
-![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/%E6%9C%BA%E6%9E%84%E7%AE%A1%E7%90%8601.png)
-![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/%E6%9C%BA%E6%9E%84%E7%AE%A1%E7%90%8605.png)
-![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/%E6%9C%BA%E6%9E%84%E7%AE%A1%E7%90%8606.jpg)
-![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/%E5%AD%A6%E5%91%98%E4%BD%8D%E7%BD%AE.png)
-![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/%E6%9C%BA%E6%9E%84%E7%AE%A1%E7%90%8603.png)
-![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/%E6%9C%BA%E6%9E%84%E7%AE%A1%E7%90%8607.png)
-![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/help1.png)
-![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/help2.png)
+![image](https://github.com/weishakeji/LearningSystem/blob/master/Document/Images/%E6%9C%BA%E6%9E%84%E7%AE%A1%E7%90%8601.png)
+![image](https://github.com/weishakeji/LearningSystem/blob/master/Document/Images/%E6%9C%BA%E6%9E%84%E7%AE%A1%E7%90%8605.png)
+![image](https://github.com/weishakeji/LearningSystem/blob/master/Document/Images/%E6%9C%BA%E6%9E%84%E7%AE%A1%E7%90%8606.jpg)
+![image](https://github.com/weishakeji/LearningSystem/blob/master/Document/Images/%E5%AD%A6%E5%91%98%E4%BD%8D%E7%BD%AE.png)
+![image](https://github.com/weishakeji/LearningSystem/blob/master/Document/Images/%E6%9C%BA%E6%9E%84%E7%AE%A1%E7%90%8603.png)
+![image](https://github.com/weishakeji/LearningSystem/blob/master/Document/Images/%E6%9C%BA%E6%9E%84%E7%AE%A1%E7%90%8607.png)
+![image](https://github.com/weishakeji/LearningSystem/blob/master/Document/Images/help1.png)
+![image](https://github.com/weishakeji/LearningSystem/blob/master/Document/Images/help2.png)
 
 
 
 
 ## 功能清单
-![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/功能清单.jpg)
+![image](https://github.com/weishakeji/LearningSystem/blob/master/Document/Images/功能清单.jpg)
 
 ## 产品特点
 * 可私有化部署，对接支付宝支付、微信支付，收益全掌控；
