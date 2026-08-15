@@ -74,16 +74,7 @@
 ## 功能清单
 ![image](https://github.com/weishakeji/LearningSystem/blob/master/Document/Images/功能清单.jpg)
 
-## 产品特点
-* 可私有化部署，对接支付宝支付、微信支付，收益全掌控；
-* 多终端支持，电脑、手机、微信、APP、微信小程序，全都有；
-* 物美价廉，永久授权，提供升级包，售后周全；<a href="https://shop35387540.taobao.com/" target="_blank" size=12> [ 购买商业授权 ] </a>
 
-
-## 开源地址
-* Gitee ： <a href="https://gitee.com/weishakeji/LearningSystem" target="_blank">https://gitee.com/weishakeji/LearningSystem</a> 
-* GitHub ：<a href="https://github.com/weishakeji/LearningSystem" target="_blank">https://github.com/weishakeji/LearningSystem</a> 
-* GitCode ：<a href="https://gitcode.com/songleiming/LearningSystem" target="_blank">https://gitcode.com/songleiming/LearningSystem</a> 
 
 
 
