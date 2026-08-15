@@ -9,7 +9,7 @@
 * 适用：大学、中职中专、培训机构、企事业单位
 * 行业：企业内训、成人教育、技能培训、继续教育
 
-![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/AI.png)
+![image](https://github.com/weishakeji/LearningSystem/blob/master/Document/Images/AI.png)
 
 
 ![](https://img.shields.io/badge/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80-C%23%2Bvue-red)
