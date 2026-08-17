@@ -126,7 +126,7 @@ Vue.component('quesarea', {
                     <i>{{index+1}}/{{list.length}}</i>
                     [ {{types[currques.Qus_Type - 1]}}题 ] 
                 </span>
-                <quesbuttons :question="currques" :account="account"></quesbuttons>                      
+                <quesbuttons :question="currques" :account="account" :index="index"></quesbuttons> 
             </info>   
             <dl :style="'width:'+(list.length<=1 ? 1 : list.length)*100+'%'">             
                 <question ref="questions"  v-for="(qid,i) in list" :qid="qid" :state="state.getitem(qid,i)" :index="i" :curindex="index"

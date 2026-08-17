@@ -1,7 +1,9 @@
 ﻿//试题右侧的按钮组
+//事件：
+//collect:收藏状态改变事件，参数为当前试题的收藏状态
 Vue.component('quesbuttons', {
     //question:当前显示的试题，即滑动到这个试题
-    props: ['question', 'account'],
+    props: ['question', 'account', 'index'],
     data: function () {
         return {
             //试题中的按钮，当used为true时，启用icon2图标
@@ -88,6 +90,7 @@ Vue.component('quesbuttons', {
                 if (req.data.success) {
                     th.$toast({ position: 'bottom', message: (btn.used ? '删除收藏成功' : '试题收藏成功') });
                     btn.used = !btn.used;
+                    th.$emit('collect', btn.used, th.index, th.question);
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
@@ -96,7 +99,7 @@ Vue.component('quesbuttons', {
         },
         //更改笔记内容
         noteUpdate: function (note) {
-            if ($api.isnull(this.account)) return;
+            if ($api.isnull(this.account) || $api.isnull(this.question)) return;
             var th = this;
             th.loading = true;
             th.isShowNote = false;
