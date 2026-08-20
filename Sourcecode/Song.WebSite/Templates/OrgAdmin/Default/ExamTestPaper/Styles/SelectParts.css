@@ -13,6 +13,7 @@
 }
 .el-tree-node__content{
     display: flex;
+    height:auto !important;
 }
 .custom-tree-node{
     display: flex;
@@ -33,4 +34,7 @@
 .help *:not(help){
     color: #333;
     line-height: 25px;
+}
+.el-tree-node{
+    white-space:wrap !important;  
 }

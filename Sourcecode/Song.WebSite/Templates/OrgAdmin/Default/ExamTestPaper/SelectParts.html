@@ -48,7 +48,7 @@
                 <div class="custom-tree-node" slot-scope="{ node, data }">
                     <span class="tree-node">
                         <span class="serial">{{data.serial}}</span> &nbsp;
-                        <span class="large" v-html="showsearch(data.Qp_Name,filterText)"></span>
+                        <span class="large" v-html="showsearch(data.Qp_Name,filterText)" :title="data.Qp_Name"></span>
                         <span class="sbjcount" v-if="data.calcChild>0">({{data.calcChild}})</span>
                     </span>
                     <quescount :id="data.Qp_ID"></quescount>                    

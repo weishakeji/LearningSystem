@@ -33,3 +33,11 @@
 .ques-query .el-button-group .el-button{
     border: none !important;
 }
+/*节点样式*/
+.el-tree-node__content{
+    display: flex;
+    height:auto !important;
+}
+.el-tree-node{
+    white-space:wrap !important;  
+}
