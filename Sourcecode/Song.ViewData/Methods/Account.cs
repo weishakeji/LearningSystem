@@ -110,6 +110,11 @@ namespace Song.ViewData.Methods
         [HttpPost]
         public Song.Entities.Accounts Login(string acc, string pw, string vcode, string vmd5)
         {
+            if (string.IsNullOrWhiteSpace(acc) || string.IsNullOrWhiteSpace(pw))
+                throw VExcept.Verify("账号或密码不能为空", 104);
+            if (string.IsNullOrWhiteSpace(vcode) || string.IsNullOrWhiteSpace(vcode))
+                throw VExcept.Verify("验证码错误", 101);
+            //
             string val = ViewData.Helper.ConvertToAnyValue.Create(acc + vcode).MD5;
             if (!val.Equals(vmd5, StringComparison.CurrentCultureIgnoreCase))
                 throw VExcept.Verify("验证码错误", 101);

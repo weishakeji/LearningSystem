@@ -39,6 +39,11 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public Song.Entities.EmpAccount Login(string acc, string pw, string vcode, string vmd5)
         {
+            if (string.IsNullOrWhiteSpace(acc) || string.IsNullOrWhiteSpace(pw))
+                throw VExcept.Verify("账号或密码不能为空", 104);
+            if (string.IsNullOrWhiteSpace(vcode) || string.IsNullOrWhiteSpace(vcode))
+                throw VExcept.Verify("验证码错误", 101);
+
             string val = ViewData.Helper.ConvertToAnyValue.Create(acc + vcode).MD5;
             if (!val.Equals(vmd5, StringComparison.CurrentCultureIgnoreCase))
                 throw VExcept.Verify("验证码错误", 101);
@@ -485,6 +490,7 @@ namespace Song.ViewData.Methods
         /// <param name="search">按名称索引</param>
         /// <returns></returns>
         [HttpGet]
+        [Admin]
         public List<EmpAccount> Search(string search)
         {
             List<EmpAccount> eas = Business.Do<IEmployee>().GetAll(-1, -1, true, search);

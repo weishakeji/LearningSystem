@@ -49,6 +49,12 @@ namespace Song.WebSite
             {
                 Log.Error(this.GetType().ToString(), ex);
             }
+            // 移除 WebForm 视图引擎
+            var webFormEngine = ViewEngines.Engines.OfType<WebFormViewEngine>().FirstOrDefault();
+            if (webFormEngine != null)
+            {
+                ViewEngines.Engines.Remove(webFormEngine);
+            }
             ////更新统计数据,延迟执行
             //WeiSha.Core.Business.Do<IOrganization>().UpdateStatisticalData_Delay(10);
             ////创建定时任务
