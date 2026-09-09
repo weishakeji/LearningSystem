@@ -9,7 +9,7 @@
 * 适用：大学、中职中专、培训机构、企事业单位
 * 行业：企业内训、成人教育、技能培训、继续教育
 
-![image](https://github.com/weishakeji/LearningSystem/blob/master/Document/Images/AI.png)
+![image](https://github.com/weishakeji/LearningSystem/blob/master/Document/Images/微厦科技（开发交流）.jpg)
 
 
 ![](https://img.shields.io/badge/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80-C%23%2Bvue-red)
@@ -17,6 +17,8 @@
  * 后端C#；基于.Net 4.6.2 <a href="https://download.visualstudio.microsoft.com/download/pr/8e396c75-4d0d-41d3-aea8-848babc2736a/80b431456d8866ebe053eb8b81a168b3/ndp462-kb3151800-x86-x64-allos-enu.exe" target="_blank" size=12>[下载]</a>。数据库采用Postgresql 或 Sqlite
  * web端采用ElementUI，手机端采用VantUI，管理后台采用WebdeskUI
  * 开发工具 Microsoft Visual Studio Community 2019、 Visual Studio Code
+
+![image](https://github.com/weishakeji/LearningSystem/blob/master/Document/Images/AI.png)
 
 ## 商务合作 - 代理销售，定制开发
 ##### [![](https://img.shields.io/badge/down-%E5%AE%89%E8%A3%85%E6%96%87%E4%BB%B6-blue)](https://pan.baidu.com/s/1koQyvnb0YEutlQomjAwIjg) [![](https://img.shields.io/badge/doc-%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3-yellow)](https://gitee.com/weishakeji/LearningSystem/tree/master/Document)  [![](https://img.shields.io/badge/QQ-19303340-green)](tencent://AddContact/fromId=45&fromSubId=1&subcmd=all&uin=19303340)
