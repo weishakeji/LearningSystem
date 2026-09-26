@@ -244,7 +244,7 @@
             callback_modify: function (id) {
                 //console.error('callback_modify 课程id:'+id);
                 //打开编辑界面
-                if (window.top.$pagebox && window.top.$tabs && this.workplace() == 'orgadmin') {
+                if (window.top.$pagebox && window.top.$tabs && this.workplace().indexOf('admin') > -1)  {
                     window.top.$pagebox.source.tab(window.name, 'vapp.btnmodify("' + id + '",null,{"full":true})', true);
                 } else {
                     //如果处在学员或教师管理界面
@@ -263,7 +263,7 @@
             //操作成功
             operateSuccess: function () {
                 //课程列表重新加载
-                if (window.top.$pagebox && window.top.$tabs && this.workplace() == 'orgadmin') {
+                if (window.top.$pagebox && window.top.$tabs && this.workplace().indexOf('admin') > -1) {
                     window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', false);
                 } else {
                     //如果处在学员或教师管理界面

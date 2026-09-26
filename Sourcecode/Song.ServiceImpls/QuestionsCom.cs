@@ -121,7 +121,8 @@ namespace Song.ServiceImpls
             }
             else
             {
-                old.Copy<Song.Entities.Questions>(entity, "Qus_ID");
+                //如果已经存在，则更新
+                old.Copy<Song.Entities.Questions>(entity, "Qus_ID,Qus_Items");
                 Gateway.Default.Save<Questions>(old);
             }
             //更新章节试题数
@@ -330,25 +331,14 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 试题是否已经存在
         /// </summary>
-        /// <param name="orgid"></param>
-        /// <param name="identify"></param>
-        /// <returns></returns>
-        public Questions QuesIsExist(int orgid, long identify)
-        {
-            WhereClip wc = new WhereClip();
-            if (orgid > 0) wc.And(Questions._.Org_ID == orgid);
-            Questions qus = Gateway.Default.From<Questions>().Where(wc && Questions._.Qus_ID == identify).ToFirst<Questions>();
-            return QuesIsExist(qus);
-        }
-        /// <summary>
-        /// 试题是否已经存在
-        /// </summary>
         /// <param name="qus"></param>
         /// <returns></returns>
         public Questions QuesIsExist(Questions qus)
         {
             WhereClip wc = Questions._.Org_ID == qus.Org_ID && Questions._.Qus_Purpose == qus.Qus_Purpose;
             wc.And(Questions._.Qus_ID != qus.Qus_ID);
+            if (qus.Sbj_ID > 0) wc &= Questions._.Sbj_ID == qus.Sbj_ID;
+            if (qus.Cou_ID > 0) wc &= Questions._.Cou_ID == qus.Cou_ID;
 
             //单选题和多选题
             if (qus.Qus_Type == 1 || qus.Qus_Type == 2 || qus.Qus_Type == 5)
@@ -1552,7 +1542,7 @@ namespace Song.ServiceImpls
             foreach (string s in ans.Split(','))
             {
                 if (string.IsNullOrWhiteSpace(s) || s.Trim() == "") continue;
-                if (Convert.ToInt64(s) == ans1[0].Ans_ID) return true;
+                if (s.Convert<long>() == ans1[0].Ans_ID) return true;
             }
             return false;
         }
@@ -1576,7 +1566,7 @@ namespace Song.ServiceImpls
                 if (string.IsNullOrWhiteSpace(s) || s.Trim() == "") continue;
                 foreach (QuesAnswer qa in ans2)
                 {
-                    if (Convert.ToInt64(s) == qa.Ans_ID)
+                    if (s.Convert<long>() == qa.Ans_ID)
                     {
                         tm--;
                         break;
@@ -1851,7 +1841,7 @@ namespace Song.ServiceImpls
                 .Select(Questions._.Qus_ID).ToDataSet();
             if (ds == null || ds.Tables[0].Rows.Count <= 0) return 0;
             Dictionary<long, bool> qusids = new Dictionary<long, bool>();
-            foreach (DataRow dr in ds.Tables[0].Rows) qusids.Add(Convert.ToInt64(dr["Qus_ID"]), false);
+            foreach (DataRow dr in ds.Tables[0].Rows) qusids.Add(dr["Qus_ID"].ToString().Convert<long>(), false);
            
             //学员所练习课程试题的记录
             List<LogForStudentExercise> logs = Gateway.Default.From<LogForStudentExercise>().Where(LogForStudentExercise._.Ac_ID == acid && LogForStudentExercise._.Cou_ID == couid).ToList<LogForStudentExercise>();
@@ -1866,7 +1856,7 @@ namespace Song.ServiceImpls
                 //遍历items
                 foreach (JToken item in items.Children())
                 {
-                    long qid = Convert.ToInt64(item["qid"].Value<string>());
+                    long qid = item["qid"].Value<string>().Convert<long>();
                     if (qusids.ContainsKey(qid) && !qusids[qid])
                     {
                         qusids[qid] = item["correct"].Value<string>() == "succ";     
