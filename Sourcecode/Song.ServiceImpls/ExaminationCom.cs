@@ -945,7 +945,7 @@ namespace Song.ServiceImpls
             for (int i = 0; i < s.Length; i++)
             {
                 if (s[i].Trim() == "") continue;
-                long id = Convert.ToInt64(s[i]);
+                long id = s[i].Convert<long>();
                 Song.Entities.Questions q = Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == id).ToFirst<Questions>();
                 if (q == null) continue;
                 quesList.Add(q);
@@ -955,10 +955,8 @@ namespace Song.ServiceImpls
             {
                 for (int i = 0; i < nodeList.Count; i++)
                 {
-                    float num = 0;
-                    float.TryParse(nodeList[i].Attributes["num"].Value, out num);
-                    long id = 0;
-                    long.TryParse(nodeList[i].Attributes["id"].Value,out id);                
+                    float num = nodeList[i].Attributes["num"].Value.Convert<float>();
+                    long id = nodeList[i].Attributes["id"].Value.Convert<long>();
                     if (q.Qus_ID == id)
                     {
                         q.Qus_Number = num;
@@ -983,17 +981,17 @@ namespace Song.ServiceImpls
             resXml.XmlResolver = null; 
             resXml.LoadXml(resultXML, false);
             XmlNode root = resXml.LastChild;
-            long sbjid = 0;
-            long.TryParse(root.Attributes["sbjid"] != null ? root.Attributes["sbjid"].Value : "0", out sbjid);
+
+            long sbjid = root.GetAttr<long>("sbjid");
             var info = new
             {
-                examid = Convert.ToInt64(root.Attributes["examid"].Value == null ? "0" : root.Attributes["examid"].Value),
-                tpid = Convert.ToInt64(root.Attributes["tpid"].Value),
-                stid = Convert.ToInt32(root.Attributes["stid"].Value),
-                stname = root.Attributes["stname"].Value,
+                examid = root.GetAttr<long>("examid"),
+                tpid = root.GetAttr<long>("tpid"),
+                stid = root.GetAttr<int>("stid"),
+                stname = root.GetAttr("stname"),
                 sbjid = sbjid,
-                sbjname = root.Attributes["sbjname"] != null ? root.Attributes["sbjname"].Value : "",
-                patter = Convert.ToInt32(root.Attributes["patter"].Value)
+                sbjname = root.GetAttr("sbjname"),
+                patter = root.GetAttr<int>("patter")
             };
             
             #region 计算成绩
@@ -1003,7 +1001,7 @@ namespace Song.ServiceImpls
             XmlNodeList quesNodes = root.ChildNodes;
             for (int i = 0; i < quesNodes.Count; i++)
             {
-                int type = Convert.ToInt32(quesNodes[i].Attributes["type"].Value);
+                int type = quesNodes[i].GetAttr<int>("type");
                 //小题的节点
                 XmlNodeList qnode = quesNodes[i].ChildNodes;
                 ((XmlElement)quesNodes[i]).SetAttribute("count",qnode.Count.ToString());
@@ -1012,8 +1010,8 @@ namespace Song.ServiceImpls
                     //当前试题的信息，id，分数，答案
                     var ques = new
                     {
-                        id = Convert.ToInt64(qnode[j].Attributes["id"].Value),
-                        num = Convert.ToSingle(qnode[j].Attributes["num"].Value),
+                        id = qnode[j].GetAttr<long>("id"),
+                        num = qnode[j].GetAttr<float>("num"),
                         ans = type == 1 || type == 2 || type == 3 ? qnode[j].Attributes["ans"].Value : qnode[j].InnerText
                     };
                     //是否正确

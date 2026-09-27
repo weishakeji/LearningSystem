@@ -158,7 +158,7 @@ Vue.component('question', {
                     var ishav = false;
                     for (let i = 0; i < answer.length; i++) {
                         if (answer[i] == '') continue;
-                        if (answer[i] == this.ques.Qus_Items[j].Ans_ID) {
+                        if (answer[i].trim() == this.ques.Qus_Items[j].Ans_ID) {
                             ansstr += this.toletter(j) + "、";
                         }
                     }

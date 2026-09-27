@@ -118,13 +118,6 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 试题是否已经存在
         /// </summary>
-        /// <param name="orgid"></param>
-        /// <param name="identify"></param>
-        /// <returns></returns>
-        Questions QuesIsExist(int orgid, long identify);
-        /// <summary>
-        /// 试题是否已经存在
-        /// </summary>
         /// <param name="qus"></param>
         /// <returns></returns>
         Questions QuesIsExist(Questions qus);

@@ -27,6 +27,33 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == id).ToFirst<Questions>();
         }
         /// <summary>
+        /// 试题是否已经存在
+        /// </summary>
+        /// <param name="qus"></param>
+        /// <returns></returns>
+        public Questions QuesIsExist(Questions qus)
+        {
+            WhereClip wc = Questions._.Org_ID == qus.Org_ID && Questions._.Qus_Purpose == qus.Qus_Purpose;
+            wc.And(Questions._.Qus_ID != qus.Qus_ID);           
+
+            //单选题和多选题
+            if (qus.Qus_Type == 1 || qus.Qus_Type == 2 || qus.Qus_Type == 5)
+            {
+                List<Questions> list = Gateway.Default.From<Questions>().Where(wc && Questions._.Qus_Title == qus.Qus_Title).ToList<Questions>();
+                if (list == null || list.Count < 1) return null;
+                //判断选项是否一致
+                List<QuesAnswer> answerlist = Business.Do<IQuestions>().QuestionsAnswer(qus, null);
+                string answer = string.Join("", answerlist.Select(a => a.Ans_Context));
+                foreach (Questions tm in list)
+                {
+                    List<QuesAnswer> tmlist = Business.Do<IQuestions>().QuestionsAnswer(tm, null);
+                    if (string.Join("", tmlist.Select(a => a.Ans_Context)) == answer) return tm;
+                }
+            }
+            else return Gateway.Default.From<Questions>().Where(wc && Questions._.Qus_Title == qus.Qus_Title).ToFirst<Questions>();
+            return null;
+        }
+        /// <summary>
         /// 可用的试题，用于出卷时抽题，所谓可用，即存在，use为true,deleted为false,没有错误
         /// </summary>
         /// <param name="id"></param>
@@ -140,14 +167,14 @@ namespace Song.ServiceImpls
             //判断是否存在
             Questions old = null;
             if (entity.Qus_ID > 0) old = Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == entity.Qus_ID).ToFirst<Questions>();
-            if (old == null) old = Business.Do<IQuestions>().QuesIsExist(entity); 
+            if (old == null) old = this.QuesIsExist(entity); 
             if (old == null)
             {
                 this.QuesAdd(entity, parts.ToArray(), tags.ToArray(), knls.ToArray(), false);
             }
             else
             {
-                old.Copy<Song.Entities.Questions>(entity, "Qus_ID");
+                old.Copy<Song.Entities.Questions>(entity, "Qus_ID,Qus_Items");
                 this.QuesSave(old, parts.ToArray(), tags.ToArray(), knls.ToArray(),false);
             }          
         }
