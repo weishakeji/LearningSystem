@@ -4,7 +4,7 @@
         data: {
             id: $api.querystring('id'),
             entity: {},         //当前实体
-            organ: {},
+            org: {},
             admin: {},       //当前管理员
             teacher: {},     //当前教师
 
@@ -22,13 +22,12 @@
         mounted: function () {
             var th = this;
             this.loading_obj = this.$fulloading();
+            this.org = window.org;
             $api.bat(
-                $api.get('Organization/Current'),
                 $api.get('Admin/General'),
                 $api.get('Teacher/Current')
-            ).then(([org, admin, teach]) => {
-                //获取结果
-                th.organ = org.data.result;
+            ).then(([admin, teach]) => {
+                //获取结果             
                 th.admin = admin.data.result;
                 th.teacher = teach.data.result;
                 //th.getCourse();

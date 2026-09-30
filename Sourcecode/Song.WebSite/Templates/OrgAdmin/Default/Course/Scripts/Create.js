@@ -42,19 +42,15 @@
         mounted: function () {
             var th = this;
             th.loading_init = true;
+            th.organ = window.org;
+            th.config = window.config;
+            th.form.orgid = th.organ.Org_ID;
             $api.bat(
-                $api.get('Organization/Current'),
                 $api.get('Teacher/ForID', { 'id': th.thid })
-            ).then(([organ, teach]) => {
-                //获取结果             
-                th.organ = organ.data.result;
-                //机构配置信息
-                th.config = $api.organ(th.organ).config;
+            ).then(([teach]) => {
                 th.getTreeData();
-                th.form.orgid = th.organ.Org_ID;
                 th.teacher = teach.data.result;
-                if (th.teacher)
-                    th.form.thid = th.teacher.Th_ID;
+                if (th.teacher) th.form.thid = th.teacher.Th_ID;
             }).catch(err => console.error(err))
                 .finally(() => th.loading_init = false);
         },
@@ -244,7 +240,7 @@
             callback_modify: function (id) {
                 //console.error('callback_modify 课程id:'+id);
                 //打开编辑界面
-                if (window.top.$pagebox && window.top.$tabs && this.workplace().indexOf('admin') > -1)  {
+                if (window.top.$pagebox && window.top.$tabs && this.workplace().indexOf('admin') > -1) {
                     window.top.$pagebox.source.tab(window.name, 'vapp.btnmodify("' + id + '",null,{"full":true})', true);
                 } else {
                     //如果处在学员或教师管理界面

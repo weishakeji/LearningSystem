@@ -96,7 +96,7 @@
             //关闭自身窗体，并刷新父窗体列表
             close_fresh: function (func) {
                 //如果有选项卡组件，就处理选项卡页面中的事件
-                if (window.top.$tabs && this.workplace() == 'orgadmin') {
+                if (window.top.$tabs && this.workplace().indexOf('admin') > -1) {
                     window.top.$pagebox.source.tab(window.name, func, false);
                 } else {
                     //如果处在学员或教师管理界面
