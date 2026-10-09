@@ -68,6 +68,8 @@ namespace Song.ViewData.Attri
             else
             {
                 this._extensions = this.Extension.Split(',');
+                for (int i = 0; i < _extensions.Length; i++)
+                    _extensions[i] = _extensions[i].Replace(".", "").Trim().ToLower();
             }
             if (this.MaxSize <= 0) this.MaxSize = item.MaxSize;
             if (!this.Required) this.Required = item.Required;
@@ -118,8 +120,8 @@ namespace Song.ViewData.Attri
                 bool prohibit = UploadAttribute._prohibit.Any(s => ext.Equals(s.Replace(".", ""), StringComparison.OrdinalIgnoreCase));
                 if (prohibit) throw new Exception(string.Format("文件：{0}，禁止上传", file.FileName));
                 //验证允许的扩展名
-                if (string.IsNullOrWhiteSpace(attr.Extension) || attr._extensions.Length < 1) continue;                
-                bool permitted = attr._extensions.Any(s => ext.Equals(s.Replace(".", ""), StringComparison.OrdinalIgnoreCase));
+                if (string.IsNullOrWhiteSpace(attr.Extension) || attr._extensions?.Length < 1) continue;
+                bool permitted = attr._extensions == null ? true : attr._extensions.Any(s => ext.Equals(s, StringComparison.OrdinalIgnoreCase));
                 if (!permitted) throw new Exception(string.Format("仅限上传“{0}”文件", attr.Extension));
             }
             return true;
