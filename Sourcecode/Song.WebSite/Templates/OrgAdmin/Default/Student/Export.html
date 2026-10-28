@@ -9,41 +9,92 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <div class="toolsbar">
-            <div>
-                <el-button type="primary" plain @click="drawer_selected=true" :disabled="loading">
-                    <icon>&#xe78b</icon>选中的学员组<span class="count">({{checkedSorts.length}})</span>
-                </el-button>
-                <el-button type="primary" plain @click="filepanel=true" :disabled="loading">
-                    <icon>&#xe85e</icon>已经生成的导出<span class="count">({{files.length}})</span>
-                </el-button>
+        <div class="panel">
+            <el-tabs type="border-card" v-model="activeName">
+                <el-tab-pane name="all">
+                    <span slot="label">
+                        <icon medium>&#xe67d</icon> 全部导出
+                    </span>
+                </el-tab-pane>
+                <el-tab-pane name="sort">
+                    <span slot="label">
+                        <icon medium>&#xe812</icon> 按学员组导出<span class="count"
+                            v-if="checkedSorts.length>0">({{checkedSorts.length}})</span>
+                    </span>
+                </el-tab-pane>
+                <el-tab-pane name="files">
+                    <span slot="label">
+                        <icon>&#xe6a7</icon> 已经导出的文件<span class="count">({{files.length}})</span>
+                    </span>
+                </el-tab-pane>
+            </el-tabs>
+
+            <div v-show="activeName=='all'" remark="全部导出" tab="all">
+                <el-radio-group v-model="exportform.type" class="vertical-group">
+                    <el-radio :label="1">所有学员</el-radio>
+                    <el-radio :label="3">所有已经分组的学员（按学员组导出）</el-radio>
+                    <el-radio :label="4">所有未分组的学员</el-radio>
+                </el-radio-group>
             </div>
-            <div class="ctrl">
-                <el-button-group>
-                    <el-button type="primary" plain @click="selectAll(true)">全选</el-button>
-                    <el-button type="primary" plain @click="selectAll(false)">取消</el-button>
-                    <el-button type="primary" plain @click="selectReverse()">反选</el-button>
-                </el-button-group>
-                <el-input placeholder="搜索" size="small" style="width: 100px;" clearable v-model="form.search">
-                </el-input>
-                <el-button type="primary" plain :disabled="loading" @click="getStudentSorts(1)">搜索</el-button>
+            <div v-show="activeName=='sort'" remark="按学员组" tab="sort">
+                <el-card shadow="never" class="student-sorts">
+                    <div slot="header">
+                        <el-button-group>
+                            <el-button type="primary" plain @click="selectAll(true)">全选</el-button>
+                            <el-button type="primary" plain @click="selectAll(false)">取消</el-button>
+                            <el-button type="primary" plain @click="selectReverse()">反选</el-button>
+                        </el-button-group>
+                        <span style="float: right;">
+                             <el-checkbox @change="sortquery_mode">显示全部</el-checkbox>
+                            <el-input placeholder="搜索" size="small" style="width: 100px;" clearable
+                                v-model="sortsquery.search" @input="getStudentSorts(1)">
+                            </el-input>
+                        </span>
+                    </div>
+                    <div class="sorts">
+                        <loading v-if="loading">正在加载...</loading>
+                        <template v-else-if="sorts.length>0">
+                            <el-checkbox v-for="(item,i) in sorts" v-model="item.selected" @change="selectSingle(item)">
+                                {{i+1}}. <span v-html='showsearch(item.Sts_Name,sortsquery.search)'></span>                             
+                                <span title="学员数"  :class="{'count':true,'zero':item.Sts_Coun<=0}">{{item.Sts_Count}}</span>                            
+                            </el-checkbox>
+                        </template>
+                        <el-empty v-else description="没有满足条件的查询"></el-empty>
+                    </div>
+
+                    <el-pagination v-if="totalpages>1" v-on:current-change="getStudentSorts"
+                        :current-page="sortsquery.index" :page-size="sortsquery.size" :pager-count="5"
+                        layout="total, prev, pager, next" :total="total">
+                    </el-pagination>
+
+                </el-card>
+                <el-card shadow="never">
+                    <div slot="header">
+                        选中的学员组
+                    </div>
+                </el-card>
+
+
+            </div>
+            <div v-show="activeName=='files'" remark="已经导出的文件" tab="files">
+                <dl v-if="files.length>0" class="files">
+                    <dd v-for="(f,i) in files">
+                        <a :href="f.url" :filetype="f.type" target="_blank" title="点击下载" :download="f.file">
+                            {{f.file}}</a>
+                        <span>{{f.size|size}}</span>
+                        <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
+                            <el-link type="danger" icon="el-icon-delete" v-loading="loading" slot="reference">删除
+                            </el-link>
+                        </el-popconfirm>
+
+                    </dd>
+                </dl>
+                <div v-else>没有文件，请操作“导出学员信息”</div>
             </div>
         </div>
-        <div class="sorts">
-            <loading v-if="loading">正在加载...</loading>
-            <template v-else-if="sorts.length>0">
-                <el-checkbox v-for="(item,i) in sorts" v-model="item.selected" @change="selectSingle(item)">
-                    {{i+1}}. <span v-html='showsearch(item.Sts_Name,form.search)'></span>
-                    <student_count :sort="item"></student_count>
-                </el-checkbox>
-            </template>
-            <el-empty v-else description="没有满足条件的查询"></el-empty>
-        </div>
-        <div id="pager-box" v-if="totalpages>1">
-            <el-pagination v-on:current-change="getStudentSorts" :current-page="form.index" 
-                :page-size="form.size" :pager-count="5" layout="total, prev, pager, next" :total="total">
-            </el-pagination>
-        </div>
+
+
+
         <div class="footer">
             <el-button :type="loading ? 'info' : 'primary'" v-on:click="btnOutput" class="el-icon-position"
                 :disabled="loading || loading_export" :loading="loading_export" native-type="submit">
@@ -51,38 +102,6 @@
             </el-button>
             <el-button type='close'> 取消 </el-button>
         </div>
-        <!--选中的面板-->
-        <el-drawer :visible.sync="drawer_selected" direction="ltr" size="60%">
-            <span slot="title">
-                <icon>&#xe78b</icon>选中的学员组<span class="count">({{checkedSorts.length}})</span>
-            </span>
-            <dl class="selected" v-if="checkedSorts.length>0">
-                <dd v-for="(item,i) in checkedSorts">
-                    {{i+1}}. <span v-html='item.Sts_Name'></span>
-                    <el-link type="danger" plain @click="selectCancel(item)">取消 </el-link>
-                </dd>
-            </dl>
-            <el-empty v-else description="没有选中的信息"></el-empty>
-        </el-drawer>
-        <!--导出文件的面板-->
-        <el-dialog title="提示" :visible.sync="filepanel" width="80%" custom-class="filepanel">
-            <span slot="title">
-                <icon>&#xe85e</icon>已经生成的导出文件
-            </span>
-            <dl v-if="files.length>0" class="files">
-                <dd v-for="(f,i) in files">
-                    <a :href="f.url"  :filetype="f.type" target="_blank" title="点击下载" :download="f.file">
-                        {{f.file}}</a>
-                    <span>{{f.size|size}}</span>
-                    <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
-                        <el-link type="danger" icon="el-icon-delete" v-loading="loading" slot="reference">删除
-                        </el-link>
-                    </el-popconfirm>
-
-                </dd>
-            </dl>
-            <div v-else>没有文件，请操作“导出学员信息”</div>
-        </el-dialog>
     </div>
 </body>
 

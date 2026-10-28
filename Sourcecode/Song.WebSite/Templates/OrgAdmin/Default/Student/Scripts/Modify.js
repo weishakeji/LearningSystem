@@ -17,7 +17,7 @@ $ready(["/Utilities/Scripts/hanzi2pinyin.js",
                 sorts: [],   //学员组列表
                 accsort: {},      //当前学员所在的分组
                 sortpanel: false,   //学员组的选择面板
-                sortquery: { 'orgid': '', 'use': true, 'search': '', 'index': 1, 'size': 10 },
+                sortquery: { 'orgid': '', 'use': true, 'mode': 0,'search': '', 'index': 1, 'size': 10 },
                 sort: {
                     loading: true,
                     total: 0,

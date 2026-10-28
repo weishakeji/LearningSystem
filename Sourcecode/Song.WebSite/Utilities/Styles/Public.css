@@ -390,7 +390,7 @@ card-content {
 }
 
 .el-card__header {
-    padding: 10px 20px !important;
+    padding: 10px !important;
 }
 
 /*下拉菜单的标题*/

@@ -274,15 +274,18 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="orgid">机构id</param>
         /// <param name="isUse"></param>
+        /// <param name="mode">查询方式，0为所有，1不为空的学员组，2为空的学员组</param>
         /// <param name="name">分组名称</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public StudentSort[] SortPager(int orgid, bool? isUse, string name, int size, int index, out int countSum)
+        public StudentSort[] SortPager(int orgid, bool? isUse, int mode, string name, int size, int index, out int countSum)
         {
             WhereClip wc = StudentSort._.Org_ID == orgid;            
             if (isUse != null) wc.And(StudentSort._.Sts_IsUse == (bool)isUse);
+            if(mode == 1)wc.And(StudentSort._.Sts_Count > 0);
+            else if (mode == 2) wc.And(StudentSort._.Sts_Count == 0); 
             if (!string.IsNullOrWhiteSpace(name) && name.Trim() != "") wc.And(StudentSort._.Sts_Name.Contains(name));
             countSum = Gateway.Default.Count<StudentSort>(wc);
             return Gateway.Default.From<StudentSort>().Where(wc).OrderBy(StudentSort._.Sts_Order.Desc).ToArray<StudentSort>(size, (index - 1) * size);

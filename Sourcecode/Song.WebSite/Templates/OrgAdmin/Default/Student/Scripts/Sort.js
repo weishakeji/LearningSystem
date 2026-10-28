@@ -3,7 +3,7 @@ $ready(function () {
         el: '#vapp',
         data: {
             form: {
-                orgid: '',
+                orgid: '','mode': 0,
                 use: '',
                 search: '',
                 size: 20,

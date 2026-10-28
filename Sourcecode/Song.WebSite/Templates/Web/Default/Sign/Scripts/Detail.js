@@ -1,6 +1,6 @@
 
 $ready(["/Utilities/Components/education.js"], function () {
-window.vapp = new Vue({
+    window.vapp = new Vue({
         el: '#vapp',
         data: {
             acid: $api.querystring('acid'),      //刚注册的学员id
@@ -11,7 +11,7 @@ window.vapp = new Vue({
             sorts: [],   //学员组列表
             accsort: {},      //当前学员所在的分组
             sortpanel: false,
-            sortquery: { 'orgid': '', 'use': true, 'search': '', 'index': 1, 'size': 15 },
+            sortquery: { 'orgid': '', 'use': true, 'mode': 0, 'search': '', 'index': 1, 'size': 15 },
             sort: {
                 loading: true, total: 0, paper: 0
             },
@@ -43,7 +43,7 @@ window.vapp = new Vue({
         },
         mounted: function () { },
         created: function () {
-             var th = this;
+            var th = this;
             $api.bat(
                 $api.get('Account/ForID', { 'id': th.acid }),
                 $api.cache('Platform/PlatInfo'),

@@ -4,43 +4,33 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            organ: {},
+            activeName: 'sort',   //选项卡
+            org: {},
             config: {},      //当前机构配置项    
 
-
-            form: { 'orgid': '', 'use': null, 'search': '', 'index': 1, 'size': 10 },
+            //查询学员组
+            sortsquery: { 'orgid': '', 'use': null,'mode': 1, 'search': '', 'index': 1, 'size': 10 },
             sorts: [],           //学员组
             total: 1, //总记录数
             totalpages: 1, //总页数
 
             checkAll: false,
-            checkedSorts: [],       //已经选中的分组
-            drawer_selected: false,  //显示选中分组信息的面板
+            checkedSorts: [],       //已经选中的分组          
 
-
+            //导出的表单设置,type:1为导出全部学员,2为导出选中分组的学员,3为导出已经分组的所有学员,4为导出未分组的学员
+            exportform: { 'orgid': '', 'sortid': '', 'type': 1 },
             loading: false,
             loading_export: false,       //生成的预载
 
-            files: [],
-            filepanel: false      //显示文件列表的面板
+            files: [],  //已经导出的文件列表
         },
         created: function () {
             var th = this;
-            th.loading = true;
-            $api.get('Organization/Current').then(function (req) {
-                if (req.data.success) {
-                    th.organ = req.data.result;
-                    th.config = $api.organ(th.organ).config;
-                    th.form.orgid = th.organ.Org_ID;
-                    th.getStudentSorts(1);
-                } else {
-                    console.error(req.data.exception);
-                    throw req.data.message;
-                }
-            }).catch(err => console.error(err))
-                .finally(() => th.loading = false);
-
-            this.getFiles();
+            th.org = window.org;
+            th.config = window.config;
+            th.sortsquery.orgid = th.org.Org_ID;
+            th.getStudentSorts(1);
+            th.getFiles();
         },
         watch: {
             //选择当前页的所有
@@ -71,15 +61,15 @@ $ready(function () {
         methods: {
             //获取学员组
             getStudentSorts: function (index) {
-                if (index != null) this.form.index = index;
+                if (index != null) this.sortsquery.index = index;
                 var th = this;
                 //每页多少条，通过界面高度自动计算
-                let area = $dom.height() - 115;
-                th.form.size = Math.floor(area / 25);
-                th.form.size = th.form.size <= 2 ? 2 : th.form.size;
-                th.form.size = th.form.size >= 50 ? 50 : th.form.size;
+                let area = $dom.height() - 190;
+                th.sortsquery.size = Math.floor(area / 26);
+                th.sortsquery.size = th.sortsquery.size <= 2 ? 2 : th.sortsquery.size;
+                th.sortsquery.size = th.sortsquery.size >= 50 ? 50 : th.sortsquery.size;
                 th.loading = true;
-                $api.get("Account/SortPager", th.form).then(function (d) {
+                $api.get("Account/SortPager", th.sortsquery).then(function (d) {
                     if (d.data.success) {
                         var result = d.data.result;
                         for (var i = 0; i < result.length; i++) {
@@ -99,6 +89,12 @@ $ready(function () {
                     }
                 }).catch(err => console.error(err))
                     .finally(() => th.loading = false);
+            },
+            //查询模式，是查询所有学员组，还是只查询有学员的学员组
+            sortquery_mode: function (val) {
+                if(val) this.sortsquery.mode = 0;
+                else this.sortsquery.mode = 1;
+                this.getStudentSorts(1);
             },
             //全选,nv:为true全选,false取消全选
             selectAll: function (nv) {
@@ -190,7 +186,7 @@ $ready(function () {
                 var th = this;
                 //创建生成Excel
                 th.loading_export = true;
-                $api.get('Account/ExcelOutputForSort', { 'orgid': th.organ.Org_ID, 'sorts': sorts }).then(function (req) {
+                $api.get('Account/ExcelOutputForSort', { 'orgid': th.org.Org_ID, 'sorts': sorts }).then(function (req) {
 
                     if (req.data.success) {
                         var result = req.data.result;

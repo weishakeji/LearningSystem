@@ -1020,13 +1020,14 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 学员组的信息
         /// </summary>
-        /// <param name="orgid"></param>
-        /// <param name="use"></param>
-        /// <param name="search"></param>
+        /// <param name="orgid">机构id</param>
+        /// <param name="use">是否启用的，默认为null，查询所有</param>
+        /// <param name="mode">查询方式，0为所有，1不为空的学员组，2为空的学员组</param>
+        /// <param name="search">按学员组名称查询</param>
         /// <param name="index"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        public ListResult SortPager(int orgid, bool? use, string search, int index, int size)
+        public ListResult SortPager(int orgid, bool? use, int mode, string search, int index, int size)
         {
             if (orgid < 1)
             {
@@ -1034,7 +1035,7 @@ namespace Song.ViewData.Methods
                 orgid = org.Org_ID;
             }
             int sum;
-            Song.Entities.StudentSort[] accs = Business.Do<IStudent>().SortPager(orgid, use, search, size, index, out sum);
+            Song.Entities.StudentSort[] accs = Business.Do<IStudent>().SortPager(orgid, use, mode, search, size, index, out sum);
             Song.ViewData.ListResult result = new ListResult(accs);
             result.Index = index;
             result.Size = size;

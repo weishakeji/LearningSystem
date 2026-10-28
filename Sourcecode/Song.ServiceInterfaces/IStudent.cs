@@ -138,13 +138,14 @@ namespace Song.ServiceInterfaces
         /// 分页获取学员组
         /// </summary>
         /// <param name="orgid">机构id</param>
-        /// <param name="isUse"></param>
+        /// <param name="isUse">是否启用的，默认为null，查询所有</param>
+        /// <param name="mode">查询方式，0为所有，1不为空的学员组，2为空的学员组</param>
         /// <param name="name">分组名称</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        StudentSort[] SortPager(int orgid, bool? isUse, string name, int size, int index, out int countSum);
+        StudentSort[] SortPager(int orgid, bool? isUse, int mode,  string name, int size, int index, out int countSum);
         #endregion
 
         #region 学员的学习记录统计

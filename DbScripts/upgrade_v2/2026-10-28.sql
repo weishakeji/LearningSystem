@@ -1,0 +1,1 @@
+CREATE INDEX  IF NOT EXISTS "StudentSort_IX_Count" ON "StudentSort"("Sts_Count");
