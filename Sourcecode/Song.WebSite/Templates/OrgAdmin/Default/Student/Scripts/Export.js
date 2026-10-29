@@ -115,53 +115,33 @@ $ready(function () {
             },
             //全选,nv:为true全选,false取消全选
             selectAll: function (nv) {
-                for (var i = 0; i < this.sorts.length; i++) {
-                    const element = this.sorts[i];
-                    //计算当前项是否存在于被选中的数组
-                    var index = this.checkedSorts.findIndex(m => {
-                        return element.Sts_ID == m.Sts_ID;
-                    });
-                    //如果全选
+                this.sorts.forEach(item => {
+                    item.selected = nv;
                     if (nv) {
-                        if (index < 0) {
-                            element.selected = true;
-                            this.$set(this.checkedSorts, this.checkedSorts.length, element);
+                        if (!this.checkedSorts.some(m => m.Sts_ID === item.Sts_ID)) {
+                            this.checkedSorts.push(item);
                         }
                     } else {
-                        if (index >= 0) {
-                            element.selected = false;
-                            this.$delete(this.checkedSorts, index);
-                        }
+                        const index = this.checkedSorts.findIndex(m => m.Sts_ID === item.Sts_ID);
+                        if (index > -1) this.checkedSorts.splice(index, 1);
                     }
-                }
+                });
             },
             //反选
             selectReverse: function () {
-                for (var i = 0; i < this.sorts.length; i++) {
-                    const element = this.sorts[i];
-                    //计算当前项是否存在于被选中的数组
-                    var index = this.checkedSorts.findIndex(m => {
-                        return element.Sts_ID == m.Sts_ID;
-                    });
-                    if (index < 0) {
-                        element.selected = true;
-                        this.$set(this.checkedSorts, this.checkedSorts.length, element);
-                    } else {
-                        element.selected = false;
-                        this.$delete(this.checkedSorts, index);
-                    }
-                }
+                this.sorts.forEach(item => {
+                    const index = this.checkedSorts.findIndex(m => m.Sts_ID === item.Sts_ID);
+                    item.selected = index < 0;
+                    if (index < 0) this.checkedSorts.push(item);
+                    else this.checkedSorts.splice(index, 1);
+                });
             },
             //选中单个项
             selectSingle: function (item) {
+                const index = this.checkedSorts.findIndex(m => m.Sts_ID === item.Sts_ID);
                 if (item.selected) {
-                    this.$set(this.checkedSorts, this.checkedSorts.length, item);
-                } else {
-                    var index = this.checkedSorts.findIndex(m => {
-                        return item.Sts_ID == m.Sts_ID;
-                    });
-                    this.$delete(this.checkedSorts, index);
-                }
+                    if (index === -1) this.checkedSorts.push(item);
+                } else if (index > -1) this.checkedSorts.splice(index, 1);
             },
             //移除单个项
             removeSort: function (item) {
@@ -170,27 +150,22 @@ $ready(function () {
             },
             //取消选择
             selectCancel: function (item) {
-                var index = this.checkedSorts.findIndex(m => {
-                    return item.Sts_ID == m.Sts_ID;
-                });
-                this.$delete(this.checkedSorts, index);
-                for (var i = 0; i < this.sorts.length; i++) {
-                    if (this.sorts[i].Sts_ID == item.Sts_ID) {
-                        this.sorts[i].selected = false;
-                        this.$set(this.sorts, i, this.sorts[i]);
-                        break;
-                    }
-                }
+                const index = this.checkedSorts.findIndex(m => m.Sts_ID === item.Sts_ID);
+                if (index > -1) this.$delete(this.checkedSorts, index);
+                const idx = this.sorts.findIndex(s => s.Sts_ID === item.Sts_ID);
+                if (idx > -1) this.$set(this.sorts[idx], 'selected', false);
             },
+            //取消所有
             removeAllSorts: function () {
-                this.checkedSorts.forEach(item => { item.selected = false; }); this.checkedSorts = [];
+                this.checkedSorts.forEach(item => { item.selected = false; });
+                this.checkedSorts = [];
             },
             btnOutput: function () {
                 var total = 0, count = 0;
                 var msg = '', sorts = '';
                 if (this.checkedSorts.length > 0) {
                     this.checkedSorts.map(function (v) {
-                        total += v.count;
+                        total += v.Sts_Count;
                         sorts += v.Sts_ID + ',';
                     });
                     count = this.checkedSorts.length;
