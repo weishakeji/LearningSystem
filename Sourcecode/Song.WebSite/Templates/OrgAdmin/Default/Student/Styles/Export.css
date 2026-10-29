@@ -28,11 +28,20 @@ div[tab=sort]>div.el-card {
     flex: 1;
 }
 
+div[tab=sort]>div.el-card .el-card__header {
+    height: 50px;
+    display: flex;
+    align-items: center;
+   justify-content: space-between;
+  
+
+}
+
 div[tab=sort]>div.el-card:not(:last-child) {
     margin-right: 8px;
 }
 
-.student-sorts.el-card .el-card__body {
+.el-card .el-card__body {
     height: calc(100% - 53px);
     padding: 10px 10px 5px 10px;
     box-sizing: border-box;
@@ -50,19 +59,37 @@ div[tab=sort]>div.el-card:not(:last-child) {
     padding: 3px 0px;
 }
 
-.sorts .count {
+.count {
     color: #999;
     margin-left: 10px;
     font-size: 12px;
 }
-.sorts .count::before {
+.count b{
+    color: #333;
+    margin:0px 6px;
+}
+.count::before {
     content: '(';
 }
-.sorts .count::after{
+
+.count::after {
     content: ')';
 }
 
-
+/*选中的学员组*/
+.checkedSorts {
+    display: flex;
+    flex-flow: column;   
+    overflow-y: auto;
+    height: 100%;
+}
+.checkedSorts>div{
+    font-size: 14px;
+    padding: 3px 10px 3px 0px;
+    line-height: 20px;
+    display: flex;
+    justify-content: space-between;
+}
 /*导出的文件列表*/
 dl.files {
     padding: 0px 15px 15px 15px;

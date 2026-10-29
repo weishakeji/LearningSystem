@@ -19,12 +19,12 @@
                 <el-tab-pane name="sort">
                     <span slot="label">
                         <icon medium>&#xe812</icon> 按学员组导出<span class="count"
-                            v-if="checkedSorts.length>0">({{checkedSorts.length}})</span>
+                            v-if="checkedSorts.length>0">{{checkedSorts.length}}</span>
                     </span>
                 </el-tab-pane>
                 <el-tab-pane name="files">
                     <span slot="label">
-                        <icon>&#xe6a7</icon> 已经导出的文件<span class="count">({{files.length}})</span>
+                        <icon>&#xe6a7</icon> 已经导出的文件<span class="count">{{files.length}}</span>
                     </span>
                 </el-tab-pane>
             </el-tabs>
@@ -38,25 +38,26 @@
             </div>
             <div v-show="activeName=='sort'" remark="按学员组" tab="sort">
                 <el-card shadow="never" class="student-sorts">
-                    <div slot="header">
+                    <template slot="header">
                         <el-button-group>
                             <el-button type="primary" plain @click="selectAll(true)">全选</el-button>
                             <el-button type="primary" plain @click="selectAll(false)">取消</el-button>
                             <el-button type="primary" plain @click="selectReverse()">反选</el-button>
                         </el-button-group>
                         <span style="float: right;">
-                             <el-checkbox @change="sortquery_mode">显示全部</el-checkbox>
+                            <el-checkbox @change="sortquery_mode">显示全部</el-checkbox>
                             <el-input placeholder="搜索" size="small" style="width: 100px;" clearable
-                                v-model="sortsquery.search" @input="getStudentSorts(1)">
+                                v-model.trim="sortsquery.search" @input="getStudentSorts(1)">
                             </el-input>
                         </span>
-                    </div>
+                    </template>
                     <div class="sorts">
                         <loading v-if="loading">正在加载...</loading>
                         <template v-else-if="sorts.length>0">
                             <el-checkbox v-for="(item,i) in sorts" v-model="item.selected" @change="selectSingle(item)">
-                                {{i+1}}. <span v-html='showsearch(item.Sts_Name,sortsquery.search)'></span>                             
-                                <span title="学员数"  :class="{'count':true,'zero':item.Sts_Coun<=0}">{{item.Sts_Count}}</span>                            
+                                {{i+1}}. <span v-html='showsearch(item.Sts_Name,sortsquery.search)'></span>
+                                <span title="学员数"
+                                    :class="{'count':true,'zero':item.Sts_Coun<=0}">{{item.Sts_Count}}</span>
                             </el-checkbox>
                         </template>
                         <el-empty v-else description="没有满足条件的查询"></el-empty>
@@ -69,9 +70,34 @@
 
                 </el-card>
                 <el-card shadow="never">
-                    <div slot="header">
-                        选中的学员组
+                    <template slot="header">
+                        <span>
+                            <el-badge :value="checkedSorts.length" class="item" type="primary">
+                                <span icon="&#xa057">选中的学员组</span>
+                            </el-badge>
+                            <span class="count">共<b medium>{{checkedSorts.reduce((sum, item) => sum +
+                                    item.Sts_Count, 0)}}</b>名学员</span>
+                        </span>
+                        <span style="float: right;" v-if="checkedSorts.length>0" >
+                            <el-popconfirm title="这是一段内容确定删除吗？" @confirm="removeAllSorts">
+                                <el-link type="danger" class="el-icon-delete"slot="reference">清空</el-link>
+                            </el-popconfirm>
+                            <el-input placeholder="搜索" size="small" style="width: 100px;" clearable
+                                v-model.trim="cheackedSearch" @input="getStudentSorts(1)">
+                            </el-input>
+                        </span>
+                    </template>
+                    <div class="checkedSorts" v-if="checkedSorts.length>0">
+                        <div v-for="(item,i) in checkedSortList">
+                            <div>
+                                {{i+1}}. <span v-html='showsearch(item.Sts_Name,cheackedSearch)'></span>
+                                <span title="学员数"
+                                    :class="{'count':true,'zero':item.Sts_Coun<=0}">{{item.Sts_Count}}</span>
+                            </div>
+                            <el-link type="danger" class="el-icon-delete" @click="removeSort(item)">移除</el-link>
+                        </div>
                     </div>
+                    <el-empty v-else description="请选择左侧的学员组"></el-empty>
                 </el-card>
 
 

@@ -9,13 +9,14 @@ $ready(function () {
             config: {},      //当前机构配置项    
 
             //查询学员组
-            sortsquery: { 'orgid': '', 'use': null,'mode': 1, 'search': '', 'index': 1, 'size': 10 },
+            sortsquery: { 'orgid': '', 'use': null, 'mode': 1, 'search': '', 'index': 1, 'size': 10 },
             sorts: [],           //学员组
             total: 1, //总记录数
             totalpages: 1, //总页数
 
             checkAll: false,
-            checkedSorts: [],       //已经选中的分组          
+            checkedSorts: [],       //已经选中的分组      
+            cheackedSearch: '',   //查询已经选中的分组 
 
             //导出的表单设置,type:1为导出全部学员,2为导出选中分组的学员,3为导出已经分组的所有学员,4为导出未分组的学员
             exportform: { 'orgid': '', 'sortid': '', 'type': 1 },
@@ -31,6 +32,22 @@ $ready(function () {
             th.sortsquery.orgid = th.org.Org_ID;
             th.getStudentSorts(1);
             th.getFiles();
+        },
+        computed: {
+            //已经选择的学员组
+            checkedSortList: function () {
+                if (this.cheackedSearch == '') return this.checkedSorts;
+                var search = this.cheackedSearch;
+                this.checkedSorts.sort((a, b) => {
+                    const aMatch = a.Sts_Name.includes(search);
+                    const bMatch = b.Sts_Name.includes(search);
+
+                    if (aMatch && !bMatch) return -1;  // a 匹配，b 不匹配，a 排前
+                    if (!aMatch && bMatch) return 1;   // a 不匹配，b 匹配，b 排前
+                    return 0;                          // 都不匹配或都匹配，保持原顺序
+                });
+                return this.checkedSorts;
+            }
         },
         watch: {
             //选择当前页的所有
@@ -92,7 +109,7 @@ $ready(function () {
             },
             //查询模式，是查询所有学员组，还是只查询有学员的学员组
             sortquery_mode: function (val) {
-                if(val) this.sortsquery.mode = 0;
+                if (val) this.sortsquery.mode = 0;
                 else this.sortsquery.mode = 1;
                 this.getStudentSorts(1);
             },
@@ -146,6 +163,11 @@ $ready(function () {
                     this.$delete(this.checkedSorts, index);
                 }
             },
+            //移除单个项
+            removeSort: function (item) {
+                item.selected = false;
+                this.selectSingle(item);
+            },
             //取消选择
             selectCancel: function (item) {
                 var index = this.checkedSorts.findIndex(m => {
@@ -159,6 +181,9 @@ $ready(function () {
                         break;
                     }
                 }
+            },
+            removeAllSorts: function () {
+                this.checkedSorts.forEach(item => { item.selected = false; }); this.checkedSorts = [];
             },
             btnOutput: function () {
                 var total = 0, count = 0;
