@@ -33,8 +33,8 @@
               <template v-if="data.MM_Type!='hr'">
                 <icon v-if="data.MM_IcoCode==null || data.MM_IcoCode==''" :style="setIcostyle(data)">&#xa038;</icon>
                 <icon v-else v-html="'&#x'+data.MM_IcoCode+';'" :style="setIcostyle(data)"></icon>
-                <span @click="showedit(node,data)">{{ data.MM_Name }}</span>
-                <span class="mmlink" :title="data.MM_Link">{{data.MM_Link}}</span>
+                <span @click="showedit(node,data)" v-html='showsearch(data.MM_Name,filterText)'></span>
+                <span class="mmlink" :title="data.MM_Link" v-html='showsearch(data.MM_Link,filterText)'></span>
               </template>
               <span v-else class="hr">-----------（分隔线）-----------</span>
             </div>

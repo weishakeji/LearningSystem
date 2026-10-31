@@ -97,7 +97,9 @@ $ready(function () {
             //过滤树形节点项
             filterNode: function (value, data) {
                 if (!value) return true;
-                return data.label.indexOf(value) !== -1;
+                var sear = $api.trim(value.toLowerCase());
+                return data.label.toLowerCase().indexOf(sear) !== -1 ||
+                    data.MM_Link.toLowerCase().indexOf(sear) !== -1;
             },
             //添加节点
             append: function (d) {
@@ -226,7 +228,7 @@ $ready(function () {
             updateSave: function () {
                 var th = this;
                 th.loading = true;
-                th.setIsShow(null);          
+                th.setIsShow(null);
                 $api.post('ManageMenu/FuncMenuUpdate', { 'uid': th.uid, 'tree': th.data }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
