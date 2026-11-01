@@ -2161,7 +2161,7 @@ namespace Song.ServiceImpls
             //生成数据行
             int total = 0;
             List<Accounts> accounts = this.AbsenceExamAccounts(examid, string.Empty, string.Empty, string.Empty, 0, int.MaxValue, 1, out total);           
-           AccountsCom._export4Excel_to_sheet(hssfworkbook, exam.Exam_Name, accounts, nodes);
+           AccountsCom._outputExcel_to_sheet(hssfworkbook, exam.Exam_Name, accounts, nodes);
 
             FileStream file = new FileStream(filePath, FileMode.Create);
             hssfworkbook.Write(file);

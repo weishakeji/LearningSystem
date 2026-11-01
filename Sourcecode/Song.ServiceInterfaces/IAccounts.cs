@@ -274,18 +274,18 @@ namespace Song.ServiceInterfaces
         /// 学员账号信息导出
         /// </summary>
         /// <param name="path">导出文件的路径（服务器端）</param>
-        /// <param name="orgid">机构id</param>
+        ///  /// <param name="orgid">机构id</param>
+        /// <param name="mode">0为导出当前机构全部学员，1所有学员组，2指定学员组导出(sorts不得为空），3所有未分组学员</param>
         /// <param name="sorts">学员分组id，用逗号分隔</param>
-        /// <param name="isall">当sorts为空时，true导所有，false导未分组的</param>
         /// <returns></returns>
-        string AccountsExport4Excel(string path, int orgid, string sorts,bool isall);
+        string OutputToExcel(string path,  int orgid,int mode, string sorts);
         /// <summary>
         /// 学员账户号导出
         /// </summary>
         /// <param name="path">导出文件的路径（服务器端）</param>
         /// <param name="orgs">机构id,用逗号分隔</param>
         /// <returns></returns>
-        string AccountsExport4Excel(string path, string orgs);
+        string OutputToExcel(string path, string orgs);
         #endregion
 
         #region 第三方平台绑定

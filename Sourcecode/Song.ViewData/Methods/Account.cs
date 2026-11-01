@@ -41,7 +41,7 @@ namespace Song.ViewData.Methods
         public Song.Entities.Accounts Current()
         {
             Song.Entities.Accounts acc = LoginAccount.Status.User(this.Letter);
-            return acc;           
+            return acc;
         }
         /// <summary>
         /// 账号缓存数量
@@ -77,7 +77,7 @@ namespace Song.ViewData.Methods
         /// <returns>返回登录状态信息，包含登录账号与时效，以加密方式</returns>
         [HttpPost]
         public string Fresh(int span)
-        {  
+        {
             return LoginAccount.Status.Fresh(this.Letter, span);
         }
         /// <summary>
@@ -122,14 +122,14 @@ namespace Song.ViewData.Methods
             if (account == null) throw VExcept.Verify("密码错误或账号不存在", 102);
             if (!(bool)account.Ac_IsUse) throw VExcept.Verify("当前账号被禁用", 103);
             //LoginAccount.CacheAdd(account);
-           
+
             //克隆当前对象,用于发向前端
             Song.Entities.Accounts user = account.DeepClone<Song.Entities.Accounts>();
             user.Ac_Photo = System.IO.File.Exists(_phyPath + user.Ac_Photo) ? _virPath + user.Ac_Photo : "";
             //登录，密码被设置成加密状态值
             user.Ac_CheckUID = account.Ac_CheckUID;
             //user.Ac_Pw = LoginAccount.Status.Generate_checkcode(account, this.Letter);
-            user.Ac_Pw= LoginAccount.Status.Login(user);
+            user.Ac_Pw = LoginAccount.Status.Login(user);
             return user;
         }
         /// <summary>
@@ -170,7 +170,7 @@ namespace Song.ViewData.Methods
             Song.Entities.Accounts account = Business.Do<IAccounts>().AccountsLoginSms(phone, val);
             if (account == null) throw VExcept.Verify("验证码不正确", 105);
             if (!(bool)account.Ac_IsUse) throw VExcept.Verify("当前账号被禁用", 103);
-            LoginAccount.Cache.Add<Accounts>(account, account.Ac_ID);         
+            LoginAccount.Cache.Add<Accounts>(account, account.Ac_ID);
             //克隆当前对象,用于发向前端
             Song.Entities.Accounts user = account.DeepClone<Song.Entities.Accounts>();
             user.Ac_Photo = System.IO.File.Exists(_phyPath + user.Ac_Photo) ? _virPath + user.Ac_Photo : "";
@@ -277,14 +277,14 @@ namespace Song.ViewData.Methods
         [HttpPost]
         [HtmlClear(Not = "acc")]
         [Upload(Config = "AccountPhoto")]
-        public bool RegisterModify(Accounts acc, int acid,string uid)
+        public bool RegisterModify(Accounts acc, int acid, string uid)
         {
             Song.Entities.Accounts old = Business.Do<IAccounts>().AccountsSingle(acid);
             if (old == null) throw new Exception("Not found entity for Accounts！");
             //校验值是否正确
             //Song.Entities.Organization org = Business.Do<IOrganization>().OrganSingle(old.Org_ID);
 
-            if(!uid.Equals(old.Ac_CheckUID,StringComparison.OrdinalIgnoreCase)) throw new Exception("校验值不合法！");
+            if (!uid.Equals(old.Ac_CheckUID, StringComparison.OrdinalIgnoreCase)) throw new Exception("校验值不合法！");
             //注册后一个小时内可以修改
             if (old.Ac_RegTime.AddHours(-1) > DateTime.Now) throw new Exception("编辑超时！");
             //图片
@@ -316,7 +316,7 @@ namespace Song.ViewData.Methods
         /// 默认密码，当管理员添加学员时的默认密码
         /// </summary>
         /// <returns></returns>
-        [HttpGet,Admin,SuperAdmin]
+        [HttpGet, Admin, SuperAdmin]
         public string DefaultPw()
         {
             return WeiSha.Core.Login.Get["Account"].DefaultPw.Value;
@@ -362,7 +362,7 @@ namespace Song.ViewData.Methods
         {
             int sum;
             Song.Entities.LogForStudentOnline[] list = Business.Do<IStudent>().LogForLoginPager(acid, string.Empty, start, end, size, index, out sum);
-           
+
             Song.ViewData.ListResult result = new ListResult(list);
             result.Index = index;
             result.Size = size;
@@ -380,7 +380,7 @@ namespace Song.ViewData.Methods
         /// <param name="index">分页的索引</param>
         /// <param name="size">分页数据的每页记录数</param>
         /// <returns></returns>
-        public ListResult LoginLogs(int orgid,string name,string acname, DateTime? start, DateTime? end, int index, int size)
+        public ListResult LoginLogs(int orgid, string name, string acname, DateTime? start, DateTime? end, int index, int size)
         {
             int sum;
             Song.Entities.LogForStudentOnline[] list = Business.Do<IStudent>().LogForLoginPager(orgid, 0, string.Empty, start, end, name, acname, size, index, out sum);
@@ -453,11 +453,11 @@ namespace Song.ViewData.Methods
         /// <param name="id"></param>
         /// <returns>学员账户的映射对象</returns>    
         public Song.Entities.Accounts ForID(int id)
-        { 
+        {
             Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsSingle(id);
             return _tran(acc);
         }
-        
+
         /// <summary>
         /// 根据账号获取学员，不支持模糊查询
         /// </summary>
@@ -468,7 +468,7 @@ namespace Song.ViewData.Methods
             if (string.IsNullOrWhiteSpace(acc)) throw new Exception("学员账号不得为空");
             Song.Entities.Accounts account = Business.Do<IAccounts>().AccountsSingle(acc, -1);
             return _tran(account);
-        }       
+        }
         /// <summary>
         /// 通过学员身份证号来获取学员
         /// </summary>
@@ -506,7 +506,7 @@ namespace Song.ViewData.Methods
                 accs[i] = _tran(accs[i]);
             }
             return accs;
-        }        
+        }
         /// <summary>
         /// 分页获取学员信息
         /// </summary>
@@ -523,7 +523,7 @@ namespace Song.ViewData.Methods
         /// <param name="index">页码，即第几页</param>
         /// <param name="size">每页多少条记录</param>
         /// <returns></returns>
-        public ListResult Pager(int orgid, long sortid, bool? use, string acc, string name, string phone,string idcard,int gender, string orderby, string orderpattr, int index, int size)
+        public ListResult Pager(int orgid, long sortid, bool? use, string acc, string name, string phone, string idcard, int gender, string orderby, string orderpattr, int index, int size)
         {
             int sum;
             Song.Entities.Accounts[] accs = Business.Do<IAccounts>().AccountsPager(orgid, sortid, use, acc, name, phone, idcard, gender, orderby, orderpattr, size, index, out sum);
@@ -619,7 +619,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [Admin]
         [Student]
-        [HttpPost][HtmlClear(Not = "acc")]
+        [HttpPost] [HtmlClear(Not = "acc")]
         [Upload(Config = "AccountPhoto")]
         public bool Modify(Accounts acc)
         {
@@ -629,7 +629,7 @@ namespace Song.ViewData.Methods
             string filename = _uploadLogo();
             //如果有上传的图片，且之前也有图片,则删除原图片
             if ((!string.IsNullOrWhiteSpace(filename) || string.IsNullOrWhiteSpace(acc.Ac_Photo)) && !string.IsNullOrWhiteSpace(old.Ac_Photo))
-                WeiSha.Core.Upload.Get[_pathKey].DeleteFile(old.Ac_Photo);      
+                WeiSha.Core.Upload.Get[_pathKey].DeleteFile(old.Ac_Photo);
             if (!string.IsNullOrWhiteSpace(filename)) old.Ac_Photo = filename;
             //账号，密码，登录状态值，不更改
             old.Copy<Song.Entities.Accounts>(acc, "Ac_Pw,Ac_CheckUID");
@@ -725,7 +725,7 @@ namespace Song.ViewData.Methods
                 HttpPostedFileBase file = this.Files[key];
                 filename = WeiSha.Core.Request.UniqueID() + Path.GetExtension(file.FileName);
                 string phyfile = _phyPath + filename;
-                file.SaveAs(phyfile);              
+                file.SaveAs(phyfile);
                 WeiSha.Core.Images.FileTo.Zoom(phyfile, 200, 200, false);
                 break;
             }
@@ -780,7 +780,7 @@ namespace Song.ViewData.Methods
                 Business.Do<IAccounts>().AccountsSave(old);
                 Song.ViewData.LoginAccount.Status.Fresh(old);
                 return true;
-            }catch(Exception ex)
+            } catch (Exception ex)
             {
                 throw ex;
             }
@@ -802,7 +802,7 @@ namespace Song.ViewData.Methods
             string md5pw = new WeiSha.Core.Param.Method.ConvertToAnyValue(oldpw).MD5;
             if (!old.Ac_Pw.Equals(md5pw, StringComparison.OrdinalIgnoreCase))
             {
-                throw new Exception("原密码不正确");                
+                throw new Exception("原密码不正确");
             }
             string md5new = new WeiSha.Core.Param.Method.ConvertToAnyValue(newpw).MD5;
             Business.Do<IAccounts>().AccountsUpdate(old, new WeiSha.Data.Field[] { Song.Entities.Accounts._.Ac_Pw },
@@ -815,7 +815,7 @@ namespace Song.ViewData.Methods
         /// <param name="acid">学员账号id</param>
         /// <param name="pw">新密码，为明文发送</param>
         /// <returns></returns>
-        [Admin,SuperAdmin]
+        [Admin, SuperAdmin]
         [HttpPost]
         [HttpGet(Ignore = true)]
         public bool ResetPassword(int acid, string pw)
@@ -866,7 +866,7 @@ namespace Song.ViewData.Methods
             if (string.IsNullOrWhiteSpace(ids)) return i;
             List<int> list = ids.ToList<int>();
             foreach (int s in list)
-                i += Business.Do<IAccounts>().AccountsDelete(s);           
+                i += Business.Do<IAccounts>().AccountsDelete(s);
             return i;
         }
         /// <summary>
@@ -962,7 +962,7 @@ namespace Song.ViewData.Methods
         /// <param name="orgid">机构id</param>
         /// <returns></returns>
         [HttpGet]
-        public bool SortIsExist(string name, long id,int orgid)
+        public bool SortIsExist(string name, long id, int orgid)
         {
             return Business.Do<IStudent>().SortIsExist(name, id, orgid);
         }
@@ -976,7 +976,7 @@ namespace Song.ViewData.Methods
         [HttpPost]
         public bool SortUpdateUse(long stsid, bool use)
         {
-            return Business.Do<IStudent>().SortUpdateUse(stsid, use);           
+            return Business.Do<IStudent>().SortUpdateUse(stsid, use);
         }
         /// <summary>
         /// 设置默认学员组
@@ -999,7 +999,7 @@ namespace Song.ViewData.Methods
             catch (Exception ex)
             {
                 throw ex;
-            }  
+            }
         }
         /// <summary>
         /// 删除学员组
@@ -1115,7 +1115,7 @@ namespace Song.ViewData.Methods
             foreach (int s in list)
                 i += Business.Do<IAccounts>().AccountsUpdate(s,
                         new WeiSha.Data.Field[] { Song.Entities.Accounts._.Sts_ID, Song.Entities.Accounts._.Sts_Name },
-                        new object[] { sort.Sts_ID, sort.Sts_Name });         
+                        new object[] { sort.Sts_ID, sort.Sts_Name });
             Business.Do<IStudent>().SortUpdateCount();
             return i;
         }
@@ -1131,56 +1131,98 @@ namespace Song.ViewData.Methods
 
         #endregion
 
-        #region 导出学员信息       
+        #region 导出学员信息
+        //导出的文件夹名称
+        private string _outputPath = "AccountsOutputToExcel";
+        //物路路径
+        private string outputPathHy
+        {
+            get
+            {
+                string path = Path.Combine(WeiSha.Core.Upload.Get["Temp"].Physics, _outputPath);
+                Directory.CreateDirectory(path);
+                return path;
+            }
+        }
+        //虚拟路径
+        private string outputPathVt => WeiSha.Core.Upload.Get["Temp"].Virtual + _outputPath;
+        ///// <summary>
+        ///// 生成excel,按机构导出
+        ///// </summary>
+        ///// <param name="organs">机构id,多个id用逗号分隔</param>
+        ///// <returns></returns>
+        //[Admin, Teacher]
+        //public JObject ExcelOutputForOrg(string organs)
+        //{
+        //    //导出文件的位置
+        //    string rootpath = outputPathHy;
+
+        //    DateTime date = DateTime.Now;
+        //    string filename = string.Format("账号导出{0}.({1}).xls", organs, date.ToString("yyyy-MM-dd hh-mm-ss"));
+        //    string filePath = rootpath + filename;
+        //    filePath = Business.Do<IAccounts>().AccountsExport4Excel(filePath, organs);
+        //    JObject jo = new JObject();
+        //    jo.Add("file", filename);
+        //    jo.Add("url", outputPathVt + filename);
+        //    jo.Add("date", date);
+        //    return jo;
+        //}
         /// <summary>
-        /// 生成excel,按机构导出
+        /// 导出excel
         /// </summary>
-        /// <param name="organs">机构id,多个id用逗号分隔</param>
+        /// <param name="orgid">机构id</param>
+        /// <param name="mode">0为导出全部，1所有学员组，2指定学员组导出(sorts不得为空），3所有未分组学员</param>
+        /// <param name="sorts">如果指定了学员组的id，则默认mode为2</param>
         /// <returns></returns>
         [Admin, Teacher]
-        public JObject ExcelOutputForOrg(string organs)
+        public JObject OutputToExcel(int orgid, int mode, string sorts)
         {
-            string outputPath = "AccountsToExcelForOrgan";
-            //导出文件的位置
-            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\";
-            if (!System.IO.Directory.Exists(rootpath))
-                System.IO.Directory.CreateDirectory(rootpath);
-
+            //导出的文件保存路径
+            string rootpath = Path.Combine(outputPathHy, orgid.ToString());
+            Directory.CreateDirectory(rootpath);
+            List<long> sortlist = sorts.ToList<long>();
+            if (sortlist.Count > 0) mode = 2;
+            //
             DateTime date = DateTime.Now;
-            string filename = string.Format("账号导出{0}.({1}).xls", organs, date.ToString("yyyy-MM-dd hh-mm-ss"));
-            string filePath = rootpath + filename;
-            filePath = Business.Do<IAccounts>().AccountsExport4Excel(filePath, organs);
+            string filename = string.Empty;
+
+            if (mode == 0) filename = string.Format("所有账号导出.({0}).xls", date.ToString("yyyy-MM-dd hh-mm-ss"));
+            if (mode == 1) filename = string.Format("按学员组导出.({0}).xls", date.ToString("yyyy-MM-dd hh-mm-ss"));
+            if (mode == 3) filename = string.Format("未分组学员.({0}).xls", date.ToString("yyyy-MM-dd hh-mm-ss"));
+            if (mode == 2 || sortlist.Count > 0)
+            {
+                if (sortlist.Count < 1) throw new Exception("请选择要导出的学员组！");
+                filename = string.Format("指定学员组导出.{1}.({0}).xls", date.ToString("yyyy-MM-dd hh-mm-ss"), sortlist.Count.ToString());
+            }
+
+            string filePath = Path.Combine(rootpath, filename);
+            filePath = Business.Do<IAccounts>().OutputToExcel(filePath, orgid, mode, sorts);
             JObject jo = new JObject();
             jo.Add("file", filename);
-            jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath + "/" + filename);
+            jo.Add("url", outputPathVt + filename);
             jo.Add("date", date);
             return jo;
         }
-        /// <summary>
-        /// 生成excel，按学员组导出
-        /// </summary>
-        /// <param name="orgid"></param>
-        /// <param name="sorts">分组id,多个id用逗号分隔</param> 
-        /// <returns></returns>
-        [Admin, Teacher]
-        public JObject ExcelOutputForSort(int orgid,string sorts)
-        {
-            string outputPath = "AccountsToExcelForSort";
-            //导出文件的位置
-            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\";
-            if (!System.IO.Directory.Exists(rootpath))
-                System.IO.Directory.CreateDirectory(rootpath);
-
-            DateTime date = DateTime.Now;
-            string filename = string.Format("账号导出{0}.({1}).xls", sorts, date.ToString("yyyy-MM-dd hh-mm-ss"));
-            string filePath = rootpath + filename;
-            filePath = Business.Do<IAccounts>().AccountsExport4Excel(filePath, orgid, sorts, false);
-            JObject jo = new JObject();
-            jo.Add("file", filename);
-            jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath + "/" + filename);
-            jo.Add("date", date);
-            return jo;
-        }
+        ///// <summary>
+        ///// 生成excel，按学员组导出
+        ///// </summary>
+        ///// <param name="orgid"></param>
+        ///// <param name="mode"></param>
+        ///// <param name="sorts">分组id,多个id用逗号分隔</param> 
+        ///// <returns></returns>
+        //[Admin, Teacher]
+        //public JObject ExcelOutputForSort(int orgid,string sorts)
+        //{
+        //    DateTime date = DateTime.Now;
+        //    string filename = string.Format("账号导出{0}.({1}).xls", sorts, date.ToString("yyyy-MM-dd hh-mm-ss"));
+        //    string filePath = outputPathHy + filename;
+        //    filePath = Business.Do<IAccounts>().AccountsExport4Excel(filePath, orgid, sorts, false);
+        //    JObject jo = new JObject();
+        //    jo.Add("file", filename);
+        //    jo.Add("url", outputPathVt + filename);
+        //    jo.Add("date", date);
+        //    return jo;
+        //}
         /// <summary>
         /// 删除Excel文件
         /// </summary>
@@ -1196,19 +1238,19 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <returns>file:文件名,url:下载地址,date:创建时间</returns>
         [Admin, Teacher]
-        public JArray ExcelFiles(string path)
+        public JArray OutputExcelFiles(int orgid)
         {
-            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + path + "\\";
+            string rootpath = Path.Combine(outputPathHy, orgid.ToString());
             JArray jarr = new JArray();
             if (!System.IO.Directory.Exists(rootpath)) return jarr;
-            
+
             System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(rootpath);
             FileInfo[] files = dir.GetFiles("*.xls").OrderByDescending(f => f.CreationTime).ToArray();
             foreach (System.IO.FileInfo f in files)
             {
                 JObject jo = new JObject();
                 jo.Add("file", f.Name);
-                jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + path + "/" + f.Name);
+                jo.Add("url", outputPathVt + f.Name);
                 jo.Add("date", f.CreationTime);
                 jo.Add("type", Path.GetExtension(f.Name).TrimStart('.'));
                 jo.Add("size", f.Length);
@@ -1216,6 +1258,16 @@ namespace Song.ViewData.Methods
             }
             return jarr;
         }
+        [HttpDelete]
+        [Admin, Teacher]
+        public bool OutputExcelDelete(int orgid, string filename)
+        {
+            string rootpath = Path.Combine(outputPathHy, orgid.ToString());
+            ViewData.Helper.Excel.DeleteFile(filename, rootpath, "Temp");
+            return true;
+        }
+    // ViewData.Helper.Excel.DeleteFile(filename, path, "Temp");
+        /// <summary>
         #endregion
 
         #region 学员成绩导出

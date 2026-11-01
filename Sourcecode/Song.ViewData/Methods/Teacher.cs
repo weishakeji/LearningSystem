@@ -822,7 +822,7 @@ namespace Song.ViewData.Methods
             DateTime date = DateTime.Now;
             string filename = string.Format("账号导出{0}.({1}).xls", organs, date.ToString("yyyy-MM-dd hh-mm-ss"));
             string filePath = rootpath + filename;
-            filePath = Business.Do<IAccounts>().AccountsExport4Excel(filePath, organs);
+            filePath = Business.Do<IAccounts>().OutputToExcel(filePath, organs);
             JObject jo = new JObject();
             jo.Add("file", filename);
             jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath + "/" + filename);

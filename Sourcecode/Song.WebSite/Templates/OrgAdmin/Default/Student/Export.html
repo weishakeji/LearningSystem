@@ -30,9 +30,9 @@
             </el-tabs>
 
             <div v-show="activeName=='all'" remark="全部导出" tab="all">
-                <el-radio-group v-model="exportform.type" class="vertical-group">
+                <el-radio-group v-model="exportform.mode" class="vertical-group">
                     <el-radio :label="1">所有学员</el-radio>
-                    <el-radio :label="3">所有已经分组的学员（按学员组导出）</el-radio>
+                    <el-radio :label="3">所有分组的学员</el-radio>
                     <el-radio :label="4">所有未分组的学员</el-radio>
                 </el-radio-group>
             </div>

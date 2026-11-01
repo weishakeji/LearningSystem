@@ -890,60 +890,55 @@ namespace Song.ServiceImpls
         /// 学员账号信息导出
         /// </summary>
         /// <param name="path">导出文件的路径（服务器端）</param>
-        /// <param name="orgid">机构id</param>
+        ///  /// <param name="orgid">机构id</param>
+        /// <param name="mode">0为导出当前机构全部学员，1所有学员组，2指定学员组导出(sorts不得为空），3所有未分组学员</param>
         /// <param name="sorts">学员分组id，用逗号分隔</param>
-        /// <param name="isall">当sorts为空时，true导所有，false导未分组的</param>
         /// <returns></returns>
-        public string AccountsExport4Excel(string path, int orgid, string sorts, bool isall)
+        public string OutputToExcel(string path, int orgid, int mode, string sorts)
         {
             HSSFWorkbook hssfworkbook = new HSSFWorkbook();
             //xml配置文件
-            XmlDocument xmldoc = new XmlDocument();            
-            string confing = WeiSha.Core.App.Get["ExcelInputConfig"].VirtualPath + "学生信息.xml";
-            xmldoc.Load(WeiSha.Core.Server.MapPath(confing));
-            XmlNodeList nodes = xmldoc.GetElementsByTagName("item");
+            XmlDocument xmldoc = new XmlDocument();
+            string confing = Path.Combine(App.Get["ExcelInputConfig"].MapPath, "学生信息.xml");
+            xmldoc.Load(confing);
+            XmlNodeList nodes = xmldoc.GetElementsByTagName("item");    //导入的配置项
             //
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc &= Accounts._.Org_ID == orgid;
+            List<long> stsid_list = sorts.ToList<long>();
+            if (stsid_list.Count > 0) mode = 2;
             List<Accounts> accounts = null;
-            //如果没有分组信息，则取当前机构的所有
-            if (string.IsNullOrWhiteSpace(sorts))
+            //所有学员
+            if (mode == 0)
             {
-                if (isall)
+                accounts = Gateway.Default.From<Accounts>().Where(wc).OrderBy(Accounts._.Sts_ID.Asc & Accounts._.Ac_ID.Asc).ToList<Accounts>();
+                _outputExcel_to_sheet(hssfworkbook, "学员信息", accounts, nodes);
+            }
+            //所有学员组的学员
+            if (mode == 1)
+            {
+                accounts = Gateway.Default.From<Accounts>().Where(wc && Accounts._.Sts_ID > 0).OrderBy(Accounts._.Sts_ID.Asc & Accounts._.Ac_ID.Asc).ToList<Accounts>();
+                _outputExcel_to_sheet(hssfworkbook, "已分组学员", accounts, nodes);
+            }
+            //所有未分组学员
+            if (mode == 3)
+            {
+                accounts = Gateway.Default.From<Accounts>().Where(wc && Accounts._.Sts_ID <= 0).OrderBy(Accounts._.Ac_ID.Asc).ToList<Accounts>();
+                _outputExcel_to_sheet(hssfworkbook, "未分组学员", accounts, nodes);
+            }
+            //指定学员组导出
+          
+            if (mode == 2 || stsid_list.Count > 0)
+            {
+                if (stsid_list.Count < 1) throw new Exception("请选择要导出的学员组！");
+                foreach (long stsid in stsid_list)
                 {
-                    accounts = Gateway.Default.From<Accounts>().Where(wc).OrderBy(Accounts._.Ac_RegTime.Desc).ToList<Accounts>();
-                    _export4Excel_to_sheet(hssfworkbook, "学员信息", accounts, nodes);
-                }
-                else
-                {
-                    wc &= Accounts._.Org_ID == orgid;
-                    accounts = Gateway.Default.From<Accounts>().Where(wc && Accounts._.Sts_ID <= 0).OrderBy(Accounts._.Ac_RegTime.Desc).ToList<Accounts>();
-                    _export4Excel_to_sheet(hssfworkbook, "未分组学员", accounts, nodes);
+                    Song.Entities.StudentSort sts = Gateway.Default.From<StudentSort>().Where(StudentSort._.Sts_ID == stsid).ToFirst<StudentSort>();
+                    if (sts == null) continue;
+                    accounts = Gateway.Default.From<Accounts>().Where(Accounts._.Org_ID == orgid && Accounts._.Sts_ID == sts.Sts_ID).OrderBy(Accounts._.Ac_ID.Asc).ToList<Accounts>();
+                    _outputExcel_to_sheet(hssfworkbook, sts.Sts_Name, accounts, nodes);
                 }
             }
-            else
-            {
-                //按学员组生成工作簿
-                foreach (string s in sorts.Split(','))
-                {
-                    if (string.IsNullOrWhiteSpace(s)) continue;
-                    long sortid=0;
-                    long.TryParse(s,out sortid);
-                    if(sortid==0)continue;
-                    //
-                    Song.Entities.StudentSort sts=Gateway.Default.From<StudentSort>().Where(StudentSort._.Sts_ID == sortid).ToFirst<StudentSort>();
-                    if(sts==null)continue;
-                    accounts = Gateway.Default.From<Accounts>().Where(Accounts._.Org_ID == orgid && Accounts._.Sts_ID == sts.Sts_ID).OrderBy(Accounts._.Ac_RegTime.Desc).ToList<Accounts>();
-                    _export4Excel_to_sheet(hssfworkbook, sts.Sts_Name, accounts, nodes);
-                }
-                ////其它学员（没有分组的学员）
-                //WhereClip wcNosort = new WhereClip();
-                //Song.Entities.StudentSort[] stss = Gateway.Default.From<StudentSort>().Where(StudentSort._.Org_ID == orgid).ToArray<StudentSort>();
-                //foreach (StudentSort ss in stss) wcNosort.And(Accounts._.Sts_ID != ss.Sts_ID);
-                //accounts = Gateway.Default.From<Accounts>().Where(Accounts._.Org_ID == orgid && wcNosort).OrderBy(Accounts._.Ac_RegTime.Desc).ToArray<Accounts>();
-                //_export4Excel_to_sheet(hssfworkbook, "未分组学员", accounts, nodes);
-            }
-            
             FileStream file = new FileStream(path, FileMode.Create);
             hssfworkbook.Write(file);
             file.Close();
@@ -955,7 +950,7 @@ namespace Song.ServiceImpls
         /// <param name="path">导出文件的路径（服务器端）</param>
         /// <param name="orgs">机构id,用逗号分隔</param>
         /// <returns></returns>
-        public string AccountsExport4Excel(string path, string orgs)
+        public string OutputToExcel(string path, string orgs)
         {
             HSSFWorkbook hssfworkbook = new HSSFWorkbook();
             //xml配置文件
@@ -969,7 +964,7 @@ namespace Song.ServiceImpls
             if (string.IsNullOrWhiteSpace(orgs))
             {
                 accounts = Gateway.Default.From<Accounts>().OrderBy(Accounts._.Ac_RegTime.Desc).ToList<Accounts>();
-                _export4Excel_to_sheet(hssfworkbook, "全部学员信息", accounts, nodes);
+                _outputExcel_to_sheet(hssfworkbook, "全部学员信息", accounts, nodes);
             }
             else
             {
@@ -984,7 +979,7 @@ namespace Song.ServiceImpls
                     Song.Entities.Organization org = Business.Do<IOrganization>().OrganSingle(orgid);
                     if (org == null) continue;
                     accounts = Gateway.Default.From<Accounts>().Where(Accounts._.Org_ID == orgid).OrderBy(Accounts._.Ac_RegTime.Desc).ToList<Accounts>();
-                    _export4Excel_to_sheet(hssfworkbook, org.Org_Name + org.Org_ID.ToString(), accounts, nodes);
+                    _outputExcel_to_sheet(hssfworkbook, org.Org_Name + org.Org_ID.ToString(), accounts, nodes);
                 }
             }
 
@@ -994,58 +989,71 @@ namespace Song.ServiceImpls
             file.Close();
             return path;
         }
-        internal static void _export4Excel_to_sheet(HSSFWorkbook hssfworkbook, string sheetName, List<Accounts> accounts, XmlNodeList nodes)
+        internal static void _outputExcel_to_sheet(HSSFWorkbook hssfworkbook, string sheetName, List<Accounts> accounts, XmlNodeList nodes)
         {
-            ISheet sheet = hssfworkbook.CreateSheet(sheetName);   //创建工作簿对象
-            //创建数据行对象
-            IRow rowHead = sheet.CreateRow(0);
-            for (int i = 0; i < nodes.Count; i++)
+            //如果数据项过多时，分页输出，即分到多个工作表
+            int pagecount = 2000;
+            List<List<Accounts>> chunks = new List<List<Accounts>>();
+            for (int i = 0; i < accounts.Count; i += pagecount)
             {
-                string exExport = nodes[i].Attributes["export"] != null ? nodes[i].Attributes["export"].Value : ""; //是否导出
-                if (exExport.ToLower() == "false") continue;
-                rowHead.CreateCell(i).SetCellValue(nodes[i].Attributes["Column"].Value);
+                int count = Math.Min(pagecount, accounts.Count - i);
+                chunks.Add(accounts.GetRange(i, count));
             }
-            //生成数据行
-            ICellStyle style_size = hssfworkbook.CreateCellStyle();
-            style_size.WrapText = true;
-
-            for (int i = 0; i < accounts.Count; i++)
+            for (int c = 0; c < chunks.Count; c ++)
             {
-                IRow row = sheet.CreateRow(i + 1);
-                for (int j = 0; j < nodes.Count; j++)
+                List<Accounts> list = chunks[c];
+                string actualname = chunks.Count <= 1 ? sheetName : $"{sheetName}({c + 1})";
+                ISheet sheet = hssfworkbook.CreateSheet(actualname);   //创建工作簿对象
+                //创建数据行对象
+                IRow rowHead = sheet.CreateRow(0);
+                for (int i = 0; i < nodes.Count; i++)
                 {
-                    Type type = accounts[i].GetType();
-                    System.Reflection.PropertyInfo propertyInfo = type.GetProperty(nodes[j].Attributes["Field"].Value); //获取指定名称的属性
-                    object obj = propertyInfo.GetValue(accounts[i], null);
-                    if (obj != null)
+                    string exExport = nodes[i].Attributes["export"] != null ? nodes[i].Attributes["export"].Value : ""; //是否导出
+                    if (exExport.ToLower() == "false") continue;
+                    rowHead.CreateCell(i).SetCellValue(nodes[i].Attributes["Column"].Value);
+                }
+                //生成数据行
+                ICellStyle style_size = hssfworkbook.CreateCellStyle();
+                style_size.WrapText = true;
+
+                for (int i = 0; i < list.Count; i++)
+                {
+                    IRow row = sheet.CreateRow(i + 1);
+                    for (int j = 0; j < nodes.Count; j++)
                     {
-                        string exExport = nodes[j].Attributes["export"] != null ? nodes[j].Attributes["export"].Value : ""; //是否导出
-                        if (exExport.ToLower() == "false") continue;
-                        string format = nodes[j].Attributes["Format"] != null ? nodes[j].Attributes["Format"].Value : "";
-                        string datatype = nodes[j].Attributes["DataType"] != null ? nodes[j].Attributes["DataType"].Value : "";
-                        string defvalue = nodes[j].Attributes["DefautValue"] != null ? nodes[j].Attributes["DefautValue"].Value : "";
-                        
-                        string value = "";
-                        switch (datatype)
+                        Type type = list[i].GetType();
+                        System.Reflection.PropertyInfo propertyInfo = type.GetProperty(nodes[j].Attributes["Field"].Value); //获取指定名称的属性
+                        object obj = propertyInfo.GetValue(list[i], null);
+                        if (obj != null)
                         {
-                            case "date":
-                                DateTime tm = Convert.ToDateTime(obj);
-                                value = tm > DateTime.Now.AddYears(-100) ? tm.ToString(format) : "";
-                                break;
-                            default:
-                                value = obj.ToString();
-                                break;
-                        }
-                        if (defvalue.Trim() != "")
-                        {
-                            foreach (string s in defvalue.Split('|'))
+                            string exExport = nodes[j].Attributes["export"] != null ? nodes[j].Attributes["export"].Value : ""; //是否导出
+                            if (exExport.ToLower() == "false") continue;
+                            string format = nodes[j].Attributes["Format"] != null ? nodes[j].Attributes["Format"].Value : "";
+                            string datatype = nodes[j].Attributes["DataType"] != null ? nodes[j].Attributes["DataType"].Value : "";
+                            string defvalue = nodes[j].Attributes["DefautValue"] != null ? nodes[j].Attributes["DefautValue"].Value : "";
+
+                            string value = "";
+                            switch (datatype)
                             {
-                                string h = s.Substring(0, s.IndexOf("="));
-                                string f = s.Substring(s.LastIndexOf("=") + 1);
-                                if (value == h) value = f;
+                                case "date":
+                                    DateTime tm = Convert.ToDateTime(obj);
+                                    value = tm > DateTime.Now.AddYears(-100) ? tm.ToString(format) : "";
+                                    break;
+                                default:
+                                    value = obj.ToString();
+                                    break;
                             }
+                            if (defvalue.Trim() != "")
+                            {
+                                foreach (string s in defvalue.Split('|'))
+                                {
+                                    string h = s.Substring(0, s.IndexOf("="));
+                                    string f = s.Substring(s.LastIndexOf("=") + 1);
+                                    if (value == h) value = f;
+                                }
+                            }
+                            row.CreateCell(j).SetCellValue(value);
                         }
-                        row.CreateCell(j).SetCellValue(value);
                     }
                 }
             }

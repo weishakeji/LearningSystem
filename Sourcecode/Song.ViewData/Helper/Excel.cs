@@ -311,13 +311,14 @@ namespace Song.ViewData.Helper
             if (string.IsNullOrWhiteSpace(file)) return false;
             //上传的根文件夹
             string rootPhy = WeiSha.Core.Upload.Get[uploadkey].Physics;
-            //校验文件夹
-            if (!string.IsNullOrWhiteSpace(folder)) rootPhy += WeiSha.Core.Server.LegalPath(folder);
-            if (!rootPhy.EndsWith("\\")) rootPhy += "\\";
-            if (!Directory.Exists(rootPhy)) throw new Exception("上传的根文件夹不存在！");
-            //删除文件
-            string filePath = rootPhy + file;
-            if (!File.Exists(filePath)) return false;
+            ////校验文件夹
+            //if (!string.IsNullOrWhiteSpace(folder) && !IsPhysicalPath(folder)) rootPhy += WeiSha.Core.Server.LegalPath(folder);
+            //
+            string filePath;
+            if (IsPhysicalPath(folder)) filePath = Path.Combine(folder, file);
+            else filePath = Path.Combine(rootPhy, WeiSha.Core.Server.LegalPath(folder), file);
+            //删除文件          
+            if (!File.Exists(filePath)) throw new Exception("文件不存在！");
             File.Delete(filePath);
             return true;
         }
@@ -388,5 +389,32 @@ namespace Song.ViewData.Helper
             }
         }
         #endregion
+
+
+        /// <summary>
+        /// 判断是不是绝对路径
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static bool IsPhysicalPath(string path)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+                return false;
+
+            // 先判断是否有根（盘符或 UNC）
+            if (!Path.IsPathRooted(path))
+                return false;
+
+            // 排除 "C:foo" 这种驱动器相对路径
+            // 如果路径包含卷分隔符，且根路径不以分隔符结尾，说明是驱动器相对
+            string root = Path.GetPathRoot(path);
+            if (root != null && root.Length == 2 && root[1] == ':')
+            {
+                // 形如 "C:" 的根，需要后续紧跟目录分隔符才是完全限定
+                return path.Length > 2 && (path[2] == '\\' || path[2] == '/');
+            }
+
+            return true;
+        }
     }
 }

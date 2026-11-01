@@ -18,8 +18,8 @@ $ready(function () {
             checkedSorts: [],       //已经选中的分组      
             cheackedSearch: '',   //查询已经选中的分组 
 
-            //导出的表单设置,type:1为导出全部学员,2为导出选中分组的学员,3为导出已经分组的所有学员,4为导出未分组的学员
-            exportform: { 'orgid': '', 'sortid': '', 'type': 1 },
+            //导出的表单设置,mode:0为导出全部，1所有学员组，2指定学员组导出(sorts不得为空），3所有未分组学员
+            exportform: { 'orgid': '', 'sorts': '', 'mode': 1 },
             loading: false,
             loading_export: false,       //生成的预载
 
@@ -30,6 +30,7 @@ $ready(function () {
             th.org = window.org;
             th.config = window.config;
             th.sortsquery.orgid = th.org.Org_ID;
+            th.exportform.orgid = th.org.Org_ID;
             th.getStudentSorts(1);
             th.getFiles();
         },
@@ -186,14 +187,15 @@ $ready(function () {
                 var th = this;
                 //创建生成Excel
                 th.loading_export = true;
-                $api.get('Account/ExcelOutputForSort', { 'orgid': th.org.Org_ID, 'sorts': sorts }).then(function (req) {
+                th.exportform.sorts = th.activeName == 'sort' ? sorts : '';
+                $api.get('Account/OutputToExcel', th.exportform).then(function (req) {
 
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$notify({
                             message: '成功生成Excel文件！',
                             type: 'success',
-                            position: 'top-right',
+                            position: 'bottom-left',
                             duration: 2000
                         });
                         th.getFiles();
@@ -207,7 +209,7 @@ $ready(function () {
             //获取文件列表
             getFiles: function () {
                 var th = this;
-                $api.get('Account/ExcelFiles', { 'path': 'AccountsToExcelForSort' }).then(function (req) {
+                $api.get('Account/OutputExcelFiles', { 'orgid': th.org.Org_ID }).then(function (req) {
                     if (req.data.success) {
                         th.files = req.data.result;
                     } else {
@@ -221,14 +223,14 @@ $ready(function () {
             deleteFile: function (file) {
                 var th = this;
                 th.loading = true;
-                $api.delete('Account/ExcelDelete', { 'filename': file, 'path': 'AccountsToExcelForSort' }).then(function (req) {
+                $api.delete('Account/OutputExcelDelete', { 'filename': file, 'orgid': th.org.Org_ID }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.getFiles();
                         th.$notify({
                             message: '文件删除成功！',
                             type: 'success',
-                            position: 'bottom-right',
+                            position: 'bottom-left',
                             duration: 2000
                         });
                     } else {
@@ -240,10 +242,6 @@ $ready(function () {
                     console.error(err);
                 }).finally(() => th.loading = false);
             },
-            //操作成功
-            operateSuccess: function () {
-                window.top.$pagebox.source.tab(window.name, 'vue.loadDatas', true);
-            }
         },
     });
     //分组下的学员数
