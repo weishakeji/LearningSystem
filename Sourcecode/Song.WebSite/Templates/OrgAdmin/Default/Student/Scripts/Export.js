@@ -4,7 +4,7 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            activeName: 'files',   //选项卡
+            activeName: 'all',   //选项卡
             org: {},
             config: {},      //当前机构配置项    
 

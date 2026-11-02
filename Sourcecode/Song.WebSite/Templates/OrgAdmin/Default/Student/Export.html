@@ -31,7 +31,7 @@
 
             <div v-show="activeName=='all'" remark="全部导出" tab="all">
                 <el-radio-group v-model="exportform.mode" class="vertical-group">
-                    <el-radio :label="n.value" v-for="n in modearr " :key="n.value">{{n.label}}</el-radio>                
+                    <el-radio :label="n.value" v-for="n in modearr " :key="n.value">{{n.label}}</el-radio>
                 </el-radio-group>
             </div>
             <div v-show="activeName=='sort'" remark="按学员组" tab="sort">
@@ -76,9 +76,9 @@
                             <span class="count">共<b medium>{{checkedSorts.reduce((sum, item) => sum +
                                     item.Sts_Count, 0)}}</b>名学员</span>
                         </span>
-                        <span style="float: right;" v-if="checkedSorts.length>0" >
+                        <span style="float: right;" v-if="checkedSorts.length>0">
                             <el-popconfirm title="这是一段内容确定删除吗？" @confirm="removeAllSorts">
-                                <el-link type="danger" class="el-icon-delete"slot="reference">清空</el-link>
+                                <el-link type="danger" class="el-icon-delete" slot="reference">清空</el-link>
                             </el-popconfirm>
                             <el-input placeholder="搜索" size="small" style="width: 100px;" clearable
                                 v-model.trim="cheackedSearch" @input="getStudentSorts(1)">
@@ -101,19 +101,25 @@
 
             </div>
             <div v-show="activeName=='files'" remark="已经导出的文件" tab="files">
-                <dl v-if="files.length>0" class="files">
-                    <dd v-for="(f,i) in files">
-                        <a :href="f.url" :filetype="f.type" target="_blank" title="点击下载" :download="f.file">
-                            {{f.file}}</a>
-                        <span>{{f.size|size}}</span>
-                        <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
-                            <el-link type="danger" icon="el-icon-delete" v-loading="loading" slot="reference">删除
-                            </el-link>
-                        </el-popconfirm>
+                <div v-if="files.length>0">
+                    <el-divider content-position="left">
+                        共有<span>{{files.length}}</span>个文件，总大小<span>{{files.reduce((sum, item) => sum + item.size,
+                            0)|size}}</span></el-divider>
 
-                    </dd>
-                </dl>
-                <div v-else>没有文件，请操作“导出学员信息”</div>
+                    <dl class="files">
+                        <dd v-for="(f,i) in files">
+                            <a :href="f.url" :filetype="f.type" target="_blank" title="点击下载" :download="f.file">
+                                {{f.file}}</a>
+                            <span>{{f.size|size}}</span>
+                            <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
+                                <el-link type="danger" icon="el-icon-delete" v-loading="loading" slot="reference">删除
+                                </el-link>
+                            </el-popconfirm>
+
+                        </dd>
+                    </dl>
+                </div>
+                <el-empty v-else description="没有文件，请操作“导出学员信息"></el-empty>
             </div>
         </div>
 
@@ -121,7 +127,7 @@
 
         <div class="footer">
             <el-button :type="loading ? 'info' : 'primary'" v-on:click="btnOutput" class="el-icon-position"
-                :disabled="loading || loading_export" :loading="loading_export" native-type="submit">
+                :disabled="loading || loading_export || activeName=='files'" :loading="loading_export" native-type="submit">
                 导出学员信息
             </el-button>
             <el-button type='close'> 取消 </el-button>

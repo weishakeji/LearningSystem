@@ -94,7 +94,12 @@ div[tab=sort]>div.el-card:not(:last-child) {
 dl.files {
     padding: 0px 15px 15px 15px;
     box-sizing: border-box;
-    height: 100%;
+    height: calc(100% - 45px);
     margin-right: 10px;
     overflow-y: auto;
+    
+}
+.panel div[tab=files]>div{
+    height: 100%;
+    overflow:hidden
 }
