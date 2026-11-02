@@ -1217,6 +1217,12 @@ namespace Song.ViewData.Methods
             }
             return jarr;
         }
+        /// <summary>
+        /// 删除学员导出的Excel文件
+        /// </summary>
+        /// <param name="orgid">所属机构</param>
+        /// <param name="filename">文件名</param>
+        /// <returns></returns>
         [HttpDelete]
         [Admin, Teacher]
         public bool OutputExcelDelete(int orgid, string filename)
@@ -1225,8 +1231,6 @@ namespace Song.ViewData.Methods
             ViewData.Helper.Excel.DeleteFile(filename, rootpath, "Temp");
             return true;
         }
-    // ViewData.Helper.Excel.DeleteFile(filename, path, "Temp");
-        /// <summary>
         #endregion
 
         #region 学员成绩导出
