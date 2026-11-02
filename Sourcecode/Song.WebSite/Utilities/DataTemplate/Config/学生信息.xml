@@ -7,7 +7,7 @@
   <item Column="账号" Field="Ac_AccName" />
   <item Column="初始密码" Field="Ac_Pw" export="false" />
   <item Column="性别" Field="Ac_Gender" DefautValue="0=未知|1=男|2=女"/>
-  <item Column="学生组" Field="Sts_Name" />
+  <item Column="学员组" Field="Sts_Name" />
   <item Column="出生年月" Field="Ac_Birthday"  DataType="date" Format="yyyy-MM-dd" />
   <item Column="籍贯" Field="Ac_Native" />
   <item Column="民族" Field="Ac_Nation" />

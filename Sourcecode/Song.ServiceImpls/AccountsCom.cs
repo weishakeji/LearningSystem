@@ -917,8 +917,13 @@ namespace Song.ServiceImpls
             //所有学员组的学员
             if (mode == 1)
             {
-                accounts = Gateway.Default.From<Accounts>().Where(wc && Accounts._.Sts_ID > 0).OrderBy(Accounts._.Sts_ID.Asc & Accounts._.Ac_ID.Asc).ToList<Accounts>();
-                _outputExcel_to_sheet(hssfworkbook, "已分组学员", accounts, nodes);
+                List<StudentSort> sts = Gateway.Default.From<StudentSort>().Where(StudentSort._.Org_ID == orgid).ToList<StudentSort>();
+                foreach (StudentSort sort in sts)
+                {
+                    accounts = Gateway.Default.From<Accounts>().Where(wc && Accounts._.Sts_ID == sort.Sts_ID).OrderBy(Accounts._.Sts_ID.Asc & Accounts._.Ac_ID.Asc).ToList<Accounts>();
+                    if (accounts.Count < 1) continue;
+                    _outputExcel_to_sheet(hssfworkbook, sort.Sts_Name, accounts, nodes);
+                }
             }
             //所有未分组学员
             if (mode == 3)

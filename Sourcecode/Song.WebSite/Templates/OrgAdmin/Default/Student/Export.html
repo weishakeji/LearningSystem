@@ -31,9 +31,7 @@
 
             <div v-show="activeName=='all'" remark="全部导出" tab="all">
                 <el-radio-group v-model="exportform.mode" class="vertical-group">
-                    <el-radio :label="1">所有学员</el-radio>
-                    <el-radio :label="3">所有分组的学员</el-radio>
-                    <el-radio :label="4">所有未分组的学员</el-radio>
+                    <el-radio :label="n.value" v-for="n in modearr " :key="n.value">{{n.label}}</el-radio>                
                 </el-radio-group>
             </div>
             <div v-show="activeName=='sort'" remark="按学员组" tab="sort">

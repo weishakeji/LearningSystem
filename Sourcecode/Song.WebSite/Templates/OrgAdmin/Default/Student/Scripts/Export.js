@@ -4,7 +4,7 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            activeName: 'sort',   //选项卡
+            activeName: 'files',   //选项卡
             org: {},
             config: {},      //当前机构配置项    
 
@@ -19,7 +19,13 @@ $ready(function () {
             cheackedSearch: '',   //查询已经选中的分组 
 
             //导出的表单设置,mode:0为导出全部，1所有学员组，2指定学员组导出(sorts不得为空），3所有未分组学员
-            exportform: { 'orgid': '', 'sorts': '', 'mode': 1 },
+            exportform: { 'orgid': '', 'sorts': '', 'mode': 0 },
+            modearr: [
+                { 'value': 0, 'label': '导出全部' },
+                { 'value': 1, 'label': '所有学员组' },
+                //{ 'value': 2, 'label': '指定学员组导出' },
+                { 'value': 3, 'label': '所有未分组学员' },
+            ],
             loading: false,
             loading_export: false,       //生成的预载
 
@@ -164,15 +170,22 @@ $ready(function () {
             btnOutput: function () {
                 var total = 0, count = 0;
                 var msg = '', sorts = '';
-                if (this.checkedSorts.length > 0) {
-                    this.checkedSorts.map(function (v) {
-                        total += v.Sts_Count;
-                        sorts += v.Sts_ID + ',';
-                    });
-                    count = this.checkedSorts.length;
-                    msg = '选中' + count + '个学员组，共' + total + '学员，是否导出?';
+                if (this.activeName == 'sort') {
+                    if (this.checkedSorts.length > 0) {
+                        this.checkedSorts.map(function (v) {
+                            total += v.Sts_Count;
+                            sorts += v.Sts_ID + ',';
+                        });
+                        count = this.checkedSorts.length;
+                        msg = '选中' + count + '个学员组，共' + total + '学员，是否导出?';
+                    } else {
+                        msg = '没有选择学员组，将导出未分组的学员，是否导出?';
+                    }
+
                 } else {
-                    msg = '没有选择学员组，将导出未分组的学员，是否导出?';
+
+                    const item = this.modearr.find(item => item.value === this.exportform.mode);
+                    msg = item.label + '，是否导出?';
                 }
                 this.$confirm(msg, '提示', {
                     confirmButtonText: '确定',
@@ -197,8 +210,9 @@ $ready(function () {
                             type: 'success',
                             position: 'bottom-left',
                             duration: 2000
-                        });
-                        th.getFiles();
+                        });                     
+                        th.getFiles(result);
+                        th.activeName = 'files';
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;

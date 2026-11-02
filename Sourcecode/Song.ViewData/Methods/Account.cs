@@ -1146,27 +1146,6 @@ namespace Song.ViewData.Methods
         }
         //虚拟路径
         private string outputPathVt => WeiSha.Core.Upload.Get["Temp"].Virtual + _outputPath;
-        ///// <summary>
-        ///// 生成excel,按机构导出
-        ///// </summary>
-        ///// <param name="organs">机构id,多个id用逗号分隔</param>
-        ///// <returns></returns>
-        //[Admin, Teacher]
-        //public JObject ExcelOutputForOrg(string organs)
-        //{
-        //    //导出文件的位置
-        //    string rootpath = outputPathHy;
-
-        //    DateTime date = DateTime.Now;
-        //    string filename = string.Format("账号导出{0}.({1}).xls", organs, date.ToString("yyyy-MM-dd hh-mm-ss"));
-        //    string filePath = rootpath + filename;
-        //    filePath = Business.Do<IAccounts>().AccountsExport4Excel(filePath, organs);
-        //    JObject jo = new JObject();
-        //    jo.Add("file", filename);
-        //    jo.Add("url", outputPathVt + filename);
-        //    jo.Add("date", date);
-        //    return jo;
-        //}
         /// <summary>
         /// 导出excel
         /// </summary>
@@ -1186,13 +1165,13 @@ namespace Song.ViewData.Methods
             DateTime date = DateTime.Now;
             string filename = string.Empty;
 
-            if (mode == 0) filename = string.Format("所有账号导出.({0}).xls", date.ToString("yyyy-MM-dd hh-mm-ss"));
-            if (mode == 1) filename = string.Format("按学员组导出.({0}).xls", date.ToString("yyyy-MM-dd hh-mm-ss"));
-            if (mode == 3) filename = string.Format("未分组学员.({0}).xls", date.ToString("yyyy-MM-dd hh-mm-ss"));
+            if (mode == 0) filename = string.Format("所有账号导出.{0}.xls", date.ToString("yyyy-MM-dd hh-mm-ss"));
+            if (mode == 1) filename = string.Format("按学员组导出.{0}.xls", date.ToString("yyyy-MM-dd hh-mm-ss"));
+            if (mode == 3) filename = string.Format("未分组学员.{0}.xls", date.ToString("yyyy-MM-dd hh-mm-ss"));
             if (mode == 2 || sortlist.Count > 0)
             {
                 if (sortlist.Count < 1) throw new Exception("请选择要导出的学员组！");
-                filename = string.Format("指定学员组导出.{1}.({0}).xls", date.ToString("yyyy-MM-dd hh-mm-ss"), sortlist.Count.ToString());
+                filename = string.Format("指定学员组导出.(共{1}组).{0}.xls", date.ToString("yyyy-MM-dd hh-mm-ss"), sortlist.Count.ToString());
             }
 
             string filePath = Path.Combine(rootpath, filename);
@@ -1203,26 +1182,6 @@ namespace Song.ViewData.Methods
             jo.Add("date", date);
             return jo;
         }
-        ///// <summary>
-        ///// 生成excel，按学员组导出
-        ///// </summary>
-        ///// <param name="orgid"></param>
-        ///// <param name="mode"></param>
-        ///// <param name="sorts">分组id,多个id用逗号分隔</param> 
-        ///// <returns></returns>
-        //[Admin, Teacher]
-        //public JObject ExcelOutputForSort(int orgid,string sorts)
-        //{
-        //    DateTime date = DateTime.Now;
-        //    string filename = string.Format("账号导出{0}.({1}).xls", sorts, date.ToString("yyyy-MM-dd hh-mm-ss"));
-        //    string filePath = outputPathHy + filename;
-        //    filePath = Business.Do<IAccounts>().AccountsExport4Excel(filePath, orgid, sorts, false);
-        //    JObject jo = new JObject();
-        //    jo.Add("file", filename);
-        //    jo.Add("url", outputPathVt + filename);
-        //    jo.Add("date", date);
-        //    return jo;
-        //}
         /// <summary>
         /// 删除Excel文件
         /// </summary>
