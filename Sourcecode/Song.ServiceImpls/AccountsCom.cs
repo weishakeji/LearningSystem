@@ -997,7 +997,7 @@ namespace Song.ServiceImpls
         internal static void _outputExcel_to_sheet(HSSFWorkbook hssfworkbook, string sheetName, List<Accounts> accounts, XmlNodeList nodes)
         {
             //如果数据项过多时，分页输出，即分到多个工作表
-            int pagecount = 2000;
+            int pagecount = 65000;
             List<List<Accounts>> chunks = new List<List<Accounts>>();
             for (int i = 0; i < accounts.Count; i += pagecount)
             {

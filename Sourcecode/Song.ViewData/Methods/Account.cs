@@ -927,15 +927,8 @@ namespace Song.ViewData.Methods
         [HttpPost]
         public bool SortAdd(Song.Entities.StudentSort entity)
         {
-            try
-            {
-                Business.Do<IStudent>().SortAdd(entity);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            Business.Do<IStudent>().SortAdd(entity);
+            return true;
         }
         /// <summary>
         /// 修改学员组

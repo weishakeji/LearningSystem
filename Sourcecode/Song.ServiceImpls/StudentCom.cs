@@ -24,11 +24,14 @@ namespace Song.ServiceImpls
         public void SortAdd(StudentSort entity)
         {
             if (entity.Sts_ID <= 0) entity.Sts_ID = WeiSha.Core.Request.SnowID();
-            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
-            if (org != null)
+            if (entity.Org_ID <= 0)
             {
-                entity.Org_ID = org.Org_ID;
-                entity.Org_Name = org.Org_Name;
+                Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+                if (org != null)
+                {
+                    entity.Org_ID = org.Org_ID;
+                    entity.Org_Name = org.Org_Name;
+                }
             }
             if (entity.Sts_Order <= 0)
             {
