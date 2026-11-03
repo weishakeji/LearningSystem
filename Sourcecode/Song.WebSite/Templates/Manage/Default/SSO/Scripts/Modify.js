@@ -171,13 +171,14 @@ $ready(function () {
             //生成演示
             buildemo: function (demo) {
                 var href = window.location.origin + '/sso/login?';
-                var md5 = $api.md5(this.entity.SSO_APPID + demo.user + demo.name + demo.sort);
+                let user = demo.user ? encodeURIComponent(demo.user) :'';
+                let name = demo.name ? encodeURIComponent(demo.name) : '';
+                let sort = demo.sort ? encodeURIComponent(demo.sort) : '';
+                var md5 = $api.md5(this.entity.SSO_APPID + user + name + sort);
                 var goto = demo.goto == '' || demo.goto == undefined ? '' : encodeURIComponent(demo.goto);
                 href = $api.url.set(href, {
                     appid: this.entity.SSO_APPID,
-                    user: demo.user,
-                    name: demo.name,
-                    sort: demo.sort,
+                    user: user, name: name, sort: sort,
                     code: md5
                 });
                 href = $api.url.set(href, 'goto', goto);
