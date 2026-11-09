@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head resource>
+    <meta charset="utf-8">
+     <include file="../inc/meta.inc" />
+    <title>数据库索引</title>    
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <!--左侧数据库表的列表-->
+        <entities @selected="setentity"></entities>
+        <!--表结构的详情-->
+        <div id="content" v-if="entity!=null">
+            <div class="entity_header">
+                <div class="name">
+                    <span @dblclick="copy(entity.name)" title="双击复制"> {{entity.index+1}}. {{entity.name}}</span>
+                    <span class="mark">{{entity.mark}}</span>
+                </div>
+                <div class="intro">
+                    <span>说明：<span v-html="entity.intro"></span>
+                </div>
+            </div>
+            <loading v-if="loading"> loading ...</loading>
+            <div v-else-if="dbType=='PostgreSQL'" class="entity_indexs">
+                <p>当前表共 {{indexs.length}} 个索引，占用空间 {{totalsize(indexs)}}</p>
+
+                <table border="0">
+                    <thead>
+                        <tr>
+                            <th width="50px">序号</th>
+                            <th >索引名称</th>
+                            <th class="columns">字段</th>
+                            <th width="130px">空间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item,idx) in indexs">
+                            <td>{{idx+1}}</td>
+                            <td>{{item.name}}</td>
+                            <td class="columns">
+                                <div v-for="(col,idx) in item.columnname">
+                                    {{col.column}} <el-tag type="danger" v-if="col.sort=='ASC'"> {{col.sort}}</el-tag>
+                                    <el-tag type="warning" v-else> {{col.sort}}</el-tag>
+                                </div>
+
+                            </td>
+                            <td v-html="showsize(item.sizekb)" class="index_size"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div v-else-if="dbType=='SQLServer'" class="entity_indexs">
+                <p>当前表共 {{indexs.length}} 个索引</p>
+                <table border="0">
+                    <thead>
+                        <tr>
+                            <th width="50px">序号</th>
+                            <th width="200px">索引名称</th>
+                            <th class="columns">字段</th>  
+                            <th class="columns">索引类型</th>                                   
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item,idx) in indexs">
+                            <td>{{idx+1}}</td>
+                            <td>{{item.name}}</td>
+                            <td class="columns">
+                                <div>
+                                    {{item.columnName}} 
+                                    <el-tag type="danger" v-if="item.IsDescending">ASC</el-tag>
+                                    <el-tag type="warning" v-else>DESC</el-tag>
+                                </div>
+                            </td>     
+                            <td>{{item.IndexType}}</td>                     
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div v-else-if="dbType=='SQLite'" class="entity_indexs">
+                <p>当前表共 {{indexs.length}} 个索引</p>
+                <table border="0">
+                    <thead>
+                        <tr>
+                            <th width="50px">序号</th>
+                            <th width="200px">索引名称</th>                                                          
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(item,idx) in indexs">
+                            <td>{{idx+1}}</td>
+                            <td>{{item.name}}</td>
+                                            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

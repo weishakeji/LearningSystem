@@ -1,0 +1,150 @@
+p {
+    text-indent: 0px;
+}
+
+#vapp {
+    display: flex;
+}
+
+#content {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/*实体详情区域*/
+
+.entity_header {
+    margin: 0px 5px 0px 20px;
+    padding: 0px 0px 10px 0px;
+    box-sizing: border-box;
+}
+
+.entity_header .name {
+    display: flex;
+    justify-content: space-between;
+    white-space: nowrap;
+    font-size: 18px;
+}
+
+.entity_header .name>* {
+    line-height: 50px;
+}
+
+.entity_header .mark {
+    margin: 0px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #777;
+    line-height: 50px;
+}
+
+.entity_header .el-input__inner {
+    height: 30px;
+}
+
+.entity_header .query {
+    width: 160px;
+    margin-left: auto;
+}
+
+.entity_header textarea {
+    box-sizing: border-box;
+    background-color: transparent;
+
+}
+
+/*表结构的字段详情*/
+.entity_details {
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    padding-right: 10px;
+    position: relative;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+    border-top: 0px;
+    margin: 0px 10px 20px 0px;
+    position: relative;
+    overflow: hidden auto;
+
+    table-layout: fixed;
+}
+
+table tr th {
+    text-align: center;
+    background-color: #fff;
+    border-top: 2px solid #ddd;
+    border: 1px solid #b0b8c4; 
+    padding: 5px;
+    position: sticky;
+    top: 0px;
+    z-index: 1;
+}
+
+table td {
+    line-height: 30px;
+    border: 1px solid #b0b8c4; 
+    padding: 10px 14px; 
+    text-align: left;
+    vertical-align: middle;
+}
+
+table td textarea {
+    width: 100%;
+    padding: 0px;
+    overflow: auto;
+}
+
+table td select {
+    width: 100%;
+}
+
+table tr:not(:first-child):hover td {
+    background-color: rgb(251, 255, 239);
+}
+
+table tr td {
+    text-align: center;
+}
+
+table tr td:nth-child(2), table tr th:nth-child(2) {
+    text-indent: 8px;
+    text-align: left;
+}
+
+table tr td:nth-child(3), table tr th:nth-child(3) {
+    width: 120px;
+}
+
+table tr td:nth-child(6) {
+    line-height: 1.2rem;
+    padding: 0px 10px;
+}
+
+table tr td:nth-child(6) input {
+    width: 98%;
+}
+
+/*字段说明，即表格的最后一列*/
+table tr td:nth-child(7) {
+    padding: 2px 8px 2px 8px;
+    line-height: 22px;
+    text-align: left;
+
+}
+
+table tr th:nth-child(7) {
+    min-width: 300px;
+}
+
+table tr td:nth-child(7) div {
+    cursor: pointer;
+
+}

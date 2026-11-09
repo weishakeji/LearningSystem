@@ -239,7 +239,7 @@ namespace Song.ViewData.Methods
         /// 表的描述信息，包括名称、简述与说明
         /// </summary>
         /// <returns>例如：{"Accessory":{"mark":"附件表","intro":"..."}}</returns>
-        [HttpGet, Localhost]
+        [HttpGet, Admin]
         public JObject TablesDescr()
         {
             //数据库所有的表
@@ -284,7 +284,6 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="detail">所有表的详情说明,json格式</param>
         /// <returns></returns>
-        [Localhost]
         [HttpPost]
         [Admin]
         public bool TablesDescrUpdate(string detail)
@@ -306,7 +305,7 @@ namespace Song.ViewData.Methods
         /// </summary>       
         /// <param name="tablename">表名称</param>
         /// <returns>返回实体详情</returns>
-        [HttpGet]
+        [HttpGet, Localhost, Admin]
         public JObject FieldsDescr(string tablename)
         {
             string file = string.Format("{0}help\\datas\\Entitiy\\{1}.json", AppDomain.CurrentDomain.BaseDirectory, tablename);
@@ -349,7 +348,6 @@ namespace Song.ViewData.Methods
         /// <param name="tablename">表名称</param>
         /// <param name="detail">表的详情说明,json格式</param>
         /// <returns>返回实体详情</returns>
-        [Localhost]
         [HttpPost]
         [Admin]
         public bool FieldsDescrUpdate(string tablename, string detail)
@@ -373,6 +371,7 @@ namespace Song.ViewData.Methods
         /// 数据实体生成Word文档
         /// </summary>
         /// <returns></returns>
+        [HttpGet, Admin]
         public string EntitiestoWord()
         {
             //导出文件的位置

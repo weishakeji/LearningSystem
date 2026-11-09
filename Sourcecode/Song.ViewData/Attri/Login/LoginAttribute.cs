@@ -89,7 +89,7 @@ namespace Song.ViewData.Attri
                     str += "“" + list[i] + "”";
                     if (i < list.Count - 1) str += "或";
                 }
-                throw VExcept.Verify(msg + str + " 登录后操作，该限制由接口特性 "+ typeof(LoginAttribute).Name+ " 约束，不受管理权限控制。", 100);                
+                throw VExcept.Verify(msg + str + " 登录后访问，该限制由接口特性 "+ typeof(LoginAttribute).Name+ " 约束，不受管理权限控制。", 100);                
             }
             return loginattr;
         }
