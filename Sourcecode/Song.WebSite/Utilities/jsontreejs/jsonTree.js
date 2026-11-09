@@ -1403,7 +1403,7 @@ var Obj;
     e.createFromValue = n;
 })(Obj || (Obj = {}));
 
-var ContextMenu;
+var JsontreeContextMenu;
 
 (e => {
     function t(e) {
@@ -1446,7 +1446,7 @@ var ContextMenu;
         return o;
     }
     e.addMenuItem = i;
-})(ContextMenu || (ContextMenu = {}));
+})(JsontreeContextMenu || (JsontreeContextMenu = {}));
 
 var Filename;
 
@@ -1494,7 +1494,7 @@ var Filename;
     function r(e) {
         Trigger.customEvent(e.events.onBeforeRender, e._currentView.element);
         ToolTip.renderControl(e);
-        ContextMenu.renderControl(e);
+        JsontreeContextMenu.renderControl(e);
         if (!Is.definedString(e._currentView.element.id)) {
             if (Is.definedString(e.id)) {
                 e._currentView.element.id = e.id;
@@ -1538,7 +1538,7 @@ var Filename;
     function s(e, t, n) {
         const o = c(e);
         ToolTip.hide(e);
-        ContextMenu.hide(e);
+        JsontreeContextMenu.hide(e);
         e.data = n;
         e._currentView.element.innerHTML = "";
         e._currentView.editMode = false;
@@ -1695,7 +1695,7 @@ var Filename;
     function c(e) {
         const t = [];
         ToolTip.hide(e);
-        ContextMenu.hide(e);
+        JsontreeContextMenu.hide(e);
         if (e._currentView.editMode || e._currentView.sideMenuChanged) {
             const n = e._currentView.currentContentColumns.length;
             for (let o = 0; o < n; o++) {
@@ -1706,7 +1706,7 @@ var Filename;
     }
     function d(e, t, n) {
         ToolTip.hide(t);
-        ContextMenu.hide(t);
+        JsontreeContextMenu.hide(t);
         const o = e.scrollTop;
         const l = e.scrollLeft;
         const r = t._currentView.currentContentColumns.length;
@@ -2060,7 +2060,7 @@ var Filename;
                 t._currentView.fullScreenOn = true;
             }
             ToolTip.hide(t);
-            ContextMenu.hide(t);
+            JsontreeContextMenu.hide(t);
             J(t);
             Trigger.customEvent(t.events.onFullScreenChange, t._currentView.element, t._currentView.element.classList.contains("full-screen"));
         }
@@ -2148,7 +2148,7 @@ var Filename;
             e._currentView.sideMenu.classList.add("side-menu-open");
             e._currentView.disabledBackground.style.display = "block";
             ToolTip.hide(e);
-            ContextMenu.hide(e);
+            JsontreeContextMenu.hide(e);
         }
     }
     function N(t) {
@@ -2157,7 +2157,7 @@ var Filename;
             t._currentView.sideMenu.classList.remove("side-menu-open");
             t._currentView.disabledBackground.style.display = "none";
             ToolTip.hide(t);
-            ContextMenu.hide(t);
+            JsontreeContextMenu.hide(t);
             if (t._currentView.sideMenuChanged) {
                 setTimeout((() => {
                     i(t);
@@ -3423,13 +3423,13 @@ var Filename;
             DomElement.cancelBubble(u);
             t._currentView.contextMenu.innerHTML = "";
             if (o && t._currentView.selectedValues.length <= 1) {
-                const o = ContextMenu.addMenuItem(t, e.text.editSymbolButtonText, e.text.editButtonText);
+                const o = JsontreeContextMenu.addMenuItem(t, e.text.editSymbolButtonText, e.text.editButtonText);
                 o.onclick = e => me(e, t, n, l, i, r, s, a);
             }
-            const c = ContextMenu.addMenuItem(t, e.text.copyButtonSymbolText, e.text.copyButtonText);
+            const c = JsontreeContextMenu.addMenuItem(t, e.text.copyButtonSymbolText, e.text.copyButtonText);
             c.onclick = e => pe(e, t, r);
             if (o && t._currentView.selectedValues.length <= 1) {
-                const n = ContextMenu.addMenuItem(t, e.text.removeSymbolButtonText, e.text.removeButtonText);
+                const n = JsontreeContextMenu.addMenuItem(t, e.text.removeSymbolButtonText, e.text.removeButtonText);
                 n.onclick = e => xe(e, t, l, i, s);
             }
             DomElement.showElementAtMousePosition(u, t._currentView.contextMenu, 0);
@@ -3438,7 +3438,7 @@ var Filename;
     function me(e, t, n, o, l, r, i, s) {
         DomElement.cancelBubble(e);
         re(e, t, o, l, r, n, i, s);
-        ContextMenu.hide(t);
+        JsontreeContextMenu.hide(t);
     }
     function pe(e, t, n) {
         DomElement.cancelBubble(e);
@@ -3447,7 +3447,7 @@ var Filename;
             o = t._currentView.selectedValues;
         }
         V(t, o);
-        ContextMenu.hide(t);
+        JsontreeContextMenu.hide(t);
     }
     function xe(t, n, o, l, r) {
         DomElement.cancelBubble(t);
@@ -3456,7 +3456,7 @@ var Filename;
         } else {
             delete o[l];
         }
-        ContextMenu.hide(n);
+        JsontreeContextMenu.hide(n);
         i(n, false);
         Z(n, e.text.itemDeletedText);
     }
@@ -3686,9 +3686,9 @@ var Filename;
         }
         Ee(e, false);
         ToolTip.assignToEvents(e, false);
-        ContextMenu.assignToEvents(e, false);
+        JsontreeContextMenu.assignToEvents(e, false);
         ToolTip.remove(e);
-        ContextMenu.remove(e);
+        JsontreeContextMenu.remove(e);
         Trigger.customEvent(e.events.onDestroy, e._currentView.element);
     }
     const Me = {
