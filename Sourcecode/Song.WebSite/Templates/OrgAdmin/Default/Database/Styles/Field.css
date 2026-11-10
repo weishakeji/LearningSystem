@@ -12,10 +12,12 @@ section {
     flex-wrap: wrap;
     gap: 10px;
 }
-
+.field-name { 
+    color: #409EFF;
+}
 section .el-card {
     flex: 0 0 calc((100% - 30px) / 3);
-    height: 300px;
+    max-height: 300px;
     display: flex;
     flex-direction: column;
 }

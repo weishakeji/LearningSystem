@@ -79,8 +79,8 @@
         $dom.ready(function () {
             $dom.corejs(function () {
                 $components(function () {
-                    //window.$init_load(() => $dom.componentjs(window.$customize_componentjs(jsfile), func));
-                    $dom.componentjs(window.$customize_componentjs(jsfile), window.$init_load(func));
+                    window.$init_load(() => $dom.componentjs(window.$customize_componentjs(jsfile), func));
+                    //$dom.componentjs(window.$customize_componentjs(jsfile), window.$init_load(func));
                     window.$init_func();
                 });
             });

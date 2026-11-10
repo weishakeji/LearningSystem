@@ -167,7 +167,7 @@ window.$succeeded = function (result) {
     //树形菜单
     window.tree = $treemenu.create({
         target: '#treemenu-area',
-        width: 200,
+        width: 220,
         taghide: false, query: true, fold: false
     }).onmounted(function (s, e) { //加载数据源
         $api.get('ManageMenu/Menus:60').then(function (req) {

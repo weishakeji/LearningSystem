@@ -31,16 +31,21 @@
                 <el-button type="primary" @click="onSubmit" :loading="loading">查询</el-button>
             </el-form-item>
         </el-form>
-
-        <loading v-if="loading"></loading>
+        <section v-if="isEmpty">
+            <help multi>
+                说明：<br />
+                本功能用于查询数据库中的字段，可以按数据类型和字段名（模糊）进行查询。
+            </help>
+        </section>
+        <loading v-else-if="loading" asterisk>loading ...</loading>     
         <template v-else>
             <el-divider content-position="left">共查询到 {{tabletotal}} 张表，{{fieldtotal}}个字段</el-divider>
             <section>
                 <el-card v-for="(val,key,idx) in results" shadow="hover">
                     <template slot="header">
-                        <span class="index">{{idx+1}}.</span> 
-                        <span class="field-name" icon="&#xa021">表：{{key}} </span>
-                        <el-tag  icon="&#xe6cb" type="warning">字段数：{{val.length}}</el-tag>
+                        <span class="index">{{idx+1}}.</span>
+                        <span class="field-name" icon="&#xa021" blue>表：{{key}} </span>
+                        <el-tag icon="&#xe6cb" type="warning">字段数：{{val.length}}</el-tag>
                     </template>
                     <dl>
                         <dd v-for="(val,i) in val"><span class="index">{{idx+1}}.{{i+1}} .</span> {{val}}</dd>

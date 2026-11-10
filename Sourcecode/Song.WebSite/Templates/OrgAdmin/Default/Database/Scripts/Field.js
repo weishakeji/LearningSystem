@@ -75,7 +75,7 @@ $ready(function () {
                 var th = this;
                 th.tabletotal = 0;
                 th.fieldtotal = 0;
-                //if (th.isEmpty) return;
+                if (th.isEmpty) return;
                 th.loadstate.query = true;
                 $api.get("DataBase/FieldQuery", th.form)
                     .then(req => {
