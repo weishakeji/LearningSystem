@@ -419,7 +419,7 @@ namespace Song.ServiceImpls
                     foreach (var key in keysToRemove) fields.Remove(key);
                 }
                 if (fields.Count > 0) dic.Add(tb, fields.Keys.ToArray<string>());
-            }
+            }          
             return dic;
         }
         /// <summary>

@@ -37,6 +37,9 @@
 }
 
 /*当前选中的左侧选项卡*/
+.treemenu tree_tags{
+    background-color: transparent;
+}
 .treemenu tree_tags tree_tag.selected {
     background-color: var(--tag-selected-bg);
     color: var(--tag-selected-color);

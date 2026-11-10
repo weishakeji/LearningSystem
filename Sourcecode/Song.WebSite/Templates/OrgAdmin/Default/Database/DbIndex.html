@@ -9,6 +9,7 @@
 
 <body>
     <div id="vapp" v-cloak>
+        <loading v-if="loading.get"> loading ...</loading>
         <!--左侧数据库表的列表-->
         <entities @selected="setentity"></entities>
         <!--表结构的详情-->

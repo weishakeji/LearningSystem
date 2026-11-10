@@ -4,7 +4,7 @@
 <head resource>
     <meta charset="utf-8">
     <include file="../inc/meta.inc" />
-    <title>数据库字段检索</title>  
+    <title>数据库字段检索</title>
 </head>
 
 <body>
@@ -31,19 +31,24 @@
                 <el-button type="primary" @click="onSubmit" :loading="loading">查询</el-button>
             </el-form-item>
         </el-form>
-        <section>
-            <loading v-if="loading"></loading>
-            <template v-else>
-                <div>
-                    <el-tag type="warning" class="result_info"> 共查询到 {{tabletotal}} 张表，{{fieldtotal}}个字段</el-tag>
-                </div>
-                <dl v-for="(val,key,idx) in results">
-                    <dt><span class="index">{{idx+1}}.</span> {{key}} <span>({{val.length}})</span></dt>
 
-                    <dd v-for="(val,i) in val"><span class="index">{{idx+1}}.{{i+1}} .</span> {{val}}</dd>
-                </dl>
-            </template>
-        </section>
+        <loading v-if="loading"></loading>
+        <template v-else>
+            <el-divider content-position="left">共查询到 {{tabletotal}} 张表，{{fieldtotal}}个字段</el-divider>
+            <section>
+                <el-card v-for="(val,key,idx) in results" shadow="hover">
+                    <template slot="header">
+                        <span class="index">{{idx+1}}.</span> 
+                        <span class="field-name" icon="&#xa021">表：{{key}} </span>
+                        <el-tag  icon="&#xe6cb" type="warning">字段数：{{val.length}}</el-tag>
+                    </template>
+                    <dl>
+                        <dd v-for="(val,i) in val"><span class="index">{{idx+1}}.{{i+1}} .</span> {{val}}</dd>
+                    </dl>
+                </el-card>
+            </section>
+        </template>
+
 
     </div>
 </body>

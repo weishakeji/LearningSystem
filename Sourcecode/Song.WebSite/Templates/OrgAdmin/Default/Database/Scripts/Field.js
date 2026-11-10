@@ -36,10 +36,25 @@ $ready(function () {
                         return true;
                 }
                 return false;
+            },
+            //判断查询条件是否为空
+            isEmpty: function () {
+                var form = this.form;
+                return Object.values(form).every(value => {
+                    if (value === null || value === undefined) return true;
+                    if (typeof value === 'string') return value.trim() === '';
+                    if (Array.isArray(value)) return value.length === 0;
+                    if (typeof value === 'object') return Object.keys(value).length === 0;
+                    return false;
+                });
             }
         },
         watch: {
-
+            form: {
+                handler: function () {
+                    this.onSubmit();
+                }, deep: true
+            }
         },
         methods: {
             //获取数据库类型
@@ -60,6 +75,7 @@ $ready(function () {
                 var th = this;
                 th.tabletotal = 0;
                 th.fieldtotal = 0;
+                //if (th.isEmpty) return;
                 th.loadstate.query = true;
                 $api.get("DataBase/FieldQuery", th.form)
                     .then(req => {
