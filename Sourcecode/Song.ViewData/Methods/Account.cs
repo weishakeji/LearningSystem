@@ -1104,12 +1104,23 @@ namespace Song.ViewData.Methods
             if (sort == null) throw new Exception("Not found entity for StudentSort！");
             int i = 0;
             if (string.IsNullOrWhiteSpace(id)) return i;
-            List<int> list = id.ToList<int>();
-            foreach (int s in list)
+            List<int> stids = id.ToList<int>();
+           
+            //学员所在的学员组历史id
+            List<long> historyid=new List<long>();
+            foreach (int s in stids)
+            {
+                Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsSingle(s);
+                if (acc.Sts_ID > 0)historyid.Add(acc.Sts_ID);
+            }
+            historyid.Add(stsid);
+            //批量更新学员的学员组
+            foreach (int s in stids)
                 i += Business.Do<IAccounts>().AccountsUpdate(s,
                         new WeiSha.Data.Field[] { Song.Entities.Accounts._.Sts_ID, Song.Entities.Accounts._.Sts_Name },
                         new object[] { sort.Sts_ID, sort.Sts_Name });
-            Business.Do<IStudent>().SortUpdateCount();
+            //更新学员组的学员数量
+            Business.Do<IStudent>().SortUpdateCount(historyid);
             return i;
         }
         /// <summary>

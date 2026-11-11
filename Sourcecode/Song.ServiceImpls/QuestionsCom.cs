@@ -52,8 +52,7 @@ namespace Song.ServiceImpls
                 if (sbj != null) entity.Sbj_Name = sbj.Sbj_Name;
             }
 
-            if (string.IsNullOrWhiteSpace(entity.Qus_UID))
-                entity.Qus_UID = WeiSha.Core.Request.UniqueID();
+            if (string.IsNullOrWhiteSpace(entity.Qus_UID)) entity.Qus_UID = WeiSha.Core.Request.UniqueID();
             Gateway.Default.Save<Questions>(entity);
             this.OnAdd(entity, EventArgs.Empty);
             return entity.Qus_ID;

@@ -111,6 +111,12 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         int SortUpdateCount(long stsid);
         /// <summary>
+        /// 更新学员组中的学员数量
+        /// </summary>
+        /// <param name="stsid"></param>
+        /// <returns></returns>
+        int SortUpdateCount(List<long> stsid);
+        /// <summary>
         /// 更新所有学员组的学员数量
         /// </summary>
         void SortUpdateCount();

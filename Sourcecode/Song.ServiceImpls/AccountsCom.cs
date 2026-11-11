@@ -246,15 +246,12 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         private string _checkAccount(string acc)
         {
-            if (string.IsNullOrWhiteSpace(acc))
-                throw new Exception("账号不可为空");
+            if (string.IsNullOrWhiteSpace(acc)) throw new Exception("账号不可为空");
             //清除空格
             acc = acc.Replace(" ", "").Replace("\r", "").Replace("\n", "").ToLower();
-            if (acc.Length < 5)
-                throw new Exception("账号最短不得小于5个字符");
-            if (acc.Length > 50)
-                throw new Exception("账号最长不得超过50个字符");
-            bool ispass = System.Text.RegularExpressions.Regex.IsMatch(acc, @"^[a-zA-Z0-9_-]{5,50}$");
+            if (acc.Length < 5) throw new Exception("账号最短不得小于5个字符");
+            if (acc.Length > 50) throw new Exception("账号最长不得超过50个字符");
+            bool ispass = Regex.IsMatch(acc, @"^[a-zA-Z0-9_-]{5,50}$");
             if (!ispass) throw new Exception("账号仅限字母、数字、下划线");
             return acc;
         }
@@ -268,7 +265,7 @@ namespace Song.ServiceImpls
             if (string.IsNullOrWhiteSpace(number)) return number;
             number = number.Replace(" ", "").Replace("\r", "").Replace("\n", "").ToLower();
             if (string.IsNullOrWhiteSpace(number)) return number;
-            bool ispass = System.Text.RegularExpressions.Regex.IsMatch(number, @"^[0-9]*$");
+            bool ispass = Regex.IsMatch(number, @"^[0-9]*$");
             if (!ispass) throw new Exception("手机号仅限数字");
             return number;
         }
@@ -282,16 +279,15 @@ namespace Song.ServiceImpls
             if (string.IsNullOrWhiteSpace(name)) return name;
             name = name.Replace(" ", "").Replace("\r", "").Replace("\n", "").ToLower();
             if (string.IsNullOrWhiteSpace(name)) return name;
-            if (name.Length > 50)
-                throw new Exception("名字最长不得超过50个字符");
+            if (name.Length > 50) throw new Exception("名字最长不得超过50个字符");
             //逐字判断
             string tmp = string.Empty;
             for (int i = 0; i < name.Length; i++)
             {
                 string t = name.Substring(i, 1);
                 //是字母或数字
-                bool ischar = System.Text.RegularExpressions.Regex.IsMatch(t, @"^[a-zA-Z0-9_-]*$");
-                bool ischinese = System.Text.RegularExpressions.Regex.IsMatch(t, @"^[\u4E00-\u9FA5]$");
+                bool ischar = Regex.IsMatch(t, @"^[a-zA-Z0-9_-]*$");
+                bool ischinese = Regex.IsMatch(t, @"^[\u4E00-\u9FA5]$");
                 if (ischar || ischinese) tmp += t;
             }
             return tmp;

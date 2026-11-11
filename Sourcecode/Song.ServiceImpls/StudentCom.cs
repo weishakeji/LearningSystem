@@ -236,6 +236,21 @@ namespace Song.ServiceImpls
                             StudentSort._.Sts_ID == stsid);
             return count;
         }
+        /// <summary>
+        /// 更新学员组中的学员数量
+        /// </summary>
+        /// <param name="stsid"></param>
+        /// <returns></returns>
+        public int SortUpdateCount(List<long> stsid)
+        {
+            foreach(long l in stsid)
+            {
+                int count = Gateway.Default.Count<Accounts>(Accounts._.Sts_ID == l);
+                Gateway.Default.Update<StudentSort>(new Field[] { StudentSort._.Sts_Count }, new object[] { count },
+                                StudentSort._.Sts_ID == l);
+            }
+            return stsid.Count;
+        }
         public void SortUpdateCount()
         {
             StudentSort[] sorts = this.SortAll(-1, null);
