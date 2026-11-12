@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>导出API说明</title>   
+</head>
+<body>
+   <div id="vapp" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="导出,删除" ref='btngroup' @delete="deleteData" path="EmployeeModify" width="600" height="600"
+                :selects='selects' idkey='Acc_Id' table="datatables"></btngroup>
+            <query_panel :model="form" :width="45" :loading="loading" @search="handleCurrentChange(1)">
+                <el-form-item label="">
+                    <el-input v-model="form.name" clearable placeholder="名称" style="width:100px"></el-input>
+                </el-form-item>
+            </query_panel>
+        </div>
+        <div v-if="files.length>0">
+            <el-divider content-position="left">
+                共有<span>{{files.length}}</span>个文件，总大小<span>{{files.reduce((sum, item) => sum + item.size,
+                    0)|size}}</span></el-divider>
+
+            <dl class="files">
+                <dd v-for="(f,i) in files">
+                    <a :href="f.url" :filetype="f.type" target="_blank" title="点击下载" :download="f.file">
+                        {{f.file}}</a>
+                    <span>{{f.size|size}}</span>
+                    <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
+                        <el-link type="danger" icon="el-icon-delete" v-loading="loading" slot="reference">删除
+                        </el-link>
+                    </el-popconfirm>
+
+                </dd>
+            </dl>
+        </div>
+        <el-empty v-else description="没有文件，请点击左上方“导出”按钮"></el-empty>      
+    </div>
+</body>
+</html>

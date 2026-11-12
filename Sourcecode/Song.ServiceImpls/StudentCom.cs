@@ -91,17 +91,17 @@ namespace Song.ServiceImpls
                 {
 
                     tran.Update<StudentSort>(new Field[] { StudentSort._.Sts_IsUse }, new object[] { use }, StudentSort._.Sts_ID == stsid);
-
+                    //当学员组状态变更时，修改学员与课程的关联状态   
                     List<Course> list = Gateway.Default.From<Course>()
-               .InnerJoin<StudentSort_Course>(Course._.Cou_ID == StudentSort_Course._.Cou_ID)
-               .Where(StudentSort_Course._.Sts_ID == stsid).OrderBy(StudentSort_Course._.Ssc_ID.Desc).ToList<Course>();
+                        .InnerJoin<StudentSort_Course>(Course._.Cou_ID == StudentSort_Course._.Cou_ID)
+                        .Where(StudentSort_Course._.Sts_ID == stsid).OrderBy(StudentSort_Course._.Ssc_ID.Desc).ToList<Course>();
                     foreach (Course cou in list)
                     {
                         tran.Update<Student_Course>(
-                      new Field[] { Student_Course._.Stc_IsEnable },
-                      new object[] { use },
-                      Student_Course._.Stc_Type == 5 &&
-                      Student_Course._.Sts_ID == stsid && Student_Course._.Cou_ID == cou.Cou_ID);
+                          new Field[] { Student_Course._.Stc_IsEnable },
+                          new object[] { use },
+                          Student_Course._.Stc_Type == 5 &&
+                          Student_Course._.Sts_ID == stsid && Student_Course._.Cou_ID == cou.Cou_ID);
                     }
                     tran.Commit();
                 }
@@ -259,7 +259,7 @@ namespace Song.ServiceImpls
                 int count = Gateway.Default.Count<Accounts>(Accounts._.Sts_ID == sort.Sts_ID);
                 Gateway.Default.Update<StudentSort>(new Field[] { StudentSort._.Sts_Count }, new object[] { count },
                                 StudentSort._.Sts_ID == sort.Sts_ID);
-            }
+            }           
         }
         public bool SortIsExist(StudentSort entity)
         {

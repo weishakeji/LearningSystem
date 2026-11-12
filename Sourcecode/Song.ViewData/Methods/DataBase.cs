@@ -367,6 +367,20 @@ namespace Song.ViewData.Methods
         #endregion
 
         #region 实体生成Word文档
+        //导出的文件夹名称
+        private string _outputPath = "EntitiestoWord";
+        //物路路径
+        private string outputPathHy
+        {
+            get
+            {
+                string path = Path.Combine(WeiSha.Core.Upload.Get["Temp"].Physics, _outputPath);
+                Directory.CreateDirectory(path);
+                return path;
+            }
+        }
+        //虚拟路径
+        private string outputPathVt => WeiSha.Core.Upload.Get["Temp"].Virtual + _outputPath;
         /// <summary>
         /// 数据实体生成Word文档
         /// </summary>
@@ -517,6 +531,43 @@ namespace Song.ViewData.Methods
             retnrun.SetText(text);
             retnrun.FontSize = 12;
         }
+
+
+        /// <summary>
+        /// 已经生成的Excel文件
+        /// </summary>
+        /// <returns>file:文件名,url:下载地址,date:创建时间</returns>
+        [Admin, Teacher]
+        public JArray OutputWordFiles(int orgid)
+        {
+            string rootpath = Path.Combine(outputPathHy, orgid.ToString());
+            JArray jarr = new JArray();
+            if (!System.IO.Directory.Exists(rootpath)) return jarr;
+
+            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(rootpath);
+            FileInfo[] files = dir.GetFiles("*.xls").OrderByDescending(f => f.CreationTime).ToArray();
+            foreach (System.IO.FileInfo f in files)
+            {
+                JObject jo = new JObject();
+                jo.Add("file", f.Name);
+                jo.Add("url", outputPathVt + f.Name);
+                jo.Add("date", f.CreationTime);
+                jo.Add("type", Path.GetExtension(f.Name).TrimStart('.'));
+                jo.Add("size", f.Length);
+                jarr.Add(jo);
+            }
+            return jarr;
+        }
+        /// <summary>
+        /// 删除Excel文件
+        /// </summary>
+        /// <param name="filename">文件名，带后缀名，不带路径</param>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        [HttpDelete]
+        [Admin, Teacher]
+        public bool WordDelete(string filename)
+            => ViewData.Helper.Excel.DeleteFile(filename, outputPathHy);
         #endregion
     }
 }

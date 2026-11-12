@@ -25,21 +25,13 @@ $ready(function () {
         },
         created: function () {
             var th = this;
-            th.loading_init = true;
-            $api.bat(
-                $api.get('Organization/Current')
-            ).then(([organ]) => {
-                //获取结果             
-                th.organ = organ.data.result;
-                //if (th.id == "") th.entity.Org_ID = th.organ.Org_ID;
-                //机构配置信息
-                th.config = $api.organ(th.organ).config;
-                th.form.orgid = th.organ.Org_ID;
-                th.form.sortid = th.id;
-                th.handleCurrentChange(1);
-            }).catch(err => console.error(err))
-                .finally(th.loading_init = false);
-
+            th.organ = window.org;
+            //if (th.id == "") th.entity.Org_ID = th.organ.Org_ID;
+            //机构配置信息
+            th.config = $api.organ(th.organ).config;
+            th.form.orgid = th.organ.Org_ID;
+            th.form.sortid = th.id;
+            th.handleCurrentChange(1);
         },
         mounted: function () {
             this.$refs['btngroup'].addbtn({

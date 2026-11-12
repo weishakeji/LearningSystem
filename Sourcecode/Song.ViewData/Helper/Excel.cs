@@ -323,6 +323,24 @@ namespace Song.ViewData.Helper
             return true;
         }
         /// <summary>
+        /// 删除文件
+        /// </summary>
+        /// <param name="file">文件名</param>
+        /// <param name="physicalPath">物理路径</param>
+        /// <returns></returns>
+        public static bool DeleteFile(string file, string physicalPath)
+        {
+            //校验文件
+            if (string.IsNullOrWhiteSpace(file)) return false;
+            file = WeiSha.Core.Server.LegalName(file);
+            if (string.IsNullOrWhiteSpace(file)) return false;
+            string filePath = Path.Combine(physicalPath, file);
+            //删除文件          
+            if (!File.Exists(filePath)) throw new Exception("文件不存在！");
+            File.Delete(filePath);
+            return true;
+        }
+        /// <summary>
         /// 获取文件列表
         /// </summary>
         /// <param name="folder">文件所在的文件夹</param>

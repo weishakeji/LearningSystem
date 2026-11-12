@@ -24,7 +24,6 @@
 
             loading: true,
             loadingid: 0,
-            loading_init: true
         },
         mounted: function () {
             this.$refs.btngroup.addbtn({
@@ -33,20 +32,16 @@
                 icon: 'a067'
             });
             var th = this;
-            th.loading_init = true;
-            $api.bat(
-                $api.get('Course/ForID', { 'id': th.form.couid }),
-                $api.get('Organization/Current')
-            ).then(([course, organ]) => {
-                //获取结果
-                th.course = course.data.result;
-                document.title = '学习记录-《' + th.course.Cou_Name + '》';
-                th.organ = organ.data.result;
-                th.config = $api.organ(th.organ).config;
-                th.getdata(1);
-                th.getFiles();
-            }).catch(err => console.error(err))
-                .finally(() => th.loading_init = false);
+            th.organ = window.organ;
+            th.config = window.config;
+            $api.get('Course/ForID', { 'id': th.form.couid }).then(function (req) {
+                if (req.data.success) {
+                    th.course = req.data.result;
+                    document.title = '学习记录-《' + th.course.Cou_Name + '》';
+                }
+            });
+            th.getdata(1);
+            th.getFiles();
         },
         created: function () {
 
