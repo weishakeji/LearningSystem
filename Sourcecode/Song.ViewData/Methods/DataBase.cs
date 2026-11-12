@@ -380,7 +380,7 @@ namespace Song.ViewData.Methods
             }
         }
         //虚拟路径
-        private string outputPathVt => WeiSha.Core.Upload.Get["Temp"].Virtual + _outputPath;
+        private string outputPathVt => WeiSha.Core.Upload.Get["Temp"].Virtual + _outputPath + "/";
         /// <summary>
         /// 数据实体生成Word文档
         /// </summary>
@@ -538,14 +538,13 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <returns>file:文件名,url:下载地址,date:创建时间</returns>
         [Admin, Teacher]
-        public JArray OutputWordFiles(int orgid)
-        {
-            string rootpath = Path.Combine(outputPathHy, orgid.ToString());
+        public JArray OutputWordFiles()
+        {          
             JArray jarr = new JArray();
-            if (!System.IO.Directory.Exists(rootpath)) return jarr;
+            if (!System.IO.Directory.Exists(outputPathHy)) return jarr;
 
-            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(rootpath);
-            FileInfo[] files = dir.GetFiles("*.xls").OrderByDescending(f => f.CreationTime).ToArray();
+            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(outputPathHy);
+            FileInfo[] files = dir.GetFiles("*.docx").OrderByDescending(f => f.CreationTime).ToArray();
             foreach (System.IO.FileInfo f in files)
             {
                 JObject jo = new JObject();
@@ -566,7 +565,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [HttpDelete]
         [Admin, Teacher]
-        public bool WordDelete(string filename)
+        public bool WordFileDelete(string filename)
             => ViewData.Helper.Excel.DeleteFile(filename, outputPathHy);
         #endregion
     }

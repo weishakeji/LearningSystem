@@ -251,15 +251,33 @@ namespace Song.ServiceImpls
             }
             return stsid.Count;
         }
+        /// <summary>
+        /// 更新所有学员组中的学员数量
+        /// </summary>
         public void SortUpdateCount()
         {
-            StudentSort[] sorts = this.SortAll(-1, null);
-            foreach(StudentSort sort in sorts)
+            //只支持Postgresql数据库
+            if (Gateway.Default.DbType == DbProviderType.PostgreSQL)
             {
-                int count = Gateway.Default.Count<Accounts>(Accounts._.Sts_ID == sort.Sts_ID);
-                Gateway.Default.Update<StudentSort>(new Field[] { StudentSort._.Sts_Count }, new object[] { count },
-                                StudentSort._.Sts_ID == sort.Sts_ID);
-            }           
+                string sql = @"UPDATE ""StudentSort"" ss
+                            SET ""Sts_Count"" = sub.cnt
+                            FROM(
+                                SELECT ""Sts_ID"", COUNT(*) AS cnt
+                                FROM ""Accounts""
+                                WHERE ""Sts_ID"" IS NOT NULL
+                                GROUP BY ""Sts_ID""
+                            ) sub WHERE ss.""Sts_ID"" = sub.""Sts_ID""";
+                Gateway.Default.FromSql(sql).Execute();
+            }
+            //SQLite数据库
+            if (Gateway.Default.DbType == DbProviderType.SQLite)
+            {
+                string sql = @"UPDATE ""StudentSort""
+                        SET ""Sts_Count"" = (
+                            SELECT COUNT(*) FROM ""Accounts""
+                            WHERE ""Accounts"".""Sts_ID"" = ""StudentSort"".""Sts_ID"") ";
+                Gateway.Default.FromSql(sql).Execute();
+            }
         }
         public bool SortIsExist(StudentSort entity)
         {

@@ -1149,7 +1149,7 @@ namespace Song.ViewData.Methods
             }
         }
         //虚拟路径
-        private string outputPathVt => WeiSha.Core.Upload.Get["Temp"].Virtual + _outputPath;
+        private string outputPathVt => WeiSha.Core.Upload.Get["Temp"].Virtual + _outputPath + "/";
         /// <summary>
         /// 导出excel
         /// </summary>

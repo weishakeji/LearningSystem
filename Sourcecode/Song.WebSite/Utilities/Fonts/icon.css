@@ -711,6 +711,7 @@ loading[fish]::before {
     display: inline-block;
     font-size: 25px;
     content: '\a022';
+    margin-right: 8px;
 }
 
 *[filetype=xls]::before {

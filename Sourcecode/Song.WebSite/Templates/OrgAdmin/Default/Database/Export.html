@@ -10,22 +10,28 @@
 <body>
     <div id="vapp" v-cloak>
         <div class="toolsbar">
-            <btngroup show="导出,删除" ref='btngroup' @delete="deleteData"  @output="exportbtn"
-                :selects='selects' idkey='Acc_Id' table="datatables"></btngroup>
-            <query_panel :model="form" :width="45" :loading="loading" @search="handleCurrentChange(1)">
+            <btngroup show="导出" ref='btngroup' @output="exportbtn"></btngroup>
+            <query_panel :width="45" :loading="loading" @search="handleCurrentChange(1)">
                 <el-form-item label="">
-                    <el-input v-model="form.name" clearable placeholder="名称" style="width:100px"></el-input>
+                    <el-input v-model="search" clearable placeholder="名称" style="width:100px"></el-input>
                 </el-form-item>
             </query_panel>
         </div>
-        <div v-if="files.length>0">
-            <el-divider content-position="left">
-                共有<span>{{files.length}}</span>个文件，总大小<span>{{files.reduce((sum, item) => sum + item.size,
-                    0)|size}}</span></el-divider>
-
-            <dl class="files">
+        <el-card shadow="hover">
+            <template slot="header">
+                <span icon="&#xa017">数据字典
+                    <span>({{files.length}})</span>
+                </span>
+                <span icon="&#xa018">
+                    总大小 <b>{{files.reduce((sum, item) => sum + item.size, 0)|size}}</b>
+                </span>
+            </template>
+            <loading v-if="loading" asterisk>loading ...</loading>
+            <el-empty v-else-if="files.length<1" description="没有文件，请点击左上方“导出”按钮"></el-empty>
+            <dl class="files" v-else>
                 <dd v-for="(f,i) in files">
-                    <a :href="f.url" :filetype="f.type" target="_blank" title="点击下载" :download="f.file">
+                    <a :href="f.url" :filetype="f.type" target="_blank" title="点击下载" :download="f.file"
+                        v-html="showsearch(f.file,search)">
                         {{f.file}}</a>
                     <span>{{f.size|size}}</span>
                     <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
@@ -35,8 +41,9 @@
 
                 </dd>
             </dl>
-        </div>
-        <el-empty v-else description="没有文件，请点击左上方“导出”按钮"></el-empty>      
+
+        </el-card>
+
     </div>
 </body>
 

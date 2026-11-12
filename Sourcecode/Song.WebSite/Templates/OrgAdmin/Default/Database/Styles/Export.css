@@ -1,0 +1,11 @@
+.el-card{
+    max-width: 800px;
+    margin: 15px;
+}
+.el-card__header{
+    display: flex;
+    justify-content: space-between;
+}
+.el-card__header span:last-child{ 
+    font-size: 0.8rem;
+}
