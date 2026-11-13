@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Data;
 using Song.Entities;
+using Newtonsoft.Json.Linq;
 
 namespace Song.ServiceInterfaces
 {
@@ -38,6 +39,11 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         List<string> Tables();
         /// <summary>
+        /// 表的介绍，包括表名、简述、介绍
+        /// </summary>
+        /// <returns>mark:简述；intro：介绍</returns>
+        JObject TablesDescr();
+        /// <summary>
         /// 数据库所有的数据类型
         /// </summary>
         List<string> DataTypes();
@@ -47,6 +53,16 @@ namespace Song.ServiceInterfaces
         /// <param name="tablename">表名</param>
         /// <returns></returns>
         DataTable Fields(string tablename);
+        /// <summary>
+        /// 表的字段详情，包含字段名称、字段类型、字段长度、字段是否为空
+        /// </summary>
+        /// <param name="tablename"></param>
+        /// <returns></returns>
+        JArray FieldJArray(string tablename);
+        /// <summary>
+        /// 表的字段介绍，包含字段名称、字段简述、字段介绍，以及相关说明，如：外键关联、是否为空、说明
+        /// </summary>
+        JObject FieldDescr(string tablename);
         /// <summary>
         /// 表的字段，仅名称
         /// </summary>

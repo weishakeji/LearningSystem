@@ -69,15 +69,36 @@ $ready([
             getDetails: function () {
                 var th = this;
                 th.loadstate.init = true;
-                $api.bat(
-                    $api.get('DataBase/Fields', { 'tablename': th.entity.name }), //获取字段（属性）
-                    $api.get('DataBase/FieldsDescr', { 'tablename': th.entity.name })  //字段说明
-                ).then(([field, detal]) => {
-                    th.fields = field.data.result;
-                    th.details = detal.data.result;
-                    Vue.set(th.states, 'update', false);
+                $api.get('DataBase/FieldsDescr', { 'tablename': th.entity.name }).then(function (req) {
+                    if (req.data.success) {
+                        th.fields = req.data.result;
+                        let details = {};
+                        for (let key in th.fields) {
+                            details[key] = {};
+                            details[key]['mark'] = th.fields[key]['mark'] == null ? '' : th.fields[key]['mark'];
+                            details[key]['intro'] = th.fields[key]['intro'] == null ? '' : th.fields[key]['intro'];
+                            details[key]['relation'] = th.fields[key]['relation'] == null ? '' : th.fields[key]['relation'];
+                        }
+                        console.log(details);
+                        th.details = details;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
                 }).catch(err => console.error(err))
                     .finally(() => th.loadstate.init = false);
+                /*
+                                $api.bat(
+                                    $api.get('DataBase/Fields', { 'tablename': th.entity.name }), //获取字段（属性）
+                                    $api.get('DataBase/FieldsDescr', { 'tablename': th.entity.name })  //字段说明
+                                ).then(([field, detal]) => {
+                                    th.fields = field.data.result;
+                                    th.details = detal.data.result;
+                                    console.log(th.fields);
+                                    Vue.set(th.states, 'update', false);
+                                }).catch(err => console.error(err))
+                                    .finally(() => th.loadstate.init = false);
+                                    */
             },
             //实体详情的标注,attr:实体属性,state:是否编辑状态
             state: function (attr, state) {

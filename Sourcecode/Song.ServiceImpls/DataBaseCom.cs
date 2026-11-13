@@ -11,6 +11,8 @@ using Song.ServiceInterfaces;
 using System.Reflection;
 using System.Linq;
 using System.IO;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace Song.ServiceImpls
 {
@@ -97,6 +99,49 @@ namespace Song.ServiceImpls
             return list;
         }
         /// <summary>
+        /// 表的介绍，包括表名、简述、介绍
+        /// </summary>
+        /// <returns>mark:简述；intro：介绍</returns>
+        public JObject TablesDescr()
+        {
+            //数据库所有的表
+            List<string> tables = this.Tables();
+            //获取实体的原有记录项
+            JObject details = null;
+            string file = string.Format("{0}help\\datas\\entitiy\\entities.json", AppDomain.CurrentDomain.BaseDirectory);
+            if (System.IO.File.Exists(file))
+                details = (JObject)JsonConvert.DeserializeObject(System.IO.File.ReadAllText(file));
+            details = details == null ? new JObject() : details;
+            JToken jtoken = details;
+
+            //生成实体的说明列表
+            JObject jo = new JObject();
+            foreach (string tb in tables)
+            {
+                JObject temp = null;
+                if (details.Count > 0)
+                {
+                    foreach (JProperty jp in jtoken)
+                    {
+                        if (jp.Name.Equals(tb, StringComparison.OrdinalIgnoreCase))
+                        {
+                            temp = (JObject)details[jp.Name];
+                            jo.Add(tb, temp);
+                            break;
+                        }
+                    }
+                }
+                if (temp == null)
+                {
+                    JObject obj = new JObject();
+                    obj.Add("mark", "");
+                    obj.Add("intro", "");
+                    jo.Add(tb, obj);
+                }
+            }
+            return jo;
+        }
+        /// <summary>
         /// 数据库所有的数据类型
         /// </summary>
         public List<string> DataTypes()
@@ -163,6 +208,71 @@ namespace Song.ServiceImpls
             if (Gateway.Default.DbType == DbProviderType.PostgreSQL) return _postgresql_Fields(tablename);
             if (Gateway.Default.DbType == DbProviderType.SQLite) return _sqlite_Fields(tablename);
             return _postgresql_Fields(tablename);
+        }
+        /// <summary>
+        /// 表的字段详情，包含字段名称、字段类型、字段长度、字段是否为空
+        /// </summary>
+        /// <param name="tablename"></param>
+        /// <returns></returns>
+        public JArray FieldJArray(string tablename)
+        {
+            DataTable dt = this.Fields(tablename);
+            JArray jarr = new JArray();
+            foreach (DataRow dr in dt.Rows)
+            {
+                JObject jo = new JObject();
+                foreach (DataColumn dc in dt.Columns)
+                {
+                    object val = dr[dc.ColumnName] == DBNull.Value ? "" : dr[dc.ColumnName];
+                    jo.Add(dc.ColumnName, val.ToString());
+                }
+                jarr.Add(jo);
+            }
+            return jarr;
+        }
+        /// <summary>
+        /// 表的字段介绍，包含字段名称、字段简述、字段介绍，以及相关说明，如：外键关联、是否为空、说明
+        /// </summary>
+        public JObject FieldDescr(string tablename)
+        {
+            //获取字段介绍
+            string file = string.Format("{0}help\\datas\\Entitiy\\{1}.json", AppDomain.CurrentDomain.BaseDirectory, tablename);
+            string details = System.IO.File.Exists(file) ? System.IO.File.ReadAllText(file, Encoding.UTF8) : "";
+            JObject jodetails = (JObject)JsonConvert.DeserializeObject(details);
+            jodetails = jodetails == null ? new JObject() : jodetails;
+
+            //表的实体对象
+            JObject joFields = new JObject();
+            //获取实体和实体属性的名称          
+            DataTable dt = this.Fields(tablename);
+            foreach (DataRow dr in dt.Rows)
+            {
+                string field = dr["name"].ToString();
+                JObject jo = new JObject();
+                foreach (DataColumn dc in dt.Columns)
+                {                   
+                    object val = dr[dc.ColumnName] == DBNull.Value ? "" : dr[dc.ColumnName];
+                    jo.Add(dc.ColumnName, val.ToString());
+                }
+                //将字段说明添加到字段
+                JObject tm = (JObject)jodetails[field];
+                if (tm==null)
+                {
+                    jo.Add("mark", "");
+                    jo.Add("intro", "");
+                    jo.Add("relation", "");
+                }
+                else
+                {
+                    foreach (JProperty prop in tm.Properties())
+                    {
+                        if (jo.Property(prop.Name) == null) 
+                            jo.Add(prop.Name, prop.Value.DeepClone());
+                    }
+                }
+                joFields.Add(field, jo);
+            }
+            return joFields;
         }
         #region 获取表字段的方法，用于各个数据库
         private DataTable _postgresql_Fields(string tablename)

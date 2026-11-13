@@ -53,7 +53,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(f,i) in fields">
+                        <tr v-for="(f,k,i) in fields">
                             <td>{{i+1}}</td>
                             <td v-html="showsearch(f.name,search)+(f.primary=='1' ? ' (主键)' : '')"
                                 @dblclick="copy(f.name)" title="双击复制" class="field"></td>

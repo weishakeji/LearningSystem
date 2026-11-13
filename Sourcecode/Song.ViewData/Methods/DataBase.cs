@@ -79,7 +79,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="tablename">表名</param>
         /// <returns></returns>
-        public DataTable Fields(string tablename) => Business.Do<IDataBase>().Fields(tablename);
+        public JArray Fields(string tablename) => Business.Do<IDataBase>().FieldJArray(tablename);       
         /// <summary>
         /// 数据库总的字段数
         /// </summary>
@@ -240,45 +240,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <returns>例如：{"Accessory":{"mark":"附件表","intro":"..."}}</returns>
         [HttpGet, Admin]
-        public JObject TablesDescr()
-        {
-            //数据库所有的表
-            List<string> tables = Business.Do<IDataBase>().Tables();
-            //获取实体的原有记录项
-            JObject details = null;
-            string file = string.Format("{0}help\\datas\\entitiy\\entities.json", AppDomain.CurrentDomain.BaseDirectory);
-            if (System.IO.File.Exists(file))
-                details = (JObject)JsonConvert.DeserializeObject(System.IO.File.ReadAllText(file));
-            details = details == null ? new JObject() : details;
-            JToken jtoken = details;
-
-            //生成实体的说明列表
-            JObject jo = new JObject();
-            foreach (string tb in tables)
-            {
-                JObject temp = null;
-                if (details.Count > 0)
-                {
-                    foreach (JProperty jp in jtoken)
-                    {
-                        if (jp.Name.Equals(tb, StringComparison.OrdinalIgnoreCase))
-                        {
-                            temp = (JObject)details[jp.Name];
-                            jo.Add(tb, temp);
-                            break;
-                        }
-                    }
-                }
-                if (temp == null)
-                {
-                    JObject obj = new JObject();
-                    obj.Add("mark", "");
-                    obj.Add("intro", "");
-                    jo.Add(tb, obj);
-                }
-            }
-            return jo;
-        }
+        public JObject TablesDescr() => Business.Do<IDataBase>().TablesDescr();       
         /// <summary>
         /// 保存表的描述信息
         /// </summary>
@@ -306,42 +268,7 @@ namespace Song.ViewData.Methods
         /// <param name="tablename">表名称</param>
         /// <returns>返回实体详情</returns>
         [HttpGet, Localhost, Admin]
-        public JObject FieldsDescr(string tablename)
-        {
-            string file = string.Format("{0}help\\datas\\Entitiy\\{1}.json", AppDomain.CurrentDomain.BaseDirectory, tablename);
-            //if (!System.IO.File.Exists(file)) System.IO.File.Create(file);
-            string details = System.IO.File.Exists(file) ? System.IO.File.ReadAllText(file, Encoding.UTF8) : "";
-            //获取实体和实体属性的名称
-            List<string> list = Business.Do<IDataBase>().FieldNames(tablename);
-
-            JObject jitem = (JObject)JsonConvert.DeserializeObject(details);
-            jitem = jitem == null ? new JObject() : jitem;
-            foreach (string entity in list)
-            {
-                bool isexist = false;
-                if (jitem.Count > 0)
-                {
-                    JToken record = jitem;
-                    foreach (JProperty jp in record)
-                    {
-                        if (jp.Name.Equals(entity, StringComparison.OrdinalIgnoreCase))
-                        {
-                            isexist = true;
-                            break;
-                        }
-                    }
-                }
-                if (!isexist)
-                {
-                    JObject obj = new JObject();
-                    obj.Add("mark", "");
-                    obj.Add("intro", "");
-                    obj.Add("relation", "");
-                    jitem.Add(entity, obj);
-                }
-            }
-            return jitem;
-        }
+        public JObject FieldsDescr(string tablename) => Business.Do<IDataBase>().FieldDescr(tablename);
         /// <summary>
         /// 更新表的字段描述信息
         /// </summary>       
@@ -420,7 +347,7 @@ namespace Song.ViewData.Methods
                 // item.Value 为 值
 
                 //实体的属性（即表的字段）
-                DataTable fields = this.Fields(entity.Name);   //字段名称与数据类型（来自数据库）
+                DataTable fields = Business.Do<IDataBase>().Fields(entity.Name);   //字段名称与数据类型（来自数据库）
                 JObject details = this.FieldsDescr(entity.Name);        //字段说明与简述（来自配置信息）
                 Dictionary<string, JObject> dic = new Dictionary<string, JObject>();
                 string primarykey = string.Empty;       //主键名称
