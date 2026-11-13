@@ -52,7 +52,7 @@ $ready(function () {
             exportfunc: function () {
                 var th = this;
                 th.loadstate.update = true;
-                $api.get("DataBase/EntitiestoWord")
+                $api.get("DataBase/ExportToWord")
                     .then(req => {
                         if (req.data.success) {
                             let result = req.data.result;
@@ -72,7 +72,7 @@ $ready(function () {
             getFiles: function () {
                 var th = this;
                 th.loadstate.get = true;
-                $api.get('Database/OutputWordFiles').then(function (req) {
+                $api.get('Database/ExportWordFiles').then(function (req) {
                     if (req.data.success) {
                         th.files = req.data.result;
                     } else {

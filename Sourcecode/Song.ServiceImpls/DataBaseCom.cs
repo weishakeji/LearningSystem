@@ -5,7 +5,7 @@ using System.Data;
 
 using WeiSha.Core;
 using Song.Entities;
-
+using NPOI.XWPF.UserModel;
 using WeiSha.Data;
 using Song.ServiceInterfaces;
 using System.Reflection;
@@ -1076,6 +1076,81 @@ namespace Song.ServiceImpls
             Dictionary<string, Type> dicprop = new Dictionary<string, Type>();
             foreach (PropertyInfo pi in propertyinfo) dicprop.Add(pi.Name, pi.PropertyType);            
             return dicprop;
+        }
+        #endregion
+
+        #region 导出
+        /// <summary>
+        /// 导出Word
+        /// </summary>
+        /// <param name="docxfile">word文档的路径</param>
+        /// <returns></returns>
+        public string ExportToWord(string docxfile)
+        {
+            // 创建一个新的 Word 文档对象
+            XWPFDocument doc = new XWPFDocument();
+            //读取所有表结构
+            JObject entities = this.TablesDescr();
+            var props = entities.Properties().ToList();
+            for (int i = 0; i < props.Count; i++)
+            {
+                JProperty entity = props[i];
+                JObject item = (JObject)entity.Value;
+                //一级标题，表的名称
+                XWPFParagraph h1 = doc.CreateParagraph();
+                h1.Style = "2";
+                h1.SpacingBefore = 20;
+                XWPFRun r = h1.CreateRun();
+                string title = (++i) + ". " + entity.Name;
+                string mark = item["mark"].ToString();      //实体的简述
+                string intro = item["intro"].ToString();    //实体的说明
+                if (!string.IsNullOrWhiteSpace(mark)) title += "：" + mark;
+                r.SetText(title);
+                r.FontSize = 16;
+                r.IsBold = true;
+                if (!string.IsNullOrWhiteSpace(intro))
+                    _createParagraph(doc, "说明：" + intro, 360, 14);
+            }
+            // 保存文档到文件
+            using (FileStream fs = new FileStream(docxfile, FileMode.Create, FileAccess.Write)) doc.Write(fs);            
+            return docxfile;
+        }
+        /// <summary>
+        /// 创建段落
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <param name="text"></param>
+        /// <param name="indent"></param>
+        /// <param name="fontsize"></param>
+        /// <returns></returns>
+        private XWPFRun _createParagraph(XWPFDocument doc, string text, int indent, int fontsize)
+        {
+            //返回值
+            XWPFParagraph p = doc.CreateParagraph();
+            p.IndentationLeft = indent;
+            XWPFRun retnrun = p.CreateRun();
+            retnrun.SetText(text);
+            retnrun.FontSize = fontsize;
+            return retnrun;
+        }
+        /// <summary>
+        /// 创建单元格
+        /// </summary>
+        /// <param name="cell"></param>
+        /// <param name="text"></param>
+        private void _createParagraph(XWPFTableCell cell, string text)
+        {
+            //返回值
+            XWPFParagraph p = cell.AddParagraph();
+            //p.IndentationLeft = 50;
+            //cell.GetCTTc().AddNewTcPr().noWrap.val = false;
+            //cell.GetCTTc().AddNewTcPr().AddNewWrap().val = ST_OnOff.on;
+            p.Alignment = ParagraphAlignment.CENTER;
+            p.IsWordWrapped = false;
+            p.SpacingBefore = 0;
+            XWPFRun retnrun = p.CreateRun();
+            retnrun.SetText(text);
+            retnrun.FontSize = 12;
         }
         #endregion
     }

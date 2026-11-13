@@ -205,5 +205,14 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         Dictionary<string, Type> Properties(string table);
         #endregion
+
+        #region 导出
+        /// <summary>
+        /// 导出Word
+        /// </summary>
+        /// <param name="docxfile">word文档的路径</param>
+        /// <returns></returns>
+        string ExportToWord(string docxfile);
+        #endregion
     }
 }

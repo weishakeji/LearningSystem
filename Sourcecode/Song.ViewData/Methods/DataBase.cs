@@ -458,14 +458,23 @@ namespace Song.ViewData.Methods
             retnrun.SetText(text);
             retnrun.FontSize = 12;
         }
-
-
+        /// <summary>
+        /// 将数据库结构导出到Word
+        /// </summary>
+        /// <returns>导出文件的url</returns>
+        public string ExportToWord()
+        {
+            string filename = "数据字典_"+DateTime.Now.ToString("yyyy-MM-dd hh-mm-ss") + ".docx";
+            filename = Path.Combine(outputPathHy, filename);
+            Business.Do<IDataBase>().ExportToWord(filename);
+            return outputPathVt + filename;
+        }
         /// <summary>
         /// 已经生成的Excel文件
         /// </summary>
         /// <returns>file:文件名,url:下载地址,date:创建时间</returns>
         [Admin, Teacher]
-        public JArray OutputWordFiles()
+        public JArray ExportWordFiles()
         {          
             JArray jarr = new JArray();
             if (!System.IO.Directory.Exists(outputPathHy)) return jarr;
