@@ -480,7 +480,9 @@ namespace Song.ViewData.Methods
             if (!System.IO.Directory.Exists(outputPathHy)) return jarr;
 
             System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(outputPathHy);
-            FileInfo[] files = dir.GetFiles("*.docx").OrderByDescending(f => f.CreationTime).ToArray();
+            FileInfo[] files = dir.GetFiles("*.docx")
+                .Where(f => (f.Attributes & (FileAttributes.Hidden | FileAttributes.System)) == 0)
+                .OrderByDescending(f => f.CreationTime).ToArray();
             foreach (System.IO.FileInfo f in files)
             {
                 JObject jo = new JObject();

@@ -1087,32 +1087,42 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public string ExportToWord(string docxfile)
         {
-            // 创建一个新的 Word 文档对象
+            //    // 创建一个新的 Word 文档对象
+            //    XWPFDocument doc = new XWPFDocument();
+            //    //读取所有表结构
+            //    JObject entities = this.TablesDescr();
+            //    var props = entities.Properties().ToList();
+            //    for (int i = 0; i < props.Count; i++)
+            //    {
+            //        JProperty entity = props[i];
+            //        JObject item = (JObject)entity.Value;
+            //        //一级标题，表的名称
+            //        XWPFParagraph h1 = doc.CreateParagraph();
+            //        //h1.Style = "2";
+            //        //h1.SpacingBefore = 20;
+            //        XWPFRun r = h1.CreateRun();
+            //        string title = (i + 1) + ". " + entity.Name;
+            //        string mark = item["mark"].ToString();      //实体的简述
+            //        string intro = item["intro"].ToString();    //实体的说明
+            //        if (!string.IsNullOrWhiteSpace(mark)) title += "：" + mark;
+            //        r.SetText(title);
+            //        r.FontSize = 16;
+            //        r.IsBold = true;
+            //        //if (!string.IsNullOrWhiteSpace(intro))
+            //        //    _createParagraph(doc, "说明：" + intro, 360, 14);
+            //    }
             XWPFDocument doc = new XWPFDocument();
-            //读取所有表结构
-            JObject entities = this.TablesDescr();
-            var props = entities.Properties().ToList();
-            for (int i = 0; i < props.Count; i++)
-            {
-                JProperty entity = props[i];
-                JObject item = (JObject)entity.Value;
-                //一级标题，表的名称
-                XWPFParagraph h1 = doc.CreateParagraph();
-                h1.Style = "2";
-                h1.SpacingBefore = 20;
-                XWPFRun r = h1.CreateRun();
-                string title = (++i) + ". " + entity.Name;
-                string mark = item["mark"].ToString();      //实体的简述
-                string intro = item["intro"].ToString();    //实体的说明
-                if (!string.IsNullOrWhiteSpace(mark)) title += "：" + mark;
-                r.SetText(title);
-                r.FontSize = 16;
-                r.IsBold = true;
-                if (!string.IsNullOrWhiteSpace(intro))
-                    _createParagraph(doc, "说明：" + intro, 360, 14);
-            }
+        XWPFParagraph p = doc.CreateParagraph();
+        XWPFRun r = p.CreateRun();
+        r.SetText("测试内容 Hello");
+    r.FontSize = 16;
             // 保存文档到文件
-            using (FileStream fs = new FileStream(docxfile, FileMode.Create, FileAccess.Write)) doc.Write(fs);            
+            using (FileStream fs = new FileStream(docxfile, FileMode.Create, FileAccess.Write))
+            {
+                doc.Write(fs);
+                fs.Flush();
+                doc.Close();
+            }            
             return docxfile;
         }
         /// <summary>

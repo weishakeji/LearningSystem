@@ -117,7 +117,8 @@ namespace Song.ViewData.Helper
                 case CellType.Numeric:
                     if (HSSFDateUtil.IsCellDateFormatted(cell))//日期类型
                     {
-                        val = cell.DateCellValue.ToString("yyyy-MM-dd");
+                        if (cell.DateCellValue == null) val = "";
+                        else val = ((DateTime)cell.DateCellValue).ToString("yyyy-MM-dd");
                     }
                     else//其他数字类型
                     {
