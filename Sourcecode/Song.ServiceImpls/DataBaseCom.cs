@@ -1135,11 +1135,11 @@ namespace Song.ServiceImpls
                 _createParagraph(doc, "字段：", 360, 15);
                 JObject fields = this.FieldDescr(entity.Name);
                 _createFieldTable(doc, fields, 14);
+
                 //索引信息
                 _createParagraph(doc, "索引：", 360, 15);
                 DataTable indexs = this.Indexs(entity.Name);
                 _createIndexssTable(doc, indexs, 14);
-
             }
 
             // 保存文档到文件
@@ -1149,6 +1149,69 @@ namespace Song.ServiceImpls
                 doc.Close();
             }            
             return docxfile;
+        }        
+        /// <summary>
+        /// 创建字段的表格
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <param name="fields"></param>
+        /// <param name="fontsize"></param>
+        private void _createFieldTable(XWPFDocument doc, JObject fields, int fontsize)
+        {
+            // ===== 设置表头 =====
+            string[] headers = { "序号", "字段名", "类型", "可空", "关联表", "备注", "说明" };
+            int[] colPercents = { 5, 15, 10, 5, 15, 20, 30 }; //列宽百分比
+            XWPFTable table = _createTableHeader(doc, headers, colPercents, fields.Count + 1, fontsize);
+            //生成数据行
+            int i = 0;
+            foreach (JProperty child in fields.Properties())
+            {
+                JObject field = child.Value as JObject;
+                // 数据行从第 1 行开始（第 0 行是表头）
+                XWPFTableRow dataRow = table.GetRow(i + 1);
+                var cells = dataRow.GetTableCells();
+                _createTableCell(cells[0], (i + 1).ToString(), ParagraphAlignment.CENTER);
+                _createTableCell(cells[1], field["name"].ToString(), ParagraphAlignment.CENTER);
+                _createTableCell(cells[2], field["type"].ToString(), ParagraphAlignment.CENTER);
+                //是否可空
+                _createTableCell(cells[3], field["nullable"].Value<int>() == 1 ? "是" : "", ParagraphAlignment.CENTER);
+                //关联表
+                _createTableCell(cells[4], field["relation"].ToString(), ParagraphAlignment.CENTER);
+                //备注与说明
+                _createTableCell(cells[5], field["mark"].ToString(), ParagraphAlignment.CENTER);
+                _createTableCell(cells[6], field["intro"].ToString(), ParagraphAlignment.LEFT, 284);
+                i++;
+            }           
+        }
+        /// <summary>
+        /// 创建索引的表格
+        /// </summary>
+        private void _createIndexssTable(XWPFDocument doc, DataTable indexs, int fontsize)
+        {
+            // ===== 设置表头 =====
+            string[] headers = { "序号", "索引名", "字段", "空间" };
+            int[] colPercents = { 10, 40,30, 20 }; //列宽百分比
+            XWPFTable table = _createTableHeader(doc, headers, colPercents, indexs.Rows.Count + 1, fontsize);            
+            //生成数据行
+            int i = 0;
+            foreach (DataRow dr in indexs.Rows)
+            {               
+                // 数据行从第 1 行开始（第 0 行是表头）
+                XWPFTableRow dataRow = table.GetRow(i + 1);
+                var cells = dataRow.GetTableCells();
+                _createTableCell(cells[0], (i + 1).ToString(), ParagraphAlignment.CENTER);
+                _createTableCell(cells[1], dr["name"].ToString(), ParagraphAlignment.CENTER);
+                //索引的字段
+                string columnname = dr["columnname"].ToString().Replace(",", "\n");
+                _createTableCell(cells[2], columnname, ParagraphAlignment.LEFT, 284, true);
+                //_createParagraph(cells[2], dr["columnname"].ToString(), ParagraphAlignment.LEFT, 20, true);
+
+                //占用空间
+                float size = dr["sizekb"].ToString().Convert<float>();
+                if (size < 1024) _createTableCell(cells[3], size + " Kb", ParagraphAlignment.CENTER);
+                else _createTableCell(cells[3], (size / 1024).ToString("f2") + " Mb", ParagraphAlignment.CENTER);
+                i++;
+            }            
         }
         /// <summary>
         /// 创建段落
@@ -1168,18 +1231,9 @@ namespace Song.ServiceImpls
             retnrun.FontSize = fontsize;
             return retnrun;
         }
-        /// <summary>
-        /// 创建字段的表格
-        /// </summary>
-        /// <param name="doc"></param>
-        /// <param name="fields"></param>
-        /// <param name="fontsize"></param>
-        private void _createFieldTable(XWPFDocument doc, JObject fields, int fontsize)
+        private XWPFTable _createTableHeader(XWPFDocument doc, string[] headers, int[] colPercents,int rowcount, int fontsize)
         {
-            // ===== 设置表头 =====
-            string[] headers = { "序号", "字段名", "类型", "可空", "关联表", "备注", "说明" };
-            int[] colPercents = { 5, 15, 10, 5, 15, 20, 30 }; //列宽百分比
-            XWPFTable table = doc.CreateTable(fields.Count + 1, headers.Length);
+            XWPFTable table = doc.CreateTable(rowcount, headers.Length);
             // 设置表格样式（可选）：加边框、宽度
             table.Width = 5000;
             XWPFTableRow headerRow = table.GetRow(0);
@@ -1198,125 +1252,22 @@ namespace Song.ServiceImpls
 
                 // ===== 获取或创建 tcPr（只建一次，后面复用）=====
                 CT_Tc tc = cell.GetCTTc();
-                CT_TcPr tcPr = tc.tcPr;
-                if (tcPr == null)
-                    tcPr = tc.AddNewTcPr();
+                CT_TcPr tcPr = tc.tcPr ?? tc.AddNewTcPr();
+                tcPr.vAlign = new CT_VerticalJc { val = ST_VerticalJc.center }; //垂直居中
 
                 // ===== 1. 先设单元格宽度 =====
-                CT_TblWidth tcW = tcPr.tcW;
-                if (tcW == null)
-                    tcW = tcPr.AddNewTcW();
+                CT_TblWidth tcW = tcPr.tcW ?? tcPr.AddNewTcW();
                 tcW.type = ST_TblWidth.pct;
-                tcW.w = (colPercents[c] * 50).ToString();   // 25% -> 1250
+                tcW.w = (colPercents[c] * 50).ToString();  
 
                 // ===== 2. 再设背景色 =====
                 CT_Shd shd = tcPr.shd;
-                if (shd == null)
-                    shd = tcPr.AddNewShd();
+                if (shd == null) shd = tcPr.AddNewShd();
                 shd.val = ST_Shd.clear;
                 shd.color = "auto";
                 shd.fill = "D9E2F3";
             }
-            //生成数据行
-            int i = 0;
-            foreach (JProperty child in fields.Properties())
-            {
-                JObject field = child.Value as JObject;
-                // 数据行从第 1 行开始（第 0 行是表头）
-                XWPFTableRow dataRow = table.GetRow(i + 1);
-                var cells = dataRow.GetTableCells();
-                _createParagraph(cells[0], (i + 1).ToString(), ParagraphAlignment.CENTER);
-                _createParagraph(cells[1], field["name"].ToString(), ParagraphAlignment.CENTER);
-                _createParagraph(cells[2], field["type"].ToString(), ParagraphAlignment.CENTER);
-                //是否可空
-                _createParagraph(cells[3], field["nullable"].Value<int>() == 1 ? "是" : "", ParagraphAlignment.CENTER);
-                //关联表
-                _createParagraph(cells[4], field["relation"].ToString(), ParagraphAlignment.CENTER);
-                //备注与说明
-                _createParagraph(cells[5], field["mark"].ToString(), ParagraphAlignment.CENTER);
-                _createParagraph(cells[6], field["intro"].ToString(), ParagraphAlignment.LEFT, 20);
-                i++;
-            }
-            ////设置列宽
-            //foreach (XWPFTableRow row in table.Rows)
-            //{
-            //    var cells = row.GetTableCells();
-            //    for (int c = 0; c < cells.Count && c < colPercents.Length; c++)
-            //    {
-            //        CT_Tc tc = cells[c].GetCTTc();
-            //        CT_TcPr tcPr = tc.tcPr ?? tc.AddNewTcPr();
-            //        CT_TblWidth tcW = tcPr.tcW ?? tcPr.AddNewTcW();
-            //        tcW.type = ST_TblWidth.pct;
-            //        tcW.w = (colPercents[c] * 50).ToString();  // 25% -> 1250
-            //    }
-            //}
-        }
-        /// <summary>
-        /// 创建索引的表格
-        /// </summary>
-        private void _createIndexssTable(XWPFDocument doc, DataTable indexs, int fontsize)
-        {
-            // ===== 设置表头 =====
-            string[] headers = { "序号", "索引名", "字段", "空间" };
-            int[] colPercents = { 10, 40,30, 20 }; //列宽百分比
-            XWPFTable table = doc.CreateTable(indexs.Rows.Count + 1, headers.Length);
-            // 设置表格样式（可选）：加边框、宽度
-            table.Width = 5000;
-            //生成表头
-            XWPFTableRow headerRow = table.GetRow(0);
-            for (int c = 0; c < headers.Length; c++)
-            {
-                XWPFTableCell cell = headerRow.GetCell(c);
-                // 清空默认段落并设置文本
-                cell.RemoveParagraph(0);
-                XWPFParagraph p = cell.AddParagraph();
-                XWPFRun run = p.CreateRun();
-                run.SetText(headers[c]);
-                run.IsBold = true;
-                run.FontSize = fontsize;
-                // 水平居中
-                p.Alignment = ParagraphAlignment.CENTER;
-                // ===== 手动设置背景色（更可靠）=====
-                CT_Tc tc = cell.GetCTTc();
-                CT_TcPr tcPr = tc.tcPr ?? tc.AddNewTcPr();
-                CT_Shd shd = tcPr.shd ?? tcPr.AddNewShd();
-                shd.val = ST_Shd.clear;      // 清除填充样式（纯色）
-                shd.color = "auto";
-                shd.fill = "D9E2F3";
-            }
-            //生成数据行
-            int i = 0;
-            foreach (DataRow dr in indexs.Rows)
-            {               
-                // 数据行从第 1 行开始（第 0 行是表头）
-                XWPFTableRow dataRow = table.GetRow(i + 1);
-                var cells = dataRow.GetTableCells();
-                _createParagraph(cells[0], (i + 1).ToString(), ParagraphAlignment.CENTER);
-                _createParagraph(cells[1], dr["name"].ToString(), ParagraphAlignment.CENTER);
-                //索引的字段
-                string columnname = dr["columnname"].ToString().Replace(",", "\n");
-                _createParagraph(cells[2], columnname, ParagraphAlignment.LEFT, 20, true);
-                //_createParagraph(cells[2], dr["columnname"].ToString(), ParagraphAlignment.LEFT, 20, true);
-
-                //占用空间
-                float size = dr["sizekb"].ToString().Convert<float>();
-                if (size < 1024) _createParagraph(cells[3], size + " Kb", ParagraphAlignment.CENTER);
-                else _createParagraph(cells[3], (size / 1024).ToString("f2") + " Mb", ParagraphAlignment.CENTER);
-                i++;
-            }
-            //设置列宽
-            foreach (XWPFTableRow row in table.Rows)
-            {
-                var cells = row.GetTableCells();
-                for (int c = 0; c < cells.Count && c < colPercents.Length; c++)
-                {
-                    CT_Tc tc = cells[c].GetCTTc();
-                    CT_TcPr tcPr =tc.tcPr ?? tc.AddNewTcPr();
-                    CT_TblWidth tcW = tcPr.tcW ?? tcPr.AddNewTcW();
-                    tcW.type = ST_TblWidth.pct;
-                    tcW.w = (colPercents[c] * 50).ToString();  // 25% -> 1250
-                }
-            }
+            return table;
         }
         /// <summary>
         /// 创建/写入单元格内容
@@ -1327,12 +1278,16 @@ namespace Song.ServiceImpls
         /// <param name="indent">段落缩进（单位：twips，1cm≈567；0 表示不缩进）</param>
         /// <param name="append">true=追加内容（不覆盖原有内容）；false=覆盖原有内容</param>
         /// <param name="indentFirstLine">true=首行缩进，false=整段左缩进</param>
-        private void _createParagraph(XWPFTableCell cell, string text,
+        private void _createTableCell(XWPFTableCell cell, string text,
             ParagraphAlignment alignment, int indent = 0, bool append = false,
             bool indentFirstLine = false)
         {
-            XWPFParagraph p;
+            // 单元格垂直居中
+            CT_Tc tc = cell.GetCTTc();
+            CT_TcPr tcPr = tc.tcPr ?? tc.AddNewTcPr();
+            tcPr.vAlign = new CT_VerticalJc { val = ST_VerticalJc.center }; 
 
+            XWPFParagraph p;
             if (append)
             {
                 // 追加模式：复用最后一个段落，没有则新建
@@ -1350,12 +1305,13 @@ namespace Song.ServiceImpls
             p.Alignment = alignment;
             p.IsWordWrapped = false;
             p.SpacingBefore = 0;
+            p.SpacingBetween = 1.2f;    //行距
 
             // 缩进处理
             if (indent > 0)
             {
                 if (indentFirstLine) p.IndentationFirstLine = indent;
-                else p.IndentationLeft = indent;
+                else p.IndentationLeft = p.IndentationRight = indent;
             }
 
             // ===== 写入新内容：支持 \n 换行 =====
