@@ -1298,14 +1298,7 @@ namespace Song.ServiceImpls
             //设置段前、段后
             CT_PPr pPr = p.GetCTP().pPr ?? new CT_PPr();
             p.GetCTP().pPr = pPr;
-            pPr.spacing = new CT_Spacing { beforeLines = (before*100).ToString(), afterLines = (after * 100).ToString() };
-            //if (alignment == ParagraphAlignment.CENTER)
-            //{
-            //    CT_PPr pPr = p.GetCTP().pPr ?? new CT_PPr();
-            //    p.GetCTP().pPr = pPr;
-            //    pPr.jc = new CT_Jc { val = ST_Jc.center };
-            //    pPr.spacing = new CT_Spacing { beforeLines = "100", afterLines = "1000" };
-            //}
+            pPr.spacing = new CT_Spacing { beforeLines = (before*100).ToString(), afterLines = (after * 100).ToString() };           
             XWPFRun retnrun = p.CreateRun();
             retnrun.FontSize = fontsize;
             retnrun.SetText(text?.Trim() ?? string.Empty);

@@ -122,12 +122,14 @@ a[link]:hover {
 *[danger] {
     color: #f56c6c;
 }
+
 /*内容区域*/
-*[tootips]{
+*[tootips] {
     --tip_bgcolor: #ecf8ff;
     --tip_bordercolor: #50bfff;
 }
-*[tootips]{
+
+*[tootips] {
     padding: 20px 20px 20px 40px;
     box-sizing: border-box;
     background-color: var(--tip_bgcolor);
@@ -138,18 +140,22 @@ a[link]:hover {
     text-align: left;
     text-indent: 0px;
 }
-*[tootips][red]{
+
+*[tootips][red] {
     --tip_bgcolor: #fff5f5;
     --tip_bordercolor: #ff5a5a;
 }
-*[tootips][green]{
+
+*[tootips][green] {
     --tip_bgcolor: rgb(240, 249, 235);
     --tip_bordercolor: #67C23A;
 }
-*[tootips][yellow]{
+
+*[tootips][yellow] {
     --tip_bgcolor: rgb(253, 246, 236);
     --tip_bordercolor: #E6A23C;
 }
+
 /*卡片*/
 
 card {
@@ -301,14 +307,16 @@ card-content {
 .el-menu--horizontal .el-menu .el-menu-item, .el-menu--horizontal .el-menu .el-submenu__title {
     color: #555;
 }
-.el-dropdown-menu__item{
-	width: 100%;
-	box-sizing: border-box;
+
+.el-dropdown-menu__item {
+    width: 100%;
+    box-sizing: border-box;
 }
-.el-dropdown-menu__item a{
-	width: 100%;
-	box-sizing: border-box;
-	display: block;
+
+.el-dropdown-menu__item a {
+    width: 100%;
+    box-sizing: border-box;
+    display: block;
 }
 
 /*表格背景透明*/
@@ -438,6 +446,9 @@ dl.files dt {
 dl.files dd::before {
     counter-increment: dd;
     content: ""counter(dd) " . ";
+    display: inline-block;
+    width: 30px;
+    text-align: center;
 }
 
 dl.files dd {
@@ -445,10 +456,11 @@ dl.files dd {
     justify-content: space-between;
     padding: 3px 10px 3px 15px;
     box-sizing: content-box;
+    align-items: center; 
 }
 
-dl.files dd>* {
-    margin-left: 10px;
+dl.files dd>*:not(:first-child) {
+    margin-left: 20px;
 }
 
 dl.files dd a[href] {

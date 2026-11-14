@@ -78,7 +78,11 @@ $ready(function () {
                 th.loadstate.get = true;
                 $api.get('Database/ExportWordFiles').then(function (req) {
                     if (req.data.success) {
-                        th.files = req.data.result;
+                        let files = req.data.result;
+                        files.forEach(function (file) {
+                            file.date = new Date(file.date);
+                        });
+                        th.files = files;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
