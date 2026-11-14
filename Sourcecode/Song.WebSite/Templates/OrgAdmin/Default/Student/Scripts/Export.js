@@ -200,6 +200,7 @@ $ready(function () {
                 var th = this;
                 //创建生成Excel
                 th.loading_export = true;
+                var loading = th.$fulloading();
                 th.exportform.sorts = th.activeName == 'sort' ? sorts : '';
                 $api.get('Account/OutputToExcel', th.exportform).then(function (req) {
 
@@ -210,7 +211,7 @@ $ready(function () {
                             type: 'success',
                             position: 'bottom-left',
                             duration: 2000
-                        });                     
+                        });
                         th.getFiles(result);
                         th.activeName = 'files';
                     } else {
@@ -218,7 +219,10 @@ $ready(function () {
                         throw req.data.message;
                     }
                 }).catch(err => console.error(err))
-                    .finally(() => th.loading_export = false);
+                    .finally(() => {
+                        th.$nextTick(() => loading.close());
+                        th.loading_export = false;
+                    });
             },
             //获取文件列表
             getFiles: function () {
