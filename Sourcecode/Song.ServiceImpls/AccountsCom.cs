@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
-
-using WeiSha.Core;
-using Song.Entities;
-
-using WeiSha.Data;
-using Song.ServiceInterfaces;
-using System.Data.Common;
 using System.Text.RegularExpressions;
-using NPOI.HSSF.UserModel;
 using System.Xml;
-using NPOI.SS.UserModel;
 using System.IO;
 using System.Threading;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using NPOI.XSSF.UserModel;
+using NPOI.SS.UserModel;
+
+using WeiSha.Core;
+using WeiSha.Data;
+using Song.Entities;
+using Song.ServiceInterfaces;
+
+
 
 namespace Song.ServiceImpls
 {
@@ -886,19 +886,19 @@ namespace Song.ServiceImpls
         /// 学员账号信息导出
         /// </summary>
         /// <param name="path">导出文件的路径（服务器端）</param>
-        ///  /// <param name="orgid">机构id</param>
+        /// <param name="orgid">机构id</param>
         /// <param name="mode">0为导出当前机构全部学员，1所有学员组，2指定学员组导出(sorts不得为空），3所有未分组学员</param>
         /// <param name="sorts">学员分组id，用逗号分隔</param>
         /// <returns></returns>
         public string OutputToExcel(string path, int orgid, int mode, string sorts)
         {
-            HSSFWorkbook hssfworkbook = new HSSFWorkbook();
-            //xml配置文件
+            IWorkbook hssfworkbook = new XSSFWorkbook();   // 生成 xlsx
+                                                           //xml配置文件
             XmlDocument xmldoc = new XmlDocument();
             string confing = Path.Combine(App.Get["ExcelInputConfig"].MapPath, "学生信息.xml");
             xmldoc.Load(confing);
             XmlNodeList nodes = xmldoc.GetElementsByTagName("item");    //导入的配置项
-            //
+                                                                        //
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc &= Accounts._.Org_ID == orgid;
             List<long> stsid_list = sorts.ToList<long>();
@@ -928,7 +928,7 @@ namespace Song.ServiceImpls
                 _outputExcel_to_sheet(hssfworkbook, "未分组学员", accounts, nodes);
             }
             //指定学员组导出
-          
+
             if (mode == 2 || stsid_list.Count > 0)
             {
                 if (stsid_list.Count < 1) throw new Exception("请选择要导出的学员组！");
@@ -940,9 +940,15 @@ namespace Song.ServiceImpls
                     _outputExcel_to_sheet(hssfworkbook, sts.Sts_Name, accounts, nodes);
                 }
             }
-            FileStream file = new FileStream(path, FileMode.Create);
-            hssfworkbook.Write(file);
-            file.Close();
+
+            // 保证扩展名是 .xlsx，避免"格式与扩展名不符"
+            if (!path.EndsWith(".xlsx", StringComparison.OrdinalIgnoreCase))
+                path = Path.ChangeExtension(path, ".xlsx");
+
+            using (FileStream file = new FileStream(path, FileMode.Create, FileAccess.Write))
+            {
+                hssfworkbook.Write(file);
+            }
             return path;
         }
         /// <summary>
@@ -953,7 +959,9 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public string OutputToExcel(string path, string orgs)
         {
-            HSSFWorkbook hssfworkbook = new HSSFWorkbook();
+            // 1. xlsx 用 XSSFWorkbook（大数据量可换 SXSSFWorkbook）
+            IWorkbook workbook = new XSSFWorkbook();
+
             //xml配置文件
             XmlDocument xmldoc = new XmlDocument();
             string confing = WeiSha.Core.App.Get["ExcelInputConfig"].VirtualPath + "学生信息.xml";
@@ -964,8 +972,10 @@ namespace Song.ServiceImpls
             //如果没有分组信息，则取当前机构的所有
             if (string.IsNullOrWhiteSpace(orgs))
             {
-                accounts = Gateway.Default.From<Accounts>().OrderBy(Accounts._.Ac_RegTime.Desc).ToList<Accounts>();
-                _outputExcel_to_sheet(hssfworkbook, "全部学员信息", accounts, nodes);
+                accounts = Gateway.Default.From<Accounts>()
+                                    .OrderBy(Accounts._.Ac_RegTime.Desc)
+                                    .ToList<Accounts>();
+                _outputExcel_to_sheet(workbook, "全部学员信息", accounts, nodes);
             }
             else
             {
@@ -979,18 +989,26 @@ namespace Song.ServiceImpls
                     //
                     Song.Entities.Organization org = Business.Do<IOrganization>().OrganSingle(orgid);
                     if (org == null) continue;
-                    accounts = Gateway.Default.From<Accounts>().Where(Accounts._.Org_ID == orgid).OrderBy(Accounts._.Ac_RegTime.Desc).ToList<Accounts>();
-                    _outputExcel_to_sheet(hssfworkbook, org.Org_Name + org.Org_ID.ToString(), accounts, nodes);
+                    accounts = Gateway.Default.From<Accounts>()
+                                        .Where(Accounts._.Org_ID == orgid)
+                                        .OrderBy(Accounts._.Ac_RegTime.Desc)
+                                        .ToList<Accounts>();
+                    _outputExcel_to_sheet(workbook, org.Org_Name + org.Org_ID.ToString(), accounts, nodes);
                 }
             }
 
-            FileStream file = new FileStream(path, FileMode.Create);
-            if (hssfworkbook != null)
-                hssfworkbook.Write(file);
-            file.Close();
+            // 2. 保证扩展名是 .xlsx，避免"格式与扩展名不符"
+            if (!path.EndsWith(".xlsx", StringComparison.OrdinalIgnoreCase))
+                path = Path.ChangeExtension(path, ".xlsx");
+
+            // 3. using 写文件，异常时也能释放句柄
+            using (FileStream file = new FileStream(path, FileMode.Create, FileAccess.Write))
+            {
+                workbook.Write(file);
+            }
             return path;
         }
-        internal static void _outputExcel_to_sheet(HSSFWorkbook hssfworkbook, string sheetName, List<Accounts> accounts, XmlNodeList nodes)
+        internal static void _outputExcel_to_sheet(IWorkbook hssfworkbook, string sheetName, List<Accounts> accounts, XmlNodeList nodes)
         {
             //如果数据项过多时，分页输出，即分到多个工作表
             int pagecount = 65000;
@@ -1000,12 +1018,12 @@ namespace Song.ServiceImpls
                 int count = Math.Min(pagecount, accounts.Count - i);
                 chunks.Add(accounts.GetRange(i, count));
             }
-            for (int c = 0; c < chunks.Count; c ++)
+            for (int c = 0; c < chunks.Count; c++)
             {
                 List<Accounts> list = chunks[c];
                 string actualname = chunks.Count <= 1 ? sheetName : $"{sheetName}({c + 1})";
                 ISheet sheet = hssfworkbook.CreateSheet(actualname);   //创建工作簿对象
-                //创建数据行对象
+                                                                       //创建数据行对象
                 IRow rowHead = sheet.CreateRow(0);
                 for (int i = 0; i < nodes.Count; i++)
                 {
@@ -2185,8 +2203,8 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public string MoneyRecords4Excel(string path, int orgid, int[] acid, int type, int from, DateTime? start, DateTime? end)
         {
-            HSSFWorkbook hssfworkbook = new HSSFWorkbook();
-            //xml配置文件
+            IWorkbook hssfworkbook = new XSSFWorkbook();   // 生成 xlsx
+                                                           //xml配置文件
             XmlDocument xmldoc = new XmlDocument();
             string confing = WeiSha.Core.App.Get["ExcelInputConfig"].VirtualPath + "资金流水.xml";
             xmldoc.Load(WeiSha.Core.Server.MapPath(confing));
@@ -2204,7 +2222,7 @@ namespace Song.ServiceImpls
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc &= MoneyAccount._.Org_ID == orgid;
             if (type > 0) wc &= MoneyAccount._.Ma_Type == type;
-            if (from > 0) wc &= MoneyAccount._.Ma_From == from;           
+            if (from > 0) wc &= MoneyAccount._.Ma_From == from;
             if (start != null && ((DateTime)start) > DateTime.Now.AddYears(-100)) wc &= MoneyAccount._.Ma_CrtTime >= ((DateTime)start).Date;
             if (end != null && ((DateTime)end) > DateTime.Now.AddYears(-100)) wc &= MoneyAccount._.Ma_CrtTime < ((DateTime)end).AddDays(1).Date;
             if (acid != null && acid.Length > 0)
@@ -2254,9 +2272,15 @@ namespace Song.ServiceImpls
                     }
                 }
             }
-            FileStream file = new FileStream(path, FileMode.Create);
-            hssfworkbook.Write(file);
-            file.Close();
+
+            // 保证扩展名是 .xlsx，避免"格式与扩展名不符"
+            if (!path.EndsWith(".xlsx", StringComparison.OrdinalIgnoreCase))
+                path = Path.ChangeExtension(path, ".xlsx");
+
+            using (FileStream file = new FileStream(path, FileMode.Create, FileAccess.Write))
+            {
+                hssfworkbook.Write(file);
+            }
             return path;
         }
         #endregion

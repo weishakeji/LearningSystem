@@ -249,9 +249,9 @@ namespace Song.ViewData.Methods
             DateTime date = DateTime.Now;
             string filename = string.Empty;
             if(start!=null || end !=null)
-            filename=string.Format("{0} to {1}.({2}).xls", dts.ToString("yyyy-MM-dd"), dte.ToString("yyyy-MM-dd"), date.ToString("yyyy-MM-dd hh-mm-ss"));
+            filename=string.Format("{0} to {1}.({2}).xlsx", dts.ToString("yyyy-MM-dd"), dte.ToString("yyyy-MM-dd"), date.ToString("yyyy-MM-dd hh-mm-ss"));
             else
-                filename = string.Format("{0}.xls",  date.ToString("yyyy-MM-dd hh-mm-ss"));
+                filename = string.Format("{0}.xlsx",  date.ToString("yyyy-MM-dd hh-mm-ss"));
             string filePath = rootpath + filename;
             //定义这个数组只是为了临时编译通过
             int[] acidarr = new int[] { acid };
@@ -287,7 +287,9 @@ namespace Song.ViewData.Methods
             JArray jarr = new JArray();
             if (!System.IO.Directory.Exists(rootpath)) return jarr; 
             System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(rootpath);
-            FileInfo[] files = dir.GetFiles("*.xls").OrderByDescending(f => f.CreationTime).ToArray();
+            FileInfo[] files = dir.GetFiles("*.xlsx")
+                .Where(f => (f.Attributes & (FileAttributes.Hidden | FileAttributes.System)) == 0)
+                .OrderByDescending(f => f.CreationTime).ToArray();
             foreach (System.IO.FileInfo f in files)
             {
                 JObject jo = new JObject();

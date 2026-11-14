@@ -1108,8 +1108,8 @@ namespace Song.ServiceImpls
                 r.SetText(title);
                 r.FontSize = 16;
                 r.IsBold = true;
-                //if (!string.IsNullOrWhiteSpace(intro))
-                //    _createParagraph(doc, "说明：" + intro, 360, 14);
+                if (!string.IsNullOrWhiteSpace(intro))
+                    _createParagraph(doc, "说明：" + intro, 360, 14);
             }
 
             // 保存文档到文件

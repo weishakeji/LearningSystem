@@ -1169,13 +1169,13 @@ namespace Song.ViewData.Methods
             DateTime date = DateTime.Now;
             string filename = string.Empty;
 
-            if (mode == 0) filename = string.Format("所有账号导出.{0}.xls", date.ToString("yyyy-MM-dd hh-mm-ss"));
-            if (mode == 1) filename = string.Format("按学员组导出.{0}.xls", date.ToString("yyyy-MM-dd hh-mm-ss"));
-            if (mode == 3) filename = string.Format("未分组学员.{0}.xls", date.ToString("yyyy-MM-dd hh-mm-ss"));
+            if (mode == 0) filename = string.Format("所有账号导出.{0}.xlsx", date.ToString("yyyy-MM-dd hh-mm-ss"));
+            if (mode == 1) filename = string.Format("按学员组导出.{0}.xlsx", date.ToString("yyyy-MM-dd hh-mm-ss"));
+            if (mode == 3) filename = string.Format("未分组学员.{0}.xlsx", date.ToString("yyyy-MM-dd hh-mm-ss"));
             if (mode == 2 || sortlist.Count > 0)
             {
                 if (sortlist.Count < 1) throw new Exception("请选择要导出的学员组！");
-                filename = string.Format("指定学员组导出.(共{1}组).{0}.xls", date.ToString("yyyy-MM-dd hh-mm-ss"), sortlist.Count.ToString());
+                filename = string.Format("指定学员组导出.(共{1}组).{0}.xlsx", date.ToString("yyyy-MM-dd hh-mm-ss"), sortlist.Count.ToString());
             }
 
             string filePath = Path.Combine(rootpath, filename);
@@ -1208,7 +1208,9 @@ namespace Song.ViewData.Methods
             if (!System.IO.Directory.Exists(rootpath)) return jarr;
 
             System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(rootpath);
-            FileInfo[] files = dir.GetFiles("*.xls").OrderByDescending(f => f.CreationTime).ToArray();
+            FileInfo[] files = dir.GetFiles("*.xlsx")
+                .Where(f => (f.Attributes & (FileAttributes.Hidden | FileAttributes.System)) == 0)
+                .OrderByDescending(f => f.CreationTime).ToArray();
             foreach (System.IO.FileInfo f in files)
             {
                 JObject jo = new JObject();
@@ -1317,7 +1319,9 @@ namespace Song.ViewData.Methods
             JArray jarr = new JArray();
             if (!System.IO.Directory.Exists(rootpath)) return jarr;          
             System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(rootpath);
-            FileInfo[] files = dir.GetFiles("*.xls").OrderByDescending(f => f.CreationTime).ToArray();
+            FileInfo[] files = dir.GetFiles("*.xls")
+                .Where(f => (f.Attributes & (FileAttributes.Hidden | FileAttributes.System)) == 0)
+                .OrderByDescending(f => f.CreationTime).ToArray();
             foreach (System.IO.FileInfo f in files)
             {
                 JObject jo = new JObject();
