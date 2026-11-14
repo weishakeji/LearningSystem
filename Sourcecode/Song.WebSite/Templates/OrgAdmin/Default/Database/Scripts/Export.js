@@ -52,11 +52,12 @@ $ready(function () {
             exportfunc: function () {
                 var th = this;
                 th.loadstate.update = true;
+                var loading = th.$fulloading();
                 $api.get("DataBase/ExportToWord")
                     .then(req => {
                         if (req.data.success) {
                             let result = req.data.result;
-                             th.getFiles();
+                            th.getFiles();
                             th.$message({
                                 message: '操作成功',
                                 type: 'success'
@@ -66,7 +67,10 @@ $ready(function () {
                             throw req.config.way + ' ' + req.data.message;
                         }
                     }).catch(err => console.error(err))
-                    .finally(() => th.loadstate.update = false);
+                    .finally(() => {
+                        th.$nextTick(() => loading.close());
+                        th.loadstate.update = false;
+                    });
             },
             //获取文件列表
             getFiles: function () {
