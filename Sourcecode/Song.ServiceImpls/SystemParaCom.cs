@@ -10,8 +10,7 @@ using WeiSha.Data;
 using Song.ServiceInterfaces;
 using System.Reflection;
 using System.Collections;
-
-
+using Newtonsoft.Json.Linq;
 
 namespace Song.ServiceImpls
 {
@@ -272,7 +271,56 @@ namespace Song.ServiceImpls
              WeiSha.Core.License lic = WeiSha.Core.License.Value;
              return lic.IsLicense;
         }
-
+        /// <summary>
+        /// 应用程序的版本信息，来自Song.WebSite.dll
+        /// </summary>
+        /// <returns></returns>
+        public Version Version()
+        {
+            string dllfile = System.AppDomain.CurrentDomain.BaseDirectory + "\\bin\\Song.WebSite.dll";
+            Assembly assembly = Assembly.LoadFrom(dllfile);
+            return assembly.GetName().Version;
+        }
+        /// <summary>
+        /// 详细的版本信息
+        /// </summary>
+        /// <returns></returns>
+        public JObject VersionDetail()
+        {
+            string dllfile = System.AppDomain.CurrentDomain.BaseDirectory + "\\bin\\Song.WebSite.dll";
+            Assembly assembly = Assembly.LoadFrom(dllfile);
+            JObject jo = new JObject();
+            //内部版本号    
+            Version version = assembly.GetName().Version;
+            jo.Add("version", version.ToString());
+            //内版本号的主版本号
+            jo.Add("major", version.Major.ToString());
+            jo.Add("minor", version.Minor.ToString());
+            //获取动态库的属性
+            object[] attributes = assembly.GetCustomAttributes(false);
+            foreach (object obj in attributes)
+            {
+                //产品名称
+                if (obj is AssemblyProductAttribute)
+                    jo.Add("product", ((AssemblyProductAttribute)obj).Product);
+                //产品介绍
+                if (obj is AssemblyDescriptionAttribute)
+                    jo.Add("desc", ((AssemblyDescriptionAttribute)obj).Description);
+                //版本状态
+                if (obj is AssemblyConfigurationAttribute)
+                    jo.Add("stage", ((AssemblyConfigurationAttribute)obj).Configuration);
+                //版权所有
+                if (obj is AssemblyCopyrightAttribute)
+                    jo.Add("copyright", ((AssemblyCopyrightAttribute)obj).Copyright);
+                //公司名称（开发团队）
+                if (obj is AssemblyCompanyAttribute)
+                    jo.Add("company", ((AssemblyCompanyAttribute)obj).Company);
+            }
+            //发布时间
+            DateTime lasttime = System.IO.File.GetLastWriteTime(dllfile);
+            jo.Add("release", lasttime.ToString("yyyy-MM-dd HH:mm:ss"));
+            return jo;
+        }
         #region IEnumerable 成员
 
         /// <summary>

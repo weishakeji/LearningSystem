@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Data;
 using Song.Entities;
+using Newtonsoft.Json.Linq;
 
 namespace Song.ServiceInterfaces
 {
@@ -116,6 +117,15 @@ namespace Song.ServiceInterfaces
         /// 测试是否完成授权
         /// </summary>
         bool IsLicense();
-       
+        /// <summary>
+        /// 应用程序的版本信息，来自Song.WebSite.dll
+        /// </summary>
+        /// <returns></returns>
+        Version Version();
+        /// <summary>
+        /// 详细的版本信息
+        /// </summary>
+        /// <returns></returns>
+        JObject VersionDetail();
     }
 }
