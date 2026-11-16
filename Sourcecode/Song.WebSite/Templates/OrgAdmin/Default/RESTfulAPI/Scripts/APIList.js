@@ -24,6 +24,7 @@
             showscript: false,       //是否显示脚本
             showresult: false,       //是否显示接口调用的结果
 
+            loaded: true,  //预载中
             loading: false,  //预载，测试中的预载
         },
         watch: {

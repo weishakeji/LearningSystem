@@ -314,7 +314,7 @@ namespace Song.ViewData.Methods
         /// <returns>导出文件的url</returns>
         public string ExportToWord()
         {
-            long snowid=Business.Do<ISystemPara>().SerialSnow();
+            long snowid = Business.Do<ISystemPara>().SerialSnow();
             string filename = $"数据字典_{DateTime.Now.ToString("yyyy-MM-dd")}.{snowid}.docx";
             filename = Path.Combine(outputPathHy, filename);
             Business.Do<IDataBase>().ExportToWord(filename);

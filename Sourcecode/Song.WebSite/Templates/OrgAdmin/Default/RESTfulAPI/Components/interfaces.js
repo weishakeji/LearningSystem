@@ -47,6 +47,7 @@ Vue.component('interfaces', {
         getapilist: function () {
             var th = this;
             th.loading = true;
+            th.$emit('loaded', false);
             $api.get('APIHelper/List').then(req => {
                 if (req.data.success) {
                     th.list = req.data.result;
@@ -56,7 +57,9 @@ Vue.component('interfaces', {
                     throw req.config.way + ' ' + req.data.message;
                 }
             }).catch(err => console.error(err))
-                .finally(() => th.loading = false);
+                .finally(() => {
+                    th.loading = false;                  
+                });
         },
         //是否存在search，大小写不敏感
         indexOf: function (text, search) {
@@ -80,13 +83,14 @@ Vue.component('interfaces', {
             //是否全部完成
             let alldone = true;
             for (let i = 0; i < this.list.length; i++)
-                if (!this.list[i].loaded) alldone = false;
-            //假如全部完成
+                if (!this.list[i].loaded) alldone = false;           
             if (!alldone) return;
+             //假如全部完成
             for (let i = 0; i < this.list.length; i++) {
                 if (this.list[i].methods && this.list[i].methods.length > 0) {
                     this.selected(this.list[i].methods[i], this.list[i]);
                     //this.activeName = i;  //默认打开第一个折叠
+                    this.$emit('loaded', true);
                     return;
                 }
             }
@@ -122,7 +126,7 @@ Vue.component('interfaces', {
                     <div v-if='item.Intro.length>0' class="intro"><span>摘要：</span>
                         <span v-html="showsearch(item.Intro,search)"></span>
                     </div>
-                    <methods ref="method" :index="idx" :api="item" :search="search" @load="methodsLoaded" @selected="selected"></methods>
+                    <methods ref="method" :index="idx" :api="item" :search="search" @loaded="methodsLoaded" @selected="selected"></methods>
                 </el-collapse-item>
             </el-collapse>
            
@@ -135,7 +139,7 @@ Vue.component('methods', {
     //api:接口类
     //search:搜索关键字
     //index:接口索引
-    props: ['api', 'search','index'],
+    props: ['api', 'search', 'index'],
     data: function () {
         return {
             methods: [], //方法列表
@@ -162,13 +166,16 @@ Vue.component('methods', {
                     th.$set(th.api, 'count', methods.length);
                     th.$set(th.api, 'methods', methods);
                     th.$set(th.api, 'loaded', true);    //是否加载完成
-                    th.$emit('load', methods, th.api);    //加载完成的事件
+                    th.$emit('loaded', methods, th.api);    //加载完成的事件
                 } else {
                     console.error(req.data.exception);
                     throw req.config.way + ' ' + req.data.message;
                 }
             }).catch(err => console.error(err))
-                .finally(() => th.loading = false);
+                .finally(() => {
+                    th.loading = false;
+                    th.$emit('loaded', null, null);    //加载完成的事件
+                });
         },
         //计算获取接口方法的参数信息，生成字符串
         getParamstring: function (method) {

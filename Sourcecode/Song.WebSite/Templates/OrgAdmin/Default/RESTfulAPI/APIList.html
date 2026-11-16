@@ -10,9 +10,10 @@
 <body>
     <div id="vapp" v-cloak>
         <!--左侧接口列表-->
-        <interfaces @selected="m=>method=m"></interfaces>
+        <interfaces @selected="m=>method=m" @loaded="l=>loaded=l"></interfaces>
         <!--接口信息-->
-        <div id="content" v-if="method!=null">
+        <loading v-if="!loaded" asterisk>接口列表仍在加载中...</loading>
+        <div id="content" v-else-if="method!=null">
             <el-card shadow="hover" :class="{'method_card':true,'fold':foldintro}">
                 <template slot="header">
                     <div class="method_title">

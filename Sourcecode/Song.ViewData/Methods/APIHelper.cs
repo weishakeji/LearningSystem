@@ -145,12 +145,15 @@ namespace Song.ViewData.Methods
         /// <returns>word文档的url路径</returns>
         public string ToWord()
         {
-            //导出文件的位置
-            string pathname = "APItoWord";
-            string filePath = WeiSha.Core.Upload.Get["Temp"].Physics + pathname + "\\";
-            if (!System.IO.Directory.Exists(filePath))
-                System.IO.Directory.CreateDirectory(filePath);
-            string filename = DateTime.Now.ToString("yyyy-MM-dd hh-mm-ss") + ".docx";
+            long snowid = Business.Do<ISystemPara>().SerialSnow();
+            string filename = $"RESTful API 说明_{DateTime.Now.ToString("yyyy-MM-dd")}.{snowid}.docx";
+            filename = Path.Combine(outputPathHy, filename);
+            ////导出文件的位置
+            //string pathname = "APItoWord";
+            //string filePath = WeiSha.Core.Upload.Get["Temp"].Physics + pathname + "\\";
+            //if (!System.IO.Directory.Exists(filePath))
+            //    System.IO.Directory.CreateDirectory(filePath);
+            //string filename = DateTime.Now.ToString("yyyy-MM-dd hh-mm-ss") + ".docx";
 
             // 创建一个新的 Word 文档对象
             XWPFDocument doc = new XWPFDocument();
@@ -220,12 +223,12 @@ namespace Song.ViewData.Methods
             }
 
             // 保存文档到文件
-            using (FileStream fs = new FileStream(filePath + filename, FileMode.Create, FileAccess.Write))
+            using (FileStream fs = new FileStream(filename, FileMode.Create, FileAccess.Write))
             {
                 doc.Write(fs);
             }
 
-            return WeiSha.Core.Upload.Get["Temp"].Virtual + pathname + "/" + filename;
+            return WeiSha.Core.Upload.Get["Temp"].Virtual + "/" + filename;
         }
         private XWPFRun _createParagraph(XWPFDocument doc, string text, int indent, int fontsize)
         {
@@ -252,7 +255,73 @@ namespace Song.ViewData.Methods
             retnrun.FontSize = 12;
         }
         #endregion
-      
+
+        #region 导出到文档
+        //导出的文件夹名称
+        private string _outputPath = "APItoWord";
+        //物路路径
+        private string outputPathHy
+        {
+            get
+            {
+                string path = Path.Combine(WeiSha.Core.Upload.Get["Temp"].Physics, _outputPath);
+                Directory.CreateDirectory(path);
+                return path;
+            }
+        }
+        //虚拟路径
+        private string outputPathVt => WeiSha.Core.Upload.Get["Temp"].Virtual + _outputPath + "/";
+        /// <summary>
+        /// 将数据库结构导出到Word
+        /// </summary>
+        /// <returns>导出文件的url</returns>
+        public string ExportToWord()
+        {
+            return ToWord();
+            long snowid = Business.Do<ISystemPara>().SerialSnow();
+            string filename = $"数据字典_{DateTime.Now.ToString("yyyy-MM-dd")}.{snowid}.docx";
+            filename = Path.Combine(outputPathHy, filename);
+            Business.Do<IDataBase>().ExportToWord(filename);
+            return outputPathVt + filename;
+        }
+        /// <summary>
+        /// 已经生成的Excel文件
+        /// </summary>
+        /// <returns>file:文件名,url:下载地址,date:创建时间</returns>
+        [Admin, Teacher]
+        public JArray ExportWordFiles()
+        {
+            JArray jarr = new JArray();
+            if (!System.IO.Directory.Exists(outputPathHy)) return jarr;
+
+            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(outputPathHy);
+            FileInfo[] files = dir.GetFiles("*.docx")
+                .Where(f => (f.Attributes & (FileAttributes.Hidden | FileAttributes.System)) == 0)
+                .OrderByDescending(f => f.CreationTime).ToArray();
+            foreach (System.IO.FileInfo f in files)
+            {
+                JObject jo = new JObject();
+                jo.Add("file", f.Name);
+                jo.Add("url", outputPathVt + f.Name);
+                jo.Add("date", f.CreationTime);
+                jo.Add("type", Path.GetExtension(f.Name).TrimStart('.'));
+                jo.Add("size", f.Length);
+                jarr.Add(jo);
+            }
+            return jarr;
+        }
+        /// <summary>
+        /// 删除Excel文件
+        /// </summary>
+        /// <param name="filename">文件名，带后缀名，不带路径</param>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        [HttpDelete]
+        [Admin, Teacher]
+        public bool WordFileDelete(string filename)
+            => ViewData.Helper.Excel.DeleteFile(filename, outputPathHy);
+        #endregion
+
     }
     #region 一些需要用到的类
     //接口类
