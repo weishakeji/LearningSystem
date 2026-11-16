@@ -16,6 +16,8 @@ using Newtonsoft.Json;
 using System.Data;
 using NPOI.XWPF.UserModel;
 using System.IO;
+using NPOI.OpenXmlFormats.Wordprocessing;
+using NPOI.WP.UserModel;
 
 namespace Song.ViewData.Methods
 {
@@ -147,16 +149,56 @@ namespace Song.ViewData.Methods
         {
             long snowid = Business.Do<ISystemPara>().SerialSnow();
             string filename = $"RESTful API 说明_{DateTime.Now.ToString("yyyy-MM-dd")}.{snowid}.docx";
-            filename = Path.Combine(outputPathHy, filename);
-            ////导出文件的位置
-            //string pathname = "APItoWord";
-            //string filePath = WeiSha.Core.Upload.Get["Temp"].Physics + pathname + "\\";
-            //if (!System.IO.Directory.Exists(filePath))
-            //    System.IO.Directory.CreateDirectory(filePath);
-            //string filename = DateTime.Now.ToString("yyyy-MM-dd hh-mm-ss") + ".docx";
+            filename = Path.Combine(outputPathHy, filename);          
 
             // 创建一个新的 Word 文档对象
             XWPFDocument doc = new XWPFDocument();
+            // ---------- 1. 首页的内容 ----------          
+            _createParagraph(doc, "微厦在线学习考试系统", 0, 60, ParagraphAlignment.CENTER, 1, 10);
+            _createParagraph(doc, "接口文档", 0, 40, ParagraphAlignment.CENTER, 1, 5);
+            _createParagraph(doc, "撰写日期：" + DateTime.Now.ToString("yyyy年M月d日"), 0, 18, ParagraphAlignment.CENTER, 20, 0);
+            doc.CreateParagraph().CreateRun().SetText("");
+
+            // 新建一个段落作为“第1节结束标记”
+            XWPFParagraph breakPara = doc.CreateParagraph();
+            breakPara.CreateRun().SetText(""); // 可选
+            CT_SectPr firstSectPr = new CT_SectPr();
+
+            // 设置分节符类型为“下一页”（下一节从新页开始）
+            CT_SectType sectType = new CT_SectType();
+            sectType.val = ST_SectionMark.nextPage;
+            firstSectPr.type = sectType;
+
+            //生成新的节，并设置纸张方向为横向
+            breakPara.GetCTP().pPr = breakPara.GetCTP().pPr ?? new CT_PPr();
+            breakPara.GetCTP().pPr.sectPr = firstSectPr;
+            CT_SectPr lastSectPr = doc.Document.body.sectPr;
+            if (lastSectPr == null)
+            {
+                lastSectPr = new CT_SectPr();
+                doc.Document.body.sectPr = lastSectPr;
+            }
+            //// 横向时：宽高互换
+            //lastSectPr.pgSz = new CT_PageSz { w = 16838, h = 11906, orient = ST_PageOrientation.landscape };
+            lastSectPr.pgNumType = new CT_PageNumber { start = "1" };
+
+            //页眉，从第2节开始
+            XWPFHeader header = doc.CreateHeader(HeaderFooterType.DEFAULT);
+            XWPFParagraph hp = header.Paragraphs.Count > 0 ? header.Paragraphs[0] : header.CreateParagraph();
+            hp.Alignment = ParagraphAlignment.RIGHT;
+            string version = Business.Do<ISystemPara>().Version().ToString();
+            hp.CreateRun().SetText($"微厦在线学习考试系统 - Version {version}");
+            //页脚，从第2节开始
+            XWPFFooter footer = doc.CreateFooter(HeaderFooterType.DEFAULT);
+            XWPFParagraph fp = footer.Paragraphs.Count > 0 ? footer.Paragraphs[0] : footer.CreateParagraph();
+            fp.Alignment = ParagraphAlignment.CENTER;
+            //添加页码
+            Action<ST_FldCharType> fld = t => fp.CreateRun().GetCTR().AddNewFldChar().fldCharType = t;
+            fld(ST_FldCharType.begin);
+            fp.CreateRun().GetCTR().AddNewInstrText().Value = " PAGE ";
+            fld(ST_FldCharType.separate);
+            fp.CreateRun().SetText("1");
+            fld(ST_FldCharType.end);
 
             Helper_API[] apis = this.List();
             for(int i = 0; i < apis.Length; i++)
@@ -213,7 +255,7 @@ namespace Song.ViewData.Methods
                             ptext += paras[n].Nullable ? "可以为空" : "不可为空";                           
                             if (!string.IsNullOrEmpty(paras[n].Intro))
                                 ptext += "；" + paras[n].Intro;
-                            _createParagraph(doc, ptext, 720, 14);
+                            _createParagraph(doc, ptext, (int)(720*1.5), 14);
                         }
                     }
                     //返回值
@@ -230,6 +272,31 @@ namespace Song.ViewData.Methods
 
             return WeiSha.Core.Upload.Get["Temp"].Virtual + "/" + filename;
         }
+        /// <summary>
+        /// 创建段落
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <param name="text"></param>
+        /// <param name="indent"></param>
+        /// <param name="fontsize"></param>
+        /// <param name="alignment"></param>
+        /// <returns></returns>
+        private XWPFParagraph _createParagraph(XWPFDocument doc, string text, int indent, int fontsize, ParagraphAlignment alignment, int before, int after)
+        {
+            //返回值
+            XWPFParagraph p = doc.CreateParagraph();
+            if (alignment == ParagraphAlignment.LEFT && indent > 0)
+                p.IndentationLeft = indent;
+            p.Alignment = alignment;
+            //设置段前、段后
+            CT_PPr pPr = p.GetCTP().pPr ?? new CT_PPr();
+            p.GetCTP().pPr = pPr;
+            pPr.spacing = new CT_Spacing { beforeLines = (before * 100).ToString(), afterLines = (after * 100).ToString() };
+            XWPFRun retnrun = p.CreateRun();
+            retnrun.FontSize = fontsize;
+            retnrun.SetText(text?.Trim() ?? string.Empty);
+            return p;
+        }
         private XWPFRun _createParagraph(XWPFDocument doc, string text, int indent, int fontsize)
         {
             //返回值
@@ -239,20 +306,6 @@ namespace Song.ViewData.Methods
             retnrun.SetText(text);           
             retnrun.FontSize = fontsize;
             return retnrun;
-        }
-        private void _createParagraph(XWPFTableCell cell, string text)
-        {
-            //返回值
-            XWPFParagraph p = cell.AddParagraph();
-            //p.IndentationLeft = 50;
-            //cell.GetCTTc().AddNewTcPr().noWrap.val = false;
-            //cell.GetCTTc().AddNewTcPr().AddNewWrap().val = ST_OnOff.on;
-            p.Alignment = ParagraphAlignment.CENTER;
-            p.IsWordWrapped = false;
-            p.SpacingBefore = 0;
-            XWPFRun retnrun = p.CreateRun();
-            retnrun.SetText(text);
-            retnrun.FontSize = 12;
         }
         #endregion
 
