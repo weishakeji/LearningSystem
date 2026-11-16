@@ -144,7 +144,7 @@ namespace Song.ViewData.Helper
 
 
             long elapsedNumber = elapsedTime / 1000 * 1000;
-            //if (elapsedNumber <= 0) return;
+            if (elapsedNumber <= 0) return;
             //如果日志目录不存在就创建
             string rootPath = AppDomain.CurrentDomain.BaseDirectory;
             //string apiName=path.i

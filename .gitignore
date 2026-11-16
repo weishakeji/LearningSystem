@@ -65,3 +65,4 @@ packages/
 /Sourcecode/Song.WebSite/App_Data/gxmk - backup.db
 /DbScripts/*.backup
 backup
+/Sourcecode/Song.WebSite/logs_sql_Elapsed
