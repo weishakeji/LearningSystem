@@ -1288,7 +1288,7 @@ namespace Song.ServiceImpls
         /// <param name="fontsize"></param>
         /// <param name="alignment"></param>
         /// <returns></returns>
-        private XWPFParagraph _createParagraph(XWPFDocument doc, string text, int indent, int fontsize, ParagraphAlignment alignment,int before, int after)
+        private XWPFParagraph _createParagraph(XWPFDocument doc, string text, int indent, int fontsize, ParagraphAlignment alignment,double before, double after)
         {
             //返回值
             XWPFParagraph p = doc.CreateParagraph(); 

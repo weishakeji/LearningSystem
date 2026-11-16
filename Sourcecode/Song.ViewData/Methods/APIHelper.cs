@@ -204,13 +204,10 @@ namespace Song.ViewData.Methods
             for(int i = 0; i < apis.Length; i++)
             {
                 //一级标题，接口类的名称
-                XWPFParagraph h1 = doc.CreateParagraph();
-                h1.Style = "2";
-                h1.SpacingBefore = 20;
-                XWPFRun r = h1.CreateRun();
-                r.SetText((i+1)+". " +apis[i].Name);
-                r.FontSize = 16;
-                r.IsBold = true;
+                XWPFParagraph h1 = _createParagraph(doc, (i + 1) + ". " + apis[i].Name, 0, 18, ParagraphAlignment.LEFT, 1, .5);
+                h1.Style = "2";            
+                XWPFRun h1r = h1.Runs.Count > 0 ? h1.Runs[0] : h1.CreateRun();
+                h1r.IsBold = true;
                 //接口类的说明
                 if (!string.IsNullOrWhiteSpace(apis[i].Intro))              
                     _createParagraph(doc, "简述：" + apis[i].Intro, 720, 14);
@@ -220,8 +217,9 @@ namespace Song.ViewData.Methods
                 {
                     //接口方法的名称
                     string order = (i + 1) + "." + (j + 1) + ". ";
-                    XWPFRun name = _createParagraph(doc, order + apis[i].Name + " / " + methods[j].Name, 360, 14);
-                    name.IsBold = true;
+                    XWPFParagraph name = _createParagraph(doc, order + apis[i].Name + " / " + methods[j].Name, 360, 16, ParagraphAlignment.LEFT, .5, .5);
+                    XWPFRun firstRun = name.Runs.Count > 0 ? name.Runs[0] : name.CreateRun();
+                    firstRun.IsBold = true;
                     //接口方法的说明
                     if (!string.IsNullOrWhiteSpace(methods[j].Intro))                   
                         _createParagraph(doc, "摘要：" + methods[j].Intro, 720, 14); 
@@ -280,8 +278,10 @@ namespace Song.ViewData.Methods
         /// <param name="indent"></param>
         /// <param name="fontsize"></param>
         /// <param name="alignment"></param>
+        /// <param name="before"></param>
+        /// <param name="after"></param>
         /// <returns></returns>
-        private XWPFParagraph _createParagraph(XWPFDocument doc, string text, int indent, int fontsize, ParagraphAlignment alignment, int before, int after)
+        private XWPFParagraph _createParagraph(XWPFDocument doc, string text, int indent, int fontsize, ParagraphAlignment alignment, double before, double after)
         {
             //返回值
             XWPFParagraph p = doc.CreateParagraph();
@@ -299,13 +299,9 @@ namespace Song.ViewData.Methods
         }
         private XWPFRun _createParagraph(XWPFDocument doc, string text, int indent, int fontsize)
         {
-            //返回值
-            XWPFParagraph p = doc.CreateParagraph();
-            p.IndentationLeft = indent;
-            XWPFRun retnrun = p.CreateRun();           
-            retnrun.SetText(text);           
-            retnrun.FontSize = fontsize;
-            return retnrun;
+            XWPFParagraph p = _createParagraph(doc, text, indent, fontsize, ParagraphAlignment.LEFT, 0, 0);
+            XWPFRun firstRun = p.Runs.Count>0 ? p.Runs[0] : p.CreateRun();
+            return firstRun;         
         }
         #endregion
 

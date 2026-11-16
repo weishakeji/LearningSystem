@@ -243,11 +243,23 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public int SortUpdateCount(List<long> stsid)
         {
-            foreach(long l in stsid)
+            using (DbTrans tran = Gateway.Default.BeginTrans())
             {
-                int count = Gateway.Default.Count<Accounts>(Accounts._.Sts_ID == l);
-                Gateway.Default.Update<StudentSort>(new Field[] { StudentSort._.Sts_Count }, new object[] { count },
-                                StudentSort._.Sts_ID == l);
+                try
+                {
+                    foreach (long l in stsid)
+                    {
+                        int count = Gateway.Default.Count<Accounts>(Accounts._.Sts_ID == l);
+                        tran.Update<StudentSort>(new Field[] { StudentSort._.Sts_Count }, new object[] { count },
+                                        StudentSort._.Sts_ID == l);
+                    }                  
+                    tran.Commit();
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    throw ex;
+                }
             }
             return stsid.Count;
         }
