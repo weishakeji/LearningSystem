@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
+
 namespace Song.ViewData.Helper
 {
     public class Excel
@@ -169,7 +170,7 @@ namespace Song.ViewData.Helper
         /// 获取文档中的所有工作薄
         /// </summary>
         /// <param name="xlsFile"></param>
-        /// <returns>name:工作簿名称; count:记录数</returns>
+        /// <returns>name:工作表名称; count:记录数</returns>
         public static JArray Sheets(string xlsFile)
         {
             JArray arr = new JArray();
@@ -179,8 +180,9 @@ namespace Song.ViewData.Helper
             for (int i = 0; i < sheetNum; i++)
             {
                 JObject jo = new JObject();
-                jo.Add("name", workbook.GetSheetAt(i).SheetName);
-                jo.Add("count", workbook.GetSheetAt(i).LastRowNum);
+                ISheet sheet = workbook.GetSheetAt(i);
+                jo.Add("name", sheet.SheetName);    //工作表名称
+                jo.Add("count", sheet.PhysicalNumberOfRows);  //工作表的记录数
                 arr.Add(jo);
             }
             return arr;
@@ -228,11 +230,17 @@ namespace Song.ViewData.Helper
             ExcelType type = ".xlsx".Equals(Path.GetExtension(xlsFile), StringComparison.OrdinalIgnoreCase) ? ExcelType.Xlsx : ExcelType.Xls;
             //创建工作薄对象
             IWorkbook workbook = null;
-            byte[] bytes = File.ReadAllBytes(xlsFile);
-            using (MemoryStream ms = new MemoryStream(bytes))
+            //byte[] bytes = File.ReadAllBytes(xlsFile);
+            //using (MemoryStream ms = new MemoryStream(bytes))
+            //{
+            //    if(type == ExcelType.Xls) workbook = new HSSFWorkbook(ms);
+            //    if (type == ExcelType.Xlsx) workbook = new XSSFWorkbook(ms);
+            //}
+           
+            using (FileStream file = new FileStream(xlsFile, FileMode.Open, FileAccess.Read))
             {
-                if(type == ExcelType.Xls) workbook = new HSSFWorkbook(ms);
-                if (type == ExcelType.Xlsx) workbook = new XSSFWorkbook(ms);
+                if (type == ExcelType.Xls) workbook = new HSSFWorkbook(file);
+                if (type == ExcelType.Xlsx) workbook = new XSSFWorkbook(file);
             }
             return workbook;
         }

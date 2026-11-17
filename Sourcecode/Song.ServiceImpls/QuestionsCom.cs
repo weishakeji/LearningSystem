@@ -869,6 +869,7 @@ namespace Song.ServiceImpls
             //导出文件的位置
             string path = Path.Combine(Upload.Get["Temp"].Physics, subpath, folder, snowid.ToString());
             string filename = string.Format("试题导出.({0}).{1}.xlsx", date.ToString("yyyy-MM-dd hh-mm-ss"), couid.ToString());
+            if (File.Exists(Path.Combine(path, filename))) throw new Exception("文件已存在");
 
             //导出Excel
             XSSFWorkbook xssfworkbook = this.QuestionsExport(path, orgid, type, sbjid, couid, olid, diff, isError, isWrong, isUse, isDelete);
@@ -899,7 +900,8 @@ namespace Song.ServiceImpls
             JObject jo = new JObject();
             jo.Add("file", filename);
             jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + subpath + "/" + folder + "/" + filename);
-            jo.Add("date", date);
+            jo.Add("date", date);          
+            jo.Add("type", Path.GetExtension(filename).TrimStart('.'));
             return jo;
         }
         #region 导出试的私有方法
