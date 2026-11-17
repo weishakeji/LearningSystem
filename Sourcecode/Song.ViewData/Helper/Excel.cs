@@ -28,7 +28,8 @@ namespace Song.ViewData.Helper
             //创建工作薄对象
             IWorkbook workbook = createWorkbook(xlsFile);
             //判断是xls还是xlsx
-            string ext = Path.GetExtension(xlsFile).ToLower();
+            //ExcelType excelType = "xlsx".Equals(Path.GetExtension(xlsFile), StringComparison.OrdinalIgnoreCase) ? ExcelType.Xlsx : ExcelType.Xls;
+            //string ext = Path.GetExtension(xlsFile).ToLower();
 
             ISheet sheet = workbook.GetSheetAt(sheetIndex);
             System.Collections.IEnumerator rows = sheet.GetRowEnumerator();
@@ -39,7 +40,7 @@ namespace Song.ViewData.Helper
             {
                 rows.MoveNext();
                 //创建Datatable结构
-                IRow firsRow = createRow(ext, rows.Current);
+                IRow firsRow = createRow(workbook, rows.Current);
                 for (int i = 0; i < firsRow.LastCellNum; i++)
                 {
                     ICell cell = firsRow.GetCell(i);
@@ -49,7 +50,7 @@ namespace Song.ViewData.Helper
                 //导入工作薄的数据
                 while (rows.MoveNext())
                 {
-                    IRow row = createRow(ext, rows.Current);
+                    IRow row = createRow(workbook, rows.Current);
                     DataRow dr = dt.NewRow();
                     for (int i = 0; i < dt.Columns.Count; i++)
                     {
@@ -87,7 +88,7 @@ namespace Song.ViewData.Helper
                                 break;
 
                             default:
-                                value = getCellValue(cell, ext, workbook);
+                                value = getCellValue(cell, workbook);
                                 dr[i] = WeiSha.Core.Param.Method.ConvertToAnyValue.Get(value).ChangeType(dt.Columns[i].DataType);
                                 break;
                         }
@@ -96,9 +97,13 @@ namespace Song.ViewData.Helper
                     dt.Rows.Add(dr);
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                return dt;
+                
+            }
+            finally
+            {
+                workbook.Close();
             }
             return dt;
         }
@@ -106,10 +111,9 @@ namespace Song.ViewData.Helper
         /// 获取Excel单元格的值
         /// </summary>
         /// <param name="cell"></param>
-        /// <param name="ext">excel的扩展名，用于判断是xls还是xlsx</param>
         /// <param name="workbook">文档对象</param>
         /// <returns></returns>
-        private static string getCellValue(ICell cell, string ext, IWorkbook workbook)
+        private static string getCellValue(ICell cell, IWorkbook workbook)
         {
             string val = string.Empty;
             switch (cell.CellType)
@@ -130,7 +134,7 @@ namespace Song.ViewData.Helper
                     val = string.Empty;
                     break;
                 case CellType.Formula:   //此处是处理公式数据，获取公式执行后的值
-                    if (ext == ".xlsx")
+                    if (workbook is XSSFWorkbook)
                     {
                         XSSFFormulaEvaluator eva = new XSSFFormulaEvaluator(workbook);
                         if (eva.Evaluate(cell).CellType == CellType.Numeric)
@@ -220,29 +224,29 @@ namespace Song.ViewData.Helper
         /// <returns></returns>
         public static IWorkbook createWorkbook(string xlsFile)
         {
+            //判断是xls还是xlsx
+            ExcelType type = ".xlsx".Equals(Path.GetExtension(xlsFile), StringComparison.OrdinalIgnoreCase) ? ExcelType.Xlsx : ExcelType.Xls;
             //创建工作薄对象
             IWorkbook workbook = null;
-            using (FileStream file = new FileStream(xlsFile, FileMode.Open, FileAccess.Read))
+            byte[] bytes = File.ReadAllBytes(xlsFile);
+            using (MemoryStream ms = new MemoryStream(bytes))
             {
-                //根据扩展名判断excel版本
-                string ext = Path.GetExtension(xlsFile).ToLower();
-                if (ext == ".xls") workbook = new HSSFWorkbook(file);
-                if (ext == ".xlsx") workbook = new XSSFWorkbook(file);
+                if(type == ExcelType.Xls) workbook = new HSSFWorkbook(ms);
+                if (type == ExcelType.Xlsx) workbook = new XSSFWorkbook(ms);
             }
             return workbook;
         }
         /// <summary>
         /// 创建行对象
         /// </summary>
-        /// <param name="ext"></param>
+        /// <param name="workbook"></param>
         /// <param name="obj"></param>
         /// <returns></returns>
-        private static IRow createRow(string ext, object obj)
+        private static IRow createRow(IWorkbook workbook, object obj)
         {
-            IRow row = null;
-            if (ext == ".xls") row = (HSSFRow)obj;
-            if (ext == ".xlsx") row = (XSSFRow)obj;
-            return row;
+            if (workbook is XSSFWorkbook) return (XSSFRow)obj;
+            else if (workbook is HSSFWorkbook) return (HSSFRow)obj;
+            return null;
         }
         /// <summary>
         /// 获取列名与字段名的对应关系的设置
@@ -345,15 +349,16 @@ namespace Song.ViewData.Helper
         /// 获取文件列表
         /// </summary>
         /// <param name="folder">文件所在的文件夹</param>
-        /// <param name="uploadkey">上传文件所在的根文件夹，此处为配置项的Key值，配置项来自web.config的Upload节点</param>
-        /// <param name="rule">按文件名查询时的规则</param>
-        /// <returns></returns>
+        /// <param name="uploadkey">上传文件所在的根文件夹，配置项来自 web.config 的 Upload 节点</param>
+        /// <param name="rule">按文件名查询的规则，多个模式用 , 或 ; 分隔，如 "*.xls,*.xlsx"</param>
+        /// <returns>文件信息 JArray，按创建时间倒序</returns>
         public static JArray Files(string folder, string uploadkey, string rule)
         {
-            //上传的根文件夹
-            string rootPhy = WeiSha.Core.Upload.Get[uploadkey].Physics;     //物理路径
-            string rootVir = WeiSha.Core.Upload.Get[uploadkey].Virtual;     //虚拟路径
-            //校验文件夹
+            // 上传的根文件夹
+            string rootPhy = WeiSha.Core.Upload.Get[uploadkey].Physics;     // 物理路径
+            string rootVir = WeiSha.Core.Upload.Get[uploadkey].Virtual;     // 虚拟路径
+
+            // 校验文件夹
             if (!string.IsNullOrWhiteSpace(folder))
             {
                 folder = WeiSha.Core.Server.LegalPath(folder);
@@ -362,25 +367,44 @@ namespace Song.ViewData.Helper
                 if (!rootPhy.EndsWith("\\")) rootPhy += "\\";
                 if (!rootVir.EndsWith("/")) rootVir += "/";
             }
-            //
+
             JArray jarr = new JArray();
             System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(rootPhy);
             if (!dir.Exists) return jarr;
-            //
-            if (string.IsNullOrWhiteSpace(rule)) rule = "*.xls";
-            FileInfo[] files = dir.GetFiles(rule).OrderByDescending(f => f.CreationTime).ToArray();
-            foreach (FileInfo f in files)
+
+            // 规则：默认查 Excel，允许多模式以 , 或 ; 分隔
+            // 注意：DirectoryInfo.GetFiles 一次只支持一个模式，需拆分后分别查询再合并
+            if (string.IsNullOrWhiteSpace(rule)) rule = "*.xls,*.xlsx";
+            string[] patterns = rule
+                .Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(p => p.Trim())
+                .Where(p => p.Length > 0)
+                .ToArray();
+
+            var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            var fileList = new List<FileInfo>();
+            foreach (string pattern in patterns)
             {
-                string name = Path.GetFileNameWithoutExtension(f.Name);
-                JObject jo = new JObject();
-                jo.Add("name", name);
-                jo.Add("file", f.Name);
-                jo.Add("url", rootVir + f.Name);
-                jo.Add("date", f.CreationTime);
-                jo.Add("type", Path.GetExtension(f.Name).TrimStart('.'));
-                jo.Add("size", f.Length);
-                jarr.Add(jo);
+                foreach (FileInfo f in dir.GetFiles(pattern))
+                {
+                    if (seen.Add(f.FullName)) fileList.Add(f);
+                }
             }
+
+            // 按创建时间倒序
+            foreach (FileInfo f in fileList.OrderByDescending(x => x.CreationTime))
+            {
+                jarr.Add(new JObject
+                {
+                    ["name"] = Path.GetFileNameWithoutExtension(f.Name),
+                    ["file"] = f.Name,
+                    ["url"] = rootVir + f.Name,
+                    ["date"] = f.CreationTime,
+                    ["type"] = Path.GetExtension(f.Name).TrimStart('.'),
+                    ["size"] = f.Length,
+                });
+            }
+
             return jarr;
         }
         #endregion
@@ -410,6 +434,7 @@ namespace Song.ViewData.Helper
         #endregion
 
 
+        #region 其它方法
         /// <summary>
         /// 判断是不是绝对路径
         /// </summary>
@@ -435,5 +460,26 @@ namespace Song.ViewData.Helper
 
             return true;
         }
+        #endregion
+    }
+    /// <summary>
+    /// Excel 文件类型
+    /// </summary>
+    public enum ExcelType
+    {
+        /// <summary>
+        /// 未知类型
+        /// </summary>
+        Unknown = 0,
+
+        /// <summary>
+        /// Excel 97-2003 格式，扩展名 .xls
+        /// </summary>
+        Xls = 1,
+
+        /// <summary>
+        /// Excel 2007+ 格式，扩展名 .xlsx
+        /// </summary>
+        Xlsx = 2,
     }
 }
