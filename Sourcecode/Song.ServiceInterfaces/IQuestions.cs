@@ -6,6 +6,7 @@ using System.Data;
 using NPOI.HSSF.UserModel;
 using WeiSha.Data;
 using Newtonsoft.Json.Linq;
+using NPOI.XSSF.UserModel;
 
 namespace Song.ServiceInterfaces
 {
@@ -307,7 +308,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isUse"></param>
         /// <param name="isDelete"></param>
         /// <returns></returns>
-        HSSFWorkbook QuestionsExport(string folder, int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong, bool? isUse, bool? isDelete);
+        XSSFWorkbook QuestionsExport(string folder, int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong, bool? isUse, bool? isDelete);
         /// <summary>
         /// 导出试题,生成文件
         /// </summary>

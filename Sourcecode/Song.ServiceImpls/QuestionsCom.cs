@@ -17,6 +17,7 @@ using System.Threading;
 using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
+using NPOI.XSSF.UserModel;
 
 namespace Song.ServiceImpls
 {
@@ -791,9 +792,9 @@ namespace Song.ServiceImpls
         /// <param name="isError">是否包括错误的试题，如果为空，则不作判断</param>
         /// <param name="isWrong">是否包括学员反馈的试题，如果为空，则不作判断</param>
         /// <returns></returns>
-        public HSSFWorkbook QuestionsExport(string folder, int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong,bool? isUse,bool? isDelete)
+        public XSSFWorkbook QuestionsExport(string folder, int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong, bool? isUse, bool? isDelete)
         {
-            HSSFWorkbook hssfworkbook = new HSSFWorkbook();
+            XSSFWorkbook xssfworkbook = new XSSFWorkbook();
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Questions._.Org_ID == orgid);
             if (sbjid > 0) wc.And(Questions._.Sbj_ID == sbjid);
@@ -835,14 +836,14 @@ namespace Song.ServiceImpls
 
                 for (int idx = 1; idx <= totalPages; idx++)
                 {
-                    if (ty == 1) _buildExcelSql_1(hssfworkbook, where, sbjname, couname, folder, total, pagesize, idx);
-                    if (ty == 2) _buildExcelSql_2(hssfworkbook, where, sbjname, couname, folder, total, pagesize, idx);
-                    if (ty == 3) _buildExcelSql_3(hssfworkbook, where, sbjname, couname, folder, total, pagesize, idx);
-                    if (ty == 4) _buildExcelSql_4(hssfworkbook, where, sbjname, couname, folder, total, pagesize, idx);
-                    if (ty == 5) _buildExcelSql_5(hssfworkbook, where, sbjname, couname, folder, total, pagesize, idx);
+                    if (ty == 1) _buildExcelSql_1(xssfworkbook, where, sbjname, couname, folder, total, pagesize, idx);
+                    if (ty == 2) _buildExcelSql_2(xssfworkbook, where, sbjname, couname, folder, total, pagesize, idx);
+                    if (ty == 3) _buildExcelSql_3(xssfworkbook, where, sbjname, couname, folder, total, pagesize, idx);
+                    if (ty == 4) _buildExcelSql_4(xssfworkbook, where, sbjname, couname, folder, total, pagesize, idx);
+                    if (ty == 5) _buildExcelSql_5(xssfworkbook, where, sbjname, couname, folder, total, pagesize, idx);
                 }
             }
-            return hssfworkbook;
+            return xssfworkbook;
         }
         /// <summary>
         /// 导出试题,生成文件
@@ -858,30 +859,30 @@ namespace Song.ServiceImpls
         /// <param name="isError"></param>
         /// <param name="isWrong"></param>
         /// <param name="isUse"></param>
-        /// <param name="isDelete"></param>       
+        /// <param name="isDelete"></param>
         /// <returns></returns>
-        public JObject QuestionsExportExcel(string subpath, string folder, int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong,bool? isUse, bool? isDelete)
+        public JObject QuestionsExportExcel(string subpath, string folder, int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong, bool? isUse, bool? isDelete)
         {
             long snowid = WeiSha.Core.Request.SnowID();
             DateTime date = DateTime.Now;
             if (string.IsNullOrWhiteSpace(folder)) folder = couid.ToString();
             //导出文件的位置
-            string path = Path.Combine(Upload.Get["Temp"].Physics, subpath, folder,snowid.ToString());
-            string filename = string.Format("试题导出.({0}).{1}.xls", date.ToString("yyyy-MM-dd hh-mm-ss"), couid.ToString());
+            string path = Path.Combine(Upload.Get["Temp"].Physics, subpath, folder, snowid.ToString());
+            string filename = string.Format("试题导出.({0}).{1}.xlsx", date.ToString("yyyy-MM-dd hh-mm-ss"), couid.ToString());
 
             //导出Excel
-            HSSFWorkbook hssfworkbook = this.QuestionsExport(path, orgid, type, sbjid, couid, olid, diff, isError, isWrong, isUse, isDelete);
+            XSSFWorkbook xssfworkbook = this.QuestionsExport(path, orgid, type, sbjid, couid, olid, diff, isError, isWrong, isUse, isDelete);
             if (!Directory.Exists(path)) Directory.CreateDirectory(path);
             FileStream file = new FileStream(Path.Combine(path, filename), FileMode.Create);
-            hssfworkbook.Write(file);
+            xssfworkbook.Write(file);
             file.Close();
 
             //生成最终的导出文件，如果没有txt文件（即试题内容没有超出Excel单元格最大文本长度），则输出Excel
             //如果有txt文件，则打包输出
-            string[] files = Directory.GetFiles(path, "*.txt");          
+            string[] files = Directory.GetFiles(path, "*.txt");
             string parentFolder = Directory.GetParent(path).FullName;     // 获取上级文件夹路径
             if (files.Length < 1)
-            {               
+            {
                 string parentFile = Path.Combine(parentFolder, filename);
                 // 如果目标文件存在，可以先删除或改名
                 if (File.Exists(parentFile)) File.Delete(parentFile);
@@ -900,7 +901,6 @@ namespace Song.ServiceImpls
             jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + subpath + "/" + folder + "/" + filename);
             jo.Add("date", date);
             return jo;
-           
         }
         #region 导出试的私有方法
         //Excel单元格的最长文本长度
@@ -933,7 +933,7 @@ namespace Song.ServiceImpls
         /// <param name="total"></param>
         /// <param name="size"></param>
         /// <param name="index"></param>
-        private void _buildExcelSql_1(HSSFWorkbook hssfworkbook, WhereClip where, string sbjname, string couname, string folder, int total, int size, int index)
+        private void _buildExcelSql_1(XSSFWorkbook hssfworkbook, WhereClip where, string sbjname, string couname, string folder, int total, int size, int index)
         {
             Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(where).OrderBy(Questions._.Qus_Order.Asc && Questions._.Qus_ID.Asc).ToArray<Questions>(size, (index - 1) * size);
             //创建工作簿对象
@@ -987,7 +987,7 @@ namespace Song.ServiceImpls
         }
         
         //多选题导出
-        private void _buildExcelSql_2(HSSFWorkbook hssfworkbook,WhereClip where, string sbjname, string couname, string folder, int total, int size, int index)
+        private void _buildExcelSql_2(XSSFWorkbook hssfworkbook,WhereClip where, string sbjname, string couname, string folder, int total, int size, int index)
         {
             Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(where).OrderBy(Questions._.Qus_Order.Asc && Questions._.Qus_ID.Asc).ToArray<Questions>(size, (index - 1) * size);
             //创建工作簿对象
@@ -1044,7 +1044,7 @@ namespace Song.ServiceImpls
             }
         }
         //判断题导出
-        private void _buildExcelSql_3(HSSFWorkbook hssfworkbook, WhereClip where, string sbjname, string couname, string folder, int total, int size, int index)
+        private void _buildExcelSql_3(XSSFWorkbook hssfworkbook, WhereClip where, string sbjname, string couname, string folder, int total, int size, int index)
         {
             Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(where).OrderBy(Questions._.Qus_Order.Asc && Questions._.Qus_ID.Asc).ToArray<Questions>(size, (index - 1) * size);
             //创建工作簿对象
@@ -1087,7 +1087,7 @@ namespace Song.ServiceImpls
             }
         }
         //简答题导出
-        private void _buildExcelSql_4(HSSFWorkbook hssfworkbook, WhereClip where, string sbjname, string couname, string folder, int total, int size, int index)
+        private void _buildExcelSql_4(XSSFWorkbook hssfworkbook, WhereClip where, string sbjname, string couname, string folder, int total, int size, int index)
         {
             Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(where).OrderBy(Questions._.Qus_Order.Asc && Questions._.Qus_ID.Asc).ToArray<Questions>(size, (index - 1) * size);
             //创建工作簿对象
@@ -1130,7 +1130,7 @@ namespace Song.ServiceImpls
             }
         }
         //填空题导出
-        private void _buildExcelSql_5(HSSFWorkbook hssfworkbook, WhereClip where, string sbjname, string couname, string folder, int total, int size, int index)
+        private void _buildExcelSql_5(XSSFWorkbook hssfworkbook, WhereClip where, string sbjname, string couname, string folder, int total, int size, int index)
         {
              Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(where).OrderBy(Questions._.Qus_Order.Asc && Questions._.Qus_ID.Asc).ToArray<Questions>(size, (index - 1) * size);
              //创建工作簿对象
