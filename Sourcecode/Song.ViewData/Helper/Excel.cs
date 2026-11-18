@@ -230,13 +230,6 @@ namespace Song.ViewData.Helper
             ExcelType type = ".xlsx".Equals(Path.GetExtension(xlsFile), StringComparison.OrdinalIgnoreCase) ? ExcelType.Xlsx : ExcelType.Xls;
             //创建工作薄对象
             IWorkbook workbook = null;
-            //byte[] bytes = File.ReadAllBytes(xlsFile);
-            //using (MemoryStream ms = new MemoryStream(bytes))
-            //{
-            //    if(type == ExcelType.Xls) workbook = new HSSFWorkbook(ms);
-            //    if (type == ExcelType.Xlsx) workbook = new XSSFWorkbook(ms);
-            //}
-           
             using (FileStream file = new FileStream(xlsFile, FileMode.Open, FileAccess.Read))
             {
                 if (type == ExcelType.Xls) workbook = new HSSFWorkbook(file);

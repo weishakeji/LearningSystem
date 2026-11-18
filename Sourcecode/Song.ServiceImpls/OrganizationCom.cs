@@ -836,7 +836,7 @@ namespace Song.ServiceImpls
                     new Field[] { Course._.Cou_TestCount, Course._.Cou_OutlineCount, Course._.Cou_VideoCount },
                     new object[] { paper_count, outline_count, video_count });
                 //更新课程与章节下的试题数量
-                Business.Do<IQuestions>().QuesCountUpdate(-1, -1, course.Cou_ID, -1);
+                Business.Do<IQuestions>().QuesCountUpdateForCourse(new long[course.Cou_ID]);
             }
             catch { }
         }

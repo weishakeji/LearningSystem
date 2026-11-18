@@ -107,19 +107,24 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 更新学员组中的学员数量
         /// </summary>
-        /// <param name="stsid"></param>
+        /// <param name="stsid">学员组的ID</param>
         /// <returns></returns>
         int SortUpdateCount(long stsid);
         /// <summary>
         /// 更新学员组中的学员数量
         /// </summary>
-        /// <param name="stsid"></param>
+        /// <param name="stsid">学员组的ID</param>
         /// <returns></returns>
         int SortUpdateCount(List<long> stsid);
         /// <summary>
         /// 更新所有学员组的学员数量
         /// </summary>
         void SortUpdateCount();
+        /// <summary>
+        /// 更新所有学员组的学员数量
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        void SortUpdateCount(int orgid);
         /// <summary>
         /// 当前对象名称是否重名
         /// </summary>

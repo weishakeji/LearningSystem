@@ -215,6 +215,23 @@ namespace Song.ServiceInterfaces
         /// <param name="olid">章节id</param>
         void QuesCountUpdate(int orgid, long sbjid, long couid, long olid);
         /// <summary>
+        /// 批量更新机构的试题数量
+        /// </summary>     
+        /// <returns>执行的行数</returns>
+        int QuesCountUpdateForOrg(int[] orgid);
+        /// <summary>
+        /// 批量更新专业的试题数量
+        /// </summary>
+        /// <param name="sbjid"></param>
+        /// <returns></returns>
+        int QuesCountUpdateForSubject(long[] sbjid);
+        /// <summary>
+        /// 批量更新课程与课程下所有章节的试题数量
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <returns></returns>
+        int QuesCountUpdateForCourse(long[] couid);
+        /// <summary>
         /// 获取随机试题
         /// </summary>
         /// <param name="orgid">机构id</param>

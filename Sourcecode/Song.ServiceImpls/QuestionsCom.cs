@@ -135,12 +135,19 @@ namespace Song.ServiceImpls
         public int QuesDelete(Questions entity)
         {
             int count = Gateway.Default.Update<Questions>(new Field[] { Questions._.Qus_IsDeleted, Questions._.Qus_DeleteTime }, new object[] { true, DateTime.Now }, Questions._.Qus_ID == entity.Qus_ID);
-            this.OnDelete(entity, EventArgs.Empty);
-            //更新统计数据
-            new Task(() =>
-            {
-                Business.Do<IQuestions>().QuesCountUpdate(entity.Org_ID, entity.Sbj_ID, entity.Cou_ID, entity.Ol_ID);
-            }).Start();
+            //_ = Task.Run(() =>
+            //{
+            //    try
+            //    {
+            Business.Do<IQuestions>().QuesCountUpdateForOrg(new[] { entity.Org_ID });
+            Business.Do<IQuestions>().QuesCountUpdateForSubject(new[] { entity.Sbj_ID });
+            Business.Do<IQuestions>().QuesCountUpdateForCourse(new[] { entity.Cou_ID });
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        Log.Error(this.GetType().Name, ex);
+            //    }
+            //});
             return count;
         }
         public int QuesDelete(long quesid)
@@ -166,12 +173,10 @@ namespace Song.ServiceImpls
             }
             //删除并重新统计
             int count = Gateway.Default.Update<Questions>(new Field[] { Questions._.Qus_IsDeleted, Questions._.Qus_DeleteTime }, new object[] { true, DateTime.Now },wc);
-            //Gateway.Default.Delete<Questions>(wc);
-            foreach (int orgid in orgids) this.QuesCountUpdate(orgid, -1, -1, -1);
-            foreach (int sbjid in sbjids) this.QuesCountUpdate(-1, sbjid, -1, -1);
-            foreach (int couid in couids) this.QuesCountUpdate(-1, -1, couid, -1);
-
-            this.OnDelete(idarray, EventArgs.Empty);
+      
+            this.QuesCountUpdateForOrg(orgids.ToArray());
+            this.QuesCountUpdateForSubject(sbjids.ToArray());
+            this.QuesCountUpdateForCourse(couids.ToArray());          
             return count;
         }
         /// <summary>
@@ -180,6 +185,20 @@ namespace Song.ServiceImpls
         public int QuesRecycle(long quesid)
         {
             int count = Gateway.Default.Update<Questions>(Questions._.Qus_IsDeleted, false, Questions._.Qus_ID == quesid);
+            Questions entity = this.QuesSingle(quesid);
+            _ = Task.Run(() =>
+            {
+                try
+                {
+                    Business.Do<IQuestions>().QuesCountUpdateForOrg(new[] { entity.Org_ID });
+                    Business.Do<IQuestions>().QuesCountUpdateForSubject(new[] { entity.Sbj_ID });
+                    Business.Do<IQuestions>().QuesCountUpdateForCourse(new[] { entity.Cou_ID });
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(this.GetType().Name, ex);
+                }
+            });
             return count;
         }
         public int QuesRecycle(long[] idarray)
@@ -200,10 +219,9 @@ namespace Song.ServiceImpls
             }
             //删除并重新统计
             int count = Gateway.Default.Update<Questions>(Questions._.Qus_IsDeleted, false, wc);
-            //Gateway.Default.Delete<Questions>(wc);
-            foreach (int orgid in orgids) this.QuesCountUpdate(orgid, -1, -1, -1);
-            foreach (int sbjid in sbjids) this.QuesCountUpdate(-1, sbjid, -1, -1);
-            foreach (int couid in couids) this.QuesCountUpdate(-1, -1, couid, -1);
+            this.QuesCountUpdateForOrg(orgids.ToArray());
+            this.QuesCountUpdateForSubject(sbjids.ToArray());
+            this.QuesCountUpdateForCourse(couids.ToArray());
             return count;
         }
         /// <summary>
@@ -537,6 +555,7 @@ namespace Song.ServiceImpls
         /// <param name="type">试题类型</param>
         /// <param name="diff">难度等级</param>
         /// <param name="isUse">是否禁用的</param>
+        /// <param name="isDelete"></param>
         /// <returns></returns>
         public int Total(int orgid, long sbjid, long couid, long olid, int type, int diff, bool? isUse, bool? isDelete)
         {
@@ -616,6 +635,83 @@ namespace Song.ServiceImpls
                 int org_count = this.QuesOfCount(orgid, -1, -1, -1, 0, -1, null, false);
                 Gateway.Default.Update<Organization>(new Field[] { Organization._.Org_QuesCount }, new object[] { org_count }, Organization._.Org_ID == orgid);
             }
+        }
+        /// <summary>
+        /// 批量更新机构的试题数量
+        /// </summary>     
+        /// <returns></returns>
+        public int QuesCountUpdateForOrg(int[] orgid)
+        {
+            string filter = string.Empty;
+            if (orgid.Length > 0)
+            {
+                filter = @"WHERE ""Organization"".""Org_ID"" IN(";
+                for (int i = 0; i < orgid.Length; i++)
+                {
+                    if (i > 0) filter += ",";
+                    filter += orgid[i];
+                }
+                filter += ")";
+            }
+            string sql = $@"UPDATE ""Organization""
+                    SET ""Org_QuesCount"" = (
+                        SELECT COUNT(*) FROM ""Questions""
+                        WHERE ""Organization"".""Org_ID"" = ""Organization"".""Org_ID"" and ""Questions"".""Qus_IsDeleted""=false) {filter}";
+            return Gateway.Default.FromSql(sql).Execute();
+        }
+        /// <summary>
+        /// 批量更新专业的试题数量
+        /// </summary>
+        /// <param name="sbjid"></param>
+        /// <returns></returns>
+        public int QuesCountUpdateForSubject(long[] sbjid)
+        {
+            string sbjidFilter = string.Empty;
+            if (sbjid.Length > 0)
+            {
+                sbjidFilter = @"WHERE ""Subject"".""Sbj_ID"" IN(";
+                for (int i = 0; i < sbjid.Length; i++)
+                {
+                    if (i > 0) sbjidFilter += ",";
+                    sbjidFilter += sbjid[i];
+                }
+                sbjidFilter += ")";
+            }
+
+            string sql = $@" UPDATE ""Subject""
+                    SET ""Sbj_QuesCount"" = (SELECT COUNT(*) FROM ""Questions""
+                        WHERE ""Questions"".""Sbj_ID"" = ""Subject"".""Sbj_ID"" and ""Questions"".""Qus_IsDeleted""=false){sbjidFilter} ";            
+
+            return Gateway.Default.FromSql(sql).Execute();
+        }
+        /// <summary>
+        /// 批量更新课程与课程下所有章节的试题数量
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <returns></returns>
+        public int QuesCountUpdateForCourse(long[] couid)
+        {
+            if (couid.Length < 1) return 0;
+            //拼接课程id，更新课程的试题数量
+            string filter = @"WHERE ""{0}"".""Cou_ID"" IN(";
+            for (int i = 0; i < couid.Length; i++)
+            {
+                if (i > 0) filter += ",";
+                filter += couid[i];
+            }
+            filter += ")";
+
+            //更新课程的试题数量
+            string sql = $@"UPDATE ""Course""
+                    SET ""Cou_QuesCount"" = (SELECT COUNT(*) FROM ""Questions""
+                        WHERE ""Questions"".""Cou_ID"" = ""Course"".""Cou_ID"" and ""Questions"".""Qus_IsDeleted""=false){string.Format(filter, "Course")} ";
+            int count = Gateway.Default.FromSql(sql).Execute();
+            //更新课程下的所有章节的试题数量
+            sql = $@"UPDATE ""Outline""
+                SET ""Ol_QuesCount"" = (SELECT COUNT(*) FROM ""Questions""
+                    WHERE ""Questions"".""Ol_ID"" = ""Outline"".""Ol_ID"" and ""Questions"".""Qus_IsDeleted""=false) { string.Format(filter, "Outline")} ";
+            Gateway.Default.FromSql(sql).Execute();
+            return count;
         }
         /// <summary>
         /// 获取随机试题

@@ -220,11 +220,11 @@ namespace Song.ViewData.Methods
                     errorOjb.Add(ex);
                 }
             }
-            new Task(() =>
+            Task.Run(async () =>
             {
-                //刷新课程与章节的统计数据，当前课程下的章节试题也会计算
+                await Task.Delay(TimeSpan.FromSeconds(5));   // 延迟 5 秒
                 Business.Do<IQuestions>().QuesCountUpdate(-1, -1, couid, -1);
-            }).Start();
+            });
 
 
             JObject jo = new JObject();
