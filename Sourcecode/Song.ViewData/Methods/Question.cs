@@ -50,9 +50,7 @@ namespace Song.ViewData.Methods
         public int Delete(long[] qusid, long[] olid)
         {
             if (qusid == null || qusid.Length < 1) return 0;
-            Business.Do<IQuestions>().QuesDelete(qusid);
-            //更新章节试题数
-            Business.Do<IOutline>().StatisticalQuestion(olid);
+            Business.Do<IQuestions>().QuesDelete(qusid);           
             return qusid.Length;
         }
         /// <summary>
@@ -139,13 +137,6 @@ namespace Song.ViewData.Methods
             }
 
             Business.Do<IQuestions>().QuesSave(old);
-
-            //更新章节试题数
-            if (oldOlid != newOlid)
-            {
-                Business.Do<IOutline>().StatisticalQuestion(oldOlid);
-                Business.Do<IOutline>().StatisticalQuestion(newOlid);
-            }
             return true;
         }
         /// <summary>
@@ -223,7 +214,7 @@ namespace Song.ViewData.Methods
             Task.Run(async () =>
             {
                 await Task.Delay(TimeSpan.FromSeconds(5));   // 延迟 5 秒
-                Business.Do<IQuestions>().QuesCountUpdate(-1, -1, couid, -1);
+                Business.Do<IQuestions>().QuesCountUpdate(course.Org_ID, course.Sbj_ID, couid, -1);
             });
 
 

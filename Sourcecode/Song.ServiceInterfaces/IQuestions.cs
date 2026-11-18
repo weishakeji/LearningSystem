@@ -47,8 +47,8 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 批量删除
         /// </summary>
-        /// <param name="idarray"></param>
-        int QuesDelete(long[] idarray);
+        /// <param name="quesid"></param>
+        int QuesDelete(long[] quesid);
         /// <summary>
         /// 回收，标记删除状态为false
         /// </summary>
@@ -164,73 +164,7 @@ namespace Song.ServiceInterfaces
         /// <param name="fields">要取值的字段</param>
         /// <param name="count">取多少条</param>
         /// <returns></returns>
-        List<Questions> QuesSimplify(int orgid, long sbjid, long couid, long olid, int type, int diff, bool? isUse, Field[] fields, int count);
-        /// <summary>
-        /// 统计题库数量，不包括专业或章节的下级试题数,只取当前层级
-        /// </summary>
-        /// <param name="orgid">机构id</param>
-        /// <param name="sbjid">专业id</param>
-        /// <param name="couid">课程id</param>
-        /// <param name="olid">章节id</param>
-        /// <param name="type">试题类型</param>
-        /// <param name="diff">难度等级</param>
-        /// <param name="isUse">是否禁用的</param>
-        /// <param name="isDelete"></param>
-        /// <returns></returns>
-        int QuesOfCount(int orgid, long  sbjid, long couid, long olid, int type, int diff, bool? isUse, bool? isDelete);
-        /// <summary>
-        /// 统计试题数量，不包括专业或章节的下级试题数,只取当前层级
-        /// </summary>
-        /// <param name="orgid"></param>
-        /// <param name="sbjid"></param>
-        /// <param name="couid"></param>
-        /// <param name="olid"></param>
-        /// <param name="types"></param>
-        /// <param name="diff"></param>
-        /// <param name="isUse"></param>
-        /// <param name="isError"></param>
-        /// <param name="isWrong"></param>
-        /// <param name="isDelete"></param>
-        /// <returns></returns>
-        int Total(int orgid, long sbjid, long couid, long olid, int[] types, int[] diff, bool? isUse, bool? isError, bool? isWrong, bool? isDelete);
-        /// <summary>
-        /// 统计题库数量，包含下级的数量
-        /// </summary>
-        /// <param name="orgid">机构id</param>
-        /// <param name="sbjid">专业id</param>
-        /// <param name="couid">课程id</param>
-        /// <param name="olid">章节id</param>
-        /// <param name="type">试题类型</param>
-        /// <param name="diff">难度等级</param>
-        /// <param name="isUse">是否禁用的</param>
-        /// <param name="isDelete"></param>
-        /// <returns></returns>
-        int Total(int orgid, long sbjid, long couid, long olid, int type, int diff, bool? isUse, bool? isDelete);
-        /// <summary>
-        /// 试题数量更新到机构、专业、课程、章节，方便展示
-        /// </summary>
-        /// <param name="orgid">机构id</param>
-        /// <param name="sbjid">专业id</param>
-        /// <param name="couid">课程id</param>
-        /// <param name="olid">章节id</param>
-        void QuesCountUpdate(int orgid, long sbjid, long couid, long olid);
-        /// <summary>
-        /// 批量更新机构的试题数量
-        /// </summary>     
-        /// <returns>执行的行数</returns>
-        int QuesCountUpdateForOrg(int[] orgid);
-        /// <summary>
-        /// 批量更新专业的试题数量
-        /// </summary>
-        /// <param name="sbjid"></param>
-        /// <returns></returns>
-        int QuesCountUpdateForSubject(long[] sbjid);
-        /// <summary>
-        /// 批量更新课程与课程下所有章节的试题数量
-        /// </summary>
-        /// <param name="couid"></param>
-        /// <returns></returns>
-        int QuesCountUpdateForCourse(long[] couid);
+        List<Questions> QuesSimplify(int orgid, long sbjid, long couid, long olid, int type, int diff, bool? isUse, Field[] fields, int count);        
         /// <summary>
         /// 获取随机试题
         /// </summary>
@@ -263,6 +197,7 @@ namespace Song.ServiceInterfaces
         /// <param name="orgid"></param>
         /// <param name="type">试题类型</param>
         /// <param name="isUse">是否显示</param>
+        /// <param name="isDelete"></param>
         /// <param name="diff">试题难度</param>
         /// <param name="searTxt">查询字符</param>
         /// <param name="size"></param>
@@ -512,6 +447,84 @@ namespace Song.ServiceInterfaces
         /// <param name="count">资源个数</param>
         /// <returns>资源文件总大小，单位为字节</returns>
         long StorageResources(int orgid, long sbjid, long couid, long olid, out int count);
+        /// <summary>
+        /// 统计题库数量，不包括专业或章节的下级试题数,只取当前层级
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="olid">章节id</param>
+        /// <param name="type">试题类型</param>
+        /// <param name="diff">难度等级</param>
+        /// <param name="isUse">是否禁用的</param>
+        /// <param name="isDelete"></param>
+        /// <returns></returns>
+        int QuesOfCount(int orgid, long sbjid, long couid, long olid, int type, int diff, bool? isUse, bool? isDelete);
+        /// <summary>
+        /// 统计试题数量，不包括专业或章节的下级试题数,只取当前层级
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <param name="sbjid"></param>
+        /// <param name="couid"></param>
+        /// <param name="olid"></param>
+        /// <param name="types"></param>
+        /// <param name="diff"></param>
+        /// <param name="isUse"></param>
+        /// <param name="isError"></param>
+        /// <param name="isWrong"></param>
+        /// <param name="isDelete"></param>
+        /// <returns></returns>
+        int Total(int orgid, long sbjid, long couid, long olid, int[] types, int[] diff, bool? isUse, bool? isError, bool? isWrong, bool? isDelete);
+        /// <summary>
+        /// 统计题库数量，包含下级的数量
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="olid">章节id</param>
+        /// <param name="type">试题类型</param>
+        /// <param name="diff">难度等级</param>
+        /// <param name="isUse">是否禁用的</param>
+        /// <param name="isDelete"></param>
+        /// <returns></returns>
+        int Total(int orgid, long sbjid, long couid, long olid, int type, int diff, bool? isUse, bool? isDelete);
+        /// <summary>
+        /// 试题数量更新到机构、专业、课程、章节，方便展示
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="olid">章节id</param>
+        void QuesCountUpdate(int orgid, long sbjid, long couid, long olid);
+        /// <summary>
+        /// 试题数量更新到机构、专业、课程、章节，方便展示
+        /// </summary>
+        /// <param name="obj">试题对象，或试题数组、试题队列</param>
+        void QuesCountUpdate(object obj);
+        /// <summary>
+        /// 批量更新机构的试题数量
+        /// </summary>     
+        /// <returns>执行的行数</returns>
+        int QuesCountUpdateForOrg(int[] orgid);
+        /// <summary>
+        /// 批量更新专业的试题数量
+        /// </summary>
+        /// <param name="sbjid"></param>
+        /// <returns></returns>
+        int QuesCountUpdateForSubject(long[] sbjid);
+        /// <summary>
+        /// 批量更新课程与课程下所有章节的试题数量
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <returns></returns>
+        int QuesCountUpdateForCourse(long[] couid);
+        /// <summary>
+        /// 批量更新章节的试题数量
+        /// </summary>
+        /// <param name="olid"></param>
+        /// <returns></returns>
+        int QuesCountUpdateForOutline(long[] olid);
+        
         #endregion
     }
 }

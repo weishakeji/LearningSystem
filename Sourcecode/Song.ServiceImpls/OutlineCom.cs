@@ -1020,28 +1020,22 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public int StatisticalQuestion(long[] olid)
         {
-            WhereClip wc = new WhereClip();
-            for (int i = 0; i < olid.Length; i++)
-                wc.Or(Questions._.Ol_ID == olid[i]);
-            int num = 0;
-            using (SourceReader reader = Gateway.Default.From<Questions>().Where(wc).GroupBy(Questions._.Ol_ID.Group)
-                .Select(new Field[] { Questions._.Ol_ID, new Field("COUNT(*)").As("count") }).ToReader())
+            string filter = string.Empty;
+            if (olid.Length > 0)
             {
-                while (reader.Read())
+                filter = @"WHERE ""Outline"".""Ol_ID"" IN(";
+                for (int i = 0; i < olid.Length; i++)
                 {
-                    //章节id
-                    long id = reader.GetValue<long>(0);
-                    if (id <= 0) continue;
-                    //试题数
-                    int count = reader.GetValue<int>(1);
-                    //更新
-                    Gateway.Default.Update<Outline>(Outline._.Ol_QuesCount, count, Outline._.Ol_ID == id);
-                    num++;
+                    if (i > 0) filter += ",";
+                    filter += olid[i];
                 }
-                reader.Close();
-                reader.Dispose();
+                filter += ")";
             }
-            return num;
+            string sql = $@"UPDATE ""Outline""
+                    SET ""Ol_QuesCount"" = (
+                        SELECT COUNT(*) FROM ""Questions""
+                        WHERE ""Questions"".""Ol_ID"" = ""Outline"".""Ol_ID"" and ""Questions"".""Qus_IsDeleted""=false) {filter}";
+            return Gateway.Default.FromSql(sql).Execute();
         }
         #endregion
 

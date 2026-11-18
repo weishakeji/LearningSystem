@@ -55,7 +55,7 @@ namespace Song.ServiceImpls
 
             if (string.IsNullOrWhiteSpace(entity.Qus_UID)) entity.Qus_UID = WeiSha.Core.Request.UniqueID();
             Gateway.Default.Save<Questions>(entity);
-            this.OnAdd(entity, EventArgs.Empty);
+            this.QuesCountUpdate(entity);
             return entity.Qus_ID;
         }
 
@@ -82,11 +82,7 @@ namespace Song.ServiceImpls
                 }
             }
             Gateway.Default.Save<Questions>(entity);
-            //更新统计数据
-            new Task(() =>
-            {
-                Business.Do<IQuestions>().QuesCountUpdate(-1, entity.Sbj_ID, entity.Cou_ID, entity.Ol_ID);
-            }).Start();
+            this.QuesCountUpdate(-1, -1, entity.Cou_ID, -1);
         }
 
         public void QuesInput(Questions entity, List<Song.Entities.QuesAnswer> ansItem)
@@ -124,9 +120,7 @@ namespace Song.ServiceImpls
                 //如果已经存在，则更新
                 old.Copy<Song.Entities.Questions>(entity, "Qus_ID,Qus_Items");
                 Gateway.Default.Save<Questions>(old);
-            }
-            //更新章节试题数
-            Business.Do<IOutline>().StatisticalQuestion(entity.Ol_ID);
+            }            
         }
         /// <summary>
         /// 删除试题
@@ -135,19 +129,7 @@ namespace Song.ServiceImpls
         public int QuesDelete(Questions entity)
         {
             int count = Gateway.Default.Update<Questions>(new Field[] { Questions._.Qus_IsDeleted, Questions._.Qus_DeleteTime }, new object[] { true, DateTime.Now }, Questions._.Qus_ID == entity.Qus_ID);
-            //_ = Task.Run(() =>
-            //{
-            //    try
-            //    {
-            Business.Do<IQuestions>().QuesCountUpdateForOrg(new[] { entity.Org_ID });
-            Business.Do<IQuestions>().QuesCountUpdateForSubject(new[] { entity.Sbj_ID });
-            Business.Do<IQuestions>().QuesCountUpdateForCourse(new[] { entity.Cou_ID });
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        Log.Error(this.GetType().Name, ex);
-            //    }
-            //});
+            this.QuesCountUpdate(entity);
             return count;
         }
         public int QuesDelete(long quesid)
@@ -157,26 +139,11 @@ namespace Song.ServiceImpls
         }
         public int QuesDelete(long[] idarray)
         {
-            //计算试题的机构id,专业id,课程id,章节id
-            List<int> orgids = new List<int>();
-            List<long> sbjids = new List<long>();
-            List<long> couids = new List<long>();
-            WhereClip wc = new WhereClip();
-            foreach (long id in idarray)
-                wc.Or(Questions._.Qus_ID == id);
+            WhereClip wc = Questions._.Qus_ID.In(idarray);
             List<Questions> ques = Gateway.Default.From<Questions>().Where(wc).ToList<Questions>();
-            foreach (Questions q in ques)
-            {
-                if (!orgids.Contains(q.Org_ID)) orgids.Add(q.Org_ID);
-                if (!sbjids.Contains(q.Sbj_ID)) sbjids.Add(q.Sbj_ID);
-                if (!couids.Contains(q.Cou_ID)) couids.Add(q.Cou_ID);
-            }
             //删除并重新统计
             int count = Gateway.Default.Update<Questions>(new Field[] { Questions._.Qus_IsDeleted, Questions._.Qus_DeleteTime }, new object[] { true, DateTime.Now },wc);
-      
-            this.QuesCountUpdateForOrg(orgids.ToArray());
-            this.QuesCountUpdateForSubject(sbjids.ToArray());
-            this.QuesCountUpdateForCourse(couids.ToArray());          
+            this.QuesCountUpdate(ques);
             return count;
         }
         /// <summary>
@@ -185,43 +152,16 @@ namespace Song.ServiceImpls
         public int QuesRecycle(long quesid)
         {
             int count = Gateway.Default.Update<Questions>(Questions._.Qus_IsDeleted, false, Questions._.Qus_ID == quesid);
-            Questions entity = this.QuesSingle(quesid);
-            _ = Task.Run(() =>
-            {
-                try
-                {
-                    Business.Do<IQuestions>().QuesCountUpdateForOrg(new[] { entity.Org_ID });
-                    Business.Do<IQuestions>().QuesCountUpdateForSubject(new[] { entity.Sbj_ID });
-                    Business.Do<IQuestions>().QuesCountUpdateForCourse(new[] { entity.Cou_ID });
-                }
-                catch (Exception ex)
-                {
-                    Log.Error(this.GetType().Name, ex);
-                }
-            });
+            this.QuesCountUpdate(quesid);
             return count;
         }
         public int QuesRecycle(long[] idarray)
         {
-            //计算试题的机构id,专业id,课程id,章节id
-            List<int> orgids = new List<int>();
-            List<long> sbjids = new List<long>();
-            List<long> couids = new List<long>();
-            WhereClip wc = new WhereClip();
-            foreach (long id in idarray)
-                wc.Or(Questions._.Qus_ID == id);
+            WhereClip wc = Questions._.Qus_ID.In(idarray);
             List<Questions> ques = Gateway.Default.From<Questions>().Where(wc).ToList<Questions>();
-            foreach (Questions q in ques)
-            {
-                if (!orgids.Contains(q.Org_ID)) orgids.Add(q.Org_ID);
-                if (!sbjids.Contains(q.Sbj_ID)) sbjids.Add(q.Sbj_ID);
-                if (!couids.Contains(q.Cou_ID)) couids.Add(q.Cou_ID);
-            }
             //删除并重新统计
             int count = Gateway.Default.Update<Questions>(Questions._.Qus_IsDeleted, false, wc);
-            this.QuesCountUpdateForOrg(orgids.ToArray());
-            this.QuesCountUpdateForSubject(sbjids.ToArray());
-            this.QuesCountUpdateForCourse(couids.ToArray());
+            this.QuesCountUpdate(ques);
             return count;
         }
         /// <summary>
@@ -240,10 +180,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public int QuesRemove(long[] idarray)
         {
-            WhereClip wc = new WhereClip();
-            foreach (long id in idarray)
-                wc.Or(Questions._.Qus_ID == id);
-            int count = Gateway.Default.Delete<Questions>(wc);
+            int count = Gateway.Default.Delete<Questions>(Questions._.Qus_ID.In(idarray));
             //删除图片等资源
             new Task(() =>
             {
@@ -254,31 +191,13 @@ namespace Song.ServiceImpls
             new Task(() =>
             {
                 //删除笔记
-                WhereClip wcNotes = new WhereClip();
-                foreach (long id in idarray)
-                    wcNotes.Or(Student_Notes._.Qus_ID == id);
-                Gateway.Default.Delete<Student_Notes>(wcNotes);
-            }).Start();
-
-            new Task(() =>
-            {
+                Gateway.Default.Delete<Student_Notes>(Student_Notes._.Qus_ID.In(idarray));
                 //删除收藏记录
-                WhereClip wcCol = new WhereClip();
-                foreach (long id in idarray)
-                    wcCol.Or(Student_Collect._.Qus_ID == id);
-                Gateway.Default.Delete<Student_Collect>(wcCol);
-
+                Gateway.Default.Delete<Student_Collect>(Student_Collect._.Qus_ID.In(idarray));
+                //删除错题记录               
+                Gateway.Default.Delete<Student_Ques>(Student_Ques._.Qus_ID.In(idarray));
             }).Start();
-
-            new Task(() =>
-            {
-                //删除错题记录
-                WhereClip wcErr = new WhereClip();
-                foreach (long id in idarray)
-                    wcErr.Or(Student_Ques._.Qus_ID == id);
-                Gateway.Default.Delete<Student_Ques>(wcErr);
-
-            }).Start();
+                
             return count;
         }
         /// <summary>
@@ -466,253 +385,7 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<Questions>().Where(wc)
                 .OrderBy(Questions._.Qus_Type.Asc && Questions._.Qus_Order.Asc && Questions._.Qus_ID.Desc).Select(fields)
                 .ToList<Questions>(count);
-        }
-        /// <summary>
-        /// 统计题库数量，不包括专业或章节的下级试题数,只取当前层级
-        /// </summary>
-        /// <param name="orgid">机构id</param>
-        /// <param name="sbjid">专业id</param>
-        /// <param name="couid">课程id</param>
-        /// <param name="olid">章节id</param>
-        /// <param name="type">试题类型</param>
-        /// <param name="diff">难度等级</param>
-        /// <param name="isUse">是否禁用的</param>
-        /// <returns></returns>
-        public int QuesOfCount(int orgid, long sbjid, long couid, long olid, int type, int diff, bool? isUse, bool? isDelete)
-        {
-            WhereClip wc = new WhereClip();
-            if (orgid > 0) wc.And(Questions._.Org_ID == orgid);
-            if (sbjid > 0) wc.And(Questions._.Sbj_ID == sbjid);
-            if (couid > 0) wc.And(Questions._.Cou_ID == couid);
-            if (olid > 0) wc.And(Questions._.Ol_ID == olid);           
-            if (type > 0) wc.And(Questions._.Qus_Type == type);
-            if (diff > 0) wc.And(Questions._.Qus_Diff == diff);
-            if (isUse != null) wc.And(Questions._.Qus_IsUse == (bool)isUse);
-            if (isDelete != null) wc.And(Questions._.Qus_IsDeleted == (bool)isDelete);
-            return Gateway.Default.Count<Questions>(wc);
-        }
-        /// <summary>
-        /// 统计试题数量，包括下级数量
-        /// </summary>
-        /// <param name="orgid"></param>
-        /// <param name="sbjid"></param>
-        /// <param name="couid"></param>
-        /// <param name="olid"></param>
-        /// <param name="types"></param>
-        /// <param name="diff"></param>
-        /// <param name="isUse"></param>
-        /// <param name="isError"></param>
-        /// <param name="isWrong"></param>
-        /// <returns></returns>
-        public int Total(int orgid, long sbjid, long couid, long olid, int[] types, int[] diff, bool? isUse, bool? isError, bool? isWrong, bool? isDelete)
-        {
-            WhereClip wc = new WhereClip();
-            if (orgid > 0) wc.And(Questions._.Org_ID == orgid);
-            //专业
-            if (sbjid > 0 && couid <= 0 && olid <= 0)
-            {
-                WhereClip wcSbjid = new WhereClip();
-                List<long> list = Business.Do<ISubject>().TreeID(sbjid, orgid);
-                foreach (long l in list) wcSbjid.Or(Questions._.Sbj_ID == l);
-                wc.And(wcSbjid);
-            }
-            if (couid > 0) wc.And(Questions._.Cou_ID == couid);
-            //当前章节，以及当前章节之下的所有试题
-            if (olid > 0)
-            {
-                WhereClip wcOlid = new WhereClip();
-                List<long> list = Business.Do<IOutline>().TreeID(olid);
-                foreach (long l in list) wcOlid.Or(Questions._.Ol_ID == l);
-                wc.And(wcOlid);
-            }
-            //试题类型
-            if (types.Length > 0)
-            {
-                WhereClip wctype = new WhereClip();
-                foreach (int ty in types) wctype |= Questions._.Qus_Type == ty;
-                wc.And(wctype);               
-            }
-            //试题难度
-            if (diff.Length > 0)
-            {
-                WhereClip wcdiff = new WhereClip();
-                foreach (int d in diff) if (d > 0 && d <= 5) wcdiff |= Questions._.Qus_Diff == d;
-                wc.And(wcdiff);
-            }
-            if (isUse != null) wc.And(Questions._.Qus_IsUse == (bool)isUse);
-            if (isError != null) wc.And(Questions._.Qus_IsError == (bool)isError);
-            if (isWrong != null) wc.And(Questions._.Qus_IsWrong == (bool)isWrong);
-            if (isDelete != null) wc.And(Questions._.Qus_IsDeleted == (bool)isDelete);
-            return Gateway.Default.Count<Questions>(wc);
-        }
-        /// <summary>
-        /// 统计题库数量，包含下级的数量
-        /// </summary>
-        /// <param name="orgid">机构id</param>
-        /// <param name="sbjid">专业id</param>
-        /// <param name="couid">课程id</param>
-        /// <param name="olid">章节id</param>
-        /// <param name="type">试题类型</param>
-        /// <param name="diff">难度等级</param>
-        /// <param name="isUse">是否禁用的</param>
-        /// <param name="isDelete"></param>
-        /// <returns></returns>
-        public int Total(int orgid, long sbjid, long couid, long olid, int type, int diff, bool? isUse, bool? isDelete)
-        {
-            WhereClip wc = new WhereClip();
-            if (orgid > 0) wc.And(Questions._.Org_ID == orgid);
-            //专业
-            if (sbjid > 0 && couid <= 0 && olid <= 0)
-            {
-                WhereClip wcSbjid = new WhereClip();
-                List<long> list = Business.Do<ISubject>().TreeID(sbjid, orgid);
-                foreach (long l in list) wcSbjid.Or(Questions._.Sbj_ID == l);
-                wc.And(wcSbjid);
-            }
-            if (couid > 0) wc.And(Questions._.Cou_ID == couid);
-            //当前章节，以及当前章节之下的所有试题
-            if (olid > 0)
-            {
-                WhereClip wcOlid = new WhereClip();
-                List<long> list = Business.Do<IOutline>().TreeID(olid);
-                foreach (long l in list) wcOlid.Or(Questions._.Ol_ID == l);
-                wc.And(wcOlid);
-            }
-            if (type > 0) wc.And(Questions._.Qus_Type == type);
-            if (diff > 0) wc.And(Questions._.Qus_Diff == diff);
-            if (isUse != null) wc.And(Questions._.Qus_IsUse == (bool)isUse);
-            if (isDelete != null) wc.And(Questions._.Qus_IsDeleted == (bool)isDelete);
-            return Gateway.Default.Count<Questions>(wc);
-        }
-        /// <summary>
-        /// 试题数量更新到机构、专业、课程、章节，方便展示
-        /// </summary>
-        /// <param name="orgid">机构id</param>
-        /// <param name="sbjid">专业id</param>
-        /// <param name="couid">课程id</param>
-        /// <param name="olid">章节id</param>
-        public void QuesCountUpdate(int orgid, long sbjid, long couid, long olid)
-        {
-            //课程中的试题数量
-            if (couid > 0)
-            {
-                int cou_count = this.Total(-1, -1, couid, -1, 0, -1, null, false);
-                Gateway.Default.Update<Course>(new Field[] { Course._.Cou_QuesCount }, new object[] { cou_count }, Course._.Cou_ID == couid);
-            }
-            //章节下的试题数量
-            //当前章节，以及当前章节之下的所有试题
-            List<long> olist = new List<long>();
-            if (olid > 0)
-            {
-                olist = Business.Do<IOutline>().TreeID(olid);
-            }
-            //课程下所有章节
-            else if (couid > 0)
-            {
-                List<Outline> outlines = Business.Do<IOutline>().OutlineAll(couid, null, null, null);
-                for (int i = 0; i < outlines.Count; i++)                
-                    olist.Add(outlines[i].Ol_ID);               
-            }
-            if (olist.Count > 0)
-            {
-                foreach(long id in olist)
-                {
-                    //只计算当前章节下的试题，不包括下级
-                    int olcount = this.QuesOfCount(-1, -1, -1, id, -1, -1, null, false);
-                    Gateway.Default.Update<Outline>(new Field[] { Outline._.Ol_QuesCount }, new object[] { olcount }, Outline._.Ol_ID == id);
-                }
-            }
-            //专业下的试题数
-            if (sbjid > 0)
-            {
-                //只计算当前专业下的试题，不包括下级
-                int sbj_count = this.QuesOfCount(-1, sbjid, -1, -1, 0, -1, null, false);
-                Gateway.Default.Update<Subject>(new Field[] { Subject._.Sbj_QuesCount }, new object[] { sbj_count }, Subject._.Sbj_ID == sbjid);
-            }
-            //机构的试题数
-            if (orgid > 0)
-            {
-                int org_count = this.QuesOfCount(orgid, -1, -1, -1, 0, -1, null, false);
-                Gateway.Default.Update<Organization>(new Field[] { Organization._.Org_QuesCount }, new object[] { org_count }, Organization._.Org_ID == orgid);
-            }
-        }
-        /// <summary>
-        /// 批量更新机构的试题数量
-        /// </summary>     
-        /// <returns></returns>
-        public int QuesCountUpdateForOrg(int[] orgid)
-        {
-            string filter = string.Empty;
-            if (orgid.Length > 0)
-            {
-                filter = @"WHERE ""Organization"".""Org_ID"" IN(";
-                for (int i = 0; i < orgid.Length; i++)
-                {
-                    if (i > 0) filter += ",";
-                    filter += orgid[i];
-                }
-                filter += ")";
-            }
-            string sql = $@"UPDATE ""Organization""
-                    SET ""Org_QuesCount"" = (
-                        SELECT COUNT(*) FROM ""Questions""
-                        WHERE ""Organization"".""Org_ID"" = ""Organization"".""Org_ID"" and ""Questions"".""Qus_IsDeleted""=false) {filter}";
-            return Gateway.Default.FromSql(sql).Execute();
-        }
-        /// <summary>
-        /// 批量更新专业的试题数量
-        /// </summary>
-        /// <param name="sbjid"></param>
-        /// <returns></returns>
-        public int QuesCountUpdateForSubject(long[] sbjid)
-        {
-            string sbjidFilter = string.Empty;
-            if (sbjid.Length > 0)
-            {
-                sbjidFilter = @"WHERE ""Subject"".""Sbj_ID"" IN(";
-                for (int i = 0; i < sbjid.Length; i++)
-                {
-                    if (i > 0) sbjidFilter += ",";
-                    sbjidFilter += sbjid[i];
-                }
-                sbjidFilter += ")";
-            }
-
-            string sql = $@" UPDATE ""Subject""
-                    SET ""Sbj_QuesCount"" = (SELECT COUNT(*) FROM ""Questions""
-                        WHERE ""Questions"".""Sbj_ID"" = ""Subject"".""Sbj_ID"" and ""Questions"".""Qus_IsDeleted""=false){sbjidFilter} ";            
-
-            return Gateway.Default.FromSql(sql).Execute();
-        }
-        /// <summary>
-        /// 批量更新课程与课程下所有章节的试题数量
-        /// </summary>
-        /// <param name="couid"></param>
-        /// <returns></returns>
-        public int QuesCountUpdateForCourse(long[] couid)
-        {
-            if (couid.Length < 1) return 0;
-            //拼接课程id，更新课程的试题数量
-            string filter = @"WHERE ""{0}"".""Cou_ID"" IN(";
-            for (int i = 0; i < couid.Length; i++)
-            {
-                if (i > 0) filter += ",";
-                filter += couid[i];
-            }
-            filter += ")";
-
-            //更新课程的试题数量
-            string sql = $@"UPDATE ""Course""
-                    SET ""Cou_QuesCount"" = (SELECT COUNT(*) FROM ""Questions""
-                        WHERE ""Questions"".""Cou_ID"" = ""Course"".""Cou_ID"" and ""Questions"".""Qus_IsDeleted""=false){string.Format(filter, "Course")} ";
-            int count = Gateway.Default.FromSql(sql).Execute();
-            //更新课程下的所有章节的试题数量
-            sql = $@"UPDATE ""Outline""
-                SET ""Ol_QuesCount"" = (SELECT COUNT(*) FROM ""Questions""
-                    WHERE ""Questions"".""Ol_ID"" = ""Outline"".""Ol_ID"" and ""Questions"".""Qus_IsDeleted""=false) { string.Format(filter, "Outline")} ";
-            Gateway.Default.FromSql(sql).Execute();
-            return count;
-        }
+        }        
         /// <summary>
         /// 获取随机试题
         /// </summary>
@@ -768,6 +441,7 @@ namespace Song.ServiceImpls
         /// <param name="orgid"></param>
         /// <param name="type">试题类型，1为单选，2为多选</param>
         /// <param name="isUse">试题是否启用的状态，如为null取所有试题</param>
+        /// <param name="isDelete"></param>
         /// <param name="diff">难度</param>
         /// <param name="searTxt">检索的字符串</param>
         /// <param name="size">每页显示多少条</param>
@@ -1779,63 +1453,7 @@ namespace Song.ServiceImpls
             return corrNum == ans5.Count;
         }
         #endregion
-
-        #region 事件
-        public event EventHandler Save;
-        public event EventHandler Add;
-        public event EventHandler Delete;
-        public void OnSave(object sender, EventArgs e)
-        {
-            if (Save != null) Save(sender, e);
-        }
-        public void OnAdd(object sender, EventArgs e)
-        {           
-            //更新章节试题数量
-            if (!(sender is Questions)) return;
-            Questions ques = (Questions)sender;
-            if (ques == null) return;
-
-            //更新章节试题数
-            new Task(() =>
-            {
-                //更新试题统计数
-                Business.Do<IQuestions>().QuesCountUpdate(ques.Org_ID, ques.Sbj_ID, ques.Cou_ID, ques.Ol_ID);
-            }).Start();
-            if (Add != null) Add(sender, e);
-        }
-        public void OnDelete(object sender, EventArgs e)
-        {
-            //如果是试题
-            if (sender is Questions)
-            {
-
-                Questions ques = (Questions)sender;
-                //删除笔记与收藏
-                new Task(() =>
-                {
-                    Gateway.Default.Delete<Student_Notes>(Student_Notes._.Qus_ID == ques.Qus_ID);
-                    Gateway.Default.Delete<Student_Collect>(Student_Collect._.Qus_ID == ques.Qus_ID);
-                    Gateway.Default.Delete<Student_Ques>(Student_Ques._.Qus_ID == ques.Qus_ID);
-                }).Start();
-                //删除图片等资源
-                new Task(() =>
-                {
-                    WeiSha.Core.Upload.Get["Ques"].DeleteDirectory(ques.Qus_ID.ToString());
-                }).Start();                
-            }
-
-            //如果是试题ID的数组
-            if (sender is long[])
-            {
-                long[] ids = (long[])sender;
-
-            }
-
-            if (Delete != null) Delete(sender, e);
-        }
-        #endregion
-
-
+  
         #region 试题练习的记录
         /// <summary>
         /// 记录试题练习记录
@@ -2012,6 +1630,299 @@ namespace Song.ServiceImpls
             }
             count = totalCount; //总数
             return totalSize;
+        }
+        /// <summary>
+        /// 统计题库数量，不包括专业或章节的下级试题数,只取当前层级
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="olid">章节id</param>
+        /// <param name="type">试题类型</param>
+        /// <param name="diff">难度等级</param>
+        /// <param name="isUse">是否禁用的</param>
+        /// <returns></returns>
+        public int QuesOfCount(int orgid, long sbjid, long couid, long olid, int type, int diff, bool? isUse, bool? isDelete)
+        {
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc.And(Questions._.Org_ID == orgid);
+            if (sbjid > 0) wc.And(Questions._.Sbj_ID == sbjid);
+            if (couid > 0) wc.And(Questions._.Cou_ID == couid);
+            if (olid > 0) wc.And(Questions._.Ol_ID == olid);
+            if (type > 0) wc.And(Questions._.Qus_Type == type);
+            if (diff > 0) wc.And(Questions._.Qus_Diff == diff);
+            if (isUse != null) wc.And(Questions._.Qus_IsUse == (bool)isUse);
+            if (isDelete != null) wc.And(Questions._.Qus_IsDeleted == (bool)isDelete);
+            return Gateway.Default.Count<Questions>(wc);
+        }
+        /// <summary>
+        /// 统计试题数量，包括下级数量
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <param name="sbjid"></param>
+        /// <param name="couid"></param>
+        /// <param name="olid"></param>
+        /// <param name="types"></param>
+        /// <param name="diff"></param>
+        /// <param name="isUse"></param>
+        /// <param name="isError"></param>
+        /// <param name="isWrong"></param>
+        /// <returns></returns>
+        public int Total(int orgid, long sbjid, long couid, long olid, int[] types, int[] diff, bool? isUse, bool? isError, bool? isWrong, bool? isDelete)
+        {
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc.And(Questions._.Org_ID == orgid);
+            //专业
+            if (sbjid > 0 && couid <= 0 && olid <= 0)
+            {
+                WhereClip wcSbjid = new WhereClip();
+                List<long> list = Business.Do<ISubject>().TreeID(sbjid, orgid);
+                foreach (long l in list) wcSbjid.Or(Questions._.Sbj_ID == l);
+                wc.And(wcSbjid);
+            }
+            if (couid > 0) wc.And(Questions._.Cou_ID == couid);
+            //当前章节，以及当前章节之下的所有试题
+            if (olid > 0)
+            {
+                WhereClip wcOlid = new WhereClip();
+                List<long> list = Business.Do<IOutline>().TreeID(olid);
+                foreach (long l in list) wcOlid.Or(Questions._.Ol_ID == l);
+                wc.And(wcOlid);
+            }
+            //试题类型
+            if (types.Length > 0)
+            {
+                WhereClip wctype = new WhereClip();
+                foreach (int ty in types) wctype |= Questions._.Qus_Type == ty;
+                wc.And(wctype);
+            }
+            //试题难度
+            if (diff.Length > 0)
+            {
+                WhereClip wcdiff = new WhereClip();
+                foreach (int d in diff) if (d > 0 && d <= 5) wcdiff |= Questions._.Qus_Diff == d;
+                wc.And(wcdiff);
+            }
+            if (isUse != null) wc.And(Questions._.Qus_IsUse == (bool)isUse);
+            if (isError != null) wc.And(Questions._.Qus_IsError == (bool)isError);
+            if (isWrong != null) wc.And(Questions._.Qus_IsWrong == (bool)isWrong);
+            if (isDelete != null) wc.And(Questions._.Qus_IsDeleted == (bool)isDelete);
+            return Gateway.Default.Count<Questions>(wc);
+        }
+        /// <summary>
+        /// 统计题库数量，包含下级的数量
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="olid">章节id</param>
+        /// <param name="type">试题类型</param>
+        /// <param name="diff">难度等级</param>
+        /// <param name="isUse">是否禁用的</param>
+        /// <param name="isDelete"></param>
+        /// <returns></returns>
+        public int Total(int orgid, long sbjid, long couid, long olid, int type, int diff, bool? isUse, bool? isDelete)
+        {
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc.And(Questions._.Org_ID == orgid);
+            //专业
+            if (sbjid > 0 && couid <= 0 && olid <= 0)
+            {
+                WhereClip wcSbjid = new WhereClip();
+                List<long> list = Business.Do<ISubject>().TreeID(sbjid, orgid);
+                foreach (long l in list) wcSbjid.Or(Questions._.Sbj_ID == l);
+                wc.And(wcSbjid);
+            }
+            if (couid > 0) wc.And(Questions._.Cou_ID == couid);
+            //当前章节，以及当前章节之下的所有试题
+            if (olid > 0)
+            {
+                WhereClip wcOlid = new WhereClip();
+                List<long> list = Business.Do<IOutline>().TreeID(olid);
+                foreach (long l in list) wcOlid.Or(Questions._.Ol_ID == l);
+                wc.And(wcOlid);
+            }
+            if (type > 0) wc.And(Questions._.Qus_Type == type);
+            if (diff > 0) wc.And(Questions._.Qus_Diff == diff);
+            if (isUse != null) wc.And(Questions._.Qus_IsUse == (bool)isUse);
+            if (isDelete != null) wc.And(Questions._.Qus_IsDeleted == (bool)isDelete);
+            return Gateway.Default.Count<Questions>(wc);
+        }
+        /// <summary>
+        /// 试题数量更新到机构、专业、课程、章节，方便展示
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="olid">章节id</param>
+        public void QuesCountUpdate(int orgid, long sbjid, long couid, long olid)
+        {
+            //课程中的试题数量
+            if (couid > 0) this.QuesCountUpdateForCourse(new long[couid]);
+            //章节下的试题数量
+            if (couid <= 0 && olid > 0) this.QuesCountUpdateForOutline(new long[olid]);
+            //专业下的试题数
+            if (sbjid > 0) this.QuesCountUpdateForSubject(new long[sbjid]);
+            //机构的试题数
+            if (orgid > 0) this.QuesCountUpdateForOrg(new int[orgid]);
+        }
+        /// <summary>
+        /// 试题数量更新到机构、专业、课程、章节，方便展示
+        /// </summary>
+        /// <param name="obj">试题对象，或试题数组、试题队列</param>
+        public void QuesCountUpdate(object obj)
+        {
+            //如果是单个试题id
+            if (obj is long)
+            {
+                long qusid = (long)obj;
+                Questions ques = this.QuesSingle(qusid);
+                if (ques != null) QuesCountUpdate(obj);
+            }
+            if (obj is long[] || obj is List<long>)
+            {
+                long[] quesid = null;
+                if (obj is long[]) quesid = obj as long[];
+                if (obj is List<long>) quesid = (obj as List<long>).ToArray();
+                QuesCountUpdate(Gateway.Default.From<Questions>().Where(Questions._.Qus_ID.In(quesid)).ToList<Questions>());
+            }
+
+            //如果是单个试题
+            if (obj is Questions)
+            {
+                Questions ques = (Questions)obj;
+                Business.Do<IQuestions>().QuesCountUpdateForOrg(new[] { ques.Org_ID });
+                Business.Do<IQuestions>().QuesCountUpdateForSubject(new[] { ques.Sbj_ID });
+                Business.Do<IQuestions>().QuesCountUpdateForCourse(new[] { ques.Cou_ID });
+            }
+            if (obj is Questions[] || obj is List<Questions>)
+            {
+                List<int> orgids = new List<int>();
+                List<long> sbjids = new List<long>();
+                List<long> couids = new List<long>();
+                if (obj is Questions[])
+                {
+                    foreach (Questions q in (Questions[])obj)
+                    {
+                        if (!orgids.Contains(q.Org_ID)) orgids.Add(q.Org_ID);
+                        if (!sbjids.Contains(q.Sbj_ID)) sbjids.Add(q.Sbj_ID);
+                        if (!couids.Contains(q.Cou_ID)) couids.Add(q.Cou_ID);
+                    }
+                }
+                if (obj is List<Questions>)
+                {
+                    foreach (Questions q in (List<Questions>)obj)
+                    {
+                        if (!orgids.Contains(q.Org_ID)) orgids.Add(q.Org_ID);
+                        if (!sbjids.Contains(q.Sbj_ID)) sbjids.Add(q.Sbj_ID);
+                        if (!couids.Contains(q.Cou_ID)) couids.Add(q.Cou_ID);
+                    }
+                }
+                Business.Do<IQuestions>().QuesCountUpdateForOrg(orgids.ToArray());
+                Business.Do<IQuestions>().QuesCountUpdateForSubject(sbjids.ToArray());
+                Business.Do<IQuestions>().QuesCountUpdateForCourse(couids.ToArray());
+            }
+        }
+        /// <summary>
+        /// 批量更新机构的试题数量
+        /// </summary>     
+        /// <returns></returns>
+        public int QuesCountUpdateForOrg(int[] orgid)
+        {
+            string filter = string.Empty;
+            if (orgid.Length > 0)
+            {
+                filter = @"WHERE ""Organization"".""Org_ID"" IN(";
+                for (int i = 0; i < orgid.Length; i++)
+                {
+                    if (i > 0) filter += ",";
+                    filter += orgid[i];
+                }
+                filter += ")";
+            }
+            string sql = $@"UPDATE ""Organization""
+                    SET ""Org_QuesCount"" = (
+                        SELECT COUNT(*) FROM ""Questions""
+                        WHERE ""Organization"".""Org_ID"" = ""Organization"".""Org_ID"" and ""Questions"".""Qus_IsDeleted""=false) {filter}";
+            return Gateway.Default.FromSql(sql).Execute();
+        }
+        /// <summary>
+        /// 批量更新专业的试题数量
+        /// </summary>
+        /// <param name="sbjid"></param>
+        /// <returns></returns>
+        public int QuesCountUpdateForSubject(long[] sbjid)
+        {
+            string sbjidFilter = string.Empty;
+            if (sbjid.Length > 0)
+            {
+                sbjidFilter = @"WHERE ""Subject"".""Sbj_ID"" IN(";
+                for (int i = 0; i < sbjid.Length; i++)
+                {
+                    if (i > 0) sbjidFilter += ",";
+                    sbjidFilter += sbjid[i];
+                }
+                sbjidFilter += ")";
+            }
+
+            string sql = $@" UPDATE ""Subject""
+                    SET ""Sbj_QuesCount"" = (SELECT COUNT(*) FROM ""Questions""
+                        WHERE ""Questions"".""Sbj_ID"" = ""Subject"".""Sbj_ID"" and ""Questions"".""Qus_IsDeleted""=false){sbjidFilter} ";
+
+            return Gateway.Default.FromSql(sql).Execute();
+        }
+        /// <summary>
+        /// 批量更新课程与课程下所有章节的试题数量
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <returns></returns>
+        public int QuesCountUpdateForCourse(long[] couid)
+        {
+            if (couid.Length < 1) return 0;
+            //拼接课程id，更新课程的试题数量
+            string filter = @"WHERE ""{0}"".""Cou_ID"" IN(";
+            for (int i = 0; i < couid.Length; i++)
+            {
+                if (i > 0) filter += ",";
+                filter += couid[i];
+            }
+            filter += ")";
+
+            //更新课程的试题数量
+            string sql = $@"UPDATE ""Course""
+                    SET ""Cou_QuesCount"" = (SELECT COUNT(*) FROM ""Questions""
+                        WHERE ""Questions"".""Cou_ID"" = ""Course"".""Cou_ID"" and ""Questions"".""Qus_IsDeleted""=false){string.Format(filter, "Course")} ";
+            int count = Gateway.Default.FromSql(sql).Execute();
+            //更新课程下的所有章节的试题数量
+            sql = $@"UPDATE ""Outline""
+                SET ""Ol_QuesCount"" = (SELECT COUNT(*) FROM ""Questions""
+                    WHERE ""Questions"".""Ol_ID"" = ""Outline"".""Ol_ID"" and ""Questions"".""Qus_IsDeleted""=false) { string.Format(filter, "Outline")} ";
+            Gateway.Default.FromSql(sql).Execute();
+            return count;
+        }
+        /// <summary>
+        /// 批量更新章节的试题数量
+        /// </summary>
+        /// <param name="olid"></param>
+        /// <returns></returns>
+        public int QuesCountUpdateForOutline(long[] olid)
+        {
+            string filter = string.Empty;
+            if (olid.Length > 0)
+            {
+                filter = @"WHERE ""Outline"".""Ol_ID"" IN(";
+                for (int i = 0; i < olid.Length; i++)
+                {
+                    if (i > 0) filter += ",";
+                    filter += olid[i];
+                }
+                filter += ")";
+            }
+            string sql = $@"UPDATE ""Outline""
+                    SET ""Ol_QuesCount"" = (
+                        SELECT COUNT(*) FROM ""Questions""
+                        WHERE ""Questions"".""Ol_ID"" = ""Outline"".""Ol_ID"" and ""Questions"".""Qus_IsDeleted""=false) {filter}";
+            return Gateway.Default.FromSql(sql).Execute();
         }
         #endregion
     }
