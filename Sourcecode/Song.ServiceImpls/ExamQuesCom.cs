@@ -1075,23 +1075,18 @@ namespace Song.ServiceImpls
             string orgfilter = orgid < 1 ? "1=1" : $@"""Org_ID""={orgid}";
 
             //过滤条件
-            string wcfilter = "1=1";
-            if (parts.Count > 0) wcfilter = @"qq.""Qp_ID"" IN (" + string.Join(",", parts.Select(t => t.Qp_ID)) + ")";
-
-            string where = $@"q.""Qus_IsDeleted""=FALSE and {orgfilter} and {wcfilter}";
+            string idfilter = "1=1";
+            if (parts.Count > 0) idfilter = @"""Qp_ID"" IN (" + string.Join(",", parts.Select(t => t.Qp_ID)) + ")";          
             //更新
-            string sql = $@"UPDATE ""QuesPart"" SET ""QP_Count"" = sub.cnt
-                        FROM (
-                          SELECT tm.""Qp_ID"", COUNT(""Qus_ID"") AS cnt
-                          FROM (
-                              SELECT qq.""Qp_ID"", q.""Qus_ID""
-                              FROM ""Questions_QPart"" qq
-                              LEFT JOIN ""Questions"" q ON q.""Qus_ID"" = qq.""Qus_ID""
-                              WHERE {where}                               
-                          ) tm
-                          GROUP BY tm.""Qp_ID""
-                        ) AS sub
-                        WHERE ""QuesPart"".""Qp_ID"" = sub.""Qp_ID"";";
+            string sql = $@"UPDATE ""QuesPart""
+                SET ""QP_Count"" = (
+                    SELECT COUNT(DISTINCT q.""Qus_ID"")
+                    FROM ""Questions_QPart"" qq
+                    INNER JOIN ""Questions"" q ON q.""Qus_ID"" = qq.""Qus_ID""
+                    WHERE qq.""Qp_ID"" = ""QuesPart"".""Qp_ID""
+                      AND q.""Qus_IsDeleted"" = FALSE
+                      AND {orgfilter} 
+                )WHERE {idfilter};";
             Gateway.Default.FromSql(sql).Execute();
         }
         /// <summary>
@@ -1110,22 +1105,15 @@ namespace Song.ServiceImpls
         {
             //机构ID的过滤条件
             string orgfilter = orgid < 1 ? "1=1" : $@"""Org_ID""={orgid}";
-
-            string where = $@"q.""Qus_IsDeleted""=FALSE and {orgfilter}";
             //更新
-            string sql = $@"UPDATE ""QuesPart"" SET ""QP_Count"" = sub.cnt
-                        FROM (
-                          SELECT tm.""Qp_ID"", COUNT(""Qus_ID"") AS cnt
-                          FROM (
-                              SELECT qq.""Qp_ID"", q.""Qus_ID""
-                              FROM ""Questions_QPart"" qq
-                              LEFT JOIN ""Questions"" q ON q.""Qus_ID"" = qq.""Qus_ID""
-                              WHERE {where}                               
-                          ) tm
-                          GROUP BY tm.""Qp_ID""
-                        ) AS sub
-                        WHERE ""QuesPart"".""Qp_ID"" = sub.""Qp_ID"";";
-
+            string sql = $@"UPDATE ""QuesPart""
+                SET ""QP_Count"" = (
+                    SELECT COUNT(DISTINCT q.""Qus_ID"")
+                    FROM ""Questions_QPart"" qq
+                    INNER JOIN ""Questions"" q ON q.""Qus_ID"" = qq.""Qus_ID""
+                    WHERE qq.""Qp_ID"" = ""QuesPart"".""Qp_ID""
+                      AND q.""Qus_IsDeleted"" = FALSE
+                      AND {orgfilter})";
             Gateway.Default.FromSql(sql).Execute();
         }
         /// <summary>
@@ -1902,24 +1890,19 @@ namespace Song.ServiceImpls
             string orgfilter = orgid < 1 ? "1=1" : $@"""Org_ID""={orgid}";
 
             //过滤条件
-            string wcfilter = "1=1";
-            if (knls.Count > 0) wcfilter = @"qq.""Qk_ID"" IN (" + string.Join(",", knls.Select(t => t.Qk_ID)) + ")";
+            string idfilter = "1=1";
+            if (knls.Count > 0) idfilter = @"""Qk_ID"" IN (" + string.Join(",", knls.Select(t => t.Qk_ID)) + ")";
 
-            string where = $@"q.""Qus_IsDeleted""=FALSE and {orgfilter} and {wcfilter}";
             //更新
-            string sql = $@"UPDATE ""QuesKnowledge"" SET ""Qk_Count"" = sub.cnt
-                        FROM (
-                          SELECT tm.""Qk_ID"", COUNT(""Qus_ID"") AS cnt
-                          FROM (
-                              SELECT qq.""Qk_ID"", q.""Qus_ID""
-                              FROM ""Questions_QKnl"" qq
-                              LEFT JOIN ""Questions"" q ON q.""Qus_ID"" = qq.""Qus_ID""
-                              WHERE {where}                               
-                          ) tm
-                          GROUP BY tm.""Qk_ID""
-                        ) AS sub
-                        WHERE ""QuesKnowledge"".""Qk_ID"" = sub.""Qk_ID"";";
-
+            string sql = $@"UPDATE ""QuesKnowledge""
+                SET ""Qk_Count"" = (
+                    SELECT COUNT(DISTINCT q.""Qus_ID"")
+                    FROM ""Questions_QKnl"" qq
+                    INNER JOIN ""Questions"" q ON q.""Qus_ID"" = qq.""Qus_ID""
+                    WHERE qq.""Qk_ID"" = ""QuesKnowledge"".""Qk_ID""
+                      AND q.""Qus_IsDeleted"" = FALSE
+                      AND {orgfilter}
+                )WHERE {idfilter};";
             Gateway.Default.FromSql(sql).Execute();
         }
         /// <summary>
@@ -1938,22 +1921,15 @@ namespace Song.ServiceImpls
         {
             //机构ID的过滤条件
             string orgfilter = orgid < 1 ? "1=1" : $@"""Org_ID""={orgid}";
-
-            string where = $@"q.""Qus_IsDeleted""=FALSE and {orgfilter}";
             //更新
-            string sql = $@"UPDATE ""QuesKnowledge"" SET ""Qk_Count"" = sub.cnt
-                        FROM (
-                          SELECT tm.""Qk_ID"", COUNT(""Qus_ID"") AS cnt
-                          FROM (
-                              SELECT qq.""Qk_ID"", q.""Qus_ID""
-                              FROM ""Questions_QKnl"" qq
-                              LEFT JOIN ""Questions"" q ON q.""Qus_ID"" = qq.""Qus_ID""
-                              WHERE {where}                               
-                          ) tm
-                          GROUP BY tm.""Qk_ID""
-                        ) AS sub
-                        WHERE ""QuesKnowledge"".""Qk_ID"" = sub.""Qk_ID"";";
-
+            string sql = $@"UPDATE ""QuesKnowledge""
+                SET ""Qk_Count"" = (
+                    SELECT COUNT(DISTINCT q.""Qus_ID"")
+                    FROM ""Questions_QKnl"" qq
+                    INNER JOIN ""Questions"" q ON q.""Qus_ID"" = qq.""Qus_ID""
+                    WHERE qq.""Qk_ID"" = ""QuesKnowledge"".""Qk_ID""
+                      AND q.""Qus_IsDeleted"" = FALSE
+                      AND {orgfilter})";         
             Gateway.Default.FromSql(sql).Execute();
         }
         /// <summary>
@@ -2069,7 +2045,7 @@ namespace Song.ServiceImpls
                     if (isFreshcount)
                     {
                         List<QuesKnowledge> merged = history.Concat(knls).GroupBy(t => t.Qk_ID).Select(g => g.First()).ToList();
-                        this.KnlQusTotalUpdate(history, ques.Org_ID);
+                        this.KnlQusTotalUpdate(merged, ques.Org_ID);
                     }
                 }
                 catch (Exception ex)
@@ -2334,7 +2310,7 @@ namespace Song.ServiceImpls
                     if (isFreshcount)
                     {
                         List<QuesTags> merged = historytag.Concat(tags).GroupBy(t => t.Qtag_ID).Select(g => g.First()).ToList();
-                        this.TagQusTotalUpdate(historytag, ques.Org_ID);
+                        this.TagQusTotalUpdate(merged, ques.Org_ID);
                     }
                 }
                 catch (Exception ex)
@@ -2457,23 +2433,18 @@ namespace Song.ServiceImpls
             string orgfilter = orgid < 1 ? "1=1" : $@"""Org_ID""={orgid}";
 
             //标签ID的过滤条件
-            string tagsfilter = "1=1";
-            if (tags.Count > 0) tagsfilter = @"qq.""Qtag_ID"" IN (" + string.Join(",", tags.Select(t => t.Qtag_ID)) + ")";
-          
-            string where = $@"q.""Qus_IsDeleted""=FALSE and {orgfilter} and {tagsfilter}";
+            string idfilter = "1=1";
+            if (tags.Count > 0) idfilter = @"""Qtag_ID"" IN (" + string.Join(",", tags.Select(t => t.Qtag_ID)) + ")";   
             //更新
-            string sql = $@"UPDATE ""QuesTags"" SET ""Qtag_Count"" = sub.cnt
-                        FROM (
-                          SELECT tm.""Qtag_ID"", COUNT(""Qus_ID"") AS cnt
-                          FROM (
-                              SELECT qq.""Qtag_ID"", q.""Qus_ID""
-                              FROM ""Questions_QTags"" qq
-                              LEFT JOIN ""Questions"" q ON q.""Qus_ID"" = qq.""Qus_ID""
-                              WHERE {where}                               
-                          ) tm
-                          GROUP BY tm.""Qtag_ID""
-                        ) AS sub
-                        WHERE ""QuesTags"".""Qtag_ID"" = sub.""Qtag_ID"";";           
+            string sql = $@"UPDATE ""QuesTags""
+                SET ""Qtag_Count"" = (
+                    SELECT COUNT(DISTINCT q.""Qus_ID"")
+                    FROM ""Questions_QTags"" qq
+                    INNER JOIN ""Questions"" q ON q.""Qus_ID"" = qq.""Qus_ID""
+                    WHERE qq.""Qtag_ID"" = ""QuesTags"".""Qtag_ID""
+                      AND q.""Qus_IsDeleted"" = FALSE
+                      AND {orgfilter}
+                )WHERE {idfilter};";
 
             Gateway.Default.FromSql(sql).Execute();
         }
@@ -2494,22 +2465,15 @@ namespace Song.ServiceImpls
         {
             //机构ID的过滤条件
             string orgfilter = orgid < 1 ? "1=1" : $@"""Org_ID""={orgid}";          
-
-            string where = $@"q.""Qus_IsDeleted""=FALSE and {orgfilter}";
             //更新
-            string sql = $@"UPDATE ""QuesTags"" SET ""Qtag_Count"" = sub.cnt
-                        FROM (
-                          SELECT tm.""Qtag_ID"", COUNT(""Qus_ID"") AS cnt
-                          FROM (
-                              SELECT qq.""Qtag_ID"", q.""Qus_ID""
-                              FROM ""Questions_QTags"" qq
-                              LEFT JOIN ""Questions"" q ON q.""Qus_ID"" = qq.""Qus_ID""
-                              WHERE {where}                               
-                          ) tm
-                          GROUP BY tm.""Qtag_ID""
-                        ) AS sub
-                        WHERE ""QuesTags"".""Qtag_ID"" = sub.""Qtag_ID"";";
-
+            string sql = $@"UPDATE ""QuesTags""
+                SET ""Qtag_Count"" = (
+                    SELECT COUNT(DISTINCT q.""Qus_ID"")
+                    FROM ""Questions_QTags"" qq
+                    INNER JOIN ""Questions"" q ON q.""Qus_ID"" = qq.""Qus_ID""
+                    WHERE qq.""Qtag_ID"" = ""QuesTags"".""Qtag_ID""
+                      AND q.""Qus_IsDeleted"" = FALSE
+                      AND {orgfilter})";
             Gateway.Default.FromSql(sql).Execute();
         }
         /// <summary>
