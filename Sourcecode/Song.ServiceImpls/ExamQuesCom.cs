@@ -93,7 +93,7 @@ namespace Song.ServiceImpls
             //保存分类的关联
             this.PartConnectionQues(parts, entity, isFreshcount);
             //保存知识点的关联
-            this.KnlConnectionQues(knls, entity);
+            this.KnlConnectionQues(knls, entity, isFreshcount);
             return entity.Qus_ID;
         }
         /// <summary>
@@ -129,9 +129,9 @@ namespace Song.ServiceImpls
             //保存关键字的关联
             this.TagConnectionQues(tags, entity, isFreshcount);
             //保存分类的关联
-            this.PartConnectionQues(parts, entity);
+            this.PartConnectionQues(parts, entity, isFreshcount);
             //保存知识点的关联
-            this.KnlConnectionQues(knls, entity);
+            this.KnlConnectionQues(knls, entity, isFreshcount);
         }
 
         public void QuesInput(Questions entity, List<QuesAnswer> ansItem, List<QuesPart> parts, List<QuesTags> tags, List<QuesKnowledge> knls)
@@ -1863,54 +1863,27 @@ namespace Song.ServiceImpls
         }
         /// <summary>
         /// 试题统计更新，例如当试题被修改时，需要更新试题分类下的试题数量
-        /// </summary>
-        /// <param name="ques">要更新的试题对象</param>
-        /// <param name="former">原来的试题对象</param>
-        public void KnlQusTotalUpdate(Questions ques, Questions former)
-        {
-            //试题条件
-            WhereClip queswc = Questions._.Qus_Purpose == 1;
-            queswc.And(Questions._.Qus_IsDeleted == false && Questions._.Qus_IsUse == true);
-            //当前试题关联的分类
-            QuerySection<QuesKnowledge> section = null;
-            if (ques == null || former == null) section = Gateway.Default.From<QuesKnowledge>().Where(new WhereClip());
-            else
-            {
-                WhereClip wc = new WhereClip();
-                if (ques != null) wc |= Questions_QKnl._.Qus_ID == ques.Qus_ID;
-                if (former != null) wc |= Questions_QKnl._.Qus_ID == former.Qus_ID;
-                section = Gateway.Default.From<QuesKnowledge>().LeftJoin<Questions_QKnl>(Questions_QKnl._.Qk_ID == QuesKnowledge._.Qk_ID).Where(wc);
-            }
-            //当前试题关联的知识点      
-            using (SourceReader reader = section.ToReader())
-            {
-                while (reader.Read())
-                {
-                    object dvalue = reader["Qk_ID"];
-                    long qkid = Convert.ToInt64(dvalue);
-                    //知识点的试题数
-                    int partcount = Gateway.Default.From<Questions>().LeftJoin<Questions_QKnl>(Questions_QKnl._.Qus_ID == Questions._.Qus_ID).Where(queswc && Questions_QKnl._.Qk_ID == qkid).Count();
-                    Gateway.Default.Update<QuesKnowledge>(QuesKnowledge._.Qk_Count, partcount, QuesKnowledge._.Qk_ID == qkid);
-                }
-                reader.Close();
-                reader.Dispose();
-            }
-        }
-        /// <summary>
-        /// 试题统计更新，例如当试题被修改时，需要更新试题分类下的试题数量
         /// </summary> 
         public void KnlQusTotalUpdate(List<QuesKnowledge> knls)
         {
-            //试题条件
-            WhereClip queswc = Questions._.Qus_Purpose == 1;
-            queswc.And(Questions._.Qus_IsDeleted == false && Questions._.Qus_IsUse == true);
-            //当前试题关联的知识点
-            foreach (QuesKnowledge knl in knls)
+            string filter = string.Empty;
+            if (knls.Count > 0)
             {
-                //知识点的试题数
-                int partcount = Gateway.Default.From<Questions>().LeftJoin<Questions_QKnl>(Questions_QKnl._.Qus_ID == Questions._.Qus_ID).Where(queswc && Questions_QKnl._.Qk_ID == knl.Qk_ID).Count();
-                Gateway.Default.Update<QuesKnowledge>(QuesKnowledge._.Qk_Count, partcount, QuesKnowledge._.Qk_ID == knl.Qk_ID);
+                filter = @"WHERE ""Qk_ID"" IN(";
+                for (int i = 0; i < knls.Count; i++)
+                {
+                    if (i > 0) filter += ",";
+                    filter += knls[i].Qk_ID;
+                }
+                filter += ")";
             }
+            string sql = $@"UPDATE ""QuesKnowledge""
+                            SET ""Qk_Count"" = (
+                                SELECT COUNT(DISTINCT qq.""Qus_ID"")
+                                FROM ""Questions_QKnl"" qq
+                                WHERE qq.""Qk_ID"" = ""QuesKnowledge"".""Qk_ID""
+                            ){ filter} ";
+            Gateway.Default.FromSql(sql).Execute();
         }
         /// <summary>
         /// 试题统计更新，例如当试题被修改时，需要更新试题分类下的试题数量
@@ -1926,9 +1899,7 @@ namespace Song.ServiceImpls
         /// </summary>
         public void KnlQusTotalUpdate()
         {
-            List<QuesKnowledge> list = Gateway.Default.From<QuesKnowledge>().ToList<QuesKnowledge>();
-            if (list == null || list.Count <= 0) return;
-            this.KnlQusTotalUpdate(list);
+            this.KnlQusTotalUpdate(new List<QuesKnowledge>());
         }
         /// <summary>
         /// 试题关联的知识点
@@ -2000,46 +1971,59 @@ namespace Song.ServiceImpls
         /// <param name="qkid"></param>
         /// <param name="qusid"></param>
         /// <returns></returns>
-        public int KnlConnectionQues(long qkid, long qusid)
+        public int KnlConnectionQues(long qkid, long qusid, bool isFreshcount = true)
         {
             if (qusid <= 0 || qusid <= 0) return 0;
             Questions ques = Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == qusid).ToFirst<Questions>();
             QuesKnowledge[] knls = Gateway.Default.From<QuesKnowledge>().Where(QuesKnowledge._.Qk_ID == qkid).ToArray<QuesKnowledge>();
-            return KnlConnectionQues(knls, ques);
+            return KnlConnectionQues(knls, ques, isFreshcount);
         }
         /// <summary>
         /// 创建知识点与试题的关联
         /// </summary>
-        public int KnlConnectionQues(QuesKnowledge[] knls, long qusid)
+        public int KnlConnectionQues(QuesKnowledge[] knls, long qusid, bool isFreshcount = true)
         {
             if (qusid <= 0) return 0;
             Questions ques = this.QuesSingle(qusid);
-            return this.KnlConnectionQues(knls, ques);           
+            return this.KnlConnectionQues(knls, ques, isFreshcount); 
         }
         /// <summary>
         /// 创建知识点与试题的关联
         /// </summary>
-        public int KnlConnectionQues(QuesKnowledge[] knls, Questions ques)
+        public int KnlConnectionQues(QuesKnowledge[] knls, Questions ques, bool isFreshcount = true)
         {
-            //原有试题知识点
-            List<QuesKnowledge> list = this.KnlForQues(ques.Qus_ID);
-
-            //删除原有与试题知识点的关联
-            Gateway.Default.Delete<Questions_QKnl>(Questions_QKnl._.Qus_ID == ques.Qus_ID);
             int i = 0;
-            foreach (QuesKnowledge knl in knls)
+            //原有试题知识点
+            List<QuesKnowledge> history = this.KnlForQues(ques.Qus_ID);
+            using (DbTrans tran = Gateway.Default.BeginTrans())
             {
-                Questions_QKnl qqknl = new Questions_QKnl()
+                try
                 {
-                    Qus_ID = ques.Qus_ID,
-                    Qk_ID = knl.Qk_ID
-                };
-                i += Gateway.Default.Save<Questions_QKnl>(qqknl);
-                if (!list.Any(p => p.Qk_ID == knl.Qk_ID)) list.Add(knl);
+                    //删除原有与试题类的关联
+                    tran.Delete<Questions_QKnl>(Questions_QKnl._.Qus_ID == ques.Qus_ID);
+                    foreach (QuesKnowledge knl in knls)
+                    {
+                        Questions_QKnl qqknl = new Questions_QKnl()
+                        {
+                            Qus_ID = ques.Qus_ID,
+                            Qk_ID = knl.Qk_ID
+                        };
+                        i += Gateway.Default.Save<Questions_QKnl>(qqknl);                       
+                    }
+                    tran.Commit();
+                    if (isFreshcount)
+                    {
+                        history.AddRange(knls.ToList<QuesKnowledge>());
+                        this.KnlQusTotalUpdate(history);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    throw ex;
+                }
             }
-            //更新知识点的试题数统计
-            this.KnlQusTotalUpdate(list);
-            return i;
+            return i;          
         }
         #endregion
 

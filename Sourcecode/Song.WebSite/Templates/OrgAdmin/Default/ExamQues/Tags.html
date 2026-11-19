@@ -53,11 +53,11 @@
         <section class="list-box">
             <el-card shadow="hover" v-for="(item,idx) in datas" :editing="item.editing">
                 <template v-if="item.editing==null || item.editing==false">
-                    <div slot="header">
+                    <template slot="header">
                         <span>{{(form.index - 1) * form.size + idx+ 1}} . </span>
                         <el-tag :type="tagcolor(item)" v-html="showsearch(item.Qtag_Name,form.name)"></el-tag>
-                    </div>
-                    <quescount :tag="item" :orgid="form.orgid"></quescount>
+                    </template>
+                    <div class="quescount"> 试题数：{{item.Qtag_Count}} </div>                   
                     <div class="item_footer">
                         <el-checkbox v-model="item.checked">选中</el-checkbox>
                         <el-button-group>

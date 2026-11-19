@@ -29,7 +29,9 @@ section.list-box .el-card__body {
     box-sizing: border-box;
     height: calc(100% - 45px);
 }
-
+section.list-box .el-card .el-card__header{
+    display: flex;
+}
 section.list-box .el-card__body .item_footer {
     position: absolute;
     width: calc(100% - 20px);

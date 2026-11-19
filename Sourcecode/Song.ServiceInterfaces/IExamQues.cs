@@ -654,15 +654,15 @@ namespace Song.ServiceInterfaces
         /// <param name="qkid"></param>
         /// <param name="qusid"></param>
         /// <returns></returns>
-        int KnlConnectionQues(long qkid, long qusid);
+        int KnlConnectionQues(long qkid, long qusid, bool isFreshcount = true);
         /// <summary>
         /// 创建知识点与试题的关联
         /// </summary>
-        int KnlConnectionQues(QuesKnowledge[] knls, long qusid);
+        int KnlConnectionQues(QuesKnowledge[] knls, long qusid, bool isFreshcount = true);
         /// <summary>
         /// 创建知识点与试题的关联
         /// </summary>
-        int KnlConnectionQues(QuesKnowledge[] knls, Questions ques);
+        int KnlConnectionQues(QuesKnowledge[] knls, Questions ques, bool isFreshcount = true);
         #endregion
 
         #region 关键字
