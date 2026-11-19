@@ -169,7 +169,12 @@ namespace Song.ServiceImpls
         public int QuesDelete(Questions entity)
         {
             int count = Gateway.Default.Update<Questions>(new Field[] { Questions._.Qus_IsDeleted, Questions._.Qus_DeleteTime }, new object[] { true, DateTime.Now }, Questions._.Qus_ID == entity.Qus_ID);
+            //保存关键字的关联
+            this.TagQusTotalUpdate(entity);
+            //保存分类的关联
             this.PartQusTotalUpdate(entity);
+            //保存知识点的关联
+            this.KnlQusTotalUpdate(entity);
             return count;
         }
         /// <summary>
@@ -186,9 +191,15 @@ namespace Song.ServiceImpls
         /// </summary>
         public int QuesRecycle(long id)
         {
-            Song.Entities.Questions qus = Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == id).ToFirst<Questions>();
+            Song.Entities.Questions qus = Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == id).ToFirst<Questions>();            
+            int row= Gateway.Default.Update<Questions>(Questions._.Qus_IsDeleted, false, Questions._.Qus_ID == id);
+            //保存关键字的关联
+            this.TagQusTotalUpdate(qus);
+            //保存分类的关联
             this.PartQusTotalUpdate(qus);
-            return Gateway.Default.Update<Questions>(Questions._.Qus_IsDeleted, false, Questions._.Qus_ID == id);
+            //保存知识点的关联
+            this.KnlQusTotalUpdate(qus);
+            return row;
         }
         /// <summary>
         /// 真正删除，按主键ID；
@@ -1057,25 +1068,30 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 试题统计更新，例如当试题被修改时，需要更新试题分类下的试题数量
         /// </summary>
-        public void PartQusTotalUpdate(List<QuesPart> parts)
+        public void PartQusTotalUpdate(List<QuesPart> parts,int orgid)
         {
-            string filter = string.Empty;
-            if (parts.Count > 0)
-            {
-                filter = @"WHERE ""Qp_ID"" IN(";
-                for (int i = 0; i < parts.Count; i++)
-                {
-                    if (i > 0) filter += ",";
-                    filter += parts[i].Qp_ID;
-                }
-                filter += ")";
-            }
-            string sql = $@"UPDATE ""QuesPart""
-                            SET ""QP_Count"" = (
-                                SELECT COUNT(DISTINCT qq.""Qus_ID"")
-                                FROM ""Questions_QPart"" qq
-                                WHERE qq.""Qp_ID"" = ""QuesPart"".""Qp_ID""
-                            ){ filter} ";
+            if (parts.Count < 1) return;
+            //机构ID的过滤条件
+            string orgfilter = orgid < 1 ? "1=1" : $@"""Org_ID""={orgid}";
+
+            //过滤条件
+            string wcfilter = "1=1";
+            if (parts.Count > 0) wcfilter = @"qq.""Qp_ID"" IN (" + string.Join(",", parts.Select(t => t.Qp_ID)) + ")";
+
+            string where = $@"q.""Qus_IsDeleted""=FALSE and {orgfilter} and {wcfilter}";
+            //更新
+            string sql = $@"UPDATE ""QuesPart"" SET ""QP_Count"" = sub.cnt
+                        FROM (
+                          SELECT tm.""Qp_ID"", COUNT(""Qus_ID"") AS cnt
+                          FROM (
+                              SELECT qq.""Qp_ID"", q.""Qus_ID""
+                              FROM ""Questions_QPart"" qq
+                              LEFT JOIN ""Questions"" q ON q.""Qus_ID"" = qq.""Qus_ID""
+                              WHERE {where}                               
+                          ) tm
+                          GROUP BY tm.""Qp_ID""
+                        ) AS sub
+                        WHERE ""QuesPart"".""Qp_ID"" = sub.""Qp_ID"";";
             Gateway.Default.FromSql(sql).Execute();
         }
         /// <summary>
@@ -1085,14 +1101,32 @@ namespace Song.ServiceImpls
         {
             List<QuesPart> list = this.PartForQues(ques.Qus_ID);
             if (list == null || list.Count <= 0) return;
-            this.PartQusTotalUpdate(list);
+            this.PartQusTotalUpdate(list, ques.Org_ID);
         }
         /// <summary>
         /// 更新试题分类所有试题数量
         /// </summary>
-        public void PartQusTotalUpdate()
+        public void PartQusTotalUpdateAll(int orgid)
         {
-            this.PartQusTotalUpdate(new List<QuesPart>());
+            //机构ID的过滤条件
+            string orgfilter = orgid < 1 ? "1=1" : $@"""Org_ID""={orgid}";
+
+            string where = $@"q.""Qus_IsDeleted""=FALSE and {orgfilter}";
+            //更新
+            string sql = $@"UPDATE ""QuesPart"" SET ""QP_Count"" = sub.cnt
+                        FROM (
+                          SELECT tm.""Qp_ID"", COUNT(""Qus_ID"") AS cnt
+                          FROM (
+                              SELECT qq.""Qp_ID"", q.""Qus_ID""
+                              FROM ""Questions_QPart"" qq
+                              LEFT JOIN ""Questions"" q ON q.""Qus_ID"" = qq.""Qus_ID""
+                              WHERE {where}                               
+                          ) tm
+                          GROUP BY tm.""Qp_ID""
+                        ) AS sub
+                        WHERE ""QuesPart"".""Qp_ID"" = sub.""Qp_ID"";";
+
+            Gateway.Default.FromSql(sql).Execute();
         }
         /// <summary>
         /// 试题所属的分类，由于是多对多关联，试题可能会属于多个分类
@@ -1162,7 +1196,8 @@ namespace Song.ServiceImpls
         /// 创建试题分类与试题的关联
         /// </summary>
         /// <param name="qpid"></param>
-        /// <param name="qusid"></param> 
+        /// <param name="qusid"></param>
+        /// <param name="isFreshcount"></param> 
         /// <returns></returns>
         public int PartConnectionQues(long qpid, long qusid, bool isFreshcount = true)
         {
@@ -1188,7 +1223,6 @@ namespace Song.ServiceImpls
             int i = 0;
             //原有试题分类
             List<QuesPart> history = this.PartForQues(ques.Qus_ID);
-
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
                 try
@@ -1197,21 +1231,18 @@ namespace Song.ServiceImpls
                     tran.Delete<Questions_QPart>(Questions_QPart._.Qus_ID == ques.Qus_ID);
                     foreach (QuesPart part in parts)
                     {
-                        WhereClip wc = Questions_QPart._.Qus_ID == ques.Qus_ID && Questions_QPart._.Qp_ID == part.Qp_ID;
-                        Questions_QPart qqpart = Gateway.Default.From<Questions_QPart>().Where(wc).ToFirst<Questions_QPart>();
-                        if (qqpart != null) return 0;
-                        qqpart = new Questions_QPart()
+                        Questions_QPart qqpart = new Questions_QPart()
                         {
                             Qus_ID = ques.Qus_ID,
                             Qp_ID = part.Qp_ID
                         };
-                        i += Gateway.Default.Save<Questions_QPart>(qqpart);                      
+                        i += Gateway.Default.Save<Questions_QPart>(qqpart);
                     }
                     tran.Commit();
                     if (isFreshcount)
                     {
-                        history.AddRange(parts.ToList<QuesPart>());
-                        this.PartQusTotalUpdate(history);
+                        List<QuesPart> merged = history.Concat(parts).GroupBy(t => t.Qp_ID).Select(g => g.First()).ToList();
+                        this.PartQusTotalUpdate(merged, ques.Org_ID);
                     }
                 }
                 catch (Exception ex)
@@ -1219,7 +1250,7 @@ namespace Song.ServiceImpls
                     tran.Rollback();
                     throw ex;
                 }
-            }  
+            }
             return i;
         }
         #endregion
@@ -1864,25 +1895,31 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 试题统计更新，例如当试题被修改时，需要更新试题分类下的试题数量
         /// </summary> 
-        public void KnlQusTotalUpdate(List<QuesKnowledge> knls)
+        public void KnlQusTotalUpdate(List<QuesKnowledge> knls,int orgid)
         {
-            string filter = string.Empty;
-            if (knls.Count > 0)
-            {
-                filter = @"WHERE ""Qk_ID"" IN(";
-                for (int i = 0; i < knls.Count; i++)
-                {
-                    if (i > 0) filter += ",";
-                    filter += knls[i].Qk_ID;
-                }
-                filter += ")";
-            }
-            string sql = $@"UPDATE ""QuesKnowledge""
-                            SET ""Qk_Count"" = (
-                                SELECT COUNT(DISTINCT qq.""Qus_ID"")
-                                FROM ""Questions_QKnl"" qq
-                                WHERE qq.""Qk_ID"" = ""QuesKnowledge"".""Qk_ID""
-                            ){ filter} ";
+            if (knls.Count < 1) return;
+            //机构ID的过滤条件
+            string orgfilter = orgid < 1 ? "1=1" : $@"""Org_ID""={orgid}";
+
+            //过滤条件
+            string wcfilter = "1=1";
+            if (knls.Count > 0) wcfilter = @"qq.""Qk_ID"" IN (" + string.Join(",", knls.Select(t => t.Qk_ID)) + ")";
+
+            string where = $@"q.""Qus_IsDeleted""=FALSE and {orgfilter} and {wcfilter}";
+            //更新
+            string sql = $@"UPDATE ""QuesKnowledge"" SET ""Qk_Count"" = sub.cnt
+                        FROM (
+                          SELECT tm.""Qk_ID"", COUNT(""Qus_ID"") AS cnt
+                          FROM (
+                              SELECT qq.""Qk_ID"", q.""Qus_ID""
+                              FROM ""Questions_QKnl"" qq
+                              LEFT JOIN ""Questions"" q ON q.""Qus_ID"" = qq.""Qus_ID""
+                              WHERE {where}                               
+                          ) tm
+                          GROUP BY tm.""Qk_ID""
+                        ) AS sub
+                        WHERE ""QuesKnowledge"".""Qk_ID"" = sub.""Qk_ID"";";
+
             Gateway.Default.FromSql(sql).Execute();
         }
         /// <summary>
@@ -1892,14 +1929,32 @@ namespace Song.ServiceImpls
         {
             List<QuesKnowledge> list = this.KnlForQues(ques.Qus_ID);
             if (list == null || list.Count <= 0) return;
-            this.KnlQusTotalUpdate(list);
+            this.KnlQusTotalUpdate(list, ques.Org_ID);
         }
         /// <summary>
         /// 更新试题分类所有试题数量
         /// </summary>
-        public void KnlQusTotalUpdate()
+        public void KnlQusTotalUpdateAll(int orgid)
         {
-            this.KnlQusTotalUpdate(new List<QuesKnowledge>());
+            //机构ID的过滤条件
+            string orgfilter = orgid < 1 ? "1=1" : $@"""Org_ID""={orgid}";
+
+            string where = $@"q.""Qus_IsDeleted""=FALSE and {orgfilter}";
+            //更新
+            string sql = $@"UPDATE ""QuesKnowledge"" SET ""Qk_Count"" = sub.cnt
+                        FROM (
+                          SELECT tm.""Qk_ID"", COUNT(""Qus_ID"") AS cnt
+                          FROM (
+                              SELECT qq.""Qk_ID"", q.""Qus_ID""
+                              FROM ""Questions_QKnl"" qq
+                              LEFT JOIN ""Questions"" q ON q.""Qus_ID"" = qq.""Qus_ID""
+                              WHERE {where}                               
+                          ) tm
+                          GROUP BY tm.""Qk_ID""
+                        ) AS sub
+                        WHERE ""QuesKnowledge"".""Qk_ID"" = sub.""Qk_ID"";";
+
+            Gateway.Default.FromSql(sql).Execute();
         }
         /// <summary>
         /// 试题关联的知识点
@@ -2013,8 +2068,8 @@ namespace Song.ServiceImpls
                     tran.Commit();
                     if (isFreshcount)
                     {
-                        history.AddRange(knls.ToList<QuesKnowledge>());
-                        this.KnlQusTotalUpdate(history);
+                        List<QuesKnowledge> merged = history.Concat(knls).GroupBy(t => t.Qk_ID).Select(g => g.First()).ToList();
+                        this.KnlQusTotalUpdate(history, ques.Org_ID);
                     }
                 }
                 catch (Exception ex)
@@ -2259,7 +2314,7 @@ namespace Song.ServiceImpls
             //原有试题标签
             List<QuesTags> historytag = this.TagForQues(ques.Qus_ID);
             //添加所有关键字，如果已经存在，则跳过
-            foreach (QuesTags tag in tags) this.TagAdd(tag);           
+            foreach (QuesTags tag in tags) this.TagAdd(tag);
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
                 try
@@ -2268,23 +2323,18 @@ namespace Song.ServiceImpls
                     tran.Delete<Questions_QTags>(Questions_QTags._.Qus_ID == ques.Qus_ID);
                     foreach (QuesTags tag in tags)
                     {
-                        WhereClip wc = Questions_QTags._.Qus_ID == ques.Qus_ID && Questions_QTags._.Qtag_ID == tag.Qtag_ID;
-                        Questions_QTags qqtag = Gateway.Default.From<Questions_QTags>().Where(wc).ToFirst<Questions_QTags>();
-                        if (qqtag == null)
+                        Questions_QTags qqtag = new Questions_QTags()
                         {
-                            qqtag = new Questions_QTags()
-                            {
-                                Qus_ID = ques.Qus_ID,
-                                Qtag_ID = tag.Qtag_ID
-                            };
-                        }
-                        i += tran.Save<Questions_QTags>(qqtag);                      
+                            Qus_ID = ques.Qus_ID,
+                            Qtag_ID = tag.Qtag_ID
+                        };
+                        i += tran.Save<Questions_QTags>(qqtag);
                     }
                     tran.Commit();
                     if (isFreshcount)
                     {
-                        historytag.AddRange(tags.ToList<QuesTags>());
-                        this.TagQusTotalUpdate(historytag);
+                        List<QuesTags> merged = historytag.Concat(tags).GroupBy(t => t.Qtag_ID).Select(g => g.First()).ToList();
+                        this.TagQusTotalUpdate(historytag, ques.Org_ID);
                     }
                 }
                 catch (Exception ex)
@@ -2292,7 +2342,7 @@ namespace Song.ServiceImpls
                     tran.Rollback();
                     throw ex;
                 }
-            }          
+            }
             return i;
         }
         /// <summary>
@@ -2400,25 +2450,31 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 试题统计更新，例如当试题被修改时，需要更新试题标签下的试题数量
         /// </summary>
-        public void TagQusTotalUpdate(List<QuesTags> tags)
+        public void TagQusTotalUpdate(List<QuesTags> tags, int orgid)
         {
-            string filter = string.Empty;
-            if (tags.Count > 0)
-            {
-                filter = @"WHERE ""Qtag_ID"" IN(";
-                for (int i = 0; i < tags.Count; i++)
-                {
-                    if (i > 0) filter += ",";
-                    filter += tags[i].Qtag_ID;
-                }
-                filter += ")";
-            }
-            string sql = $@"UPDATE ""QuesTags""
-                            SET ""Qtag_Count"" = (
-                                SELECT COUNT(DISTINCT qq.""Qus_ID"")
-                                FROM ""Questions_QTags"" qq
-                                WHERE qq.""Qtag_ID"" = ""QuesTags"".""Qtag_ID""
-                            ){ filter} ";
+            if (tags.Count < 1) return;
+            //机构ID的过滤条件
+            string orgfilter = orgid < 1 ? "1=1" : $@"""Org_ID""={orgid}";
+
+            //标签ID的过滤条件
+            string tagsfilter = "1=1";
+            if (tags.Count > 0) tagsfilter = @"qq.""Qtag_ID"" IN (" + string.Join(",", tags.Select(t => t.Qtag_ID)) + ")";
+          
+            string where = $@"q.""Qus_IsDeleted""=FALSE and {orgfilter} and {tagsfilter}";
+            //更新
+            string sql = $@"UPDATE ""QuesTags"" SET ""Qtag_Count"" = sub.cnt
+                        FROM (
+                          SELECT tm.""Qtag_ID"", COUNT(""Qus_ID"") AS cnt
+                          FROM (
+                              SELECT qq.""Qtag_ID"", q.""Qus_ID""
+                              FROM ""Questions_QTags"" qq
+                              LEFT JOIN ""Questions"" q ON q.""Qus_ID"" = qq.""Qus_ID""
+                              WHERE {where}                               
+                          ) tm
+                          GROUP BY tm.""Qtag_ID""
+                        ) AS sub
+                        WHERE ""QuesTags"".""Qtag_ID"" = sub.""Qtag_ID"";";           
+
             Gateway.Default.FromSql(sql).Execute();
         }
         /// <summary>
@@ -2429,14 +2485,32 @@ namespace Song.ServiceImpls
             if (ques == null) return;
             List<QuesTags> tags = this.TagForQues(ques.Qus_ID);
             if (tags == null || tags.Count <= 0) return;
-            this.TagQusTotalUpdate(tags);
+            this.TagQusTotalUpdate(tags,ques.Org_ID);
         }
         /// <summary>
         /// 更新试题标签所有试题数量
         /// </summary>
-        public void TagQusTotalUpdate()
+        public void TagQusTotalUpdateAll(int orgid)
         {
-            this.TagQusTotalUpdate(new List<QuesTags>());
+            //机构ID的过滤条件
+            string orgfilter = orgid < 1 ? "1=1" : $@"""Org_ID""={orgid}";          
+
+            string where = $@"q.""Qus_IsDeleted""=FALSE and {orgfilter}";
+            //更新
+            string sql = $@"UPDATE ""QuesTags"" SET ""Qtag_Count"" = sub.cnt
+                        FROM (
+                          SELECT tm.""Qtag_ID"", COUNT(""Qus_ID"") AS cnt
+                          FROM (
+                              SELECT qq.""Qtag_ID"", q.""Qus_ID""
+                              FROM ""Questions_QTags"" qq
+                              LEFT JOIN ""Questions"" q ON q.""Qus_ID"" = qq.""Qus_ID""
+                              WHERE {where}                               
+                          ) tm
+                          GROUP BY tm.""Qtag_ID""
+                        ) AS sub
+                        WHERE ""QuesTags"".""Qtag_ID"" = sub.""Qtag_ID"";";
+
+            Gateway.Default.FromSql(sql).Execute();
         }
         /// <summary>
         /// <summary>

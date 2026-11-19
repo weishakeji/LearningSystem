@@ -334,7 +334,7 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 试题统计更新，例如当试题被修改时，需要更新试题分类下的试题数量
         /// </summary>
-        void PartQusTotalUpdate(List<QuesPart> parts);
+        void PartQusTotalUpdate(List<QuesPart> parts, int orgid);
         /// <summary>
         /// 试题统计更新，例如当试题被修改时，需要更新试题分类下的试题数量
         /// </summary>
@@ -342,7 +342,7 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 更新试题分类所有试题数量
         /// </summary>
-        void PartQusTotalUpdate();
+        void PartQusTotalUpdateAll(int orgid);
         /// <summary>
         /// 试题所属的分类，由于是多对多关联，试题可能会属于多个分类
         /// </summary>
@@ -614,7 +614,7 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 试题统计更新，例如当试题被修改时，需要更新试题分类下的试题数量
         /// </summary> 
-        void KnlQusTotalUpdate(List<QuesKnowledge> knls);
+        void KnlQusTotalUpdate(List<QuesKnowledge> knls, int orgid);
         /// <summary>
         /// 试题统计更新，例如当试题被修改时，需要更新试题分类下的试题数量
         /// </summary>
@@ -622,7 +622,7 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 更新试题分类所有试题数量
         /// </summary>
-        void KnlQusTotalUpdate();
+        void KnlQusTotalUpdateAll(int orgid);
         /// <summary>
         /// 试题关联的知识点
         /// </summary>
@@ -820,7 +820,7 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 试题统计更新，例如当试题被修改时，需要更新试题标签下的试题数量
         /// </summary>
-        void TagQusTotalUpdate(List<QuesTags> tags);
+        void TagQusTotalUpdate(List<QuesTags> tags, int orgid);
         /// <summary>
         /// 试题统计更新，例如当试题被修改时，需要更新试题标签下的试题数量
         /// </summary>
@@ -828,7 +828,7 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 更新试题标签所有试题数量
         /// </summary>
-        void TagQusTotalUpdate();
+        void TagQusTotalUpdateAll(int orgid);
         /// <summary>
         /// 分页获取
         /// </summary>

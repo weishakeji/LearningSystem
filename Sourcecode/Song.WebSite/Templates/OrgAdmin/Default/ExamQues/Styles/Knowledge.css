@@ -56,13 +56,20 @@ div[role=treeitem] {
 .column_count>icon[zero] {
     color: #ccc;
 }
+/*专业统计数据的列*/
+.column_count {
+    width: 100px;
+    text-align: left;
+    display: flex;
+ margin-left: auto;
+}
 
 /*是否启用与推荐的列*/
 
 .column_state {  
     width: 100px;
     text-align: center;
-    margin-left: auto;
+   
 }
 
 /*按钮的列*/

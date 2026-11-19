@@ -147,17 +147,7 @@ namespace Song.ViewData.Methods
             int i = 0;
             if (string.IsNullOrWhiteSpace(id)) return i;
             List<long> list = id.ToList<long>();
-            foreach (long s in list)
-            {
-                try
-                {
-                    i += Business.Do<IExamQues>().QuesRemove(s);
-                }
-                catch
-                {
-
-                }
-            }
+            foreach (long s in list) i += Business.Do<IExamQues>().QuesRemove(s);
             return i;
         }
         /// <summary>
@@ -1028,9 +1018,9 @@ namespace Song.ViewData.Methods
             new Task(() =>
             {
                 //刷新试题分类、标签、知识点下的试题数
-                Business.Do<IExamQues>().PartQusTotalUpdate();
-                Business.Do<IExamQues>().TagQusTotalUpdate();
-                Business.Do<IExamQues>().KnlQusTotalUpdate();
+                Business.Do<IExamQues>().PartQusTotalUpdateAll(orgid);
+                Business.Do<IExamQues>().TagQusTotalUpdateAll(orgid);
+                Business.Do<IExamQues>().KnlQusTotalUpdateAll(orgid);
             }).Start();
 
 

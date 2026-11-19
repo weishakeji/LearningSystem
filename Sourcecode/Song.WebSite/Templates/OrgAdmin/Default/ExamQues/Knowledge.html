@@ -32,7 +32,10 @@
                         <span>{{data.serial}}</span> &nbsp;   
                         <span class="large" v-html="showsearch(data.Qk_Name,filterText)"></span>
                         <span class="sbjcount" v-if="data.calcChild>0">({{data.calcChild}})</span>
-                    </span>                 
+                    </span>    
+                     <div class="column_count">
+                        <span title="试题数" question :zero="data.QuesCount<=0">{{data.QuesCount|commas}} 道</span>
+                    </div>             
                     <div class="column_state">
                         <b class="el-icon-loading" v-if="loadingid==data.Qk_ID"></b>
                         <template v-else>

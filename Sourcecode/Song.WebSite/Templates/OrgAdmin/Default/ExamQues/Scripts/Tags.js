@@ -235,38 +235,7 @@ $ready(function () {
 
         },
         components: {
-            //标签的试题数
-            'quescount': {
-                props: ['tag', 'orgid'],
-                data: function () {
-                    return {
-                        count: 0,
-                        loading: false,
-                    }
-                },
-                watch: {},
-                methods: {
-                    getcount: function () {
-                        var th = this;
-                        th.loading = true;
-                        $api.get("ExamQues/TagQusTotal", { "qtagid": th.tag.Qtag_ID, "couid": 0, "qtype": -1, "use": null })
-                            .then(req => {
-                                if (req.data.success) {
-                                    th.count = req.data.result;
-                                } else {
-                                    console.error(req.data.exception);
-                                }
-                            }).catch(err => console.error(err))
-                            .finally(() => th.loading = false);
-                    }
-                },
-                template: `<div class="quescount">
-                    <loading v-if="loading"></loading>
-                    <template v-else>
-                        试题数：{{count}}
-                    </template>
-                </div>`
-            }
+            
         }
     });
 });
