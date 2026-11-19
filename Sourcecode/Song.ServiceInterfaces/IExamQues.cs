@@ -664,7 +664,7 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        int TagAdd(QuesTags entity);
+        long TagAdd(QuesTags entity);
         /// <summary>
         /// 添加关键字
         /// </summary>
@@ -678,14 +678,14 @@ namespace Song.ServiceInterfaces
         /// <param name="couid"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        bool TagIsExist(int orgid, long couid, string name);
+        QuesTags TagIsExist(int orgid, long couid, string name);
         /// <summary>
         /// 是否已经存在
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="oneself">是否包括自身</param>
         /// <returns></returns>
-        bool TagIsExist(QuesTags entity, bool oneself = false);
+        QuesTags TagIsExist(QuesTags entity, bool oneself = false);
         /// <summary>
         /// 修改
         /// </summary>
@@ -742,23 +742,24 @@ namespace Song.ServiceInterfaces
         /// <param name="quesid"></param>
         /// <param name="couid"></param>
         /// <returns></returns>
-        int TagConnectionQues(string tag, long quesid, long couid);
+        int TagConnectionQues(string tag, long quesid, long couid = 0, bool isFreshcount = true);
         /// <summary>
         /// 创建关键字与试题的关联
         /// </summary>
         /// <param name="tagid"></param>
         /// <param name="quesid"></param>
         /// <param name="couid"></param>
+        /// <param name="isFreshcount"></param>
         /// <returns></returns>
-        int TagConnectionQues(long tagid, long quesid, long couid);
+        int TagConnectionQues(long tagid, long quesid, bool isFreshcount = true);
         /// <summary>
         /// 创建关键字与试题的关联
         /// </summary>
-        int TagConnectionQues(QuesTags[] tags, long quesid, long couid);
+        int TagConnectionQues(QuesTags tag, long quesid, bool isFreshcount = true);
         /// <summary>
         /// 创建关键字与试题的关联
         /// </summary>
-        int TagConnectionQues(QuesTags[] tags, Questions ques);
+        int TagConnectionQues(QuesTags[] tags, Questions ques, bool isFreshcount = true);
         /// <summary>
         /// 获取试题标签
         /// </summary>

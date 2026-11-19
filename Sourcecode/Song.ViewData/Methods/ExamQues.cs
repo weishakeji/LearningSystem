@@ -820,7 +820,8 @@ namespace Song.ViewData.Methods
                 tag.Qtag_IsDeleted = entity.Qtag_IsDeleted;
                 tag.Org_ID = entity.Org_ID;
                 tag.Cou_ID = entity.Cou_ID;
-                count += Business.Do<IExamQues>().TagAdd(tag);
+                Business.Do<IExamQues>().TagAdd(tag);
+                count++;
             }
             return count;
         }
@@ -847,7 +848,8 @@ namespace Song.ViewData.Methods
                     Qtag_Weight = 0,
                 };
                 tag.Qtag_IsDeleted = false;
-                count += Business.Do<IExamQues>().TagAdd(tag);
+                Business.Do<IExamQues>().TagAdd(tag);
+                count++;
                 //关联
                 long tagid = tag.Qtag_ID;
             }

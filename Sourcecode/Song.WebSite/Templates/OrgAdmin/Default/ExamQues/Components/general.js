@@ -73,6 +73,7 @@ Vue.component('general', {
         },
         //编辑标签
         tagedit: function () {
+            console.error(this.taginput);
             if (this.taginput == null || this.taginput.length < 1) return;
             let str = this.taginput.replace(/，/g, ",");
             str = str.replace(/\s/g, ",");
@@ -87,7 +88,7 @@ Vue.component('general', {
                 arr[i] = $api.trim(arr[i]);
                 if (arr[i] == null || arr[i].length < 1) continue;
                 if (!this.taglist.some(tag => tag.Qtag_Name == arr[i]))
-                    this.taglist.push({ Qtag_Name: arr[i] });
+                    this.taglist.push({ 'Qtag_Name': arr[i], 'Org_ID': this.org.Org_ID, 'Qtag_IsDeleted': false });
             }
             if (this.taglist.length > this.tagmax) {
                 this.$message({
@@ -140,7 +141,7 @@ Vue.component('general', {
 
         updatepart: function (parts, partid) {
             this.parts = [];
-            this.parts=parts;
+            this.parts = parts;
             this.question.Parts = parts;
             //console.error(parts);
             //console.error(partid);

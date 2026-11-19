@@ -1,52 +1,158 @@
 {
-  "Cou_ID": {
-    "mark": "课程ID",
-    "intro": "标注这个标签属于哪个课程。如果是考试专用的，则不标注。",
-    "relation": "Course"
-  },
-  "Org_ID": {
-    "mark": "",
-    "intro": "",
-    "relation": "Organization"
-  },
-  "Qtag_CrtTime": {
-    "mark": "创建时间",
-    "intro": "",
-    "relation": ""
-  },
   "Qtag_ID": {
+    "name": "Qtag_ID",
+    "type": "bigint",
+    "data_type": "bigint",
+    "length": "",
+    "num_length": "64",
+    "numeric_scale": "0",
+    "nullable": "0",
+    "primary": "1",
     "mark": "主键",
     "intro": "",
     "relation": ""
   },
+  "Org_ID": {
+    "name": "Org_ID",
+    "type": "integer",
+    "data_type": "integer",
+    "length": "",
+    "num_length": "32",
+    "numeric_scale": "0",
+    "nullable": "0",
+    "primary": "0",
+    "mark": "机构ID",
+    "intro": "",
+    "relation": "Organization"
+  },
+  "Qtag_Count": {
+    "name": "Qtag_Count",
+    "type": "integer",
+    "data_type": "integer",
+    "length": "",
+    "num_length": "32",
+    "numeric_scale": "0",
+    "nullable": "0",
+    "primary": "0",
+    "mark": "试题数",
+    "intro": "当前标签下的试题数量",
+    "relation": ""
+  },
+  "Qtag_CrtTime": {
+    "name": "Qtag_CrtTime",
+    "type": "timestamp",
+    "data_type": "timestamp with time zone",
+    "length": "",
+    "num_length": "",
+    "numeric_scale": "",
+    "nullable": "0",
+    "primary": "0",
+    "mark": "创建时间",
+    "intro": "",
+    "relation": ""
+  },
+  "Qtag_DeleteTime": {
+    "name": "Qtag_DeleteTime",
+    "type": "timestamp",
+    "data_type": "timestamp with time zone",
+    "length": "",
+    "num_length": "",
+    "numeric_scale": "",
+    "nullable": "0",
+    "primary": "0",
+    "mark": "删除时间",
+    "intro": "标签被逻辑删除的时间\n",
+    "relation": ""
+  },
+  "Cou_ID": {
+    "name": "Cou_ID",
+    "type": "bigint",
+    "data_type": "bigint",
+    "length": "",
+    "num_length": "64",
+    "numeric_scale": "0",
+    "nullable": "0",
+    "primary": "0",
+    "mark": "课程ID",
+    "intro": "标注这个标签属于哪个课程。如果是考试专用的，则不标注。",
+    "relation": "Course"
+  },
+  "Qtag_IsDeleted": {
+    "name": "Qtag_IsDeleted",
+    "type": "boolean",
+    "data_type": "boolean",
+    "length": "",
+    "num_length": "",
+    "numeric_scale": "",
+    "nullable": "0",
+    "primary": "0",
+    "mark": "删除",
+    "intro": "是否被删除",
+    "relation": ""
+  },
   "Qtag_Name": {
+    "name": "Qtag_Name",
+    "type": "character",
+    "data_type": "character varying",
+    "length": "255",
+    "num_length": "",
+    "numeric_scale": "",
+    "nullable": "0",
+    "primary": "0",
     "mark": "名称",
     "intro": "标签的名称",
     "relation": ""
   },
   "Qtag_Order": {
+    "name": "Qtag_Order",
+    "type": "integer",
+    "data_type": "integer",
+    "length": "",
+    "num_length": "32",
+    "numeric_scale": "0",
+    "nullable": "0",
+    "primary": "0",
     "mark": "排序号",
     "intro": "",
     "relation": ""
   },
   "Qtag_PID": {
+    "name": "Qtag_PID",
+    "type": "bigint",
+    "data_type": "bigint",
+    "length": "",
+    "num_length": "64",
+    "numeric_scale": "0",
+    "nullable": "0",
+    "primary": "0",
     "mark": "父ID",
     "intro": "原计划是做多级分类，实际只采用一级。这个字段没有起作用",
     "relation": ""
   },
   "Qtag_UpdateTime": {
+    "name": "Qtag_UpdateTime",
+    "type": "timestamp",
+    "data_type": "timestamp with time zone",
+    "length": "",
+    "num_length": "",
+    "numeric_scale": "",
+    "nullable": "0",
+    "primary": "0",
     "mark": "修改时间",
     "intro": "最后修改时间",
     "relation": ""
   },
   "Qtag_Weight": {
+    "name": "Qtag_Weight",
+    "type": "integer",
+    "data_type": "integer",
+    "length": "",
+    "num_length": "32",
+    "numeric_scale": "0",
+    "nullable": "0",
+    "primary": "0",
     "mark": "权重",
     "intro": "标签的权重，可以理解为是这个标签的重要度",
-    "relation": ""
-  },
-  "Qtag_IsDeleted": {
-    "mark": "删除",
-    "intro": "是否被删除",
     "relation": ""
   }
 }
