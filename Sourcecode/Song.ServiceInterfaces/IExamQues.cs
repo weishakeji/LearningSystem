@@ -371,18 +371,25 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 创建试题分类与试题的关联
         /// </summary>
-        /// <param name="qpid"></param>
-        /// <param name="qusid"></param> 
+        /// <param name="qpid">试题分类id</param>
+        /// <param name="qusid">试题id</param>
+        /// <param name="isFreshcount">是否更新数量</param> 
         /// <returns></returns>
-        int PartConnectionQues(long qpid, long qusid);
+        int PartConnectionQues(long qpid, long qusid, bool isFreshcount = true);
         /// <summary>
         /// 创建试题分类与试题的关联
         /// </summary>
-        int PartConnectionQues(QuesPart[] parts, long qusid);
+        /// <param name="parts">试题分类列表</param>
+        /// <param name="qusid">试题id</param>
+        /// <param name="isFreshcount">是否更新数量</param>
+        int PartConnectionQues(QuesPart[] parts, long qusid, bool isFreshcount = true);
         /// <summary>
         /// 创建试题分类与试题的关联
         /// </summary>
-        int PartConnectionQues(QuesPart[] parts, Questions ques);
+        /// <param name="parts">试题分类列表</param>
+        /// <param name="ques">试题</param>
+        /// <param name="isFreshcount">是否更新数量</param>
+        int PartConnectionQues(QuesPart[] parts, Questions ques, bool isFreshcount = true);
         #endregion
 
         #region 收藏
