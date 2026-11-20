@@ -50,16 +50,12 @@ namespace Song.ServiceImpls
             entity.Ac_MobiTel1 = this._checkMobile(entity.Ac_MobiTel1);
             entity.Ac_MobiTel2 = this._checkMobile(entity.Ac_MobiTel2);
             entity.Ac_Name = this._checkName(entity.Ac_Name);
-            if (this.IsAccountExist(entity.Ac_AccName, 0))
-                throw new Exception("账号已经存在");
+            if (this.IsAccountExist(entity.Ac_AccName, 0)) throw new Exception("账号已经存在");
             if (!string.IsNullOrWhiteSpace(entity.Ac_IDCardNumber))
                 entity.Ac_IDCardNumber = entity.Ac_IDCardNumber.Trim();
-            if (string.IsNullOrWhiteSpace(entity.Ac_UID))
-                entity.Ac_UID = Request.UniqueID();
-            if (!string.IsNullOrWhiteSpace(entity.Ac_Photo) && entity.Ac_Photo.IndexOf("/") > -1)
-            {
-                entity.Ac_Photo = entity.Ac_Photo.Substring(entity.Ac_Photo.LastIndexOf("/") + 1);
-            }
+            if (string.IsNullOrWhiteSpace(entity.Ac_UID)) entity.Ac_UID = Request.UniqueID();
+            if (!string.IsNullOrWhiteSpace(entity.Ac_Photo) && entity.Ac_Photo.IndexOf("/") > -1)         
+                entity.Ac_Photo = entity.Ac_Photo.Substring(entity.Ac_Photo.LastIndexOf("/") + 1);         
             entity.Ac_RegTime = entity.Ac_LastTime = DateTime.Now;
             entity.Ac_IsUse = true;
             if (entity.Org_ID < 1)
@@ -139,9 +135,6 @@ namespace Song.ServiceImpls
             //学员组
             if (entity.Sts_ID <= 0) entity.Sts_Name = string.Empty;
             else entity.Sts_Name = Business.Do<IStudent>().SortName(entity.Sts_ID);
-            //如果密码不为空
-            //if (!string.IsNullOrWhiteSpace(entity.Ac_Pw))
-            //    entity.Ac_Pw = new WeiSha.Core.Param.Method.ConvertToAnyValue(entity.Ac_Pw).MD5; 
             //如果身份证不为空，则解析生日
             if (!string.IsNullOrWhiteSpace(entity.Ac_IDCardNumber))
             {
@@ -172,8 +165,7 @@ namespace Song.ServiceImpls
             //更新学员组的学员数量
             if (old.Sts_ID != entity.Sts_ID)
             {
-                Business.Do<IStudent>().SortUpdateCount(entity.Sts_ID);
-                Business.Do<IStudent>().SortUpdateCount(old.Sts_ID);
+                Business.Do<IStudent>().SortUpdateCount(new List<long> { entity.Sts_ID, old.Sts_ID });
                 //学员选修课程的记录
                 Gateway.Default.Update<Student_Course>(new Field[] { Student_Course._.Sts_ID },
                         new object[] { entity.Sts_ID, }, Student_Course._.Ac_ID == entity.Ac_ID);

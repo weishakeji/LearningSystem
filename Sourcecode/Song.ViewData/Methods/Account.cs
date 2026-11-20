@@ -1366,7 +1366,6 @@ namespace Song.ViewData.Methods
             {
                 try
                 {
-                    //throw new Exception();
                     //将数据逐行导入数据库
                     _inputData(dt.Rows[i], org, sorts, matching);
                     success++;
@@ -1445,8 +1444,7 @@ namespace Song.ViewData.Methods
                 }
             }
             //设置分组
-            if (!string.IsNullOrWhiteSpace(obj.Sts_Name)) obj.Sts_ID = _getSortsId(sorts, org, obj.Sts_Name);
-            if (!string.IsNullOrWhiteSpace(obj.Ac_Pw)) obj.Ac_Pw = new WeiSha.Core.Param.Method.ConvertToAnyValue(obj.Ac_Pw).MD5;
+            if (!string.IsNullOrWhiteSpace(obj.Sts_Name)) obj.Sts_ID = _getSortsId(sorts, org, obj.Sts_Name);           
             obj.Org_ID = org.Org_ID;
             obj.Ac_IsPass = true;
             obj.Ac_IsUse = true;
@@ -1472,33 +1470,27 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         private long _getSortsId(List<Song.Entities.StudentSort> sorts, Song.Entities.Organization org, string sortName)
         {
-            try
+
+            long sortId = 0;
+            foreach (Song.Entities.StudentSort s in sorts)
             {
-                long sortId = 0;
-                foreach (Song.Entities.StudentSort s in sorts)
+                if (sortName.Trim() == s.Sts_Name)
                 {
-                    if (sortName.Trim() == s.Sts_Name)
-                    {
-                        sortId = s.Sts_ID;
-                        break;
-                    }
+                    sortId = s.Sts_ID;
+                    break;
                 }
-                if (sortId == 0 && sortName.Trim() != "")
-                {
-                    Song.Entities.StudentSort nwsort = new Song.Entities.StudentSort();
-                    nwsort.Sts_Name = sortName;
-                    nwsort.Sts_IsUse = true;
-                    nwsort.Org_ID = org.Org_ID;
-                    Business.Do<IStudent>().SortAdd(nwsort);
-                    sortId = nwsort.Sts_ID;
-                    sorts.Add(nwsort);
-                }
-                return sortId;
             }
-            catch (Exception ex)
+            if (sortId == 0 && sortName.Trim() != "")
             {
-                throw ex;
+                Song.Entities.StudentSort nwsort = new Song.Entities.StudentSort();
+                nwsort.Sts_Name = sortName;
+                nwsort.Sts_IsUse = true;
+                nwsort.Org_ID = org.Org_ID;
+                Business.Do<IStudent>().SortAdd(nwsort);
+                sortId = nwsort.Sts_ID;
+                sorts.Add(nwsort);
             }
+            return sortId;
         }
         #endregion
 

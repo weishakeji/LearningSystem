@@ -229,75 +229,40 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="stsid"></param>
         /// <returns></returns>
-        public int SortUpdateCount(long stsid)
-        {
-            int count= Gateway.Default.Count<Accounts>(Accounts._.Sts_ID == stsid);
-            Gateway.Default.Update<StudentSort>(new Field[] { StudentSort._.Sts_Count }, new object[] { count },
-                            StudentSort._.Sts_ID == stsid);
-            return count;
-        }
+        public int SortUpdateCount(long stsid) => SortUpdateCount(new List<long>() { stsid });
         /// <summary>
         /// 更新学员组中的学员数量
         /// </summary>
         /// <param name="stsid"></param>
         /// <returns></returns>
-        public int SortUpdateCount(List<long> stsid)
-        {
-            using (DbTrans tran = Gateway.Default.BeginTrans())
-            {
-                try
-                {
-                    foreach (long l in stsid)
-                    {
-                        int count = Gateway.Default.Count<Accounts>(Accounts._.Sts_ID == l);
-                        tran.Update<StudentSort>(new Field[] { StudentSort._.Sts_Count }, new object[] { count },
-                                        StudentSort._.Sts_ID == l);
-                    }                  
-                    tran.Commit();
-                }
-                catch (Exception ex)
-                {
-                    tran.Rollback();
-                    throw ex;
-                }
-            }
-            return stsid.Count;
-        }
+        public int SortUpdateCount(List<long> stsid) => SortUpdateCount(stsid, 0);
         /// <summary>
         /// 更新所有学员组中的学员数量
         /// </summary>
-        public void SortUpdateCount() => SortUpdateCount(0);
+        public int SortUpdateCount() => SortUpdateCount(new List<long>(), 0);
         /// <summary>
         /// 更新所有学员组的学员数量
         /// </summary>
+        /// <param name="stsid">学员组id</param>
         /// <param name="orgid">机构id</param>
-        public void SortUpdateCount(int orgid)
-        {
-            string sql = string.Empty;
-            string orgFilter = orgid > 0 ? $@"AND ""Org_ID"" = {orgid}" : @"AND 1=1";
-            //只支持Postgresql数据库
-            if (Gateway.Default.DbType == DbProviderType.PostgreSQL)
-            {
-                sql = $@"UPDATE ""StudentSort"" ss
-                            SET ""Sts_Count"" = sub.cnt
-                            FROM(
-                                SELECT ""Sts_ID"", COUNT(*) AS cnt
+        public int SortUpdateCount(List<long> stsid, int orgid)
+        {            
+            //机构ID的过滤条件
+            string orgfilter = orgid < 1 ? "1=1" : $@"""Org_ID""={orgid}";
+            var ids = stsid?.Distinct().ToList();
+            // Sts_ID 是整数主键，拼接无注入风险
+            string idfilte = ids.Count < 1 ? "" : $@"WHERE ""StudentSort"".""Sts_ID"" IN ({string.Join(",", ids)})";
+            //
+            string sql = $@"UPDATE ""StudentSort""
+                            SET ""Sts_Count"" = (
+                                SELECT COUNT(*)
                                 FROM ""Accounts""
-                                WHERE ""Sts_ID"" IS NOT NULL AND {orgFilter}
-                                GROUP BY ""Sts_ID""
-                            ) sub WHERE ss.""Sts_ID"" = sub.""Sts_ID""";               
-            }
+                                WHERE ""Accounts"".""Sts_ID"" = ""StudentSort"".""Sts_ID""
+                                  AND ""Accounts"".""Sts_ID"" IS NOT NULL
+                                  AND {orgfilter}
+                            ){idfilte}";
 
-            //SQLite数据库
-            if (Gateway.Default.DbType == DbProviderType.SQLite)
-            {
-                sql = $@"UPDATE ""StudentSort""
-                        SET ""Sts_Count"" = (
-                            SELECT COUNT(*) FROM ""Accounts""
-                            WHERE ""Accounts"".""Sts_ID"" = ""StudentSort"".""Sts_ID"" {orgFilter}) ";               
-            }
-            sql = string.Format(sql, orgid);
-            Gateway.Default.FromSql(sql).Execute();
+            return Gateway.Default.FromSql(sql).Execute();
         }
         public bool SortIsExist(StudentSort entity)
         {
