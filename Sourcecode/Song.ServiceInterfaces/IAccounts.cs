@@ -31,6 +31,10 @@ namespace Song.ServiceInterfaces
         /// <param name="entity">业务实体</param>
         void AccountsSave(Accounts entity);
         /// <summary>
+        /// 账户导入
+        /// </summary>
+        void AccountsInput(Accounts entity);
+        /// <summary>
         /// 修改密码
         /// </summary>
         /// <param name="entity"></param>

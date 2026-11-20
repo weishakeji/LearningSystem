@@ -2154,6 +2154,13 @@ namespace Song.ServiceImpls
             string confing = WeiSha.Core.App.Get["ExcelInputConfig"].VirtualPath + "学生信息.xml";
             xmldoc.Load(WeiSha.Core.Server.MapPath(confing));
             XmlNodeList nodes = xmldoc.GetElementsByTagName("item");
+            //去除不需要导出的列
+            List<XmlNode> xmlnodes = nodes.Cast<XmlNode>()
+            .Where(n =>
+            {
+                var attr = n.Attributes?["export"];
+                return attr == null || !string.Equals(attr.Value, "false", StringComparison.OrdinalIgnoreCase);
+            }).ToList();
             //
             //用考试名称，创建工作表对象
             Examination exam = Gateway.Default.From<Examination>().Where(Examination._.Exam_ID == examid).ToFirst<Examination>();
@@ -2161,7 +2168,7 @@ namespace Song.ServiceImpls
             //生成数据行
             int total = 0;
             List<Accounts> accounts = this.AbsenceExamAccounts(examid, string.Empty, string.Empty, string.Empty, 0, int.MaxValue, 1, out total);           
-           AccountsCom._outputExcel_to_sheet(hssfworkbook, exam.Exam_Name, accounts, nodes);
+           AccountsCom._outputExcel_to_sheet(hssfworkbook, exam.Exam_Name, accounts, xmlnodes);
 
             FileStream file = new FileStream(filePath, FileMode.Create);
             hssfworkbook.Write(file);

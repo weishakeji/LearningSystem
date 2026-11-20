@@ -15,8 +15,7 @@ using WeiSha.Core;
 using WeiSha.Data;
 using Song.Entities;
 using Song.ServiceInterfaces;
-
-
+using System.Linq;
 
 namespace Song.ServiceImpls
 {
@@ -45,6 +44,10 @@ namespace Song.ServiceImpls
         /// <returns>如果已经存在该账户，则返回-1</returns>
         public int AccountsAdd(Accounts entity)
         {
+            return _accountsAdd(entity);
+        }
+        private int _accountsAdd(Accounts entity, bool isfreshcount = true)
+        {
             //校验一些数据项
             entity.Ac_AccName = this._checkAccount(entity.Ac_AccName);
             entity.Ac_MobiTel1 = this._checkMobile(entity.Ac_MobiTel1);
@@ -54,8 +57,8 @@ namespace Song.ServiceImpls
             if (!string.IsNullOrWhiteSpace(entity.Ac_IDCardNumber))
                 entity.Ac_IDCardNumber = entity.Ac_IDCardNumber.Trim();
             if (string.IsNullOrWhiteSpace(entity.Ac_UID)) entity.Ac_UID = Request.UniqueID();
-            if (!string.IsNullOrWhiteSpace(entity.Ac_Photo) && entity.Ac_Photo.IndexOf("/") > -1)         
-                entity.Ac_Photo = entity.Ac_Photo.Substring(entity.Ac_Photo.LastIndexOf("/") + 1);         
+            if (!string.IsNullOrWhiteSpace(entity.Ac_Photo) && entity.Ac_Photo.IndexOf("/") > -1)
+                entity.Ac_Photo = entity.Ac_Photo.Substring(entity.Ac_Photo.LastIndexOf("/") + 1);
             entity.Ac_RegTime = entity.Ac_LastTime = DateTime.Now;
             entity.Ac_IsUse = true;
             if (entity.Org_ID < 1)
@@ -65,8 +68,8 @@ namespace Song.ServiceImpls
             }
             //学员组
             if (entity.Sts_ID <= 0) entity.Sts_Name = string.Empty;
-            else entity.Sts_Name = Business.Do<IStudent>().SortName(entity.Sts_ID);           
-           
+            else entity.Sts_Name = Business.Do<IStudent>().SortName(entity.Sts_ID);
+
             //如果身份证不为空，则解析生日
             if (!string.IsNullOrWhiteSpace(entity.Ac_IDCardNumber))
             {
@@ -79,7 +82,7 @@ namespace Song.ServiceImpls
                     entity.Ac_Native = card.Province + "," + card.City + "," + card.District;
                     entity.Ac_IDCardNumber = card.CardNumber;
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     throw ex;
                 }
@@ -97,17 +100,21 @@ namespace Song.ServiceImpls
                 entity.Ac_Pw = WeiSha.Core.Login.Get["Account"].DefaultPw.MD5;
             Gateway.Default.Save<Accounts>(entity);
 
-            //更新学员组的数量
-            if (entity.Sts_ID > 0) Business.Do<IStudent>().SortUpdateCount(entity.Sts_ID);
+            //是否刷新学员组的学员数量
+            if (isfreshcount)
+            {
+                //更新学员组的数量
+                if (entity.Sts_ID > 0) Business.Do<IStudent>().SortUpdateCount(entity.Sts_ID);
 
-            //初次注册时的积分
-            int regPoint = Business.Do<ISystemPara>()["RegFirst"].Int32 ?? 0;                       
-            PointAccount pa = new PointAccount();   //开始增加积分
-            pa.Pa_Value = regPoint;
-            pa.Ac_ID = entity.Ac_ID;
-            pa.Pa_From = 0;     //初次注册
-            pa.Pa_Info = "初次注册";
-            this.PointAdd(pa);            
+                //初次注册时的积分
+                int regPoint = Business.Do<ISystemPara>()["RegFirst"].Int32 ?? 0;
+                PointAccount pa = new PointAccount();   //开始增加积分
+                pa.Pa_Value = regPoint;
+                pa.Ac_ID = entity.Ac_ID;
+                pa.Pa_From = 0;     //初次注册
+                pa.Pa_Info = "初次注册";
+                this.PointAdd(pa);
+            }
             return entity.Ac_ID;
         }
         /// <summary>
@@ -121,17 +128,13 @@ namespace Song.ServiceImpls
             entity.Ac_MobiTel1 = this._checkMobile(entity.Ac_MobiTel1);
             entity.Ac_MobiTel2 = this._checkMobile(entity.Ac_MobiTel2);
             entity.Ac_Name = this._checkName(entity.Ac_Name);
-            if (this.IsAccountExist(entity.Ac_AccName, entity.Ac_ID))
-                throw new Exception("账号已经存在");
-            if (!string.IsNullOrWhiteSpace(entity.Ac_IDCardNumber))
-                entity.Ac_IDCardNumber = entity.Ac_IDCardNumber.Trim();
-            if (!string.IsNullOrWhiteSpace(entity.Ac_Photo) && entity.Ac_Photo.IndexOf("/") > -1)
-            {
+            if (this.IsAccountExist(entity.Ac_AccName, entity.Ac_ID)) throw new Exception("账号已经存在");
+       
+            if (!string.IsNullOrWhiteSpace(entity.Ac_Photo) && entity.Ac_Photo.IndexOf("/") > -1)       
                 entity.Ac_Photo = entity.Ac_Photo.Substring(entity.Ac_Photo.LastIndexOf("/") + 1);
-            }
+
             //如果手机号为空，则绑定的手机号也为空
-            if(string.IsNullOrWhiteSpace(entity.Ac_MobiTel1))
-                entity.Ac_MobiTel2 = entity.Ac_MobiTel1;
+            if (string.IsNullOrWhiteSpace(entity.Ac_MobiTel1)) entity.Ac_MobiTel2 = entity.Ac_MobiTel1;
             //学员组
             if (entity.Sts_ID <= 0) entity.Sts_Name = string.Empty;
             else entity.Sts_Name = Business.Do<IStudent>().SortName(entity.Sts_ID);
@@ -174,15 +177,13 @@ namespace Song.ServiceImpls
             {
                 try
                 {
-                    //if (old != null && old.Sts_ID != entity.Sts_ID)
-                    //{
                     //同步考试成绩中的学员组
                     tran.Update<ExamResults>(new Field[] { ExamResults._.Sts_ID, ExamResults._.Ac_Gender, ExamResults._.Ac_Name, ExamResults._.Ac_IDCardNumber },
                         new object[] { entity.Sts_ID, entity.Ac_Gender, entity.Ac_Name, entity.Ac_IDCardNumber }, ExamResults._.Ac_ID == entity.Ac_ID);
                     //同步教师信息
                     tran.Update<Teacher>(new Field[] { Teacher._.Th_Gender, Teacher._.Th_Birthday, Teacher._.Th_IDCardNumber, Teacher._.Th_Nation, Teacher._.Th_Native },
                     new object[] { entity.Ac_Gender, entity.Ac_Birthday, entity.Ac_IDCardNumber, entity.Ac_Nation, entity.Ac_Native }, Teacher._.Ac_ID == entity.Ac_ID);
-                    //}
+
                     tran.Save<Accounts>(entity);
                     tran.Commit();
                 }
@@ -192,6 +193,16 @@ namespace Song.ServiceImpls
                     throw ex;
                 }
             }
+        }
+        /// <summary>
+        /// 账户导入
+        /// </summary>
+        public void AccountsInput(Accounts entity)
+        {
+            Accounts acc = this.IsAccountsExist(entity.Org_ID, entity);
+            if (acc != null) acc = acc.Copy<Accounts>(entity,"");
+            else acc = entity;
+            _accountsAdd(entity, false);
         }
         /// <summary>
         /// 修改密码
@@ -292,7 +303,7 @@ namespace Song.ServiceImpls
         /// <param name="fiels"></param>
         /// <param name="objs"></param>
         public int AccountsUpdate(Accounts entity, Field[] fiels, object[] objs)
-        {
+        {          
             return Gateway.Default.Update<Accounts>(fiels, objs, Accounts._.Ac_ID == entity.Ac_ID);         
         }
         public int AccountsUpdate(int acid, Field[] fiels, object[] objs)
@@ -890,7 +901,14 @@ namespace Song.ServiceImpls
             string confing = Path.Combine(App.Get["ExcelInputConfig"].MapPath, "学生信息.xml");
             xmldoc.Load(confing);
             XmlNodeList nodes = xmldoc.GetElementsByTagName("item");    //导入的配置项
-                                                                        //
+            //去除不需要导出的列
+            List<XmlNode> xmlnodes = nodes.Cast<XmlNode>()
+            .Where(n =>
+            {
+                var attr = n.Attributes?["export"];
+                return attr == null || !string.Equals(attr.Value, "false", StringComparison.OrdinalIgnoreCase);
+            }).ToList();
+            //
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc &= Accounts._.Org_ID == orgid;
             List<long> stsid_list = sorts.ToList<long>();
@@ -900,7 +918,7 @@ namespace Song.ServiceImpls
             if (mode == 0)
             {
                 accounts = Gateway.Default.From<Accounts>().Where(wc).OrderBy(Accounts._.Sts_ID.Asc & Accounts._.Ac_ID.Asc).ToList<Accounts>();
-                _outputExcel_to_sheet(hssfworkbook, "学员信息", accounts, nodes);
+                _outputExcel_to_sheet(hssfworkbook, "学员信息", accounts, xmlnodes);
             }
             //所有学员组的学员
             if (mode == 1)
@@ -910,14 +928,14 @@ namespace Song.ServiceImpls
                 {
                     accounts = Gateway.Default.From<Accounts>().Where(wc && Accounts._.Sts_ID == sort.Sts_ID).OrderBy(Accounts._.Sts_ID.Asc & Accounts._.Ac_ID.Asc).ToList<Accounts>();
                     if (accounts.Count < 1) continue;
-                    _outputExcel_to_sheet(hssfworkbook, sort.Sts_Name, accounts, nodes);
+                    _outputExcel_to_sheet(hssfworkbook, sort.Sts_Name, accounts, xmlnodes);
                 }
             }
             //所有未分组学员
             if (mode == 3)
             {
                 accounts = Gateway.Default.From<Accounts>().Where(wc && Accounts._.Sts_ID <= 0).OrderBy(Accounts._.Ac_ID.Asc).ToList<Accounts>();
-                _outputExcel_to_sheet(hssfworkbook, "未分组学员", accounts, nodes);
+                _outputExcel_to_sheet(hssfworkbook, "未分组学员", accounts, xmlnodes);
             }
             //指定学员组导出
 
@@ -929,7 +947,7 @@ namespace Song.ServiceImpls
                     Song.Entities.StudentSort sts = Gateway.Default.From<StudentSort>().Where(StudentSort._.Sts_ID == stsid).ToFirst<StudentSort>();
                     if (sts == null) continue;
                     accounts = Gateway.Default.From<Accounts>().Where(Accounts._.Org_ID == orgid && Accounts._.Sts_ID == sts.Sts_ID).OrderBy(Accounts._.Ac_ID.Asc).ToList<Accounts>();
-                    _outputExcel_to_sheet(hssfworkbook, sts.Sts_Name, accounts, nodes);
+                    _outputExcel_to_sheet(hssfworkbook, sts.Sts_Name, accounts, xmlnodes);
                 }
             }
 
@@ -958,7 +976,14 @@ namespace Song.ServiceImpls
             XmlDocument xmldoc = new XmlDocument();
             string confing = WeiSha.Core.App.Get["ExcelInputConfig"].VirtualPath + "学生信息.xml";
             xmldoc.Load(WeiSha.Core.Server.MapPath(confing));
-            XmlNodeList nodes = xmldoc.GetElementsByTagName("item");
+            XmlNodeList itemnodes = xmldoc.GetElementsByTagName("item");
+            //去除不需要导出的列
+            List<XmlNode> xmlnodes = itemnodes.Cast<XmlNode>()
+            .Where(n =>
+            {
+                var attr = n.Attributes?["export"];
+                return attr == null || !string.Equals(attr.Value, "false", StringComparison.OrdinalIgnoreCase);
+            }).ToList();
             //
             List<Accounts> accounts = null;
             //如果没有分组信息，则取当前机构的所有
@@ -967,7 +992,7 @@ namespace Song.ServiceImpls
                 accounts = Gateway.Default.From<Accounts>()
                                     .OrderBy(Accounts._.Ac_RegTime.Desc)
                                     .ToList<Accounts>();
-                _outputExcel_to_sheet(workbook, "全部学员信息", accounts, nodes);
+                _outputExcel_to_sheet(workbook, "全部学员信息", accounts, xmlnodes);
             }
             else
             {
@@ -985,7 +1010,7 @@ namespace Song.ServiceImpls
                                         .Where(Accounts._.Org_ID == orgid)
                                         .OrderBy(Accounts._.Ac_RegTime.Desc)
                                         .ToList<Accounts>();
-                    _outputExcel_to_sheet(workbook, org.Org_Name + org.Org_ID.ToString(), accounts, nodes);
+                    _outputExcel_to_sheet(workbook, org.Org_Name + org.Org_ID.ToString(), accounts, xmlnodes);
                 }
             }
 
@@ -1000,7 +1025,7 @@ namespace Song.ServiceImpls
             }
             return path;
         }
-        internal static void _outputExcel_to_sheet(IWorkbook hssfworkbook, string sheetName, List<Accounts> accounts, XmlNodeList nodes)
+        internal static void _outputExcel_to_sheet(IWorkbook hssfworkbook, string sheetName, List<Accounts> accounts, List<XmlNode> nodes)
         {
             //如果数据项过多时，分页输出，即分到多个工作表
             int pagecount = 65000;

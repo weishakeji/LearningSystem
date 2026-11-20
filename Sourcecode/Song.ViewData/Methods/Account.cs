@@ -984,15 +984,8 @@ namespace Song.ViewData.Methods
                 Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
                 orgid = org.Org_ID;
             }
-            try
-            {
-                Business.Do<IStudent>().SortSetDefault(orgid, id);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            Business.Do<IStudent>().SortSetDefault(orgid, id);
+            return true;
         }
         /// <summary>
         /// 删除学员组
@@ -1060,15 +1053,8 @@ namespace Song.ViewData.Methods
         [Admin]
         public bool SortUpdateTaxis(Song.Entities.StudentSort[] items)
         {
-            try
-            {
-                Business.Do<IStudent>().SortUpdateTaxis(items);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            Business.Do<IStudent>().SortUpdateTaxis(items);
+            return true;
         }
         /// <summary>
         /// 移除某个学员组下的学员
@@ -1182,7 +1168,7 @@ namespace Song.ViewData.Methods
             filePath = Business.Do<IAccounts>().OutputToExcel(filePath, orgid, mode, sorts);
             JObject jo = new JObject();
             jo.Add("file", filename);
-            jo.Add("url", outputPathVt + filename);
+            jo.Add("url", outputPathVt + orgid + "/" + filename);
             jo.Add("date", date);
             return jo;
         }
@@ -1215,7 +1201,7 @@ namespace Song.ViewData.Methods
             {
                 JObject jo = new JObject();
                 jo.Add("file", f.Name);
-                jo.Add("url", outputPathVt + f.Name);
+                jo.Add("url", outputPathVt + orgid + "/" + f.Name);
                 jo.Add("date", f.CreationTime);
                 jo.Add("type", Path.GetExtension(f.Name).TrimStart('.'));
                 jo.Add("size", f.Length);
@@ -1378,6 +1364,8 @@ namespace Song.ViewData.Methods
                     errorOjb.Add(ex);
                 }
             }
+            //刷新学员组的学员数量
+            Business.Do<IStudent>().SortUpdateCount(org.Org_ID);
             JObject jo = new JObject();
             jo.Add("success", success);
             jo.Add("error", error);
@@ -1406,22 +1394,7 @@ namespace Song.ViewData.Methods
         /// <param name="mathing">excel列与字段的匹配关联</param>
         private void _inputData(DataRow dr, Song.Entities.Organization org, List<Song.Entities.StudentSort> sorts, JArray mathing)
         {
-            Song.Entities.Accounts obj = null;
-            bool isExist = false;
-            for (int i = 0; i < mathing.Count; i++)
-            {
-                //Excel的列的值
-                string column = dr[mathing[i]["column"].ToString()].ToString();
-                //数据库字段的名称
-                string field = mathing[i]["field"].ToString();
-                if (field == "Ac_AccName")
-                {
-                    obj = Business.Do<IAccounts>().AccountsSingle(column, -1);
-                    isExist = obj != null;
-                    continue;
-                }
-            }
-            if (obj == null) obj = new Entities.Accounts();
+            Song.Entities.Accounts obj = new Entities.Accounts();
             for (int i = 0; i < mathing.Count; i++)
             {
                 //Excel的列的值
@@ -1451,15 +1424,8 @@ namespace Song.ViewData.Methods
             //手机号,如果第一个手机号不为空，且第二个手机号为空，则设置相等。相等的意思即绑定手机号，用于短信登录
             if (!string.IsNullOrWhiteSpace(obj.Ac_MobiTel1) && string.IsNullOrWhiteSpace(obj.Ac_MobiTel2))
                 obj.Ac_MobiTel2 = obj.Ac_MobiTel1;
-            if (isExist)
-            {
-                Business.Do<IAccounts>().AccountsSave(obj);
-                Song.ViewData.LoginAccount.Status.Fresh(obj);
-            }
-            else
-            {
-                Business.Do<IAccounts>().AccountsAdd(obj);
-            }
+            //
+            Business.Do<IAccounts>().AccountsInput(obj);
         }
         /// <summary>
         /// 获取分组id
