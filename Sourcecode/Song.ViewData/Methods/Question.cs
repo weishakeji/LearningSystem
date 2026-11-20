@@ -303,9 +303,10 @@ namespace Song.ViewData.Methods
 
             System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(rootpath);
             //if (couid == "0" || string.IsNullOrEmpty(couid)) couid = "*";
-            string[] patterns = new[] { $"*.xlsx", $"*.zip" };
+            string[] patterns = new[] { "*.xlsx", "*.xls", "*.zip" };
             List<FileInfo> files = new List<FileInfo>();
-            foreach (var pattern in patterns) files.AddRange(dir.GetFiles(pattern));
+            foreach (var pattern in patterns)
+                files = files.Concat(dir.GetFiles(pattern)).GroupBy(t => t.Name).Select(g => g.First()).ToList();
             files = files.Where(f => (f.Attributes & (FileAttributes.Hidden | FileAttributes.System)) == 0)
                 .OrderByDescending(f => f.CreationTime).ToList<FileInfo>();
             foreach (FileInfo f in files)

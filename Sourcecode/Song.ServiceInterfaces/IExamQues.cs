@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json.Linq;
 using NPOI.HSSF.UserModel;
+using NPOI.XSSF.UserModel;
 using Song.Entities;
 using WeiSha.Data;
 
@@ -862,7 +863,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isError">是否错误</param>
         /// <param name="isWrong">是否有回馈问题</param>
         /// <returns></returns>
-        HSSFWorkbook QuesExport(string subpath, int orgid, int[] types, long[] qpid, long[] tagid, long[] knlid, bool? isdeleted, int[] diffs, bool? isUse, bool? isError, bool? isWrong);
+        XSSFWorkbook QuesExport(string subpath, int orgid, int[] types, long[] qpid, long[] tagid, long[] knlid, bool? isdeleted, int[] diffs, bool? isUse, bool? isError, bool? isWrong);
         /// <summary>
         /// 导出试题,生成文件
         /// </summary>

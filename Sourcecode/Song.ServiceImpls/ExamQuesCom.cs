@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 using Song.Entities;
 using Song.ServiceInterfaces;
 using System;
@@ -2519,14 +2520,14 @@ namespace Song.ServiceImpls
         /// <param name="isError">是否错误</param>
         /// <param name="isWrong">是否有回馈问题</param>
         /// <returns></returns>
-        public HSSFWorkbook QuesExport(string subpath, int orgid, int[] types, long[] qpid, long[] tagid, long[] knlid, bool? isdeleted, int[] diffs, bool? isUse, bool? isError, bool? isWrong)
+        public XSSFWorkbook QuesExport(string subpath, int orgid, int[] types, long[] qpid, long[] tagid, long[] knlid, bool? isdeleted, int[] diffs, bool? isUse, bool? isError, bool? isWrong)
         {
-            HSSFWorkbook hssfworkbook = new HSSFWorkbook();
+            XSSFWorkbook xssfworkbook = new XSSFWorkbook();
             WhereClip wc = Questions._.Qus_Purpose == 1;    //用于考试的试题         
             wc.And(Questions._.Qus_IsDeleted == false);
             if (isUse != null) wc.And(Questions._.Qus_IsUse == (bool)isUse);
             if (isError != null) wc.And(Questions._.Qus_IsError == (bool)isError);
-            if (isWrong != null) wc.And(Questions._.Qus_IsWrong == (bool)isWrong);          
+            if (isWrong != null) wc.And(Questions._.Qus_IsWrong == (bool)isWrong);
             //题型
             if (types != null && types.Length > 0)
             {
@@ -2572,7 +2573,7 @@ namespace Song.ServiceImpls
             int pagesize = 30000;
             //试题类型，通过不同的试题类型返回工作表
             foreach (int ty in types)
-            {              
+            {
                 //计算有多少道题
                 WhereClip where = (Questions._.Qus_Type == ty).And(wc);
                 int total = Gateway.Default.Count<Questions>(where);       //当前题型的记录数
@@ -2580,14 +2581,14 @@ namespace Song.ServiceImpls
 
                 for (int idx = 1; idx <= totalPages; idx++)
                 {
-                    if (ty == 1) _buildExcelSql_1(hssfworkbook, where, subpath, parts, tags, knls, total, pagesize, idx);
-                    if (ty == 2) _buildExcelSql_2(hssfworkbook, where, subpath, parts, tags, knls, total, pagesize, idx);
-                    if (ty == 3) _buildExcelSql_3(hssfworkbook, where, subpath, parts, tags, knls, total, pagesize, idx);
-                    if (ty == 4) _buildExcelSql_4(hssfworkbook, where, subpath, parts, tags, knls, total, pagesize, idx);
-                    if (ty == 5) _buildExcelSql_5(hssfworkbook, where, subpath, parts, tags, knls, total, pagesize, idx);
+                    if (ty == 1) _buildExcelSql_1(xssfworkbook, where, subpath, parts, tags, knls, total, pagesize, idx);
+                    if (ty == 2) _buildExcelSql_2(xssfworkbook, where, subpath, parts, tags, knls, total, pagesize, idx);
+                    if (ty == 3) _buildExcelSql_3(xssfworkbook, where, subpath, parts, tags, knls, total, pagesize, idx);
+                    if (ty == 4) _buildExcelSql_4(xssfworkbook, where, subpath, parts, tags, knls, total, pagesize, idx);
+                    if (ty == 5) _buildExcelSql_5(xssfworkbook, where, subpath, parts, tags, knls, total, pagesize, idx);
                 }
             }
-            return hssfworkbook;
+            return xssfworkbook;
         }
         /// <summary>
         /// 导出试题,生成文件
@@ -2610,13 +2611,13 @@ namespace Song.ServiceImpls
             DateTime date = DateTime.Now;
             //导出文件的位置
             string path = Path.Combine(Upload.Get["Temp"].Physics, subpath, orgid.ToString(), snowid.ToString());
-            string filename = string.Format("考试试题导出.({0}).xls", date.ToString("yyyy-MM-dd hh-mm-ss"));
+            string filename = string.Format("考试试题导出.({0}).xlsx", date.ToString("yyyy-MM-dd hh-mm-ss"));
 
             //导出Excel
-            HSSFWorkbook hssfworkbook = this.QuesExport(path, orgid, types, qpid, tagid, knlid, isdeleted, diffs, isUse, isError, isWrong);
+            XSSFWorkbook xssfworkbook = this.QuesExport(path, orgid, types, qpid, tagid, knlid, isdeleted, diffs, isUse, isError, isWrong);
             if (!Directory.Exists(path)) Directory.CreateDirectory(path);
             FileStream file = new FileStream(Path.Combine(path, filename), FileMode.Create);
-            hssfworkbook.Write(file);
+            xssfworkbook.Write(file);
             file.Close();
 
             //生成最终的导出文件，如果没有txt文件（即试题内容没有超出Excel单元格最大文本长度），则输出Excel
@@ -2667,17 +2668,17 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 生成单选题导出Excel的SQL语句
         /// </summary>
-        /// <param name="hssfworkbook"></param>
+        /// <param name="xssfworkbook"></param>
         /// <param name="where">查询条件</param>
         /// <param name="total"></param>
         /// <param name="size"></param>
         /// <param name="index"></param>
-        private void _buildExcelSql_1(HSSFWorkbook hssfworkbook, WhereClip where, string subpath, string parts, string tags, string knls, int total, int size, int index)
+        private void _buildExcelSql_1(XSSFWorkbook xssfworkbook, WhereClip where, string subpath, string parts, string tags, string knls, int total, int size, int index)
         {
             Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(where).OrderBy(Questions._.Qus_ID.Asc).ToArray<Questions>(size, (index - 1) * size);
             //创建工作簿对象
             string sheetname = "单选题";
-            ISheet sheet = hssfworkbook.CreateSheet(total <= size ? sheetname : sheetname + "_" + index.ToString("D2"));
+            ISheet sheet = xssfworkbook.CreateSheet(total <= size ? sheetname : sheetname + "_" + index.ToString("D2"));
             //创建数据行对象
             IRow rowHead = sheet.CreateRow(0);
             //创建表头
@@ -2685,7 +2686,7 @@ namespace Song.ServiceImpls
             for (int h = 0; h < cells.Length; h++)
                 rowHead.CreateCell(h).SetCellValue(cells[h]);
             //生成数据行
-            ICellStyle style_size = hssfworkbook.CreateCellStyle();
+            ICellStyle style_size = xssfworkbook.CreateCellStyle();
             style_size.WrapText = true;
             int i = 0;
             foreach (Song.Entities.Questions q in ques)
@@ -2729,12 +2730,12 @@ namespace Song.ServiceImpls
         }
 
         //多选题导出
-        private void _buildExcelSql_2(HSSFWorkbook hssfworkbook, WhereClip where, string subpath, string parts, string tags, string knls, int total, int size, int index)
+        private void _buildExcelSql_2(XSSFWorkbook xssfworkbook, WhereClip where, string subpath, string parts, string tags, string knls, int total, int size, int index)
         {
             Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(where).OrderBy(Questions._.Qus_ID.Asc).ToArray<Questions>(size, (index - 1) * size);
             //创建工作簿对象
             string sheetname = "多选题";
-            ISheet sheet = hssfworkbook.CreateSheet(total <= size ? sheetname : sheetname + "_" + index.ToString("D2"));
+            ISheet sheet = xssfworkbook.CreateSheet(total <= size ? sheetname : sheetname + "_" + index.ToString("D2"));
             //sheet.DefaultColumnWidth = 30;
             //创建数据行对象
             IRow rowHead = sheet.CreateRow(0);
@@ -2743,7 +2744,7 @@ namespace Song.ServiceImpls
             for (int h = 0; h < cells.Length; h++)
                 rowHead.CreateCell(h).SetCellValue(cells[h]);
             //生成数据行
-            ICellStyle style_size = hssfworkbook.CreateCellStyle();
+            ICellStyle style_size = xssfworkbook.CreateCellStyle();
             style_size.WrapText = true;
             int i = 0;
             foreach (Song.Entities.Questions q in ques)
@@ -2788,12 +2789,12 @@ namespace Song.ServiceImpls
             }
         }
         //判断题导出
-        private void _buildExcelSql_3(HSSFWorkbook hssfworkbook, WhereClip where, string subpath, string parts, string tags, string knls, int total, int size, int index)
+        private void _buildExcelSql_3(XSSFWorkbook xssfworkbook, WhereClip where, string subpath, string parts, string tags, string knls, int total, int size, int index)
         {
             Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(where).OrderBy(Questions._.Qus_ID.Asc).ToArray<Questions>(size, (index - 1) * size);
             //创建工作簿对象
             string sheetname = "判断题";
-            ISheet sheet = hssfworkbook.CreateSheet(total <= size ? sheetname : sheetname + "_" + index.ToString("D2"));
+            ISheet sheet = xssfworkbook.CreateSheet(total <= size ? sheetname : sheetname + "_" + index.ToString("D2"));
             //sheet.DefaultColumnWidth = 30;
             //创建数据行对象
             IRow rowHead = sheet.CreateRow(0);
@@ -2802,7 +2803,7 @@ namespace Song.ServiceImpls
             for (int h = 0; h < cells.Length; h++)
                 rowHead.CreateCell(h).SetCellValue(cells[h]);
             //生成数据行
-            ICellStyle style_size = hssfworkbook.CreateCellStyle();
+            ICellStyle style_size = xssfworkbook.CreateCellStyle();
             style_size.WrapText = true;
             int i = 0;
             foreach (Song.Entities.Questions q in ques)
@@ -2833,12 +2834,12 @@ namespace Song.ServiceImpls
             }
         }
         //简答题导出
-        private void _buildExcelSql_4(HSSFWorkbook hssfworkbook, WhereClip where, string subpath, string parts, string tags, string knls, int total, int size, int index)
+        private void _buildExcelSql_4(XSSFWorkbook xssfworkbook, WhereClip where, string subpath, string parts, string tags, string knls, int total, int size, int index)
         {
             Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(where).OrderBy(Questions._.Qus_ID.Asc).ToArray<Questions>(size, (index - 1) * size);
             //创建工作簿对象
             string sheetname = "简答题";
-            ISheet sheet = hssfworkbook.CreateSheet(total <= size ? sheetname : sheetname + "_" + index.ToString("D2"));
+            ISheet sheet = xssfworkbook.CreateSheet(total <= size ? sheetname : sheetname + "_" + index.ToString("D2"));
             //创建数据行对象
             IRow rowHead = sheet.CreateRow(0);
             //创建表头
@@ -2846,7 +2847,7 @@ namespace Song.ServiceImpls
             for (int h = 0; h < cells.Length; h++)
                 rowHead.CreateCell(h).SetCellValue(cells[h]);
             //生成数据行
-            ICellStyle style_size = hssfworkbook.CreateCellStyle();
+            ICellStyle style_size = xssfworkbook.CreateCellStyle();
             style_size.WrapText = true;
             int i = 0;
             foreach (Song.Entities.Questions q in ques)
@@ -2878,21 +2879,21 @@ namespace Song.ServiceImpls
             }
         }
         //填空题导出
-        private void _buildExcelSql_5(HSSFWorkbook hssfworkbook, WhereClip where, string subpath, string parts, string tags, string knls, int total, int size, int index)
+        private void _buildExcelSql_5(XSSFWorkbook xssfworkbook, WhereClip where, string subpath, string parts, string tags, string knls, int total, int size, int index)
         {
             Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(where).OrderBy(Questions._.Qus_ID.Asc).ToArray<Questions>(size, (index - 1) * size);
             //创建工作簿对象
             string sheetname = "填空题";
-            ISheet sheet = hssfworkbook.CreateSheet(total <= size ? sheetname : sheetname + "_" + index.ToString("D2"));
+            ISheet sheet = xssfworkbook.CreateSheet(total <= size ? sheetname : sheetname + "_" + index.ToString("D2"));
             //创建数据行对象
             IRow rowHead = sheet.CreateRow(0);
             //创建表头
             string[] cells = new string[] { "ID", "题干", "专业", "课程", "章节", "难度",
-                "答案选项1", "答案选项2", "答案选项3", "答案选项4", "答案选项5", "答案选项6", "试题讲解" };
+        "答案选项1", "答案选项2", "答案选项3", "答案选项4", "答案选项5", "答案选项6", "试题讲解" };
             for (int h = 0; h < cells.Length; h++)
                 rowHead.CreateCell(h).SetCellValue(cells[h]);
             //生成数据行
-            ICellStyle style_size = hssfworkbook.CreateCellStyle();
+            ICellStyle style_size = xssfworkbook.CreateCellStyle();
             style_size.WrapText = true;
             int i = 0;
             foreach (Song.Entities.Questions q in ques)
