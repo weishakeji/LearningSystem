@@ -56,7 +56,10 @@ namespace Song.ServiceImpls
             //如果密码不为空
             if (!string.IsNullOrWhiteSpace(entity.Th_Pw))                
                 entity.Th_Pw = new WeiSha.Core.Param.Method.ConvertToAnyValue(entity.Th_Pw).MD5;
-            return Gateway.Default.Save<Teacher>(entity);
+            int row= Gateway.Default.Save<Teacher>(entity);
+            //刷新教师分组的统计数据
+            Business.Do<ITeacher>().SortUpdateCount(entity.Ths_ID);
+            return row;
         }
         public bool TeacherCreateAccount(Teacher entity)
         {
@@ -131,6 +134,9 @@ namespace Song.ServiceImpls
             {
                 try
                 {
+                    //获取原有数据
+                    Teacher old = tran.From<Teacher>().Where(Teacher._.Th_ID == entity.Th_ID).ToFirst<Teacher>();                  
+
                     tran.Save<Teacher>(entity);
                     //同步课程表中的教师名称
                     tran.Update<Course>(new Field[] { Course._.Th_Name }, new object[] { entity.Th_Name }, Course._.Th_ID == entity.Th_ID);
@@ -139,6 +145,11 @@ namespace Song.ServiceImpls
                     tran.Update<Accounts>(new Field[] { Accounts._.Ac_Gender, Accounts._.Ac_Birthday, Accounts._.Ac_IDCardNumber, Accounts._.Ac_Nation, Accounts._.Ac_Native },
                         new object[] { entity.Th_Gender, entity.Th_Birthday, entity.Th_IDCardNumber, entity.Th_Nation, entity.Th_Native }, Accounts._.Ac_ID == entity.Ac_ID);
                     tran.Commit();
+                    //更新学员组的学员数量
+                    if (old.Ths_ID != entity.Ths_ID)
+                    {
+                        Business.Do<ITeacher>().SortUpdateCount(new List<long> { entity.Ths_ID, old.Ths_ID });
+                    }
                 }
                 catch (Exception ex)
                 {
