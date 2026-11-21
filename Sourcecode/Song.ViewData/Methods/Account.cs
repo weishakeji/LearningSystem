@@ -1425,7 +1425,7 @@ namespace Song.ViewData.Methods
             if (!string.IsNullOrWhiteSpace(obj.Ac_MobiTel1) && string.IsNullOrWhiteSpace(obj.Ac_MobiTel2))
                 obj.Ac_MobiTel2 = obj.Ac_MobiTel1;
             //
-            Business.Do<IAccounts>().AccountsInput(obj);
+            Business.Do<IAccounts>().AccountsInput(obj, mathing);
         }
         /// <summary>
         /// 获取分组id

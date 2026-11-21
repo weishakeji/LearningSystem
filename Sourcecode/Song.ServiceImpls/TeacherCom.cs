@@ -14,8 +14,7 @@ using Song.ServiceInterfaces;
 
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
-
-
+using Newtonsoft.Json.Linq;
 
 namespace Song.ServiceImpls
 {
@@ -147,6 +146,53 @@ namespace Song.ServiceImpls
                 }              
             }
         }
+        /// <summary>
+        /// 导入教师信息
+        /// </summary>
+        public void TeacherInput(Teacher teacher, JArray mathing)
+        {
+            Teacher th = this.IsTeacherExist(teacher.Org_ID, teacher);
+            if (th == null) th = teacher;
+            else
+            {
+                //数据库字段的名称
+                List<string> fields = new List<string>();
+                for (int i = 0; i < mathing.Count; i++)
+                    fields.Add(mathing[i]["field"].ToString());
+                th.Copy<Teacher>(teacher, string.Join(",", fields));
+            }
+            //关联的账号
+            Song.Entities.Accounts acc = Business.Do<IAccounts>().IsAccountsExist(teacher.Th_AccName);
+            if (acc == null)
+            {
+                acc = new Accounts();
+                acc.Org_ID= teacher.Org_ID;
+                acc.Ac_AccName = teacher.Th_AccName;
+                acc.Ac_Name = teacher.Th_Name;
+                acc.Ac_IsTeacher = true;
+                acc.Ac_IsUse = true;
+                acc.Ac_IsPass = true;
+                acc.Ac_MobiTel2 = teacher.Th_PhoneMobi;
+                acc.Ac_Pw = new WeiSha.Core.Param.Method.ConvertToAnyValue(teacher.Th_Pw).MD5;    //密码     
+                acc.Ac_Birthday = teacher.Th_Birthday;
+                acc.Ac_Qq = teacher.Th_Qq;
+                acc.Ac_Email = teacher.Th_Email;
+                acc.Ac_IDCardNumber = teacher.Th_IDCardNumber;  //身份证  
+                teacher.Ac_ID = Business.Do<IAccounts>().AccountsAdd(acc, false);
+            }
+            else
+            {
+                acc.Ac_Name = teacher.Th_Name;
+                acc.Ac_AccName = teacher.Th_AccName;
+                acc.Ac_IsTeacher = true;
+            }
+            acc.Ac_IsPass = teacher.Th_IsPass = true;
+            teacher.Th_IsShow = true;
+            acc.Ac_IsUse = teacher.Th_IsUse = true;
+
+            Gateway.Default.Save<Teacher>(teacher);
+
+        }
         public int TeacherUpdate(int id, Field[] fiels, object[] objs)
         {
             return Gateway.Default.Update<Teacher>(fiels, objs, Teacher._.Th_ID == id);
@@ -236,25 +282,23 @@ namespace Song.ServiceImpls
             if (entity == null) entity = Gateway.Default.From<Teacher>().Where(wc && Teacher._.Th_IDCardNumber == acc).ToFirst<Teacher>();            
             return entity;
         }
-        public bool IsTeacherExist(int orgid, string accname)
+        public Teacher IsTeacherExist(int orgid, string accname)
         {
             Teacher mm = Gateway.Default.From<Teacher>()
                 .Where(Teacher._.Org_ID == orgid && Teacher._.Th_AccName == accname).ToFirst<Teacher>();
-            if (mm == null) return false;
+            if (mm == null) return null;
             //如果是一个已经存在的对象，则不匹配自己
             mm = Gateway.Default.From<Teacher>()
                    .Where(Teacher._.Org_ID == orgid && Teacher._.Th_AccName == accname && Teacher._.Th_ID != mm.Th_ID)
                    .ToFirst<Teacher>();
-            return mm != null;
+            return mm;
         }
-        public bool IsTeacherExist(int orgid, Teacher entity)
+        public Teacher IsTeacherExist(int orgid, Teacher entity)
         {
-            WhereClip wc = new WhereClip();
-            if (orgid > 0) wc.And(Teacher._.Org_ID == orgid);
+            WhereClip wc = Teacher._.Org_ID == orgid;
+            if (orgid > 0) wc &= Teacher._.Th_AccName == entity.Th_AccName;
             wc &= Teacher._.Th_ID != entity.Th_ID;
-            wc.And(Teacher._.Th_AccName == entity.Th_AccName);
-            int obj = Gateway.Default.Count<Teacher>(wc);
-            return obj > 0;
+            return Gateway.Default.From<Teacher>().Where(wc).ToFirst<Teacher>();            
         }
         public Teacher[] TeacherAll(int orgid, bool? isUse)
         {
@@ -675,6 +719,49 @@ namespace Song.ServiceImpls
                 }
             }
             return;
+        }
+        #endregion
+
+        #region 统计数量
+        /// <summary>
+        /// 更新教师组中的教师数量
+        /// </summary>
+        /// <param name="stsid">教师组的ID</param>
+        /// <returns></returns>
+        public int SortUpdateCount(long stsid) => SortUpdateCount(new List<long> { stsid });
+        /// <summary>
+        /// 更新教师组中的教师数量
+        /// </summary>
+        /// <param name="stsid">教师组的ID</param>
+        /// <returns></returns>
+        public int SortUpdateCount(List<long> stsid) => SortUpdateCount(stsid, 0);
+        /// <summary>
+        /// 更新所有教师组的教师数量
+        /// </summary>
+        public int SortUpdateCount() => SortUpdateCount(new List<long>(), 0);
+        /// <summary>
+        /// 更新所有教师组的教师数量
+        /// </summary>
+        /// <param name="stsid">教师组id</param>
+        /// <param name="orgid">机构id</param>
+        public int SortUpdateCount(List<long> stsid, int orgid)
+        {
+            //机构ID的过滤条件
+            string orgfilter = orgid < 1 ? "1=1" : $@"""Org_ID""={orgid}";
+            var ids = stsid?.Distinct().ToList();
+            // Ths_ID 是整数主键，拼接无注入风险
+            string idfilte = ids.Count < 1 ? "" : $@"WHERE ""TeacherSort"".""Ths_ID"" IN ({string.Join(",", ids)})";
+            //
+            string sql = $@"UPDATE ""TeacherSort""
+                            SET ""Ths_Count"" = (
+                                SELECT COUNT(*)
+                                FROM ""Teacher""
+                                WHERE ""Teacher"".""Ths_ID"" = ""TeacherSort"".""Ths_ID""
+                                  AND ""Teacher"".""Ths_ID"" IS NOT NULL
+                                  AND {orgfilter}
+                            ){idfilte}";
+
+            return Gateway.Default.FromSql(sql).Execute();
         }
         #endregion
 

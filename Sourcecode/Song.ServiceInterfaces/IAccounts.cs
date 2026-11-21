@@ -5,6 +5,7 @@ using Song.Entities;
 using System.Data;
 using WeiSha.Data;
 using NPOI.HSSF.UserModel;
+using Newtonsoft.Json.Linq;
 
 namespace Song.ServiceInterfaces
 {
@@ -26,6 +27,13 @@ namespace Song.ServiceInterfaces
         /// <returns>如果已经存在该账户，则返回-1</returns>
         int AccountsAdd(Accounts entity);
         /// <summary>
+        /// 添加账户
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="isfreshcount">是否要刷新学员数量，如果为false，</param>
+        /// <returns></returns>
+        int AccountsAdd(Accounts entity, bool isfreshcount = true);
+        /// <summary>
         /// 修改账户
         /// </summary>
         /// <param name="entity">业务实体</param>
@@ -33,7 +41,9 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 账户导入
         /// </summary>
-        void AccountsInput(Accounts entity);
+        /// <param name="entity"></param>
+        /// <param name="mathing"></param>
+        void AccountsInput(Accounts entity, JArray mathing);
         /// <summary>
         /// 修改密码
         /// </summary>

@@ -16,6 +16,7 @@ using WeiSha.Data;
 using Song.Entities;
 using Song.ServiceInterfaces;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace Song.ServiceImpls
 {
@@ -42,11 +43,14 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="entity">业务实体</param>
         /// <returns>如果已经存在该账户，则返回-1</returns>
-        public int AccountsAdd(Accounts entity)
-        {
-            return _accountsAdd(entity);
-        }
-        private int _accountsAdd(Accounts entity, bool isfreshcount = true)
+        public int AccountsAdd(Accounts entity) => AccountsAdd(entity);
+        /// <summary>
+        /// 添加账户
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="isfreshcount">是否要刷新学员数量，如果为false，</param>
+        /// <returns></returns>
+        public int AccountsAdd(Accounts entity, bool isfreshcount = true)
         {
             //校验一些数据项
             entity.Ac_AccName = this._checkAccount(entity.Ac_AccName);
@@ -197,12 +201,19 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 账户导入
         /// </summary>
-        public void AccountsInput(Accounts entity)
+        public void AccountsInput(Accounts entity, JArray mathing)
         {
             Accounts acc = this.IsAccountsExist(entity.Org_ID, entity);
-            if (acc != null) acc = acc.Copy<Accounts>(entity,"");
-            else acc = entity;
-            _accountsAdd(entity, false);
+            if (acc == null) acc = entity;
+            else
+            {
+                //数据库字段的名称
+                List<string> fields = new List<string>();
+                for (int i = 0; i < mathing.Count; i++)                
+                    fields.Add(mathing[i]["field"].ToString());
+                acc.Copy<Accounts>(entity, null, fields.ToArray());
+            }
+            AccountsAdd(entity, false);
         }
         /// <summary>
         /// 修改密码

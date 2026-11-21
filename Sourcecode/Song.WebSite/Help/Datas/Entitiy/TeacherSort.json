@@ -1,42 +1,119 @@
 {
   "Ths_ID": {
+    "name": "Ths_ID",
+    "type": "integer",
+    "data_type": "integer",
+    "length": "",
+    "num_length": "32",
+    "numeric_scale": "0",
+    "nullable": "0",
+    "primary": "1",
     "mark": "主键",
     "intro": "",
     "relation": ""
   },
+  "Org_Name": {
+    "name": "Org_Name",
+    "type": "character",
+    "data_type": "character varying",
+    "length": "255",
+    "num_length": "",
+    "numeric_scale": "",
+    "nullable": "1",
+    "primary": "0",
+    "mark": "机构名称",
+    "intro": "",
+    "relation": "Organization"
+  },
+  "Ths_Count": {
+    "name": "Ths_Count",
+    "type": "integer",
+    "data_type": "integer",
+    "length": "",
+    "num_length": "32",
+    "numeric_scale": "0",
+    "nullable": "0",
+    "primary": "0",
+    "mark": "教师数量",
+    "intro": "当前教师职称的教师数量",
+    "relation": ""
+  },
+  "Org_ID": {
+    "name": "Org_ID",
+    "type": "integer",
+    "data_type": "integer",
+    "length": "",
+    "num_length": "32",
+    "numeric_scale": "0",
+    "nullable": "0",
+    "primary": "0",
+    "mark": "机构id",
+    "intro": "所属机构的ID",
+    "relation": "Organization"
+  },
+  "Ths_Intro": {
+    "name": "Ths_Intro",
+    "type": "text",
+    "data_type": "text",
+    "length": "",
+    "num_length": "",
+    "numeric_scale": "",
+    "nullable": "1",
+    "primary": "0",
+    "mark": "简述",
+    "intro": "",
+    "relation": ""
+  },
+  "Ths_IsDefault": {
+    "name": "Ths_IsDefault",
+    "type": "boolean",
+    "data_type": "boolean",
+    "length": "",
+    "num_length": "",
+    "numeric_scale": "",
+    "nullable": "0",
+    "primary": "0",
+    "mark": "是否默认",
+    "intro": "默认值，当教师没有任务职称时，显示这个值",
+    "relation": ""
+  },
+  "Ths_IsUse": {
+    "name": "Ths_IsUse",
+    "type": "boolean",
+    "data_type": "boolean",
+    "length": "",
+    "num_length": "",
+    "numeric_scale": "",
+    "nullable": "0",
+    "primary": "0",
+    "mark": "是否启用",
+    "intro": "",
+    "relation": ""
+  },
   "Ths_Name": {
+    "name": "Ths_Name",
+    "type": "character",
+    "data_type": "character varying",
+    "length": "255",
+    "num_length": "",
+    "numeric_scale": "",
+    "nullable": "1",
+    "primary": "0",
     "mark": "名称",
     "intro": "分类名称",
     "relation": ""
   },
   "Ths_Order": {
+    "name": "Ths_Order",
+    "type": "integer",
+    "data_type": "integer",
+    "length": "",
+    "num_length": "32",
+    "numeric_scale": "0",
+    "nullable": "0",
+    "primary": "0",
     "mark": "排序号",
     "intro": "数值大的靠后，数值越小越靠前",
     "relation": ""
-  },
-  "Ths_Intro": {
-    "mark": "简述",
-    "intro": "",
-    "relation": ""
-  },
-  "Ths_IsUse": {
-    "mark": "是否启用",
-    "intro": "",
-    "relation": ""
-  },
-  "Ths_IsDefault": {
-    "mark": "是否默认",
-    "intro": "默认值，当教师没有任务职称时，显示这个值",
-    "relation": ""
-  },
-  "Org_ID": {
-    "mark": "机构id",
-    "intro": "所属机构的ID",
-    "relation": "Organization"
-  },
-  "Org_Name": {
-    "mark": "机构名称",
-    "intro": "",
-    "relation": "Organization"
   }
 }

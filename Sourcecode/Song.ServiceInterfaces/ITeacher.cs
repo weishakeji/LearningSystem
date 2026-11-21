@@ -4,6 +4,7 @@ using System.Text;
 using Song.Entities;
 using System.Data;
 using WeiSha.Data;
+using Newtonsoft.Json.Linq;
 
 namespace Song.ServiceInterfaces
 {
@@ -31,6 +32,10 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="entity">业务实体</param>
         void TeacherSave(Teacher entity);
+        /// <summary>
+        /// 导入教师信息
+        /// </summary>
+        void TeacherInput(Teacher entity, JArray mathing);
         /// <summary>
         /// 更改一些项目
         /// </summary>
@@ -85,16 +90,17 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 当前用帐号是否重名
         /// </summary>
-        /// <param name="name">教师帐号</param>
+        /// <param name="orgid"></param>
+        /// <param name="accname">教师帐号</param>  
         /// <returns></returns>
-        bool IsTeacherExist(int orgid, string accname);
+        Teacher IsTeacherExist(int orgid, string accname);
         /// <summary>
         /// 当前用帐号是否重名
         /// </summary>
         /// <param name="orgid"></param>
         /// <param name="entity"></param>
         /// <returns></returns>
-        bool IsTeacherExist(int orgid, Teacher entity);
+        Teacher IsTeacherExist(int orgid, Teacher entity);
         /// <summary>
         /// 获取对象；即所有网站教师；
         /// </summary>
@@ -254,6 +260,31 @@ namespace Song.ServiceInterfaces
         /// <param name="isall">当sorts为空时，true导所有，false导未分组的</param>
         /// <returns></returns>
         string Export4Excel(string path, int orgid, string sorts, bool isall);
+        #endregion
+
+        #region 统计数量
+        /// <summary>
+        /// 更新教师组中的教师数量
+        /// </summary>
+        /// <param name="stsid">教师组的ID</param>
+        /// <returns></returns>
+        int SortUpdateCount(long stsid);
+        /// <summary>
+        /// 更新教师组中的教师数量
+        /// </summary>
+        /// <param name="stsid">教师组的ID</param>
+        /// <returns></returns>
+        int SortUpdateCount(List<long> stsid);
+        /// <summary>
+        /// 更新所有教师组的教师数量
+        /// </summary>
+        int SortUpdateCount();
+        /// <summary>
+        /// 更新所有教师组的教师数量
+        /// </summary>
+        /// <param name="stsid">教师组id</param>
+        /// <param name="orgid">机构id</param>
+        int SortUpdateCount(List<long> stsid, int orgid);
         #endregion
 
         #region 教师履历管理

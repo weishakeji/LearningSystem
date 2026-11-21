@@ -200,8 +200,8 @@ namespace Song.ViewData.Methods
                 if (!string.IsNullOrWhiteSpace(filename)) entity.Th_Photo = filename;
 
                 //判断账号是否存在
-                bool isHav = Business.Do<ITeacher>().IsTeacherExist(entity.Org_ID, entity);
-                if (isHav) throw new Exception(string.Format("当前账号 {0} 已经存在", entity.Th_AccName));
+                Entities.Teacher isHav = Business.Do<ITeacher>().IsTeacherExist(entity.Org_ID, entity);
+                if (isHav!=null) throw new Exception(string.Format("当前账号 {0} 已经存在", entity.Th_AccName));
                 //学员账号是否存在
                 Song.Entities.Accounts acc = Business.Do<IAccounts>().IsAccountsExist(entity.Th_AccName);
 
@@ -652,6 +652,9 @@ namespace Song.ViewData.Methods
                     errorOjb.Add(ex);
                 }
             }
+            //刷新教师分组的统计数据
+            Business.Do<ITeacher>().SortUpdateCount(org.Org_ID);
+
             JObject jo = new JObject();
             jo.Add("success", success);
             jo.Add("error", error);
@@ -679,28 +682,8 @@ namespace Song.ViewData.Methods
         /// <param name="sorts"></param>
         /// <param name="mathing">excel列与字段的匹配关联</param>
         private void _inputData(DataRow dr, Song.Entities.Organization org, List<Song.Entities.TeacherSort> sorts, JArray mathing)
-        {
-            Song.Entities.Accounts acc = null;
-            Song.Entities.Teacher teacher = null;
-            bool isExistAcc = false, isExistTh = false;   //是否存在该教师;
-            for (int i = 0; i < mathing.Count; i++)
-            {
-                //Excel的列的值
-                string column = dr[mathing[i]["column"].ToString()].ToString();
-                //数据库字段的名称
-                string field = mathing[i]["field"].ToString();
-                if (field == "Th_AccName")
-                {
-                    acc = Business.Do<IAccounts>().AccountsSingle(column, -1);
-                    if (acc != null)
-                        teacher = Business.Do<IAccounts>().GetTeacher(acc.Ac_ID, null);
-                    isExistAcc = acc != null;
-                    isExistTh = teacher != null;
-                    continue;
-                }
-            }
-            if (acc == null) acc = new Entities.Accounts();
-            if (teacher == null) teacher = new Entities.Teacher();
+        {           
+            Song.Entities.Teacher teacher = new Entities.Teacher();
             for (int i = 0; i < mathing.Count; i++)
             {
                 //Excel的列的值
@@ -716,53 +699,18 @@ namespace Song.ViewData.Methods
                 for (int j = 0; j < properties.Length; j++)
                 {
                     PropertyInfo pi = properties[j];
-                    if (field == pi.Name && !string.IsNullOrEmpty(column))
-                    {
-                        pi.SetValue(teacher, Convert.ChangeType(column, pi.PropertyType), null);
-                    }
+                    if (field == pi.Name && !string.IsNullOrEmpty(column))                  
+                        pi.SetValue(teacher, Convert.ChangeType(column, pi.PropertyType), null);                    
                 }
             }
             //设置分组
-            if (!string.IsNullOrWhiteSpace(acc.Sts_Name)) acc.Sts_ID = _getSortsId(sorts, org, acc.Sts_Name);
+            if (!string.IsNullOrWhiteSpace(teacher.Ths_Name)) teacher.Ths_ID = _getSortsId(sorts, org, teacher.Ths_Name);
             if (!string.IsNullOrWhiteSpace(teacher.Th_Pw)) teacher.Th_Pw = teacher.Th_Pw.Trim();
-            acc.Org_ID = teacher.Org_ID = org.Org_ID;
-            acc.Ac_Name = teacher.Th_Name;
+            teacher.Th_Pw = new WeiSha.Core.Param.Method.ConvertToAnyValue(teacher.Th_Pw).MD5;    //密码
             teacher.Org_Name = org.Org_Name;
-            teacher.Th_AccName = teacher.Th_AccName;
-            acc.Ac_IsPass = teacher.Th_IsPass = true;
-            teacher.Th_IsShow = true;
-            acc.Ac_IsUse = teacher.Th_IsUse = true;
-            //如果账号不存在
-            if (!isExistAcc)
-            {
-                acc.Ac_AccName = teacher.Th_AccName;  //账号手机号
-                acc.Ac_Pw = new WeiSha.Core.Param.Method.ConvertToAnyValue(teacher.Th_Pw).MD5;    //密码       
-                acc.Ac_MobiTel2 = teacher.Th_PhoneMobi;
-                acc.Ac_Gender = teacher.Th_Gender;        //性别
-                acc.Ac_Birthday = teacher.Th_Birthday;
-                acc.Ac_Qq = teacher.Th_Qq;
-                acc.Ac_Email = teacher.Th_Email;
-                acc.Ac_IDCardNumber = teacher.Th_IDCardNumber;  //身份证    
-                acc.Ac_IsTeacher = true;        //该账号有教师身份
-                //保存
-                teacher.Ac_ID = Business.Do<IAccounts>().AccountsAdd(acc);
-                Business.Do<ITeacher>().TeacherSave(teacher);
-            }
-            else
-            {
-                acc.Ac_IsTeacher = true;
-                teacher.Ac_ID = acc.Ac_ID;
-                //如果账号存在,但教师不存在
-                if (!isExistTh)
-                {
-                    Business.Do<ITeacher>().TeacherAdd(teacher);
-                }
-                else
-                {
-                    teacher.Th_Pw = new WeiSha.Core.Param.Method.ConvertToAnyValue(teacher.Th_Pw).MD5;    //密码
-                    Business.Do<ITeacher>().TeacherSave(teacher);
-                }
-            }
+           
+            Business.Do<ITeacher>().TeacherInput(teacher, mathing);
+
         }
         /// <summary>
         /// 获取分组id
@@ -773,34 +721,29 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         private int _getSortsId(List<Song.Entities.TeacherSort> sorts, Song.Entities.Organization org, string sortName)
         {
-            try
+
+            int sortId = 0;
+            foreach (Song.Entities.TeacherSort s in sorts)
             {
-                int sortId = 0;
-                foreach (Song.Entities.TeacherSort s in sorts)
+                if (sortName.Trim() == s.Ths_Name)
                 {
-                    if (sortName.Trim() == s.Ths_Name)
-                    {
-                        sortId = s.Ths_ID;
-                        break;
-                    }
+                    sortId = s.Ths_ID;
+                    break;
                 }
-                if (sortId == 0 && sortName.Trim() != "")
-                {
-                    int orgid = org.Org_ID;
-                    Song.Entities.TeacherSort nwsort = new Song.Entities.TeacherSort();
-                    nwsort.Ths_Name = sortName;
-                    nwsort.Ths_IsUse = true;
-                    nwsort.Org_ID = orgid;
-                    Business.Do<ITeacher>().SortAdd(nwsort);
-                    sortId = nwsort.Ths_ID;
-                    sorts = Business.Do<ITeacher>().SortCount(orgid, null, 0);                 
-                }
-                return sortId;
             }
-            catch (Exception ex)
+            if (sortId == 0 && sortName.Trim() != "")
             {
-                throw ex;
+                int orgid = org.Org_ID;
+                Song.Entities.TeacherSort nwsort = new Song.Entities.TeacherSort();
+                nwsort.Ths_Name = sortName;
+                nwsort.Ths_IsUse = true;
+                nwsort.Org_ID = orgid;
+                Business.Do<ITeacher>().SortAdd(nwsort);
+                sortId = nwsort.Ths_ID;
+                sorts.Add(nwsort);               
             }
+            return sortId;
+
         }
         #endregion
 
