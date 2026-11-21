@@ -1194,9 +1194,12 @@ namespace Song.ViewData.Methods
             if (!System.IO.Directory.Exists(rootpath)) return jarr;
 
             System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(rootpath);
-            FileInfo[] files = dir.GetFiles("*.xlsx")
-                .Where(f => (f.Attributes & (FileAttributes.Hidden | FileAttributes.System)) == 0)
-                .OrderByDescending(f => f.CreationTime).ToArray();
+            string[] patterns = new[] { "*.xlsx", "*.xls" };
+            List<FileInfo> files = new List<FileInfo>();
+            foreach (var pattern in patterns)
+                files = files.Concat(dir.GetFiles(pattern)).GroupBy(t => t.Name).Select(g => g.First()).ToList();
+            files = files.Where(f => (f.Attributes & (FileAttributes.Hidden | FileAttributes.System)) == 0)
+                .OrderByDescending(f => f.CreationTime).ToList<FileInfo>();
             foreach (System.IO.FileInfo f in files)
             {
                 JObject jo = new JObject();

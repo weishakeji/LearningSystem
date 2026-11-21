@@ -15,6 +15,7 @@ using Song.ServiceInterfaces;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using Newtonsoft.Json.Linq;
+using NPOI.XSSF.UserModel;
 
 namespace Song.ServiceImpls
 {
@@ -605,7 +606,7 @@ namespace Song.ServiceImpls
             }
         }
         /// <summary>
-        /// 学员账户号导出
+        /// 教师信息导出
         /// </summary>
         /// <param name="path">导出文件的路径（服务器端）</param>
         /// <param name="orgid"></param>
@@ -615,12 +616,19 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public string Export4Excel(string path, int orgid, string sorts, bool isall)
         {
-            HSSFWorkbook hssfworkbook = new HSSFWorkbook();
+            XSSFWorkbook xssfworkbook = new XSSFWorkbook();
             //xml配置文件
             XmlDocument xmldoc = new XmlDocument();
             string confing = WeiSha.Core.App.Get["ExcelInputConfig"].VirtualPath + "教师信息.xml";
             xmldoc.Load(WeiSha.Core.Server.MapPath(confing));
-            XmlNodeList nodes = xmldoc.GetElementsByTagName("item");
+            XmlNodeList itemnodes = xmldoc.GetElementsByTagName("item");
+            //去除不需要导出的列
+            List<XmlNode> xmlnodes = itemnodes.Cast<XmlNode>()
+            .Where(n =>
+            {
+                var attr = n.Attributes?["export"];
+                return attr == null || !string.Equals(attr.Value, "false", StringComparison.OrdinalIgnoreCase);
+            }).ToList();
             //
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc &= Teacher._.Org_ID == orgid;
@@ -631,13 +639,13 @@ namespace Song.ServiceImpls
                 if (isall)
                 {
                     accounts = Gateway.Default.From<Teacher>().Where(wc).OrderBy(Teacher._.Th_ID.Desc).ToArray<Teacher>();
-                    _export4Excel_to_sheet(hssfworkbook, "教师信息", accounts, nodes);
+                    _export4Excel_to_sheet(xssfworkbook, "教师信息", accounts, xmlnodes);
                 }
                 else
                 {
                     wc &= Accounts._.Org_ID == orgid;
                     accounts = Gateway.Default.From<Teacher>().Where(wc && Teacher._.Ths_ID <= 0).OrderBy(Teacher._.Th_ID.Desc).ToArray<Teacher>();
-                    _export4Excel_to_sheet(hssfworkbook, "未设置职称", accounts, nodes);
+                    _export4Excel_to_sheet(xssfworkbook, "未设置职称", accounts, xmlnodes);
                 }
             }
             else
@@ -654,19 +662,19 @@ namespace Song.ServiceImpls
                     if (sts == null) continue;
                     accounts = Gateway.Default.From<Teacher>().Where(Teacher._.Org_ID == orgid && Teacher._.Ths_ID == sts.Ths_ID)
                         .OrderBy(Teacher._.Th_ID.Desc).ToArray<Teacher>();
-                    _export4Excel_to_sheet(hssfworkbook, sts.Ths_Name, accounts, nodes);
-                }               
+                    _export4Excel_to_sheet(xssfworkbook, sts.Ths_Name, accounts, xmlnodes);
+                }
             }
 
             FileStream file = new FileStream(path, FileMode.Create);
-            hssfworkbook.Write(file);
+            xssfworkbook.Write(file);
             file.Close();
             return path;
         }
-        private void _export4Excel_to_sheet(HSSFWorkbook hssfworkbook, string sheetName, Teacher[] accounts, XmlNodeList nodes)
+        private void _export4Excel_to_sheet(XSSFWorkbook xssfworkbook, string sheetName, Teacher[] accounts, List<XmlNode> nodes)
         {
-            ISheet sheet = hssfworkbook.CreateSheet(sheetName);   //创建工作簿对象
-            //创建数据行对象
+            ISheet sheet = xssfworkbook.CreateSheet(sheetName);   //创建工作簿对象
+                                                                  //创建数据行对象
             IRow rowHead = sheet.CreateRow(0);
             for (int i = 0; i < nodes.Count; i++)
             {
@@ -675,7 +683,7 @@ namespace Song.ServiceImpls
                 rowHead.CreateCell(i).SetCellValue(nodes[i].Attributes["Column"].Value);
             }
             //生成数据行
-            ICellStyle style_size = hssfworkbook.CreateCellStyle();
+            ICellStyle style_size = xssfworkbook.CreateCellStyle();
             style_size.WrapText = true;
 
             for (int i = 0; i < accounts.Length; i++)
