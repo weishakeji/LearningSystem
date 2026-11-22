@@ -1335,9 +1335,10 @@ namespace Song.ViewData.Methods
         /// <param name="sheet"></param>
         /// <param name="config">配置文件</param>
         /// <param name="matching">excel列与字段的匹配关联</param>
+        /// <param name="orgid"></param>
         /// <returns>success:成功数;error:失败数</returns>
         [HttpPost]
-        public JObject ExcelImport(string xls, int sheet, string config, JArray matching)
+        public JObject ExcelImport(int orgid, string xls, int sheet, string config, JArray matching)
         {
             //获取Excel中的数据
             string excel = WeiSha.Core.Server.MapPath(xls);
@@ -1346,7 +1347,7 @@ namespace Song.ViewData.Methods
             //当前机构
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             //学员组
-            List<Song.Entities.StudentSort> sorts = Business.Do<IStudent>().SortCount(org.Org_ID, null, 0);
+            List<Song.Entities.StudentSort> sorts = Business.Do<IStudent>().SortCount(orgid, null, 0);
             //开始导入，并计数
             int success = 0, error = 0;
             List<DataRow> errorDataRow = new List<DataRow>();
@@ -1356,10 +1357,10 @@ namespace Song.ViewData.Methods
                 try
                 {
                     //将数据逐行导入数据库
-                    _inputData(dt.Rows[i], org, sorts, matching);
+                    _inputData(dt.Rows[i], sorts, matching, orgid);
                     success++;
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     //如果出错，将错误行计数
                     error++;
@@ -1368,17 +1369,17 @@ namespace Song.ViewData.Methods
                 }
             }
             //刷新学员组的学员数量
-            Business.Do<IStudent>().SortUpdateCount(org.Org_ID);
+            Business.Do<IStudent>().SortUpdateCount(orgid);
             JObject jo = new JObject();
             jo.Add("success", success);
             jo.Add("error", error);
             //错误数据
             JArray jarr = new JArray();
-            for(int i = 0; i < errorDataRow.Count; i++)
+            for (int i = 0; i < errorDataRow.Count; i++)
             {
                 DataRow dr = errorDataRow[i];
                 JObject jrow = new JObject();
-                foreach(DataColumn dc in dr.Table.Columns)
+                foreach (DataColumn dc in dr.Table.Columns)
                 {
                     jrow.Add(dc.ColumnName, dr[dc.ColumnName].ToString());
                 }
@@ -1392,10 +1393,10 @@ namespace Song.ViewData.Methods
         /// 将某一行数据加入到数据库
         /// </summary>
         /// <param name="dr"></param>
-        /// <param name="org"></param>
+        /// <param name="orgid"></param>
         /// <param name="sorts"></param>
         /// <param name="mathing">excel列与字段的匹配关联</param>
-        private void _inputData(DataRow dr, Song.Entities.Organization org, List<Song.Entities.StudentSort> sorts, JArray mathing)
+        private void _inputData(DataRow dr, List<Song.Entities.StudentSort> sorts, JArray mathing, int orgid)
         {
             Song.Entities.Accounts obj = new Entities.Accounts();
             for (int i = 0; i < mathing.Count; i++)
@@ -1420,8 +1421,8 @@ namespace Song.ViewData.Methods
                 }
             }
             //设置分组
-            if (!string.IsNullOrWhiteSpace(obj.Sts_Name)) obj.Sts_ID = _getSortsId(sorts, org, obj.Sts_Name);           
-            obj.Org_ID = org.Org_ID;
+            if (!string.IsNullOrWhiteSpace(obj.Sts_Name)) obj.Sts_ID = _getSortsId(sorts, orgid, obj.Sts_Name);           
+            obj.Org_ID = orgid;
             obj.Ac_IsPass = true;
             obj.Ac_IsUse = true;
             //手机号,如果第一个手机号不为空，且第二个手机号为空，则设置相等。相等的意思即绑定手机号，用于短信登录
@@ -1434,10 +1435,10 @@ namespace Song.ViewData.Methods
         /// 获取分组id
         /// </summary>
         /// <param name="sorts"></param>
-        /// <param name="org"></param>
+        /// <param name="orgid"></param>
         /// <param name="sortName"></param>
         /// <returns></returns>
-        private long _getSortsId(List<Song.Entities.StudentSort> sorts, Song.Entities.Organization org, string sortName)
+        private long _getSortsId(List<Song.Entities.StudentSort> sorts, int orgid, string sortName)
         {
 
             long sortId = 0;
@@ -1454,7 +1455,7 @@ namespace Song.ViewData.Methods
                 Song.Entities.StudentSort nwsort = new Song.Entities.StudentSort();
                 nwsort.Sts_Name = sortName;
                 nwsort.Sts_IsUse = true;
-                nwsort.Org_ID = org.Org_ID;
+                nwsort.Org_ID = orgid;
                 Business.Do<IStudent>().SortAdd(nwsort);
                 sortId = nwsort.Sts_ID;
                 sorts.Add(nwsort);

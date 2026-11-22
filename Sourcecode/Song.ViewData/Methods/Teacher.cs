@@ -619,18 +619,17 @@ namespace Song.ViewData.Methods
         /// <param name="sheet"></param>
         /// <param name="config">配置文件</param>
         /// <param name="matching">excel列与字段的匹配关联</param>
+        /// <param name="orgid"></param>
         /// <returns>success:成功数;error:失败数</returns>
         [HttpPost]
-        public JObject ExcelImport(string xls, int sheet, string config, JArray matching)
+        public JObject ExcelImport(int orgid, string xls, int sheet, string config, JArray matching)
         {
             //获取Excel中的数据
             string excel = WeiSha.Core.Server.MapPath(xls);
             DataTable dt = ViewData.Helper.Excel.SheetToDatatable(excel, sheet, config);
 
-            //当前机构
-            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             //职称
-            List<Song.Entities.TeacherSort> sorts = Business.Do<ITeacher>().SortCount(org.Org_ID, null, 0);
+            List<Song.Entities.TeacherSort> sorts = Business.Do<ITeacher>().SortCount(orgid, null, 0);
             //开始导入，并计数
             int success = 0, error = 0;
             List<DataRow> errorDataRow = new List<DataRow>();
@@ -641,7 +640,7 @@ namespace Song.ViewData.Methods
                 {
                     //throw new Exception();
                     //将数据逐行导入数据库
-                    _inputData(dt.Rows[i], org, sorts, matching);
+                    _inputData(dt.Rows[i], sorts, matching, orgid);
                     success++;
                 }
                 catch (Exception ex)
@@ -653,7 +652,7 @@ namespace Song.ViewData.Methods
                 }
             }
             //刷新教师分组的统计数据
-            Business.Do<ITeacher>().SortUpdateCount(org.Org_ID);
+            Business.Do<ITeacher>().SortUpdateCount(orgid);
 
             JObject jo = new JObject();
             jo.Add("success", success);
@@ -678,10 +677,10 @@ namespace Song.ViewData.Methods
         /// 将某一行数据加入到数据库
         /// </summary>
         /// <param name="dr"></param>
-        /// <param name="org"></param>
+        /// <param name="orgid"></param>
         /// <param name="sorts"></param>
         /// <param name="mathing">excel列与字段的匹配关联</param>
-        private void _inputData(DataRow dr, Song.Entities.Organization org, List<Song.Entities.TeacherSort> sorts, JArray mathing)
+        private void _inputData(DataRow dr, List<Song.Entities.TeacherSort> sorts, JArray mathing, int orgid)
         {           
             Song.Entities.Teacher teacher = new Entities.Teacher();
             for (int i = 0; i < mathing.Count; i++)
@@ -704,10 +703,9 @@ namespace Song.ViewData.Methods
                 }
             }
             //设置分组
-            if (!string.IsNullOrWhiteSpace(teacher.Ths_Name)) teacher.Ths_ID = _getSortsId(sorts, org, teacher.Ths_Name);
+            if (!string.IsNullOrWhiteSpace(teacher.Ths_Name)) teacher.Ths_ID = _getSortsId(sorts, orgid, teacher.Ths_Name);
             if (!string.IsNullOrWhiteSpace(teacher.Th_Pw)) teacher.Th_Pw = teacher.Th_Pw.Trim();
-            teacher.Th_Pw = new WeiSha.Core.Param.Method.ConvertToAnyValue(teacher.Th_Pw).MD5;    //密码
-            teacher.Org_Name = org.Org_Name;
+            teacher.Th_Pw = new WeiSha.Core.Param.Method.ConvertToAnyValue(teacher.Th_Pw).MD5;    //密码  
            
             Business.Do<ITeacher>().TeacherInput(teacher, mathing);
 
@@ -716,10 +714,10 @@ namespace Song.ViewData.Methods
         /// 获取分组id
         /// </summary>
         /// <param name="sorts"></param>
-        /// <param name="org"></param>
+        /// <param name="orgid"></param>
         /// <param name="sortName"></param>
         /// <returns></returns>
-        private int _getSortsId(List<Song.Entities.TeacherSort> sorts, Song.Entities.Organization org, string sortName)
+        private int _getSortsId(List<Song.Entities.TeacherSort> sorts, int orgid, string sortName)
         {
 
             int sortId = 0;
@@ -732,8 +730,7 @@ namespace Song.ViewData.Methods
                 }
             }
             if (sortId == 0 && sortName.Trim() != "")
-            {
-                int orgid = org.Org_ID;
+            {              
                 Song.Entities.TeacherSort nwsort = new Song.Entities.TeacherSort();
                 nwsort.Ths_Name = sortName;
                 nwsort.Ths_IsUse = true;

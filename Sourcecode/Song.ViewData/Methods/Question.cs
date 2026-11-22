@@ -163,6 +163,7 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 试题导入
         /// </summary>
+        /// <param name="orgid"></param>
         /// <param name="xls">服务器端的excel文件名，即上传后的excel文件名</param>
         /// <param name="sheet">工作表的名称</param>
         /// <param name="config">配置文件，完整虚拟路径名</param>
@@ -171,14 +172,13 @@ namespace Song.ViewData.Methods
         /// <param name="couid">试题所属课程的id</param>
         /// <returns>success:成功数;error:失败数</returns>
         [HttpPost]
-        public JObject ExcelImport(string xls, int sheet, string config, JArray matching, int type, long couid)
+        public JObject ExcelImport(int orgid, string xls, int sheet, string config, JArray matching, int type, long couid)
         {
             //获取Excel中的数据
             string excel = WeiSha.Core.Server.MapPath(xls);
             DataTable dt = ViewData.Helper.Excel.SheetToDatatable(excel, sheet, config);
 
-            //当前机构和课程
-            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+            //当前机构和课程        
             Song.Entities.Course course = null;
             if (couid > 0) course = Business.Do<ICourse>().CourseSingle(couid);
             //通过反射调用导入试题的方法
@@ -196,7 +196,7 @@ namespace Song.ViewData.Methods
                 {
                     //throw new Exception();
                     //将数据逐行导入数据库
-                    object[] objs = new object[] { excel, dt.Rows[i], type, course, org, matching };
+                    object[] objs = new object[] { excel, dt.Rows[i], type, course, orgid, matching };
                     impot.InvokeMember(func_name, System.Reflection.BindingFlags.InvokeMethod | System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public,
                         null, null, objs);
 

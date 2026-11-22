@@ -965,6 +965,7 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 试题导入
         /// </summary>
+        /// <param name="orgid"></param>
         /// <param name="xls">服务器端的excel文件名，即上传后的excel文件名</param>
         /// <param name="sheet">工作表的名称</param>
         /// <param name="config">配置文件，完整虚拟路径名</param>
@@ -974,16 +975,12 @@ namespace Song.ViewData.Methods
         /// <param name="knls">知识点</param>
         /// <returns>success:成功数;error:失败数</returns>
         [HttpPost]
-        public JObject ExcelImport(string xls, int sheet, string config, JArray matching,
+        public JObject ExcelImport(int orgid, string xls, int sheet, string config, JArray matching,
             int type, QuesPart[] parts, QuesKnowledge[] knls)
         {
             //获取Excel中的数据
             string excel = WeiSha.Core.Server.MapPath(xls);
             DataTable dt = ViewData.Helper.Excel.SheetToDatatable(excel, sheet, config);
-
-            //当前机构和课程
-            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
-            int orgid = org.Org_ID;
 
             //通过反射调用导入试题的方法
             System.Reflection.Assembly assembly = System.Reflection.Assembly.Load("Song.ViewData");

@@ -76,9 +76,10 @@ namespace Song.ViewData.QuestionHandler
         /// <param name="dr">数据行</param>
         /// <param name="type">题型</param>
         /// <param name="course">当前课程</param>
+        /// <param name="orgid"></param>
         /// <param name="org">当前机构</param>
         /// <param name="mathing">excel列与字段的匹配关联</param>
-        public static void Type1(string excel, DataRow dr, int type, Song.Entities.Course course, Song.Entities.Organization org, JArray mathing)
+        public static void Type1(string excel, DataRow dr, int type, Song.Entities.Course course, int orgid, JArray mathing)
         {
             Song.Entities.Questions obj = new Song.Entities.Questions();
             obj.Qus_IsUse = true;
@@ -108,7 +109,7 @@ namespace Song.ViewData.QuestionHandler
                 if (field == "Qus_Diff") obj.Qus_Diff = Convert.ToInt16(column);
                 if (field == "Sbj_Name")
                 {
-                    Song.Entities.Subject subject = Business.Do<ISubject>().SubjectBatchAdd(org.Org_ID, column);
+                    Song.Entities.Subject subject = Business.Do<ISubject>().SubjectBatchAdd(orgid, column);
                     if (subject != null)
                     {
                         obj.Sbj_Name = subject.Sbj_Name;
@@ -117,13 +118,13 @@ namespace Song.ViewData.QuestionHandler
                 }
                 if (field == "Cou_Name" && course == null)
                 {
-                    Song.Entities.Course cou = Business.Do<ICourse>().CourseBatchAdd(null, org.Org_ID, obj.Sbj_ID, column);
+                    Song.Entities.Course cou = Business.Do<ICourse>().CourseBatchAdd(null, orgid, obj.Sbj_ID, column);
                     if (cou != null) obj.Cou_ID = cou.Cou_ID;
                 }
                 if (field == "Ol_Name")
                 {
                     long couid = course != null ? course.Cou_ID : obj.Cou_ID;
-                    Song.Entities.Outline outline = Business.Do<IOutline>().OutlineBatchAdd(org.Org_ID, obj.Sbj_ID, couid, column);
+                    Song.Entities.Outline outline = Business.Do<IOutline>().OutlineBatchAdd(orgid, obj.Sbj_ID, couid, column);
                     if (outline != null)
                     {
                         obj.Ol_ID = outline.Ol_ID;
@@ -170,15 +171,20 @@ namespace Song.ViewData.QuestionHandler
             if (obj.Sbj_ID == 0) throw new Exception("当前试题所属专业并不存在");
             if (obj.Cou_ID == 0) throw new Exception("当前试题所在课程并不存在");
             //if (obj.Ol_ID == 0) throw new Exception("当前试题所在章节并不存在");
-            if (org != null) obj.Org_ID = org.Org_ID;
+            obj.Org_ID = orgid;
             CourseQuesImport.QuesInput(obj, ansItem);
         }
 
         /// <summary>
         ///导入多选题，将某一行数据加入到数据库
         /// </summary>
-        /// <param name="dr"></param>    
-        public static void Type2(string excel, DataRow dr, int type, Song.Entities.Course course, Song.Entities.Organization org, JArray mathing)
+        /// <param name="excel"></param>
+        /// <param name="dr"></param>
+        /// <param name="type"></param>
+        /// <param name="course"></param>
+        /// <param name="orgid"></param>
+        /// <param name="mathing"></param>    
+        public static void Type2(string excel, DataRow dr, int type, Song.Entities.Course course, int orgid, JArray mathing)
         {
             Song.Entities.Questions obj = new Song.Entities.Questions();
             obj.Qus_IsUse = true;
@@ -209,7 +215,7 @@ namespace Song.ViewData.QuestionHandler
                 if (field == "Qus_Diff") obj.Qus_Diff = Convert.ToInt16(column);
                 if (field == "Sbj_Name")
                 {
-                    Song.Entities.Subject subject = Business.Do<ISubject>().SubjectBatchAdd(org.Org_ID, column);
+                    Song.Entities.Subject subject = Business.Do<ISubject>().SubjectBatchAdd(orgid, column);
                     if (subject != null)
                     {
                         obj.Sbj_Name = subject.Sbj_Name;
@@ -218,13 +224,13 @@ namespace Song.ViewData.QuestionHandler
                 }
                 if (field == "Cou_Name" && course == null)
                 {
-                    Song.Entities.Course cour = Business.Do<ICourse>().CourseBatchAdd(null,org.Org_ID, obj.Sbj_ID, column);
+                    Song.Entities.Course cour = Business.Do<ICourse>().CourseBatchAdd(null,orgid, obj.Sbj_ID, column);
                     if (cour != null) obj.Cou_ID = cour.Cou_ID;
                 }
                 if (field == "Ol_Name")
                 {
                     long couid = course != null ? course.Cou_ID : obj.Cou_ID;
-                    Song.Entities.Outline outline = Business.Do<IOutline>().OutlineBatchAdd(org.Org_ID, obj.Sbj_ID, couid, column);
+                    Song.Entities.Outline outline = Business.Do<IOutline>().OutlineBatchAdd(orgid, obj.Sbj_ID, couid, column);
                     if (outline != null)
                     {
                         obj.Ol_ID = outline.Ol_ID;
@@ -279,14 +285,19 @@ namespace Song.ViewData.QuestionHandler
             if (obj.Sbj_ID == 0) throw new Exception("当前试题所属专业并不存在");
             if (obj.Cou_ID == 0) throw new Exception("当前试题所在课程并不存在");
             //if (obj.Ol_ID == 0) throw new Exception("当前试题所在章节并不存在");
-            if (org != null) obj.Org_ID = org.Org_ID;
+            obj.Org_ID = orgid;
             CourseQuesImport.QuesInput(obj, ansItem);
         }
         /// <summary>
         /// 导入判断题，将某一行数据加入到数据库
         /// </summary>
-        /// <param name="dr"></param>    
-        public static void Type3(string excel, DataRow dr, int type, Song.Entities.Course course, Song.Entities.Organization org, JArray mathing)
+        /// <param name="excel"></param>
+        /// <param name="dr"></param>
+        /// <param name="type"></param>
+        /// <param name="course"></param>
+        /// <param name="orgid"></param>
+        /// <param name="mathing"></param>    
+        public static void Type3(string excel, DataRow dr, int type, Song.Entities.Course course, int orgid, JArray mathing)
         {
             Song.Entities.Questions obj = new Song.Entities.Questions();
             obj.Qus_IsUse = true;
@@ -317,7 +328,7 @@ namespace Song.ViewData.QuestionHandler
                 }
                 if (field == "Sbj_Name")
                 {
-                    Song.Entities.Subject subject = Business.Do<ISubject>().SubjectBatchAdd(org.Org_ID, column);
+                    Song.Entities.Subject subject = Business.Do<ISubject>().SubjectBatchAdd(orgid, column);
                     if (subject != null)
                     {
                         obj.Sbj_Name = subject.Sbj_Name;
@@ -326,13 +337,13 @@ namespace Song.ViewData.QuestionHandler
                 }
                 if (field == "Cou_Name" && course == null)
                 {
-                    Song.Entities.Course cour = Business.Do<ICourse>().CourseBatchAdd(null, org.Org_ID, obj.Sbj_ID, column);
+                    Song.Entities.Course cour = Business.Do<ICourse>().CourseBatchAdd(null, orgid, obj.Sbj_ID, column);
                     if (cour != null) obj.Cou_ID = cour.Cou_ID;
                 }
                 if (field == "Ol_Name")
                 {
                     long couid = course != null ? course.Cou_ID : obj.Cou_ID;
-                    Song.Entities.Outline outline = Business.Do<IOutline>().OutlineBatchAdd(org.Org_ID, obj.Sbj_ID, couid, column);
+                    Song.Entities.Outline outline = Business.Do<IOutline>().OutlineBatchAdd(orgid, obj.Sbj_ID, couid, column);
                     if (outline != null)
                     {
                         obj.Ol_ID = outline.Ol_ID;
@@ -357,14 +368,19 @@ namespace Song.ViewData.QuestionHandler
             if (obj.Sbj_ID == 0) throw new Exception("当前试题所属专业并不存在");
             if (obj.Cou_ID == 0) throw new Exception("当前试题所在课程并不存在");
             //if (obj.Ol_ID == 0) throw new Exception("当前试题所在章节并不存在");
-            if (org != null) obj.Org_ID = org.Org_ID;
+            obj.Org_ID = orgid;
             CourseQuesImport.QuesInput(obj, null);
         }
         /// <summary>
         /// 导入简答题，将某一行数据加入到数据库
         /// </summary>
+        /// <param name="excel"></param>
         /// <param name="dr"></param>
-        public static void Type4(string excel, DataRow dr, int type, Song.Entities.Course course, Song.Entities.Organization org, JArray mathing)
+        /// <param name="type"></param>
+        /// <param name="course"></param>
+        /// <param name="orgid"></param>
+        /// <param name="mathing"></param>
+        public static void Type4(string excel, DataRow dr, int type, Song.Entities.Course course, int orgid, JArray mathing)
         {
 
             Song.Entities.Questions obj = new Song.Entities.Questions();
@@ -392,7 +408,7 @@ namespace Song.ViewData.QuestionHandler
                 if (field == "Qus_Diff") obj.Qus_Diff = Convert.ToInt16(column);
                 if (field == "Sbj_Name")
                 {
-                    Song.Entities.Subject subject = Business.Do<ISubject>().SubjectBatchAdd(org.Org_ID, column);
+                    Song.Entities.Subject subject = Business.Do<ISubject>().SubjectBatchAdd(orgid, column);
                     if (subject != null)
                     {
                         obj.Sbj_Name = subject.Sbj_Name;
@@ -401,13 +417,13 @@ namespace Song.ViewData.QuestionHandler
                 }
                 if (field == "Cou_Name" && course == null)
                 {
-                    Song.Entities.Course cour = Business.Do<ICourse>().CourseBatchAdd(null,org.Org_ID, obj.Sbj_ID, column);
+                    Song.Entities.Course cour = Business.Do<ICourse>().CourseBatchAdd(null,orgid, obj.Sbj_ID, column);
                     if (cour != null) obj.Cou_ID = cour.Cou_ID;
                 }
                 if (field == "Ol_Name")
                 {
                     long couid = course != null ? course.Cou_ID : obj.Cou_ID;
-                    Song.Entities.Outline outline = Business.Do<IOutline>().OutlineBatchAdd(org.Org_ID, obj.Sbj_ID, couid, column);
+                    Song.Entities.Outline outline = Business.Do<IOutline>().OutlineBatchAdd(orgid, obj.Sbj_ID, couid, column);
                     if (outline != null)
                     {
                         obj.Ol_ID = outline.Ol_ID;
@@ -432,7 +448,7 @@ namespace Song.ViewData.QuestionHandler
             if (obj.Sbj_ID == 0) throw new Exception("当前试题所属专业并不存在");
             if (obj.Cou_ID == 0) throw new Exception("当前试题所在课程并不存在");
             //if (obj.Ol_ID == 0) throw new Exception("当前试题所在章节并不存在");
-            if (org != null) obj.Org_ID = org.Org_ID;
+            obj.Org_ID = orgid;
             CourseQuesImport.QuesInput(obj, null);
         }
         /// <summary>
@@ -442,9 +458,9 @@ namespace Song.ViewData.QuestionHandler
         /// <param name="dr"></param>
         /// <param name="type"></param>
         /// <param name="course"></param>
-        /// <param name="org"></param>
+        /// <param name="orgid"></param>
         /// <param name="mathing"></param>
-        public static void Type5(string excel, DataRow dr, int type, Song.Entities.Course course, Song.Entities.Organization org, JArray mathing)
+        public static void Type5(string excel, DataRow dr, int type, Song.Entities.Course course, int orgid, JArray mathing)
         {
             Song.Entities.Questions obj = new Song.Entities.Questions();
             obj.Qus_IsUse = true;
@@ -471,7 +487,7 @@ namespace Song.ViewData.QuestionHandler
                 if (field == "Qus_Diff") obj.Qus_Diff = Convert.ToInt16(column);
                 if (field == "Sbj_Name")
                 {
-                    Song.Entities.Subject subject = Business.Do<ISubject>().SubjectBatchAdd(org.Org_ID, column);
+                    Song.Entities.Subject subject = Business.Do<ISubject>().SubjectBatchAdd(orgid, column);
                     if (subject != null)
                     {
                         obj.Sbj_Name = subject.Sbj_Name;
@@ -480,13 +496,13 @@ namespace Song.ViewData.QuestionHandler
                 }
                 if (field == "Cou_Name" && course == null)
                 {
-                    Song.Entities.Course cour = Business.Do<ICourse>().CourseBatchAdd(null,org.Org_ID, obj.Sbj_ID, column);
+                    Song.Entities.Course cour = Business.Do<ICourse>().CourseBatchAdd(null, orgid, obj.Sbj_ID, column);
                     if (cour != null) obj.Cou_ID = cour.Cou_ID;
                 }
                 if (field == "Ol_Name")
                 {
                     long couid = course != null ? course.Cou_ID : obj.Cou_ID;
-                    Song.Entities.Outline outline = Business.Do<IOutline>().OutlineBatchAdd(org.Org_ID, obj.Sbj_ID, couid, column);
+                    Song.Entities.Outline outline = Business.Do<IOutline>().OutlineBatchAdd(orgid, obj.Sbj_ID, couid, column);
                     if (outline != null)
                     {
                         obj.Ol_ID = outline.Ol_ID;
@@ -535,7 +551,7 @@ namespace Song.ViewData.QuestionHandler
             if (obj.Sbj_ID == 0) throw new Exception("当前试题所属专业并不存在");
             if (obj.Cou_ID == 0) throw new Exception("当前试题所在课程并不存在");
             //if (obj.Ol_ID == 0) throw new Exception("当前试题所在章节并不存在");
-            if (org != null) obj.Org_ID = org.Org_ID;
+            obj.Org_ID = orgid;
             CourseQuesImport.QuesInput(obj, ansItem);
         }
         /// <summary>

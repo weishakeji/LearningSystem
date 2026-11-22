@@ -1,13 +1,13 @@
 ﻿// excel导入数据的组件
-$dom.load.css(['/Utilities/Components/Styles/upload-excel.css']);
 Vue.component('upload-excel', {
+    //org: 当前组织机构，导入数据时传递给后台
     //template: 模板文件的地址
     //config: 配置文件的地址
     //title: 组件的标题  
     //size:限制的文件大小，单位Kb
     //apiurl:接收导入数据的接口地址
     //params:接收导入数据时的参数对象，例如{type:1}
-    props: ['template', 'config', 'title', 'size', 'apiurl', 'params'],
+    props: ['org', 'template', 'config', 'title', 'size', 'apiurl', 'params'],
     data: function () {
         return {
             step: 0,         //步数
@@ -32,7 +32,7 @@ Vue.component('upload-excel', {
             }, immediate: true
         },
         'config': {
-            handler: function (nv, ov) {              
+            handler: function (nv, ov) {
                 this.getconfig();
             }
         }, immediate: true
@@ -131,7 +131,7 @@ Vue.component('upload-excel', {
             var th = this;
             if (th.apiurl == null || th.apiurl == '') return;
             th.loading = true;
-            var params = { 'xls': th.book.url, 'sheet': th.sheet.index, 'config': th.config_file, 'matching': marry };
+            var params = {'orgid': th.org.Org_ID,'xls': th.book.url, 'sheet': th.sheet.index, 'config': th.config_file, 'matching': marry };
             if (th.params != null) {
                 for (let k in th.params)
                     params[k] = th.params[k];
