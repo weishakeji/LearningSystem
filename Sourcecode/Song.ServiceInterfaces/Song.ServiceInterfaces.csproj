@@ -224,6 +224,7 @@
     <Compile Include="IGuide.cs" />
     <Compile Include="IDataBase.cs" />
     <Compile Include="IExamTestPaper.cs" />
+    <Compile Include="IDocument.cs" />
     <Compile Include="IManageMenu.cs" />
     <Compile Include="IExamQues.cs" />
     <Compile Include="IRecharge.cs" />
