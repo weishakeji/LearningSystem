@@ -631,31 +631,24 @@ namespace Song.ServiceImpls
         /// 更新课程的统计数据，包括课程的章节数、试题数等
         /// </summary>
         /// <param name="orgid">机构id，如果大于0，则刷新当前机构下的所有专业数据</param>
-        /// <param name="couid">课程id</param>
+        /// <param name="couid">课程id，小于等于零，取全部</param>
         /// <returns></returns>
         public bool UpdateStatisticalData(int orgid, long couid)
         {
-            if (orgid > 0)
+            if (couid <= 0)
             {
-                List<Course> courses = this.CourseCount(orgid, -1, string.Empty, string.Empty, null, false, 0);
-                if (courses != null && courses.Count > 0)
-                {
-                    foreach (Course cou in courses)
-                        this.UpdateStatisticalData(-1, cou.Cou_ID);
-                }
+                Business.Do<ITestPaper>().PaperCountUpdate(orgid, -1, -1);
+                Business.Do<IOutline>().OutlineCountUpdate(orgid, -1);
+                Business.Do<IQuestions>().QuesCountUpdateForOrg(new int[orgid]);
             }
-            else if (couid > 0)
+            else
             {
                 //更新课程的试卷数，章节数，视频数
-                int paper_count = Business.Do<ITestPaper>().PaperOfCount(-1, -1, couid, -1, null);
-                int outline_count = Business.Do<IOutline>().OutlineOfCount(couid, -1, null);
-                int video_count = Business.Do<IOutline>().OutlineOfCount(couid, -1, null, true, null, null);
-                Business.Do<ICourse>().CourseUpdate(couid,
-                    new Field[] { Course._.Cou_TestCount, Course._.Cou_OutlineCount, Course._.Cou_VideoCount },
-                    new object[] { paper_count, outline_count, video_count });
+                Business.Do<ITestPaper>().PaperCountUpdate(orgid, -1, couid);
+                Business.Do<IOutline>().OutlineCountUpdate(orgid, couid);             
                 //更新课程与章节下的试题数量
                 Business.Do<IQuestions>().QuesCountUpdate(-1, -1, couid, -1);
-            }
+            }          
             return true;
         }
         /// <summary>

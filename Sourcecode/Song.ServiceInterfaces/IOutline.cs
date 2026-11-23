@@ -227,6 +227,22 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         int OutlineOfCount(long couid, long pid, bool? isUse, bool? isVideo, bool? isFinish, bool? children);
         /// <summary>
+        /// 章节数量更新到课程，方便展示
+        /// </summary>
+        /// <param name="orgid">如果小于等于0，统计所有</param>     
+        /// <param name="couid">课程id，如果小于0，统计所有；如果为0，则跳过</param>
+        void OutlineCountUpdate(int orgid, long couid);
+        /// <summary>
+        /// 章节数量更新到课程，方便展示
+        /// </summary>
+        /// <param name="orgid">如果小于等于0，统计所有</param>     
+        /// <param name="couid">课程id，如果小于0，统计所有；如果为0，则跳过</param>
+        void OutlineCountUpdate(int orgid, long[] couid);
+        /// <summary>
+        /// 章节数量更新到课程，方便展示
+        /// </summary>
+        void OutlineCountUpdate(Outline outline);
+        /// <summary>
         /// 是否有子级章节
         /// </summary>
         /// <param name="couid">课程id</param>

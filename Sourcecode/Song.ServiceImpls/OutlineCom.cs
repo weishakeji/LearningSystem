@@ -807,6 +807,56 @@ namespace Song.ServiceImpls
             return Gateway.Default.Count<Outline>(wc);
         }
         /// <summary>
+        /// 章节数量更新到课程，方便展示
+        /// </summary>
+        /// <param name="orgid">如果小于等于0，统计所有</param>     
+        /// <param name="couid">课程id，如果小于0，统计所有；如果为0，则跳过</param>
+        public void OutlineCountUpdate(int orgid, long couid)
+        {
+            if (couid == 0) return;
+            this.OutlineCountUpdate(orgid, new long[couid]);
+        }
+        /// <summary>
+        /// 章节数量更新到课程，方便展示
+        /// </summary>
+        /// <param name="orgid">如果小于等于0，统计所有</param>     
+        /// <param name="couid">课程id，如果小于0，统计所有；如果为0，则跳过</param>
+        public void OutlineCountUpdate(int orgid, long[] couid)
+        {
+            //机构ID的过滤条件
+            string orgfilter = orgid < 1 ? "1=1" : $@"""Org_ID""={orgid}";
+            //课程下的章节数的统计
+            string coufilter = couid.Length < 1 ? "" : $@"WHERE ""Cou_ID"" IN ({string.Join(",", couid)})";
+            string sql = $@"UPDATE ""Course""
+                        SET ""Cou_OutlineCount"" = (
+                            SELECT COUNT(*)
+                            FROM ""Outline""
+                            WHERE ""Outline"".""Cou_ID"" = ""Course"".""Cou_ID""
+                              AND ""Outline"".""Ol_IsUse"" = true
+                              AND {orgfilter}
+                        ){coufilter};";
+            Gateway.Default.FromSql(sql).Execute();
+            //课程下的视频章节数
+            sql = $@"UPDATE ""Course""
+                        SET ""Cou_VideoCount"" = (
+                            SELECT COUNT(*)
+                            FROM ""Outline""
+                            WHERE ""Outline"".""Cou_ID"" = ""Course"".""Cou_ID""
+                              AND ""Outline"".""Ol_IsUse"" = true
+                              AND ""Outline"".""Ol_IsVideo"" = true
+                              AND {orgfilter}
+                        ){coufilter};";
+            Gateway.Default.FromSql(sql).Execute();
+        }
+        /// <summary>
+        /// 章节数量更新到课程，方便展示
+        /// </summary>
+        public void OutlineCountUpdate(Outline outline)
+        {
+            if (outline is null) return;
+            this.OutlineCountUpdate(outline.Org_ID, new long[outline.Cou_ID]);
+        }
+        /// <summary>
         /// 是否有子级章节
         /// </summary>
         /// <param name="couid">课程id</param>

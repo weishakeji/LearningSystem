@@ -103,9 +103,14 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 试卷数量更新到专业、课程，方便展示
         /// </summary>
-        /// <param name="sbjid">专业id</param>
-        /// <param name="couid">课程id</param>
-        void PaperCountUpdate(long sbjid, long couid);
+        /// <param name="orgid">如果小于等于0，统计所有</param>
+        /// <param name="sbjid">专业id，如果小于0，统计所有；如果为0，则跳过</param>
+        /// <param name="couid">课程id，如果小于0，统计所有；如果为0，则跳过</param>
+        void PaperCountUpdate(int orgid, long sbjid, long couid);
+        /// <summary>
+        /// 卷数量更新到专业、课程，方便展示
+        /// </summary>
+        void PaperCountUpdate(TestPaper tp);
         /// <summary>
         /// 分页获取试卷
         /// </summary>

@@ -1760,7 +1760,11 @@ namespace Song.ServiceImpls
             //课程中的试题数量
             if (couid > 0) this.QuesCountUpdateForCourse(new long[couid]);
             //章节下的试题数量
-            if (couid <= 0 && olid > 0) this.QuesCountUpdateForOutline(new long[olid]);
+            if (couid <= 0 && olid > 0)
+            {
+                if (olid > 0) this.QuesCountUpdateForOutline(new long[olid]);
+                else this.QuesCountUpdateForOrg(null);
+            }           
             //专业下的试题数
             if (sbjid > 0) this.QuesCountUpdateForSubject(new long[sbjid]);
             //机构的试题数
@@ -1828,18 +1832,8 @@ namespace Song.ServiceImpls
         /// </summary>     
         /// <returns></returns>
         public int QuesCountUpdateForOrg(int[] orgid)
-        {
-            string filter = string.Empty;
-            if (orgid.Length > 0)
-            {
-                filter = @"WHERE ""Organization"".""Org_ID"" IN(";
-                for (int i = 0; i < orgid.Length; i++)
-                {
-                    if (i > 0) filter += ",";
-                    filter += orgid[i];
-                }
-                filter += ")";
-            }
+        {  
+            string filter = orgid?.Length < 1 ? "" : $@"WHERE ""Organization"".""Org_ID"" IN ({string.Join(",", orgid)})";
             string sql = $@"UPDATE ""Organization""
                     SET ""Org_QuesCount"" = (
                         SELECT COUNT(*) FROM ""Questions""
@@ -1853,18 +1847,9 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public int QuesCountUpdateForSubject(long[] sbjid)
         {
-            string sbjidFilter = string.Empty;
-            if (sbjid.Length > 0)
-            {
-                sbjidFilter = @"WHERE ""Subject"".""Sbj_ID"" IN(";
-                for (int i = 0; i < sbjid.Length; i++)
-                {
-                    if (i > 0) sbjidFilter += ",";
-                    sbjidFilter += sbjid[i];
-                }
-                sbjidFilter += ")";
-            }
-
+            //专业的指定id
+            string sbjidFilter = sbjid.Length < 1 ? "" : $@"WHERE ""Subject"".""Sbj_ID"" IN ({string.Join(",", sbjid)})";          
+            //
             string sql = $@" UPDATE ""Subject""
                     SET ""Sbj_QuesCount"" = (SELECT COUNT(*) FROM ""Questions""
                         WHERE ""Questions"".""Sbj_ID"" = ""Subject"".""Sbj_ID"" and ""Questions"".""Qus_IsDeleted""=false){sbjidFilter} ";

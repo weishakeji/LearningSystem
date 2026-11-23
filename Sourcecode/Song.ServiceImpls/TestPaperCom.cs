@@ -71,7 +71,7 @@ namespace Song.ServiceImpls
             Gateway.Default.Save<TestPaper>(entity);
             //更新统计信息
             new Task(() => {
-                testPaperCom.PaperCountUpdate(entity.Sbj_ID, entity.Cou_ID);
+                testPaperCom.PaperCountUpdate(entity);
             }).Start();
             
             return entity.Tp_Id;  
@@ -138,7 +138,7 @@ namespace Song.ServiceImpls
             new Task(() =>
             {
                 TestPaper tp = testPaperCom.PaperSingle(identify);
-                testPaperCom.PaperCountUpdate(tp.Sbj_ID, tp.Cou_ID);
+                testPaperCom.PaperCountUpdate(tp);
             }).Start();
             return count;
         }
@@ -154,7 +154,7 @@ namespace Song.ServiceImpls
             new Task(() =>
             {
                 TestPaper tp = testPaperCom.PaperSingle(tpid);
-                testPaperCom.PaperCountUpdate(tp.Sbj_ID, tp.Cou_ID);
+                testPaperCom.PaperCountUpdate(tp);
             }).Start();
             return count;
         }
@@ -279,20 +279,51 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 试卷数量更新到专业、课程，方便展示
         /// </summary>
-        /// <param name="sbjid">专业id</param>
-        /// <param name="couid">课程id</param>
-        public void PaperCountUpdate(long sbjid, long couid)
+        /// <param name="orgid">如果小于等于0，统计所有</param>
+        /// <param name="sbjid">专业id，如果小于0，统计所有；如果为0，则跳过</param>
+        /// <param name="couid">课程id，如果小于0，统计所有；如果为0，则跳过</param>
+        public void PaperCountUpdate(int orgid, long sbjid, long couid)
         {
-            if (sbjid > 0)
+            //机构ID的过滤条件
+            string orgfilter = orgid < 1 ? "1=1" : $@"""Org_ID""={orgid}";
+           
+            // 专业下的试卷数的统计 
+            if (sbjid != 0)
             {
-                int sbj_count = Gateway.Default.Count<TestPaper>(TestPaper._.Sbj_ID == sbjid && TestPaper._.Tp_IsDeleted == false);
-                Gateway.Default.Update<Subject>(new Field[] { Subject._.Sbj_TestCount }, new object[] { sbj_count }, Subject._.Sbj_ID == sbjid);
+                string sbjfilter = sbjid >0 ? "" : $@"WHERE ""Sbj_ID"" IN ({sbjid})";
+                string sql = $@"UPDATE ""Subject""
+                    SET ""Sbj_TestCount"" = (
+                        SELECT COUNT(*)
+                        FROM ""TestPaper""
+                        WHERE ""TestPaper"".""Sbj_ID"" = ""Subject"".""Sbj_ID""
+                          AND ""TestPaper"".""Tp_IsDeleted"" = false 
+                         AND {orgfilter}
+                    ){sbjfilter}";
+                Gateway.Default.FromSql(sql).Execute();
             }
-            if (couid > 0)
+
+            //课程下的试卷数的统计
+            if (couid != 0)
             {
-                int cou_count = Gateway.Default.Count<TestPaper>(TestPaper._.Cou_ID == couid && TestPaper._.Tp_IsDeleted == false);
-                Gateway.Default.Update<Course>(new Field[] { Course._.Cou_TestCount }, new object[] { cou_count }, Course._.Cou_ID == couid);
-            }
+                string coufilter = couid > 0 ? "" : $@"WHERE ""Cou_ID"" IN ({couid})";
+                string sql = $@"UPDATE ""Course""
+                    SET ""Cou_TestCount"" = (
+                        SELECT COUNT(*)
+                        FROM ""TestPaper""
+                        WHERE ""TestPaper"".""Cou_ID"" = ""Course"".""Cou_ID""
+                          AND ""TestPaper"".""Tp_IsDeleted"" = false 
+                         AND {orgfilter}
+                    ){coufilter}";
+                Gateway.Default.FromSql(sql).Execute();
+            }            
+        }
+        /// <summary>
+        /// 卷数量更新到专业、课程，方便展示
+        /// </summary>
+        public void PaperCountUpdate(TestPaper tp)
+        {
+            if (tp is null) return;
+            this.PaperCountUpdate(tp.Org_ID, tp.Sbj_ID, tp.Cou_ID);
         }
         public List<TestPaper> PaperPager(int orgid, long sbjid, long couid, int diff, bool? isUse, bool? isDelete, string sear, int size, int index, out int countSum)
         {

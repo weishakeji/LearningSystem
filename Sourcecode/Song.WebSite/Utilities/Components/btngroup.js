@@ -32,12 +32,12 @@ Vue.component('btngroup', {
                 icon: 'a014'
             }, {
                 text: '导入', tips: '批量导入数据',
-                id: 'input', type: 'info',
+                id: 'input', type: 'primary',
                 class: 'el-icon-folder-add',
                 icon: 'e69f'
             }, {
                 text: '导出', tips: '批量导出数据',
-                id: 'output', type: 'info',
+                id: 'output', type: 'success',
                 class: 'el-icon-document-copy',
                 icon: 'e73e'
             }, {
