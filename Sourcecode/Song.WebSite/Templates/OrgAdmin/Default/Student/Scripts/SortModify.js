@@ -64,7 +64,7 @@ $ready(function () {
             isExist: function (val) {
                 var th = this;
                 return new Promise(function (resolve, reject) {
-                    $api.get('Account/SortIsExist', { 'name': val, 'id': th.id, 'orgid': th.organ.Org_ID }).then(function (req) {
+                    $api.get('Account/SortIsExist', { 'name': val, 'id': th.id, 'orgid': th.org.Org_ID }).then(function (req) {
                         if (req.data.success) {
                             return resolve(req.data.result);
                         } else {

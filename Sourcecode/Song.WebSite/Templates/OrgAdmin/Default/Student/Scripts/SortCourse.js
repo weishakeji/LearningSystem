@@ -7,7 +7,7 @@ $ready([],
             data: {
                 //分组id
                 id: $api.querystring('id', '0'),
-                organ: {},       //当前机构
+                org: {},       //当前机构
                 config: {},
                 sort: {},//当前学员组
 
@@ -17,28 +17,26 @@ $ready([],
                 totalpages: 1, //总页数
                 selects: [], //数据表中选中的行
 
-                loading_init: false,
                 loadingid: 0,
                 loading: false
             },
             created: function () {
                 var th = this;
-                th.loading_init = true;
-                $api.bat(
-                    $api.get('Organization/Current'),
-                    $api.get('Account/SortForID', { 'id': th.id })
-                ).then(([organ, sort]) => {
-                    //获取结果             
-                    th.organ = organ.data.result;
-                    th.sort = sort.data.result;
-                    document.title = '学员组"' + th.sort.Sts_Name + '"的关联课程';
-                    //机构配置信息
-                    th.config = $api.organ(th.organ).config;
-                    th.form.sortid = th.id;
-                    th.handleCurrentChange(1);
-                }).catch(err => console.error(err))
-                    .finally(() => th.loading_init = false);
-
+                th.org = window.org;
+                th.config = window.config;
+                th.form.sortid = th.id;
+                th.handleCurrentChange(1);
+                $api.get('Account/SortForID', { 'id': th.id })
+                    .then(req => {
+                        if (req.data.success) {
+                            th.sort = req.data.result;
+                            document.title = '学员组"' + th.sort.Sts_Name + '"的关联课程';
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(err => console.error(err))
+                    .finally(() => { });
             },
             mounted: function () {
                 this.$refs['btngroup'].addbtn({
@@ -144,12 +142,12 @@ $ready([],
         Vue.component('addcourse', {
             //stsid:学员组id
             //courses:学员组关联的课程
-            props: ['stsid', 'organ', 'courses'],
+            props: ['stsid', 'org', 'courses'],
             data: function () {
                 return {
                     showpanel: false,        //是否显示面板
                     //查询课程
-                    form: { 'orgid': 0, 'sbjids': 0, 'thid': '', 'use': '', 'del':false,'live': '', 'free': '', 'search': '', 'order': '', 'size': 10, 'index': 1 },
+                    form: { 'orgid': 0, 'sbjids': 0, 'thid': '', 'use': '', 'del': false, 'live': '', 'free': '', 'search': '', 'order': '', 'size': 10, 'index': 1 },
                     datas: [],
                     total: 1, //总记录数
                     totalpages: 1, //总页数
@@ -159,7 +157,7 @@ $ready([],
                 }
             },
             watch: {
-                'organ': {
+                'org': {
                     handler: function (nv, ov) {
                         if (nv) {
                             this.form.orgid = nv.Org_ID;
@@ -293,7 +291,7 @@ $ready([],
             </span>
             <el-form ref="formdata" :model="form" @submit.native.prevent label-width="60px">               
                 <el-form-item label="专业" prop="subject">
-                    <sbj_cascader ref="subject" :orgid="organ.Org_ID" showitem="course" @change="changeSbj">
+                    <sbj_cascader ref="subject" :orgid="org.Org_ID" showitem="course" @change="changeSbj">
                     </sbj_cascader>                               
                 </el-form-item>
                 <el-form-item label="课程">
