@@ -43,7 +43,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="entity">业务实体</param>
         /// <returns>如果已经存在该账户，则返回-1</returns>
-        public int AccountsAdd(Accounts entity) => AccountsAdd(entity);
+        public int AccountsAdd(Accounts entity) => AccountsAdd(entity, true);
         /// <summary>
         /// 添加账户
         /// </summary>

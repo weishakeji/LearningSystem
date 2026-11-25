@@ -34,7 +34,7 @@ $ready(["/Utilities/Components/upload-excel.js",
                     .then(req => {
                         if (req.data.success) {
                             let result = req.data.result;
-                            th.types = result.data.result;
+                            th.types = result;
                             th.sbjChange();
                         } else {
                             console.error(req.data.exception);

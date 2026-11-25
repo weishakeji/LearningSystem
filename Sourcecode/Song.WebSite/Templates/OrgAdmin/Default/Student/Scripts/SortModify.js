@@ -5,7 +5,7 @@ $ready(function () {
         el: '#vapp',
         data: {
             id: $api.querystring('id'),
-            organ: {},       //当前机构
+            org: {},       //当前机构
             config: {},
             //当前数据实体
             entity: {
@@ -38,20 +38,10 @@ $ready(function () {
         },
         created: function () {
             var th = this;
-            th.loading_init = true;
-            $api.bat(
-                $api.get('Organization/Current')
-            ).then(([organ]) => {
-                //获取结果             
-                th.organ = organ.data.result;
-                if (th.id == "") th.entity.Org_ID = th.organ.Org_ID;
-                //机构配置信息
-                th.config = $api.organ(vapp.organ).config;
-                th.getEntity();
-            }).catch(function (err) {
-                console.error(err);
-            }).finally(() => th.loading_init = false);
-
+            th.org = window.org;
+            th.config = window.config;
+            if (th.id == "") th.entity.Org_ID = th.org.Org_ID;
+            th.getEntity();
         },
         methods: {
             //获取实体
@@ -69,10 +59,6 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                 }).finally(() => th.loading = false);
-            },
-            //校验名称
-            verification: function (val) {
-
             },
             //判断名称是否存在
             isExist: function (val) {
@@ -98,7 +84,7 @@ $ready(function () {
                     if (valid) {
                         if (th.loading) return;
                         th.loading = true;
-                        var apipath = 'Account/Sort' + (th.id == '' ? 'add' : 'Modify');
+                        var apipath = th.id == '' ? 'Account/Sortadd' : 'Account/SortModify';
                         $api.post(apipath, { 'entity': th.entity }).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;

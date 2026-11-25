@@ -125,13 +125,18 @@ Vue.component('upload-excel', {
                     "field": item.val()
                 });
             });
+            marry = marry.filter(item => {
+                const column = item.column ?? '';
+                const field = item.field ?? '';
+                return !column.includes('(null)') && column !== '' && field !== '';
+            });
             console.log(marry);
             //事件，四个参数。
             //xls文件名（服务器端）,工作簿索引，配置文件名（绝对路径）,列与字段的匹配信息        
             var th = this;
             if (th.apiurl == null || th.apiurl == '') return;
             th.loading = true;
-            var params = {'orgid': th.org.Org_ID,'xls': th.book.url, 'sheet': th.sheet.index, 'config': th.config_file, 'matching': marry };
+            var params = { 'orgid': th.org.Org_ID, 'xls': th.book.url, 'sheet': th.sheet.index, 'config': th.config_file, 'matching': marry };
             if (th.params != null) {
                 for (let k in th.params)
                     params[k] = th.params[k];

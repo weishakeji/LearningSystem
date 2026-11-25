@@ -45,8 +45,9 @@ namespace Song.ViewData.Helper
                 for (int i = 0; i < firsRow.LastCellNum; i++)
                 {
                     ICell cell = firsRow.GetCell(i);
-                    if (cell == null || string.IsNullOrWhiteSpace(cell.ToString())) continue;
-                    dt.Columns.Add(new DataColumn(cell.ToString(), getColumnType(cell.ToString(), dtConfig)));
+                    string celltxt = cell == null ? "(null)" + i : cell.ToString();                   
+                    if (string.IsNullOrWhiteSpace(celltxt) || celltxt.Trim() == "") continue;
+                    dt.Columns.Add(new DataColumn(celltxt, getColumnType(celltxt, dtConfig)));
                 }
                 //导入工作薄的数据
                 while (rows.MoveNext())
@@ -182,7 +183,7 @@ namespace Song.ViewData.Helper
                 JObject jo = new JObject();
                 ISheet sheet = workbook.GetSheetAt(i);
                 jo.Add("name", sheet.SheetName);    //工作表名称
-                jo.Add("count", sheet.PhysicalNumberOfRows);  //工作表的记录数
+                jo.Add("count", sheet.LastRowNum);  //工作表的记录数
                 arr.Add(jo);
             }
             return arr;
@@ -211,6 +212,7 @@ namespace Song.ViewData.Helper
             IRow firsRow = (IRow)rows.Current;
             for (int i = 0; i < firsRow.LastCellNum; i++)
             {
+                //if (firsRow.GetCell(i) == null) continue;
                 ICell cell = firsRow.GetCell(i);
                 JObject o = new JObject();
                 o.Add("Name", cell == null ? "(null)" + i : cell.ToString());

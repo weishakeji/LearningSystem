@@ -681,8 +681,15 @@ namespace Song.ViewData.Methods
         /// <param name="sorts"></param>
         /// <param name="mathing">excel列与字段的匹配关联</param>
         private void _inputData(DataRow dr, List<Song.Entities.TeacherSort> sorts, JArray mathing, int orgid)
-        {           
+        {
             Song.Entities.Teacher teacher = new Entities.Teacher();
+            for (int i = 0; i < mathing.Count; i++)
+            {
+                string column = mathing[i]["column"].ToString();    //Excel的列名
+                string colvalue = dr[column].ToString();            //Excel的列的值
+                string field = mathing[i]["field"].ToString();      //据库字段的名称
+            }
+
             for (int i = 0; i < mathing.Count; i++)
             {
                 //Excel的列的值
@@ -698,15 +705,15 @@ namespace Song.ViewData.Methods
                 for (int j = 0; j < properties.Length; j++)
                 {
                     PropertyInfo pi = properties[j];
-                    if (field == pi.Name && !string.IsNullOrEmpty(column))                  
-                        pi.SetValue(teacher, Convert.ChangeType(column, pi.PropertyType), null);                    
+                    if (field == pi.Name && !string.IsNullOrEmpty(column))
+                        pi.SetValue(teacher, Convert.ChangeType(column, pi.PropertyType), null);
                 }
             }
             //设置分组
             if (!string.IsNullOrWhiteSpace(teacher.Ths_Name)) teacher.Ths_ID = _getSortsId(sorts, orgid, teacher.Ths_Name);
             if (!string.IsNullOrWhiteSpace(teacher.Th_Pw)) teacher.Th_Pw = teacher.Th_Pw.Trim();
             teacher.Th_Pw = new WeiSha.Core.Param.Method.ConvertToAnyValue(teacher.Th_Pw).MD5;    //密码  
-           
+            teacher.Org_Name = "";
             Business.Do<ITeacher>().TeacherInput(teacher, mathing);
 
         }
