@@ -90,13 +90,14 @@
                 this.$refs.btngroup.modify(row[rowkey]);
             },
             //更改使用状态
-            changeUse: function (row, column, obj) {
-                var th = this;
+            changeUse: function (row, column) {
+                var th = this;               
                 th.loadingid = row.Org_ID;
-                if (obj != null) row[column] = obj;
+                row[column] = !row[column];       
+                th.$set(row, column, !row[column]);    
                 let exclude = '';
                 for (let key in row) if (key != column) exclude += key + ',';
-                $api.post('', { 'entity': row, 'exclude': exclude }).then(function (req) {
+                $api.post('Organization/Modify', { 'entity': row, 'exclude': exclude }).then(function (req) {
                     if (req.data.success) {
                         th.$notify({
                             type: 'success',

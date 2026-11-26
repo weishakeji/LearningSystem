@@ -316,7 +316,7 @@ namespace Song.ViewData.Methods
         /// 默认密码，当管理员添加学员时的默认密码
         /// </summary>
         /// <returns></returns>
-        [HttpGet, Admin, SuperAdmin]
+        [HttpGet, Admin, SuperAdmin, Teacher]
         public string DefaultPw()
         {
             return WeiSha.Core.Login.Get["Account"].DefaultPw.Value;
@@ -697,7 +697,7 @@ namespace Song.ViewData.Methods
         /// <param name="pass">审核状态</param>
         /// <returns>学员id</returns>
         [HttpPost]
-        [Admin, SuperAdmin]
+        [Admin, SuperAdmin,Teacher]
         public int ModifyState(int acid, bool use, bool pass)
         {
 

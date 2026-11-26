@@ -36,16 +36,15 @@
                         <icon :woman="scope.row.Acc_Gender==2" :man="scope.row.Acc_Gender==1" class="large">
                             <span v-html='showsearch(scope.row.Acc_Name,form.name)'></span> /
                             <span class="accname" title="账号">{{ scope.row.Acc_AccName}}</span>
-                        </icon>
-                        {{scope.row.Org_ID}}
+                        </icon>                    
                     </template>
                 </el-table-column>
-                <el-table-column label="电话" width="120">
+                <el-table-column label="电话" width="160">
                     <template slot-scope="scope">
                         <span v-html='scope.row.Acc_MobileTel'></span>
                     </template>
                 </el-table-column>
-                <el-table-column prop="Posi_Name" label="岗位" width="120">
+                <el-table-column prop="Posi_Name" label="岗位" width="180">
                     <template slot-scope="scope">
                         <posiname :account="scope.row"></posiname>
                     </template>

@@ -242,6 +242,7 @@ $ready([
             getcourse: function () {
                 var th = this;
                 return new Promise(function (res, rej) {
+                    if (th.couid == '0') return res();
                     if (th.courses) {
                         th.course = th.courses.find(item => item.Cou_ID == th.couid);
                         if (th.course != undefined) return res();

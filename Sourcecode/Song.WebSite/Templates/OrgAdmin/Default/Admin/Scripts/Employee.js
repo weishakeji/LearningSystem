@@ -61,22 +61,6 @@
                         th.datas = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
                         th.total = d.data.total;
-                        //th.result = d.data;
-                        //是否处于管理岗
-                        for (var i = 0; i < th.datas.length; i++) {
-                            $api.get('Position/ForID', { 'id': th.datas[i].Posi_Id }).then(function (req) {
-                                if (req.data.success) {
-                                    var result = req.data.result;
-                                    for (var j = 0; j < th.datas.length; j++) {
-                                        if (th.datas[j].Posi_Id == result.Posi_Id)
-                                            th.datas[j].isAdminPosi = result.Posi_IsAdmin;
-                                    }
-                                } else {
-                                    throw req.data.message;
-                                }
-                            }).catch(err => console.error(err)).finally(() => { });
-                        }
-                        var t = th.result;
                     } else {
                         throw d.data.message;
                     }
@@ -154,6 +138,7 @@
                     'account': {
                         handler: function (val) {
                             var th = this;
+                            if (val == null || val.Posi_Id <= 0) return;
                             this.loading = true;
                             $api.get("Position/ForID", { "posid": val.Posi_Id, "orgid": val.Org_ID })
                                 .then(req => {

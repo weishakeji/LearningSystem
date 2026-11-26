@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Song.Entities;
+using WeiSha.Data;
 
 namespace Song.ServiceInterfaces
 {
@@ -21,6 +22,20 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="entity">业务实体</param>
         void OrganSave(Organization entity);
+        /// <summary>
+        /// 按条件修改
+        /// </summary>
+        /// <param name="entity">对象的实体</param>
+        /// <param name="fiels">要修改的字段</param>
+        /// <param name="objs">fiels对应的值</param>
+        int OrganUpdate(Organization entity, Field[] fiels, object[] objs);
+        /// <summary>
+        /// 按条件修改
+        /// </summary>
+        /// <param name="orgidid">机构ID</param>
+        /// <param name="fiels">要修改的字段</param>
+        /// <param name="objs">fiels对应的值</param>
+        int OrganUpdate(int orgidid, Field[] fiels, object[] objs);
         /// <summary>
         /// 设置默认机构
         /// </summary>

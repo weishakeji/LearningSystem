@@ -112,6 +112,26 @@ namespace Song.ServiceImpls
             }
             this.OrganBuildCache();  //重新构建缓存    
         }
+        /// <summary>
+        /// 按条件修改
+        /// </summary>
+        /// <param name="entity">对象的实体</param>
+        /// <param name="fiels">要修改的字段</param>
+        /// <param name="objs">fiels对应的值</param>
+        public int OrganUpdate(Organization entity, Field[] fiels, object[] objs)
+        {
+            return this.OrganUpdate(entity.Org_ID, fiels, objs);
+        }
+        /// <summary>
+        /// 按条件修改
+        /// </summary>
+        /// <param name="orgidid">机构ID</param>
+        /// <param name="fiels">要修改的字段</param>
+        /// <param name="objs">fiels对应的值</param>
+        public int OrganUpdate(int orgidid, Field[] fiels, object[] objs)
+        {
+            return Gateway.Default.Update<Organization>(fiels, objs, Accounts._.Ac_ID == orgidid);
+        }
         public void OrganSetDefault(int identify)
         {
             using (DbTrans trans = Gateway.Default.BeginTrans())
