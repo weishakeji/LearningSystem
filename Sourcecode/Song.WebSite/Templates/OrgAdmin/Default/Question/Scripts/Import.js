@@ -140,7 +140,14 @@ $ready(["/Utilities/Components/upload-excel.js",
                 },
                 //完成导入的事件
                 finish: function (count) {
-                    console.log(count);
+                    //如果处于课程编辑页，则刷新
+                    if ($api.querystring('couid') != '') {
+                        var pagebox = window.top.$pagebox;
+                        if (pagebox && pagebox.source.top)
+                            pagebox.source.top(window.name, 'vapp.fresh_frame("vapp.freshinput")', false);
+                    }else{
+                         window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', false);
+                    }
                 },
 
             }

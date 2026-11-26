@@ -127,7 +127,7 @@ window.vapp = new Vue({
                         }
                         th.datas = result;
                         th.$nextTick(function () {
-                            loading.close();
+                            loading.close();                           
                         });
                         th.totalpages = Number(d.data.totalpages);
                         th.total = d.data.total;
@@ -183,6 +183,7 @@ window.vapp = new Vue({
                         th.handleCurrentChange();
                         th.$nextTick(function () {
                             loading.close();
+                            th.freshcourse();    
                         });
                     } else {
                         console.error(req.data.exception);
@@ -274,6 +275,15 @@ window.vapp = new Vue({
                             });
                         });
                 }).catch(() => { });
+            },
+            //当导入完成，刷新当前页数据
+            freshinput: function () {               
+               this.handleCurrentChange();      
+               this.freshcourse();         
+            },
+            //刷新课程列表的数据
+            freshcourse: function () {
+
             }
         }
     });
