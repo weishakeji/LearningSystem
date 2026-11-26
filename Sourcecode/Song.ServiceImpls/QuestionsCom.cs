@@ -1758,17 +1758,17 @@ namespace Song.ServiceImpls
         public void QuesCountUpdate(int orgid, long sbjid, long couid, long olid)
         {
             //课程中的试题数量
-            if (couid > 0) this.QuesCountUpdateForCourse(new long[couid]);
+            if (couid > 0) this.QuesCountUpdateForCourse(new long[] { couid });
             //章节下的试题数量
             if (couid <= 0 && olid > 0)
             {
-                if (olid > 0) this.QuesCountUpdateForOutline(new long[olid]);
+                if (olid > 0) this.QuesCountUpdateForOutline(new long[] { olid });
                 else this.QuesCountUpdateForOrg(null);
             }           
             //专业下的试题数
-            if (sbjid > 0) this.QuesCountUpdateForSubject(new long[sbjid]);
+            if (sbjid > 0) this.QuesCountUpdateForSubject(new long[] { sbjid });
             //机构的试题数
-            if (orgid > 0) this.QuesCountUpdateForOrg(new int[orgid]);
+            if (orgid > 0) this.QuesCountUpdateForOrg(new int[] { orgid });
         }
         /// <summary>
         /// 试题数量更新到机构、专业、课程、章节，方便展示

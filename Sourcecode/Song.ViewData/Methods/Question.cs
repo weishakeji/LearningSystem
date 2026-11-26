@@ -210,11 +210,10 @@ namespace Song.ViewData.Methods
                     errorOjb.Add(ex);
                 }
             }
-            Task.Run(async () =>
-            {
-                await Task.Delay(TimeSpan.FromSeconds(5));   // 延迟 5 秒
-                Business.Do<IQuestions>().QuesCountUpdate(course.Org_ID, course.Sbj_ID, couid, -1);
-            });
+            //Task.Run(async () =>
+            //{               
+            Business.Do<IQuestions>().QuesCountUpdate(course.Org_ID, course.Sbj_ID, couid, -1);
+            //});
 
 
             JObject jo = new JObject();

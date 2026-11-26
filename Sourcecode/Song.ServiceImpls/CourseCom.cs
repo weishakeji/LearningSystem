@@ -639,7 +639,7 @@ namespace Song.ServiceImpls
             {
                 Business.Do<ITestPaper>().PaperCountUpdate(orgid, -1, -1);
                 Business.Do<IOutline>().OutlineCountUpdate(orgid, -1);
-                Business.Do<IQuestions>().QuesCountUpdateForOrg(new int[orgid]);
+                Business.Do<IQuestions>().QuesCountUpdateForOrg(new int[] { orgid });
             }
             else
             {

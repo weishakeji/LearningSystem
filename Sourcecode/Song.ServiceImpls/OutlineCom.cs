@@ -814,7 +814,7 @@ namespace Song.ServiceImpls
         public void OutlineCountUpdate(int orgid, long couid)
         {
             if (couid == 0) return;
-            this.OutlineCountUpdate(orgid, new long[couid]);
+            this.OutlineCountUpdate(orgid, new long[]{couid});
         }
         /// <summary>
         /// 章节数量更新到课程，方便展示
@@ -854,7 +854,7 @@ namespace Song.ServiceImpls
         public void OutlineCountUpdate(Outline outline)
         {
             if (outline is null) return;
-            this.OutlineCountUpdate(outline.Org_ID, new long[outline.Cou_ID]);
+            this.OutlineCountUpdate(outline.Org_ID, new long[] { outline.Cou_ID });
         }
         /// <summary>
         /// 是否有子级章节
