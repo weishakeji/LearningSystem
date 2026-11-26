@@ -685,13 +685,6 @@ namespace Song.ViewData.Methods
             Song.Entities.Teacher teacher = new Entities.Teacher();
             for (int i = 0; i < mathing.Count; i++)
             {
-                string column = mathing[i]["column"].ToString();    //Excel的列名
-                string colvalue = dr[column].ToString();            //Excel的列的值
-                string field = mathing[i]["field"].ToString();      //据库字段的名称
-            }
-
-            for (int i = 0; i < mathing.Count; i++)
-            {
                 //Excel的列的值
                 string column = dr[mathing[i]["column"].ToString()].ToString();
                 //数据库字段的名称

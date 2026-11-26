@@ -24,7 +24,9 @@ $ready(["/Utilities/Components/upload-excel.js"], function () {
 
             //完成导入的事件
             finish: function (count) {
-
+                var pagebox = window.top.$pagebox;
+                if (pagebox && pagebox.source.top)
+                    pagebox.source.tab(window.name, 'vapp.handleCurrentChange', false);
             },
         }
     });

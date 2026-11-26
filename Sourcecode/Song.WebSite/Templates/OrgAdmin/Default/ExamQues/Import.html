@@ -33,7 +33,7 @@
         </div>
         <!--上传组件-->
         <div class="second"  v-show="maintstep==1">
-            <upload-excel ref="upload" :org="org" :template="tname+'题 - 考试试题.xls'" :config="tname+'题 - 考试试题.xml'" :title="tname+'题（考试试题）'"
+            <upload-excel ref="upload" :org="org" :template="tname+'题 - 考试试题.xlsx'" :config="tname+'题 - 考试试题.xml'" :title="tname+'题（考试试题）'"
                 apiurl="ExamQues/ExcelImport" @finish="finish" @step="s=>step=s"
                 :params="form">
             </upload-excel>

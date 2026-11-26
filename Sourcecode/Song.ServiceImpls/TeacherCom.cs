@@ -200,6 +200,7 @@ namespace Song.ServiceImpls
             }
             acc.Ac_IsPass = teacher.Th_IsPass = true;
             teacher.Th_IsShow = true;
+            teacher.Org_ID = acc.Org_ID;
             acc.Ac_IsUse = teacher.Th_IsUse = true;
 
             Gateway.Default.Save<Teacher>(teacher);

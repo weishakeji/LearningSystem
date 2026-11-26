@@ -283,7 +283,9 @@ $ready(['../Question/Components/ques_type.js'], function () {
             },
             //刷新课程列表的数据
             freshcourse: function () {
-                window.top.$pagebox.source.tab(window.name, 'vapp.freshrow("' + this.couid + '")', false);
+                var pagebox = window.top.$pagebox;
+                if (pagebox && pagebox.source.top)
+                    pagebox.source.tab(window.name, 'vapp.freshrow("' + this.couid + '")', false);
             }
         }
     });
