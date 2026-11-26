@@ -263,25 +263,6 @@ namespace Song.ViewData.Methods
             return true;
         }
         /// <summary>
-        /// 更改状态
-        /// </summary>
-        /// <param name="acid">学员id</param>
-        /// <param name="use">使用状态</param>
-        /// <param name="pass">审核状态</param>
-        /// <returns>学员id</returns>
-        [HttpPost]
-        [SuperAdmin]
-        public int ModifyState(int acid, bool use, bool pass)
-        {
-
-            Business.Do<IOrganization>().AccountsUpdate(acid,
-                new WeiSha.Data.Field[] {
-                        Song.Entities.Accounts._.Ac_IsUse,
-                        Song.Entities.Accounts._.Ac_IsPass },
-                new object[] { use, pass });
-            return acid;
-        }
-        /// <summary>
         /// 设置默认
         /// </summary>
         /// <param name="id">机构的id</param>
