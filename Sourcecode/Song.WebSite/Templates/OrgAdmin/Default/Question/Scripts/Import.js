@@ -143,10 +143,11 @@ $ready(["/Utilities/Components/upload-excel.js",
                     //如果处于课程编辑页，则刷新
                     if ($api.querystring('couid') != '') {
                         var pagebox = window.top.$pagebox;
-                        if (pagebox && pagebox.source.top)
+                        if (pagebox && pagebox.source.top) {
                             pagebox.source.top(window.name, 'vapp.fresh_frame("vapp.freshinput")', false);
-                    }else{
-                         window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', false);
+                        }
+                    } else {
+                        window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', false);
                     }
                 },
 
